@@ -5,4 +5,9 @@
     <color name="colorAccent">#010101</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#7d7d7d</color>
+    <color name="colorPrimaryDarkLow">#6F95BB</color>
+    <color name="colorCardbg">#EEFAFF</color>
+    <color name="colorGreen">#4BA459</color>
+    <color name="colorRed">#D41111</color>
+    <color name="colorTextbooking">#2E5865</color>
 </resources>
