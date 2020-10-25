@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".activity.Welcome_Screen" android:theme="@style/Fullscreen"/>
         <activity android:name=".activity.Login"/>
-        <activity android:name=".activity.Home"/>
+        <activity android:name=".activity.Screen_Dasar"/>
     </application>
 
 </manifest>
