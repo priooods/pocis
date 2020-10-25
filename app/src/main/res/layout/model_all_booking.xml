@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:paddingLeft="6dp"
+            android:id="@+id/bg_card_all_booking"
+            android:background="@color/colorGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:padding="8dp"
+                    android:layout_width="match_parent"
+                    android:background="@color/colorCardbg"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@color/colorTextbooking"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="12dp"
+                        android:textAllCaps="true"
+                        android:text="K0001-2020-00097"
+                        android:id="@+id/booking_nomerBooking"/>
+
+                    <TextView
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:text="approved"
+                        android:id="@+id/booking_statusBooking"/>
+
+                    <View
+                        app:layout_constraintTop_toBottomOf="@id/booking_nomerBooking"
+                        android:layout_marginTop="6dp"
+                        android:layout_width="match_parent"
+                        android:background="@color/colorGreen"
+                        android:layout_height="1dp"
+                        android:id="@+id/booking_garis"/>
+                    
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/booking_garis"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln1">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Contract No"
+                            android:textSize="11dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/booking_contractNo"
+                            android:textColor="@color/colorTextbooking"
+                            android:textAllCaps="true"
+                            android:textSize="12dp"
+                            android:text="PS.00/172.01/PMS/XI/2014"
+                            android:fontFamily="@font/montserrat_bold"/>
+                        
+                        
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/booking_garis"
+                        android:id="@+id/ln2"
+                        app:layout_constraintStart_toEndOf="@id/ln1"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Customer Name"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="PT. KRAKATAU POSCO"
+                            android:textSize="12dp"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/booking_customerName"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Vessel Name"
+                            android:textSize="11dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/booking_vesselName"
+                            android:textColor="@color/colorTextbooking"
+                            android:textAllCaps="true"
+                            android:textSize="12dp"
+                            android:text="BG. LKH 3883"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln1"
+                        android:id="@+id/ln4"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Customer Type"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="CNEE"
+                            android:textSize="12dp"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/booking_customerType"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln5">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Flag Vessel"
+                            android:textSize="11dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/booking_flagvessel"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="12dp"
+                            android:text="Yes"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln4"
+                        android:id="@+id/ln6"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Booking Date"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="2020-04-01 13:02:43"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/booking_bookingDate"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln7">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Flag Contract"
+                            android:textSize="11dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/booking_flagContract"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="12dp"
+                            android:text="Yes"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln6"
+                        android:id="@+id/ln8"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Booking Time"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="2020-03-27 08:00:00"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/booking_bookingTime"/>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
