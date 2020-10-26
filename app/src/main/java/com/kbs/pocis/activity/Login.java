@@ -47,7 +47,7 @@ public class Login extends AppCompatActivity {
                 if (model_user.getUsername_model().isEmpty() || model_user.getPassword_model().isEmpty()){
                     pesan("Harap lengkapi informasi username dan password anda");
                 } else {
-                    Intent intent = new Intent(Login.this, Screen_Dasar.class);
+                    Intent intent = new Intent(Login.this, HomePage.class);
                     startActivity(intent);
                 }
             }

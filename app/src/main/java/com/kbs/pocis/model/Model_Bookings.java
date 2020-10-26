@@ -1,17 +1,17 @@
 package com.kbs.pocis.model;
 
+import java.util.Date;
+
 public class Model_Bookings {
 
-    String contractNo, nomerBook, statusBook,
-            vesselName, customerType, customerName, flagVessel, flagContract;
-
-    int bookingDate, bookingTime;
+    String  nomerBook, statusBook, contractNo, customerName,
+            vesselName, customerType, flagVessel, bookingDate, flagContract,  bookingTime;
 
     public Model_Bookings() {
     }
 
     public Model_Bookings(String contractNo, String nomerBook, String statusBook, String vesselName, String customerType,
-                          String customerName, String flagVessel, String flagContract, int bookingDate, int bookingTime) {
+                          String customerName, String flagVessel, String flagContract, String bookingDate, String bookingTime) {
         this.contractNo = contractNo;
         this.nomerBook = nomerBook;
         this.statusBook = statusBook;
@@ -88,19 +88,19 @@ public class Model_Bookings {
         this.flagContract = flagContract;
     }
 
-    public int getBookingDate() {
+    public String getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(int bookingDate) {
+    public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
     }
 
-    public int getBookingTime() {
+    public String getBookingTime() {
         return bookingTime;
     }
 
-    public void setBookingTime(int bookingTime) {
+    public void setBookingTime(String bookingTime) {
         this.bookingTime = bookingTime;
     }
 }

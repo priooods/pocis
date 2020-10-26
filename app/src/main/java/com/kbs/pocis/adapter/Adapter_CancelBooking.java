@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
@@ -17,12 +16,12 @@ import com.kbs.pocis.model.Model_Bookings;
 
 import java.util.List;
 
-public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.VHolder> {
+public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBooking.VHolder> {
 
     Context context;
     List<Model_Bookings> model_bookings;
 
-    public Adapter_AllBooking(Context context, List<Model_Bookings> model_bookings) {
+    public Adapter_CancelBooking(Context context, List<Model_Bookings> model_bookings) {
         this.context = context;
         this.model_bookings = model_bookings;
     }
@@ -30,7 +29,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
     @NonNull
     @Override
     public VHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking,parent,false);
         return new VHolder(view);
     }
 
@@ -46,30 +45,12 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
         holder.flagContract.setText(model_bookings.get(position).getFlagContract());
         holder.bookingTime.setText(model_bookings.get(position).getBookingTime());
         holder.status.setText(model_bookings.get(position).getStatusBook());
-        holder.titikdua.setVisibility(View.GONE);
 
-        if (holder.status.getText().toString().equals("approved")){
-            holder.status.setText(R.string.approved);
-            holder.status.setTextColor(Color.parseColor("#4BA459"));
-            holder.bg_color.setBackgroundColor(Color.parseColor("#4BA459"));
-            holder.garis.setBackgroundColor(Color.parseColor("#4BA459"));
-        } else if (holder.status.getText().toString().equals("cancelled")){
-            holder.status.setText(R.string.cancelled);
-            holder.status.setTextColor(Color.parseColor("#D41111"));
-            holder.bg_color.setBackgroundColor(Color.parseColor("#D41111"));
-            holder.garis.setBackgroundColor(Color.parseColor("#D41111"));
-        } else  if (holder.status.getText().toString().equals("verified")){
-            holder.status.setText(R.string.verified);
-            holder.status.setTextColor(Color.parseColor("#1A2CD1"));
-            holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));
-            holder.garis.setBackgroundColor(Color.parseColor("#1A2CD1"));
-        } else {
-            holder.status.setText(R.string.booking);
+        if (holder.status.getText().toString().equals("booking")){
             holder.status.setTextColor(Color.parseColor("#00a1d1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#00a1d1"));
             holder.garis.setBackgroundColor(Color.parseColor("#00a1d1"));
         }
-
     }
 
     @Override
@@ -77,12 +58,11 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
         return model_bookings.size();
     }
 
-    public static class VHolder extends RecyclerView.ViewHolder {
+    public static class VHolder extends RecyclerView.ViewHolder{
 
         LinearLayout bg_color, garis;
-        ConstraintLayout tap_toDetails;
         TextView nomerBooking, status, nomerContract, flagVessel, customerName,
-            vesselName, customerType, bookingDate, bookingTime, flagContract, titikdua;
+                vesselName, customerType, bookingDate, bookingTime, flagContract, titikdua;
 
         public VHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,9 +80,6 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             bookingTime = itemView.findViewById(R.id.booking_bookingTime);
             flagContract = itemView.findViewById(R.id.booking_flagContract);
             titikdua = itemView.findViewById(R.id.booking_titikdua);
-
-            tap_toDetails = itemView.findViewById(R.id.go_detail_booking);
-
         }
     }
 }
