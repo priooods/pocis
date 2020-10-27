@@ -47,6 +47,7 @@ public class OnlineBooking extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout_onlineBook);
         viewPager = findViewById(R.id.viewpager_onlineBooking);
         create_booking = findViewById(R.id.online_booking_create_booking);
+        tarif_approve = findViewById(R.id.online_booking_tarif_aprove);
 
 
         //Ini adalah adapter Viewpager Default ( Bisa di scroll Horizontal )
@@ -77,6 +78,14 @@ public class OnlineBooking extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OnlineBooking.this, CreateBooking.class);
+                startActivity(intent);
+            }
+        });
+
+        tarif_approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OnlineBooking.this, TarifApprove.class);
                 startActivity(intent);
             }
         });

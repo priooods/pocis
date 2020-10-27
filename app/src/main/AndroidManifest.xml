@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".activity.OnlineBooking"/>
         <activity android:name=".activity.CreateBooking"/>
+        <activity android:name=".activity.BookingDetails"/>
+        <activity android:name=".activity.TarifApprove"/>
     </application>
 
 </manifest>

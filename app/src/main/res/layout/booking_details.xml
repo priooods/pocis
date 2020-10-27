@@ -56,7 +56,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="All Booking"
                     android:id="@+id/booking_details_Textfrompage"
                     android:fontFamily="@font/montserrat_bold"
                     android:textColor="@color/colorGrey"
@@ -69,9 +68,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
+        android:id="@+id/b"
         android:paddingHorizontal="15dp"
         android:layout_below="@id/a"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -130,6 +130,38 @@
                 android:id="@+id/booking_details_status"/>
 
         </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/b"
+        android:layout_marginTop="5dp"
+        app:tabSelectedTextColor="@color/colorPrimaryDark"
+        app:tabTextAppearance="@style/TablayoutStyle"
+        app:tabMode="fixed"
+        app:tabTextColor="@color/colorPrimaryDarkLow"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="3dp"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/bookingdetail_tablayout"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:paddingHorizontal="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/bookingdetail_tablayout"
+        android:layout_above="@id/bookingdetail_layoutBawah"
+        android:id="@+id/bookingdetail_viewpager"/>
+
+    <RelativeLayout
+        android:id="@+id/bookingdetail_layoutBawah"
+        android:layout_marginHorizontal="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
 
     </RelativeLayout>
 

@@ -31,13 +31,13 @@ public class CancelBooking extends Fragment {
         recyclerView = view.findViewById(R.id.recycle_Cancelbooking);
 
         List<Model_Bookings> model_bookingsList = new ArrayList<>();
-        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00097", "booking",
+        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00087", "booking",
                 "BG. LKH 3883","CNEE","PT. KRAKATAU POSCO","Yes",
                 "Yes","2020-04-01 13:02:43","2020-03-27 08:00:00"));
-        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00098", "booking",
+        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00088", "booking",
                 "BG. LKH 3883","CNEE","PT. KRAKATAU POSCO","Yes",
                 "Yes","2020-04-01 13:02:43","2020-03-27 08:00:00"));
-        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00099", "booking",
+        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00089", "booking",
                 "BG. LKH 3883","CNEE","PT. KRAKATAU POSCO","Yes",
                 "Yes","2020-04-01 13:02:43","2020-03-27 08:00:00"));
 

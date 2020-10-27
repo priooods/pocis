@@ -1,6 +1,8 @@
 package com.kbs.pocis.adapter;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.BookingDetails;
 import com.kbs.pocis.model.Model_Bookings;
 
 import java.util.List;
@@ -35,7 +38,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final VHolder holder, final int position) {
         holder.nomerBooking.setText(model_bookings.get(position).getNomerBook());
         holder.nomerContract.setText(model_bookings.get(position).getContractNo());
         holder.customerName.setText(model_bookings.get(position).getCustomerName());
@@ -70,6 +73,25 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             holder.garis.setBackgroundColor(Color.parseColor("#00a1d1"));
         }
 
+        holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BookingDetails.class);
+                intent.putExtra("from", "All Bookings");
+                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
+                intent.putExtra("status", model_bookings.get(position).getStatusBook());
+                intent.putExtra("contract", model_bookings.get(position).getContractNo());
+                intent.putExtra("nama", model_bookings.get(position).getCustomerName());
+                intent.putExtra("vesel", model_bookings.get(position).getVesselName());
+                intent.putExtra("type", model_bookings.get(position).getCustomerType());
+                intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
+                intent.putExtra("date", model_bookings.get(position).getBookingDate());
+                intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
+                intent.putExtra("time", model_bookings.get(position).getBookingTime());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -102,7 +124,6 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             titikdua = itemView.findViewById(R.id.booking_titikdua);
 
             tap_toDetails = itemView.findViewById(R.id.go_detail_booking);
-
         }
     }
 }

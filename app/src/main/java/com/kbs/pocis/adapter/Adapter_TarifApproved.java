@@ -23,12 +23,12 @@ import com.kbs.pocis.model.Model_Bookings;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBooking.VHolder> {
+public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApproved.VHolder> {
 
     Context context;
     List<Model_Bookings> model_bookings;
 
-    public Adapter_CancelBooking(Context context, List<Model_Bookings> model_bookings) {
+    public Adapter_TarifApproved(Context context, List<Model_Bookings> model_bookings) {
         this.context = context;
         this.model_bookings = model_bookings;
     }
@@ -36,7 +36,7 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
     @NonNull
     @Override
     public VHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking, parent,false);
         return new VHolder(view);
     }
 
@@ -53,17 +53,37 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
         holder.bookingTime.setText(model_bookings.get(position).getBookingTime());
         holder.status.setText(model_bookings.get(position).getStatusBook());
 
-        if (holder.status.getText().toString().equals("booking")){
-            holder.status.setTextColor(Color.parseColor("#00a1d1"));
-            holder.bg_color.setBackgroundColor(Color.parseColor("#00a1d1"));
-            holder.garis.setBackgroundColor(Color.parseColor("#00a1d1"));
+        if (holder.status.getText().toString().equals("verified")){
+            holder.status.setText(R.string.verified);
+            holder.status.setTextColor(Color.parseColor("#1A2CD1"));
+            holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));
+            holder.garis.setBackgroundColor(Color.parseColor("#1A2CD1"));
         }
+
+        holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BookingDetails.class);
+                intent.putExtra("from", "Tarif Approve");
+                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
+                intent.putExtra("status", model_bookings.get(position).getStatusBook());
+                intent.putExtra("contract", model_bookings.get(position).getContractNo());
+                intent.putExtra("nama", model_bookings.get(position).getCustomerName());
+                intent.putExtra("vesel", model_bookings.get(position).getVesselName());
+                intent.putExtra("type", model_bookings.get(position).getCustomerType());
+                intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
+                intent.putExtra("date", model_bookings.get(position).getBookingDate());
+                intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
+                intent.putExtra("time", model_bookings.get(position).getBookingTime());
+                context.startActivity(intent);
+            }
+        });
 
         holder.dropdownMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(context, holder.titikdua);
-                popupMenu.inflate(R.menu.menu_cancel_dropdown);
+                popupMenu.inflate(R.menu.menu_tarif_approve);
 
                 //Ini untuk memunculkan PopUp dengan Icon yah
                 try {
@@ -79,11 +99,11 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
-                            case R.id.cancel:
-                                Toast.makeText(context,"Cancel Click", Toast.LENGTH_LONG).show();
+                            case R.id.reject:
+                                Toast.makeText(context,"Reject Click", Toast.LENGTH_LONG).show();
                                 break;
-                            case  R.id.detail:
-                                Toast.makeText(context,"Detail nih", Toast.LENGTH_LONG).show();
+                            case  R.id.approve:
+                                Toast.makeText(context,"Tariff nih", Toast.LENGTH_LONG).show();
                                 break;
                         }
                         return false;
@@ -92,31 +112,11 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
                 popupMenu.show();
             }
         });
-
-        holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, BookingDetails.class);
-                intent.putExtra("from", "Cancel Bookings");
-                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
-                intent.putExtra("status", model_bookings.get(position).getStatusBook());
-                intent.putExtra("contract", model_bookings.get(position).getContractNo());
-                intent.putExtra("nama", model_bookings.get(position).getCustomerName());
-                intent.putExtra("vesel", model_bookings.get(position).getVesselName());
-                intent.putExtra("type", model_bookings.get(position).getCustomerType());
-                intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
-                intent.putExtra("date", model_bookings.get(position).getBookingDate());
-                intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
-                intent.putExtra("time", model_bookings.get(position).getBookingTime());
-                context.startActivity(intent);
-            }
-        });
-
     }
 
     @Override
     public int getItemCount() {
-        return  model_bookings.size();
+        return model_bookings.size();
     }
 
     public static class VHolder extends RecyclerView.ViewHolder{

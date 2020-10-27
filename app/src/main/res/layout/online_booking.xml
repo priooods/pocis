@@ -60,8 +60,6 @@
         android:id="@+id/tabLayout_onlineBook"/>
 
     <androidx.viewpager.widget.ViewPager
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btm"
