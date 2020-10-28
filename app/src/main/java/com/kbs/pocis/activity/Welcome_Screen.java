@@ -17,10 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.xabaras.android.viewpagerindicator.widget.ViewPagerIndicator;
+import pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager;
 
 public class Welcome_Screen extends AppCompatActivity {
 
-    ViewPager viewPager;
+    AutoScrollViewPager viewPager;
     Pager_Onboard pager_onboard;
 
     @Override
@@ -35,6 +36,7 @@ public class Welcome_Screen extends AppCompatActivity {
         item.add(new Item_onboard("Real-time success", "PoCIS App", "Encourage your near future success", R.drawable.bg_tiga));
 
         viewPager = findViewById(R.id.pagerwelcome);
+        viewPager.startAutoScroll(2000);
         ViewPagerIndicator circleIndicator = findViewById(R.id.indicator);
         Button goLogin = findViewById(R.id.btn_gologin);
         goLogin.setOnClickListener(new View.OnClickListener() {

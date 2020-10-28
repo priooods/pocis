@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.kbs.pocis"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -30,6 +30,7 @@ dependencies {
 
     //indicator viewpager
     implementation 'it.xabaras.android:viewpagerindicator:1.0'
+    implementation 'com.github.pzienowicz:androidx-auto-scroll-view-pager:1.1.0'
 
     //fragment Navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.1'
