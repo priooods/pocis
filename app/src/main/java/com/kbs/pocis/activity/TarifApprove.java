@@ -3,6 +3,7 @@ package com.kbs.pocis.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.adapter.Adapter_CancelBooking;
 import com.kbs.pocis.adapter.Adapter_TarifApproved;
 import com.kbs.pocis.model.Model_Bookings;
 
@@ -21,6 +21,7 @@ public class TarifApprove extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Adapter_TarifApproved adapter;
+    ImageView btn_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +35,14 @@ public class TarifApprove extends AppCompatActivity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
+
+        btn_back = findViewById(R.id.btn_back_tarif_approve);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TarifApprove.super.onBackPressed();
+            }
+        });
 
 
         List<Model_Bookings> model_bookings = new ArrayList<>();

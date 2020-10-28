@@ -96,6 +96,8 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Passing data to another Screen
+                //Default passing to Screen Details Booking
                 Intent intent = new Intent(context, BookingDetails.class);
                 intent.putExtra("from", "Cancel Bookings");
                 intent.putExtra("nomer", model_bookings.get(position).getNomerBook());

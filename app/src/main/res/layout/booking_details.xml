@@ -19,7 +19,7 @@
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_back"
-            android:id="@+id/btn_back_create_booking"/>
+            android:id="@+id/btn_back_detail_booking"/>
 
         <LinearLayout
             app:layout_constraintTop_toTopOf="parent"
@@ -148,20 +148,60 @@
         android:id="@+id/bookingdetail_tablayout"/>
 
     <androidx.viewpager.widget.ViewPager
-        android:paddingHorizontal="15dp"
         android:layout_width="match_parent"
+        android:layout_marginBottom="3dp"
         android:layout_height="match_parent"
         android:layout_below="@id/bookingdetail_tablayout"
         android:layout_above="@id/bookingdetail_layoutBawah"
         android:id="@+id/bookingdetail_viewpager"/>
 
     <RelativeLayout
+        android:layout_marginBottom="8dp"
         android:id="@+id/bookingdetail_layoutBawah"
         android:layout_marginHorizontal="15dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="45dp">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_red"
+            android:text="Cancel Booking"
+            android:visibility="gone"
+            android:textColor="@color/colorWhite"
+            android:textAllCaps="false"
+            android:id="@+id/btn_bokingdetail_cancelBooking"/>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ltr_btn_verified">
+
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_reject"
+                android:textColor="@color/colorWhite"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:background="@drawable/btn_red"
+                android:text="Reject Tariff"/>
+
+            <Button
+                android:layout_alignParentRight="true"
+                android:layout_width="140dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_approve"
+                android:textColor="@color/colorWhite"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:background="@drawable/btn_green"
+                android:text="Approve Tariff"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

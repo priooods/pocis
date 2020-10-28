@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/a"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:background="#EEEEEE"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cncl_book"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingHorizontal="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/a"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:text="Please tell us why you should cancel this booking?"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="11dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:paddingHorizontal="5dp"
+            android:background="@drawable/form_input"
+            android:layout_marginTop="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="13dp"
+                android:background="@color/colorWhite"
+                android:inputType="text"
+                android:id="@+id/canceled_formInput"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <Button
+                app:layout_constraintEnd_toStartOf="@id/btn_cancelbookinggo"
+                android:id="@+id/btn_cancelclose"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_cancel"
+                android:text="Close"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <Button
+                android:id="@+id/btn_cancelbookinggo"
+                app:layout_constraintStart_toEndOf="@id/btn_cancelclose"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_red"
+                android:layout_alignParentRight="true"
+                android:text="Cancel Booking"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/montserrat_bold"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

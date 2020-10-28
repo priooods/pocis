@@ -3,6 +3,7 @@ package com.kbs.pocis.adapter;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,8 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Passing data to another Screen
+                //Default passing to Screen Details Booking
                 Intent intent = new Intent(context, BookingDetails.class);
                 intent.putExtra("from", "All Bookings");
                 intent.putExtra("nomer", model_bookings.get(position).getNomerBook());

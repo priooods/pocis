@@ -1,10 +1,17 @@
 package com.kbs.pocis.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -12,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.fragment.BookingDetails_Commodity;
@@ -24,6 +32,10 @@ public class BookingDetails extends AppCompatActivity {
     TextView topfrom, nomerBooking, statusBooking;
     ViewPager viewPager;
     TabLayout tabLayout;
+    ImageView btn_back;
+
+    RelativeLayout layout_btn_bawah, layout_btn_verified;
+    Button cancel_booking, rejectTarif, approveTarif;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +62,13 @@ public class BookingDetails extends AppCompatActivity {
         statusBooking = findViewById(R.id.booking_details_status);
         tabLayout = findViewById(R.id.bookingdetail_tablayout);
         viewPager = findViewById(R.id.bookingdetail_viewpager);
+        btn_back = findViewById(R.id.btn_back_detail_booking);
+
+        layout_btn_bawah = findViewById(R.id.bookingdetail_layoutBawah);
+        layout_btn_verified = findViewById(R.id.ltr_btn_verified);
+        cancel_booking = findViewById(R.id.btn_bokingdetail_cancelBooking);
+        approveTarif = findViewById(R.id.btn_approve);
+        rejectTarif = findViewById(R.id.btn_reject);
 
 
         ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
@@ -64,8 +83,17 @@ public class BookingDetails extends AppCompatActivity {
         statusBooking.setText(status);
 
 
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BookingDetails.super.onBackPressed();
+            }
+        });
+
         //Kondisi untuk mensetting color text pada status yang berbeda
         KondisiStatus(status, statusBooking,this);
+        KondisiButtonBawah(status, layout_btn_bawah, layout_btn_verified
+                ,cancel_booking, rejectTarif, approveTarif, this);
     }
 
     private static void KondisiStatus (String statused, TextView textView, Activity activity){
@@ -78,5 +106,119 @@ public class BookingDetails extends AppCompatActivity {
         } else {
             textView.setTextColor(activity.getResources().getColor(R.color.colorVerified));
         }
+    }
+
+    private static void KondisiButtonBawah(String statused, RelativeLayout layout, RelativeLayout layoutverif,
+                                           Button cancel, Button reject, Button approve, final Activity context){
+        if (statused.equals("booking")){
+            layout.setVisibility(View.VISIBLE);
+            cancel.setVisibility(View.VISIBLE);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowDialogCancell(context);
+                }
+            });
+        } else if (statused.equals("verified")){
+            layout.setVisibility(View.VISIBLE);
+            reject.setVisibility(View.VISIBLE);
+            approve.setVisibility(View.VISIBLE);
+            layoutverif.setVisibility(View.VISIBLE);
+
+            reject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowDialogReject(context);
+                }
+            });
+
+            approve.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowDialogApprove(context);
+                }
+            });
+        }
+    }
+
+    private static void ShowDialogCancell (Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText input_alasan = view.findViewById(R.id.canceled_formInput);
+
+        Button btn_close = view.findViewById(R.id.btn_cancelclose);
+        Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        dialogFragment.show();
+    }
+
+    private static void ShowDialogApprove (Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_approve_tarif, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
+
+        Button btn_close = view.findViewById(R.id.btn_approveclose);
+        Button btn_approve = view.findViewById(R.id.btn_approvetarif);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        dialogFragment.show();
+    }
+
+    private static void ShowDialogReject (Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_reject_tarif, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
+
+        Button btn_close = view.findViewById(R.id.btn_rejectclose);
+        Button btn_rejectTerif = view.findViewById(R.id.btn_rejecttarif);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_rejectTerif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        dialogFragment.show();
     }
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Model_Bookings {
 
     String  nomerBook, statusBook, contractNo, customerName,
-            vesselName, customerType, flagVessel, bookingDate, flagContract,  bookingTime;
+            vesselName, customerType, flagVessel, bookingDate, flagContract, bookingTime;
 
     public Model_Bookings() {
     }
@@ -103,4 +103,5 @@ public class Model_Bookings {
     public void setBookingTime(String bookingTime) {
         this.bookingTime = bookingTime;
     }
+
 }

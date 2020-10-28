@@ -63,6 +63,8 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Passing data to another Screen
+                //Default passing to Screen Details Booking
                 Intent intent = new Intent(context, BookingDetails.class);
                 intent.putExtra("from", "Tarif Approve");
                 intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
