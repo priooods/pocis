@@ -6,4 +6,9 @@
     <string name="booking">booking</string>
     <string name="cancelled">cancelled</string>
     <string name="approved">approved</string>
+
+    <!-- Ini untuk key pada setiap form value di Create Booking -->
+    <string name="customertype">customertype</string>
+    <string name="contract">contract</string>
+    <string name="relatedvessel">relatedvessel</string>
 </resources>

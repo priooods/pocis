@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:paddingBottom="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".navigasi.CustomerAddForm">
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="11dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cust. Add Form"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:textSize="9dp"
+            android:layout_marginLeft="13dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Template"
+            android:textColor="#6F95BB"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/top"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_active"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_below="@id/two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/c"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Customer Add Form"
+        android:textSize="13dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/montserrat_bold"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/c"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/c"
+        android:layout_above="@id/cust_add_form_nextBtn"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/nested">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingHorizontal="20dp"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/c1"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:padding="15dp"
+                    android:background="@drawable/card_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDarkLow"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Customer Type"
+                        android:textSize="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/customerAdd_relative1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Consignee"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/cutomerAdd_customertype_value"/>
+
+                        <ImageView
+                            android:id="@+id/customerAdd_customertype_icon"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_botom"
+                            android:layout_alignParentEnd="true"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/c2"
+                android:layout_below="@id/c1"
+                app:cardElevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/c1"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:padding="15dp"
+                    android:background="@drawable/card_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDarkLow"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Related Vessel"
+                        android:textSize="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/customerAdd_relative2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="No"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/cutomerAdd_relatedvesel_value"/>
+
+                        <ImageView
+                            android:id="@+id/cutomerAdd_relatedvesel_icon"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:src="@drawable/icon_botom"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/customerAdd_expand_relatedvesel"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.4dp"
+                            android:background="@color/colorGrey"/>
+
+                        <RelativeLayout
+                            android:layout_marginTop="15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="11dp"
+                                android:text="Yes"/>
+
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:id="@+id/check_yes_customerAdd_relatedvesel"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="11dp"
+                                android:text="No"/>
+
+                            <CheckBox
+                                android:checked="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:id="@+id/check_no_customerAdd_relatedvesel"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@id/c2"
+                android:id="@+id/c3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/c2">
+
+                <LinearLayout
+                    android:padding="15dp"
+                    android:background="@drawable/card_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDarkLow"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Contract"
+                        android:textSize="10dp"/>
+
+                    <RelativeLayout
+                        android:id="@+id/customerAdd_relative3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="No"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/customerAdd_contract_value"/>
+
+                        <ImageView
+                            android:id="@+id/customerAdd_contract_icon"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_botom"
+                            android:layout_alignParentEnd="true"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/customerAdd_expand_contract"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.4dp"
+                            android:background="@color/colorGrey"/>
+
+                        <RelativeLayout
+                            android:layout_marginTop="15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="11dp"
+                                android:text="Yes"/>
+
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:id="@+id/check_yes_cutomerAdd_contract"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="11dp"
+                                android:text="No"/>
+
+                            <CheckBox
+                                android:checked="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:id="@+id/check_no_customerAdd_contract"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/cust_add_form_nextBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:text="Next"
+        android:fontFamily="@font/montserrat_bold"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/btn_primary"
+        android:textSize="13dp"/>
+
+</RelativeLayout>

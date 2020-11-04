@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
@@ -25,6 +26,7 @@ import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.fragment.BookingDetails_Commodity;
 import com.kbs.pocis.fragment.BookingDetails_Information;
 import com.kbs.pocis.fragment.BookingDetails_Service;
+
 
 public class BookingDetails extends AppCompatActivity {
 
@@ -71,6 +73,8 @@ public class BookingDetails extends AppCompatActivity {
         rejectTarif = findViewById(R.id.btn_reject);
 
 
+        //Ini untuk mengatur setiap layout yang akan di tampilkan
+        // pada tab detail booking
         ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
         viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
         viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
@@ -96,6 +100,7 @@ public class BookingDetails extends AppCompatActivity {
                 ,cancel_booking, rejectTarif, approveTarif, this);
     }
 
+    //Status booking dari setiap list nya disini setting nya
     private static void KondisiStatus (String statused, TextView textView, Activity activity){
         if (statused.equals("approved")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
@@ -108,6 +113,7 @@ public class BookingDetails extends AppCompatActivity {
         }
     }
 
+    //Ini untuk kondisi button pada saat status yang berbeda
     private static void KondisiButtonBawah(String statused, RelativeLayout layout, RelativeLayout layoutverif,
                                            Button cancel, Button reject, Button approve, final Activity context){
         if (statused.equals("booking")){
@@ -141,7 +147,8 @@ public class BookingDetails extends AppCompatActivity {
         }
     }
 
-    private static void ShowDialogCancell (Context context){
+    //Dialog form ketika cancelbutton click
+    private static void ShowDialogCancell (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
@@ -162,13 +169,18 @@ public class BookingDetails extends AppCompatActivity {
         btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("Cancell Booking Success")
+                        .setCustomImage(R.drawable.success_img)
+                        .show();
                 dialogFragment.cancel();
             }
         });
         dialogFragment.show();
     }
 
-    private static void ShowDialogApprove (Context context){
+    //Dialog form ketika approve tarif click
+    private static void ShowDialogApprove (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_approve_tarif, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
@@ -189,13 +201,18 @@ public class BookingDetails extends AppCompatActivity {
         btn_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("Approve Tariff Success")
+                        .setCustomImage(R.drawable.success_img)
+                        .show();
                 dialogFragment.cancel();
             }
         });
         dialogFragment.show();
     }
 
-    private static void ShowDialogReject (Context context){
+    //Dialog form ketika reject tariff click
+    private static void ShowDialogReject (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_reject_tarif, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
@@ -216,6 +233,11 @@ public class BookingDetails extends AppCompatActivity {
         btn_rejectTerif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("Reject Tariff Success")
+                        .setCustomImage(R.drawable.success_img)
+                        .showCancelButton(false)
+                        .show();
                 dialogFragment.cancel();
             }
         });

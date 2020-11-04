@@ -32,6 +32,9 @@ dependencies {
     implementation 'it.xabaras.android:viewpagerindicator:1.0'
     implementation 'com.github.pzienowicz:androidx-auto-scroll-view-pager:1.1.0'
 
+    //alert dialog
+    implementation 'com.github.andreseko:sweet-alert-dialog:1.0.6'
+
     //fragment Navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.1'
     implementation 'androidx.navigation:navigation-ui:2.3.1'

@@ -3,18 +3,24 @@ package com.kbs.pocis.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.kbs.pocis.navigasi.CustomerAddForm;
 import com.kbs.pocis.R;
 
 public class CreateBooking extends AppCompatActivity {
 
     ImageView icon_back;
-    Button btn_next;
+    FragmentContainerView frameCreate;
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +35,8 @@ public class CreateBooking extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
+        frameCreate = findViewById(R.id.frameCreate);
+
         //Kembali ke Layout Sebelumnya
         icon_back = findViewById(R.id.btn_back_create_booking);
         icon_back.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +46,14 @@ public class CreateBooking extends AppCompatActivity {
             }
         });
 
-        btn_next = findViewById(R.id.create_booking_btn_next);
+        FragmentList(new CustomerAddForm());
+
+    }
+
+    public void FragmentList(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.beginTransaction().replace(R.id.frameCreate, fragment,"framentTujuan")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
 }
