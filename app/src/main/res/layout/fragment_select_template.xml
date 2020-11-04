@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".navigasi.SelectTemplate">
 
@@ -37,7 +38,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Commodity"
+            android:text="Upload Document"
             android:textColor="#6F95BB"/>
 
     </LinearLayout>
@@ -131,6 +132,18 @@
             android:layout_height="7dp"
             android:background="@drawable/circle_indicator_unactive"/>
 
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
 
     </LinearLayout>
 
@@ -167,7 +180,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/c1">
+                android:id="@+id/card_f003">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -231,62 +244,64 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <LinearLayout
-                        android:id="@+id/la"
+                    android:id="@+id/la"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/a"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/a"
-                        android:layout_marginTop="15dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/f1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="f003-001"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:textSize="9dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_alignParentLeft="true"/>
 
-                            <TextView
-                                android:id="@+id/f1"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_width="50dp"
-                                android:layout_height="wrap_content"
-                                android:text="f003-001"
-                                android:textAllCaps="true"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:textSize="9dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:layout_alignParentLeft="true"/>
+                        <TextView
+                            android:layout_marginLeft="20dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/f1"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#00346A"
+                            android:text="Pas Masuk Kendaraan L300/Sejenisnya"
+                            android:textSize="10dp"/>
 
-                            <TextView
-                                android:layout_marginLeft="20dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/f1"
-                                android:fontFamily="@font/montserrat_reguler"
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan L300/Sejenisnya"
-                                android:textSize="10dp"/>
+                        <CheckBox
+                            android:layout_marginRight="5dp"
+                            android:button="@drawable/checked_box_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/check_f003_1"/>
 
-                            <CheckBox
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:id="@+id/check_f003_1"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:background="@color/colorGrey"
+                        android:layout_marginTop="8dp"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.4dp"
-                            android:background="@color/colorGrey"
-                            android:layout_marginTop="8dp"/>
-
-                    </LinearLayout>
+                </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/lb"
@@ -325,10 +340,12 @@
                                 android:layout_width="180dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan L300/Sejenisnya"
+                                android:text="Pas Masuk Kendaraan Colt Diesel/Sejenisnya"
                                 android:textSize="10dp"/>
 
                             <CheckBox
+                                android:button="@drawable/checked_box_style"
+                                android:layout_marginRight="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -383,10 +400,12 @@
                                 android:layout_width="180dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan L300/Sejenisnya"
+                                android:text="Pas Masuk Kendaraan Tronton/Sejenisnya"
                                 android:textSize="10dp"/>
 
                             <CheckBox
+                                android:button="@drawable/checked_box_style"
+                                android:layout_marginRight="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -441,10 +460,12 @@
                                 android:layout_width="180dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan L300/Sejenisnya"
+                                android:text="Pas Masuk Kendaraan Tronton/Sejenisnya"
                                 android:textSize="10dp"/>
 
                             <CheckBox
+                                android:button="@drawable/checked_box_style"
+                                android:layout_marginRight="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -499,10 +520,12 @@
                                 android:layout_width="180dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan L300/Sejenisnya"
+                                android:text="Fee Supply BBM Via Darat"
                                 android:textSize="10dp"/>
 
                             <CheckBox
+                                android:button="@drawable/checked_box_style"
+                                android:layout_marginRight="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -512,12 +535,6 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.4dp"
-                            android:background="@color/colorGrey"
-                            android:layout_marginTop="8dp"/>
-
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -526,14 +543,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_below="@id/c1"
+                android:layout_below="@id/card_f003"
                 android:layout_marginTop="12dp"
                 android:elevation="0dp"
                 app:cardElevation="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/c2">
+                android:id="@+id/card_g004">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -541,67 +558,119 @@
                     android:background="@drawable/card_border"
                     android:layout_height="wrap_content">
 
-                    <androidx.cardview.widget.CardView
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/g1"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="6dp"
-                        android:id="@+id/imgtemplate2">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:background="@color/colorGrey"/>
+                        <androidx.cardview.widget.CardView
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="6dp"
+                            android:id="@+id/imgtemplate2">
 
-                    </androidx.cardview.widget.CardView>
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@color/colorGrey"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_marginLeft="20dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:orientation="vertical"
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@id/imgtemplate2">
+
+                            <TextView
+                                android:text="Get Access Card"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textSize="11dp"/>
+
+                            <TextView
+                                android:layout_marginTop="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="g004"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorGrey"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textSize="9dp"/>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <LinearLayout
-                        android:layout_marginLeft="20dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:orientation="vertical"
-                        android:layout_width="180dp"
+                        android:id="@+id/g11"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@id/imgtemplate2">
+                        app:layout_constraintTop_toBottomOf="@id/g1"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:text="Get Access Card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:textSize="11dp"/>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_marginTop="2dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="g004"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorGrey"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:textSize="9dp"/>
+                            <TextView
+                                android:id="@+id/ga"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="g004-001"
+                                android:textAllCaps="true"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:textSize="9dp"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:layout_alignParentLeft="true"/>
+
+                            <TextView
+                                android:layout_marginLeft="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/ga"
+                                android:fontFamily="@font/montserrat_reguler"
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="#00346A"
+                                android:text="Get Access Card"
+                                android:textSize="10dp"/>
+
+                            <CheckBox
+                                android:button="@drawable/checked_box_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:id="@+id/check_g004_1"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </LinearLayout>
 
-                    <CheckBox
-                        android:checked="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:id="@+id/check_template_card"/>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_below="@id/c2"
+                android:visibility="gone"
+                android:layout_below="@id/card_g004"
                 android:layout_marginTop="12dp"
                 android:elevation="0dp"
                 app:cardElevation="0dp"
@@ -662,6 +731,7 @@
                     </LinearLayout>
 
                     <CheckBox
+                        android:button="@drawable/checked_box_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -675,6 +745,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:layout_marginTop="12dp"
                 android:elevation="0dp"
                 app:cardElevation="0dp"
@@ -738,6 +809,7 @@
                     </LinearLayout>
 
                     <CheckBox
+                        android:button="@drawable/checked_box_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -755,7 +827,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginRight="20dp"
         android:layout_alignParentRight="true"
         android:layout_above="@id/rlbtn"
@@ -784,7 +856,9 @@
                 android:text="Check/Uncheck All"/>
 
             <CheckBox
-                android:layout_marginLeft="10dp"
+                android:button="@drawable/checked_box_style"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/select_template_checkAll"/>
@@ -794,6 +868,7 @@
     </androidx.cardview.widget.CardView>
 
     <RelativeLayout
+        android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

@@ -19,7 +19,7 @@ import com.kbs.pocis.R;
 public class ShowTemplate extends Fragment {
 
     Button btnPrev, btnNext;
-    boolean kai, card, train, fee;
+    boolean g004, f003, j043, t008 = false;
     CheckBox checkFee, checkCard, checkKai, checkTain;
 
     @Override
@@ -31,6 +31,11 @@ public class ShowTemplate extends Fragment {
         checkCard = view.findViewById(R.id.check_template_card);
         checkKai = view.findViewById(R.id.check_template_keretaApi);
         checkTain = view.findViewById(R.id.check_template_train);
+//
+//        g004 = view.findViewById(R.id.g004);
+//        f003 = view.findViewById(R.id.f003);
+//        j043 = view.findViewById(R.id.j043);
+//        t008 = view.findViewById(R.id.t008);
 
 
         btnPrev = view.findViewById(R.id.cust_add_form_prevBtn);
@@ -53,9 +58,9 @@ public class ShowTemplate extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    fee = true;
+                    f003 = true;
                 } else {
-                    fee = false;
+                    f003 = false;
                 }
             }
         });
@@ -64,9 +69,9 @@ public class ShowTemplate extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    card = true;
+                    g004 = true;
                 } else {
-                    card = false;
+                    g004 = false;
                 }
             }
         });
@@ -75,9 +80,9 @@ public class ShowTemplate extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    kai = true;
+                    j043 = true;
                 } else {
-                    kai = false;
+                    j043 = false;
                 }
             }
         });
@@ -86,9 +91,9 @@ public class ShowTemplate extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    train = true;
+                   t008 = true;
                 } else {
-                    train = false;
+                    t008 = false;
                 }
             }
         });
@@ -98,8 +103,13 @@ public class ShowTemplate extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle arg = new Bundle();
                 Fragment fragment = new SelectTemplate();
-
+                arg.putBoolean("t008", t008);
+                arg.putBoolean("f003", f003);
+                arg.putBoolean("g004", g004);
+                arg.putBoolean("j043", j043);
+                fragment.setArguments(arg);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);

@@ -124,6 +124,18 @@
             android:layout_height="7dp"
             android:background="@drawable/circle_indicator_unactive"/>
 
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
 
     </LinearLayout>
 

@@ -34,5 +34,65 @@
         <action
             android:id="@+id/action_selectTemplate_to_showTemplate"
             app:destination="@id/showTemplate" />
+        <action
+            android:id="@+id/action_selectTemplate_to_uploadDocument"
+            app:destination="@id/uploadDocument" />
+    </fragment>
+    <fragment
+        android:id="@+id/addComodity"
+        android:name="com.kbs.pocis.navigasi.AddComodity"
+        android:label="fragment_add_comodity"
+        tools:layout="@layout/fragment_add_comodity" >
+        <action
+            android:id="@+id/action_addComodity_to_uploadDocument"
+            app:destination="@id/uploadDocument" />
+        <action
+            android:id="@+id/action_addComodity_to_vesselInformation"
+            app:destination="@id/vesselInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadDocument"
+        android:name="com.kbs.pocis.navigasi.UploadDocument"
+        android:label="fragment_upload_document"
+        tools:layout="@layout/fragment_upload_document" >
+        <action
+            android:id="@+id/action_uploadDocument_to_selectTemplate"
+            app:destination="@id/selectTemplate" />
+        <action
+            android:id="@+id/action_uploadDocument_to_addComodity"
+            app:destination="@id/addComodity" />
+    </fragment>
+    <fragment
+        android:id="@+id/vesselInformation"
+        android:name="com.kbs.pocis.navigasi.VesselInformation"
+        android:label="fragment_vessel_information"
+        tools:layout="@layout/fragment_vessel_information" >
+        <action
+            android:id="@+id/action_vesselInformation_to_addComodity"
+            app:destination="@id/addComodity" />
+        <action
+            android:id="@+id/action_vesselInformation_to_summary"
+            app:destination="@id/summary" />
+    </fragment>
+    <fragment
+        android:id="@+id/summary"
+        android:name="com.kbs.pocis.navigasi.Summary"
+        android:label="fragment_summary"
+        tools:layout="@layout/fragment_summary" >
+        <action
+            android:id="@+id/action_summary_to_vesselInformation"
+            app:destination="@id/vesselInformation" />
+        <action
+            android:id="@+id/action_summary_to_finish"
+            app:destination="@id/finish" />
+    </fragment>
+    <fragment
+        android:id="@+id/finish"
+        android:name="com.kbs.pocis.navigasi.Finish"
+        android:label="fragment_finish"
+        tools:layout="@layout/fragment_finish" >
+        <action
+            android:id="@+id/action_finish_to_summary"
+            app:destination="@id/summary" />
     </fragment>
 </navigation>

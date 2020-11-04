@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
@@ -26,7 +27,8 @@ public class OnlineBooking extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    ImageView icon_back, icon_search, create_booking, tarif_approve;
+    ImageView icon_back, icon_search, create_booking;
+    LinearLayout tarif_approve;
 
 
     @Override

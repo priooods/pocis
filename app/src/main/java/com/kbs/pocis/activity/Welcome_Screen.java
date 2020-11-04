@@ -36,7 +36,7 @@ public class Welcome_Screen extends AppCompatActivity {
         item.add(new Item_onboard("Real-time success", "PoCIS App", "Encourage your near future success", R.drawable.bg_tiga));
 
         viewPager = findViewById(R.id.pagerwelcome);
-        viewPager.startAutoScroll(2000);
+        viewPager.startAutoScroll(3000);
         ViewPagerIndicator circleIndicator = findViewById(R.id.indicator);
         Button goLogin = findViewById(R.id.btn_gologin);
         goLogin.setOnClickListener(new View.OnClickListener() {

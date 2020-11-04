@@ -1,5 +1,6 @@
 package com.kbs.pocis.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +43,8 @@ public class CreateBooking extends AppCompatActivity {
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateBooking.super.onBackPressed();
+                Intent intent = new Intent(CreateBooking.this, HomePage.class);
+                startActivity(intent);
             }
         });
 

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".navigasi.UploadDocument">
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="9dp"
+            android:layout_marginRight="13dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Template"
+            android:textColor="#6F95BB"/>
+
+        <TextView
+            android:textSize="11dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Document"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:textSize="9dp"
+            android:layout_marginLeft="13dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Commodity"
+            android:textColor="#6F95BB"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/top"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_active"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginVertical="15dp"
+        android:layout_above="@id/rlbtn"
+        android:orientation="vertical"
+        android:layout_below="@id/two"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/upload_document"
+                android:id="@+id/document_upload_img"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Upload your document PDF"/>
+
+            <Button
+                android:id="@+id/document_upload_btnUpload"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/btn_green"
+                android:text="+ Add File"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:paddingHorizontal="15dp"
+                android:textSize="11dp"
+                android:fontFamily="@font/montserrat_bold"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:id="@+id/rlbtn">
+
+        <Button
+            android:layout_alignParentLeft="true"
+            android:id="@+id/upload_document_prevBtn"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:text="Prev"
+            android:fontFamily="@font/montserrat_bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btn_cancel"
+            android:textSize="13dp"/>
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:id="@+id/upload_document_nextBtn"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:text="Next"
+            android:fontFamily="@font/montserrat_bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btn_primary"
+            android:textSize="13dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

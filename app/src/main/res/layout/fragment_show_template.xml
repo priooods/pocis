@@ -132,6 +132,18 @@
             android:layout_height="7dp"
             android:background="@drawable/circle_indicator_unactive"/>
 
+        <View
+            android:layout_marginLeft="4dp"
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+
+        <ImageView
+            android:layout_marginLeft="4dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/circle_indicator_unactive"/>
+
 
     </LinearLayout>
 
@@ -216,6 +228,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="f003"
+                            android:id="@+id/f003"
                             android:textAllCaps="true"
                             android:textColor="@color/colorGrey"
                             android:fontFamily="@font/montserrat_bold"
@@ -225,6 +238,8 @@
 
                     <CheckBox
                         android:checked="true"
+                        android:layout_marginRight="5dp"
+                        android:button="@drawable/checked_box_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -291,6 +306,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="g004"
+                            android:id="@+id/g004"
                             android:textAllCaps="true"
                             android:textColor="@color/colorGrey"
                             android:fontFamily="@font/montserrat_bold"
@@ -300,6 +316,8 @@
 
                     <CheckBox
                         android:checked="true"
+                        android:layout_marginRight="5dp"
+                        android:button="@drawable/checked_box_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -366,6 +384,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="j043"
+                            android:id="@+id/j043"
                             android:textAllCaps="true"
                             android:textColor="@color/colorGrey"
                             android:fontFamily="@font/montserrat_bold"
@@ -374,6 +393,8 @@
                     </LinearLayout>
 
                     <CheckBox
+                        android:button="@drawable/checked_box_style"
+                        android:layout_marginRight="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -442,6 +463,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="t008"
+                            android:id="@+id/t008"
                             android:textAllCaps="true"
                             android:textColor="@color/colorGrey"
                             android:fontFamily="@font/montserrat_bold"
@@ -450,6 +472,8 @@
                     </LinearLayout>
 
                     <CheckBox
+                        android:button="@drawable/checked_box_style"
+                        android:layout_marginRight="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
