@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context=".navigasi.Finish">
+    tools:context=".createboking.Finish">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
         android:orientation="horizontal">
 
         <TextView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/x"
+            app:layout_constraintBottom_toBottomOf="@id/x"
             app:layout_constraintEnd_toStartOf="@+id/x"
             android:textSize="9dp"
             android:layout_marginRight="13dp"

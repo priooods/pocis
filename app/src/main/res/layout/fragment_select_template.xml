@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".navigasi.SelectTemplate">
+    tools:context=".createboking.SelectTemplate">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +16,9 @@
         android:orientation="horizontal">
 
         <TextView
+            app:layout_constraintTop_toTopOf="@id/t"
+            app:layout_constraintBottom_toBottomOf="@id/t"
+            app:layout_constraintEnd_toStartOf="@id/t"
             android:textSize="9dp"
             android:layout_marginRight="13dp"
             android:fontFamily="@font/montserrat_bold"
@@ -25,6 +28,10 @@
             android:textColor="#6F95BB"/>
 
         <TextView
+            android:id="@+id/t"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:textSize="11dp"
             android:fontFamily="@font/montserrat_bold"
             android:layout_width="wrap_content"
@@ -33,6 +40,9 @@
             android:textColor="@color/colorPrimaryDark"/>
 
         <TextView
+            app:layout_constraintTop_toTopOf="@id/t"
+            app:layout_constraintBottom_toBottomOf="@id/t"
+            app:layout_constraintStart_toEndOf="@id/t"
             android:textSize="9dp"
             android:layout_marginLeft="13dp"
             android:fontFamily="@font/montserrat_bold"
@@ -41,7 +51,7 @@
             android:text="Upload Document"
             android:textColor="#6F95BB"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_below="@id/top"
@@ -175,6 +185,7 @@
             android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:elevation="0dp"
                 app:cardElevation="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -243,299 +254,13 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <LinearLayout
-                    android:id="@+id/la"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/a"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/f1"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="f003-001"
-                            android:textAllCaps="true"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:textSize="9dp"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:layout_alignParentLeft="true"/>
-
-                        <TextView
-                            android:layout_marginLeft="20dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/f1"
-                            android:fontFamily="@font/montserrat_reguler"
-                            android:layout_width="180dp"
-                            android:layout_height="wrap_content"
-                            android:textColor="#00346A"
-                            android:text="Pas Masuk Kendaraan L300/Sejenisnya"
-                            android:textSize="10dp"/>
-
-                        <CheckBox
-                            android:layout_marginRight="5dp"
-                            android:button="@drawable/checked_box_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:id="@+id/check_f003_1"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.4dp"
-                        android:background="@color/colorGrey"
-                        android:layout_marginTop="8dp"/>
-
-                </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lb"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="15dp"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/la"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/f2"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_width="50dp"
-                                android:layout_height="wrap_content"
-                                android:text="f003-002"
-                                android:textAllCaps="true"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:textSize="9dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:layout_alignParentLeft="true"/>
-
-                            <TextView
-                                android:layout_marginLeft="20dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/f2"
-                                android:fontFamily="@font/montserrat_reguler"
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan Colt Diesel/Sejenisnya"
-                                android:textSize="10dp"/>
-
-                            <CheckBox
-                                android:button="@drawable/checked_box_style"
-                                android:layout_marginRight="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:id="@+id/check_f003_2"/>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.4dp"
-                            android:background="@color/colorGrey"
-                            android:layout_marginTop="8dp"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/lb"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/f3"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_width="50dp"
-                                android:layout_height="wrap_content"
-                                android:text="f003-003"
-                                android:textAllCaps="true"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:textSize="9dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:layout_alignParentLeft="true"/>
-
-                            <TextView
-                                android:layout_marginLeft="20dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/f3"
-                                android:fontFamily="@font/montserrat_reguler"
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan Tronton/Sejenisnya"
-                                android:textSize="10dp"/>
-
-                            <CheckBox
-                                android:button="@drawable/checked_box_style"
-                                android:layout_marginRight="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:id="@+id/check_f003_3"/>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.4dp"
-                            android:background="@color/colorGrey"
-                            android:layout_marginTop="8dp"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ld"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/lc"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/f4"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_width="50dp"
-                                android:layout_height="wrap_content"
-                                android:text="f003-004"
-                                android:textAllCaps="true"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:textSize="9dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:layout_alignParentLeft="true"/>
-
-                            <TextView
-                                android:layout_marginLeft="20dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/f4"
-                                android:fontFamily="@font/montserrat_reguler"
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="#00346A"
-                                android:text="Pas Masuk Kendaraan Tronton/Sejenisnya"
-                                android:textSize="10dp"/>
-
-                            <CheckBox
-                                android:button="@drawable/checked_box_style"
-                                android:layout_marginRight="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:id="@+id/check_f003_4"/>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.4dp"
-                            android:background="@color/colorGrey"
-                            android:layout_marginTop="8dp"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/le"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/ld"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/f5"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_width="50dp"
-                                android:layout_height="wrap_content"
-                                android:text="f003-005"
-                                android:textAllCaps="true"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:textSize="9dp"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:layout_alignParentLeft="true"/>
-
-                            <TextView
-                                android:layout_marginLeft="20dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/f5"
-                                android:fontFamily="@font/montserrat_reguler"
-                                android:layout_width="180dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="#00346A"
-                                android:text="Fee Supply BBM Via Darat"
-                                android:textSize="10dp"/>
-
-                            <CheckBox
-                                android:button="@drawable/checked_box_style"
-                                android:layout_marginRight="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:id="@+id/check_f003_5"/>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@id/a"
+                        android:id="@+id/recycle_selecttemplate_f003"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -543,6 +268,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:layout_below="@id/card_f003"
                 android:layout_marginTop="12dp"
                 android:elevation="0dp"

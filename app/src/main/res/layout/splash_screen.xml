@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="25dp"
-    tools:context=".activity.SplashScreen">
+    tools:context=".welcome.SplashScreen">
 
     <ImageView
         android:layout_width="wrap_content"

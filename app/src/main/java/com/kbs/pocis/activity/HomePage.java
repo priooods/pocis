@@ -1,20 +1,24 @@
 package com.kbs.pocis.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.kbs.pocis.HomeMenu;
 import com.kbs.pocis.R;
 
 public class HomePage extends AppCompatActivity {
 
-    ImageView menu_online_booking, menu_create_booking;
+    private long doubleBackTime;
+    private Toast backToast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,24 +33,28 @@ public class HomePage extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
-        menu_online_booking = findViewById(R.id.menu_online_booking);
-        menu_online_booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, OnlineBooking.class);
-                startActivity(intent);
-            }
-        });
-
-        menu_create_booking = findViewById(R.id.menu_create_booking);
-        menu_create_booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, CreateBooking.class);
-                startActivity(intent);
-            }
-        });
+        FragmentList(new HomeMenu());
 
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackTime + 2000 > System.currentTimeMillis()){
+//            backToast.cancel();
+//            super.onBackPressed();
+//        }
+//        else{
+//            backToast = Toast.makeText(getBaseContext(), "Press once again to exit",
+//                    Toast.LENGTH_SHORT);
+//            backToast.show();
+//            doubleBackTime = System.currentTimeMillis();
+//        }
+//    }
+
+    public void FragmentList(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framehomepage, fragment,"framentTujuan")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+    }
 }

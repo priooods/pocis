@@ -18,7 +18,7 @@
 
 
     <style name="TablayoutStyle" parent="Widget.Design.TabLayout">
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">10dp</item>
         <item name="textAllCaps">false</item>
         <item name="fontFamily">@font/montserrat_bold</item>
     </style>

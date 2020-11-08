@@ -55,8 +55,8 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
-        app:navGraph="@navigation/navigation"
         android:layout_below="@id/a"
+        app:navGraph="@navigation/create_booking"
         android:layout_height="match_parent"
         android:paddingTop="22dp"
         android:id="@+id/frameCreate"/>

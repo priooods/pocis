@@ -13,15 +13,13 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.kbs.pocis.navigasi.CustomerAddForm;
+import com.kbs.pocis.createboking.CustomerAddForm;
 import com.kbs.pocis.R;
 
 public class CreateBooking extends AppCompatActivity {
 
     ImageView icon_back;
     FragmentContainerView frameCreate;
-    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +43,7 @@ public class CreateBooking extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CreateBooking.this, HomePage.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -54,8 +53,9 @@ public class CreateBooking extends AppCompatActivity {
 
     public void FragmentList(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager.beginTransaction().replace(R.id.frameCreate, fragment,"framentTujuan")
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameCreate, fragment,"framentTujuan")
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
+
 }

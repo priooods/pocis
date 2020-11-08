@@ -9,21 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SplashScreen" android:theme="@style/Fullscreen">
+        <activity android:name=".welcome.SplashScreen" android:theme="@style/Fullscreen">
+        </activity>
+        <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
+        <activity android:name=".welcome.Login"/>
+        <activity android:name=".activity.HomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Welcome_Screen" android:theme="@style/Fullscreen"/>
-        <activity android:name=".activity.Login"/>
-        <activity android:name=".activity.HomePage">
-        </activity>
-        <activity android:name=".activity.OnlineBooking"/>
         <activity android:name=".activity.CreateBooking"/>
-        <activity android:name=".activity.BookingDetails"/>
-        <activity android:name=".activity.TarifApprove"/>
+        <activity android:name=".detailboking.BookingDetails"/>
     </application>
 
 </manifest>
