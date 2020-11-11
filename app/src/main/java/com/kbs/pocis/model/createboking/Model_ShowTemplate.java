@@ -1,4 +1,4 @@
-package com.kbs.pocis.model.others;
+package com.kbs.pocis.model.createboking;
 
 
 public class Model_ShowTemplate {

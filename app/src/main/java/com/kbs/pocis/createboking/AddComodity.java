@@ -2,6 +2,7 @@ package com.kbs.pocis.createboking;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.item.FormCommodity;
 
 public class AddComodity extends Fragment {
 
-    Button next, prev;
+    Button next, prev, addcommodity_two, addcommodity_one;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,10 +27,22 @@ public class AddComodity extends Fragment {
 
         next = view.findViewById(R.id.add_commodity_nextBtn);
         prev = view.findViewById(R.id.add_commodity_prevBtn);
+        addcommodity_two = view.findViewById(R.id.add_commodity_btnUploadtwo);
 
         ButtonFunction();
+        AddCommodity();
 
         return view;
+    }
+
+    public void AddCommodity(){
+        addcommodity_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialogFragment = new FormCommodity();
+                dialogFragment.show(getChildFragmentManager(),"form Add Commodity");
+            }
+        });
     }
 
     public void ButtonFunction(){

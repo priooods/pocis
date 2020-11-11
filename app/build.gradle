@@ -35,6 +35,11 @@ dependencies {
     //alert dialog
     implementation 'com.github.andreseko:sweet-alert-dialog:1.0.6'
 
+    //Toas Custom
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+    implementation 'com.droidninja:filepicker:2.2.4'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+
     //fragment Navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.1'
     implementation 'androidx.navigation:navigation-ui:2.3.1'

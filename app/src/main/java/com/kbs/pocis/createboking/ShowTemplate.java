@@ -10,8 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.item.ItemClickListener;
-import com.kbs.pocis.model.others.Model_ShowTemplate;
+import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
+import es.dmoral.toasty.Toasty;
 
 public class ShowTemplate extends Fragment {
 
@@ -84,7 +77,7 @@ public class ShowTemplate extends Fragment {
                     fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
                     fragmentTransaction.commit();
                 } else {
-                    Toast.makeText(getContext(),"Anda harus memilih template dahulu",Toast.LENGTH_LONG).show();
+                    Toasty.error(getContext(), "Anda Harus Memilih Template", Toast.LENGTH_LONG, true).show();
                 }
             }
         });
@@ -115,15 +108,14 @@ public class ShowTemplate extends Fragment {
             holder.img.setBackgroundResource(model.get(position).getImg());
             holder.id.setText(model.get(position).getId());
             holder.name.setText(model.get(position).getName());
-            holder.SetItemClicked(new ItemClickListener() {
-                @Override
-                public void onItemClick(View v, int posisi) {
-                    CheckBox box = (CheckBox)v;
-                    if (box.isChecked()){
-                        checkbokListClick.add(model.get(posisi));
 
-                    } else if (!box.isChecked()){
-                        checkbokListClick.remove(model.get(posisi));
+            holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        checkbokListClick.add(model.get(position));
+                    } else {
+                        checkbokListClick.remove(model.get(position));
                     }
                 }
             });
@@ -135,12 +127,11 @@ public class ShowTemplate extends Fragment {
             return model.size();
         }
 
-        public static class Vholder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public static class Vholder extends RecyclerView.ViewHolder {
 
             ImageView img;
             TextView name, id;
             CheckBox status;
-            ItemClickListener itemClickListener;
 
             public Vholder(@NonNull View itemView) {
                 super(itemView);
@@ -148,18 +139,8 @@ public class ShowTemplate extends Fragment {
                 name = itemView.findViewById(R.id.name_showtemplate);
                 id = itemView.findViewById(R.id.idshowtemplate);
                 status = itemView.findViewById(R.id.check_showtemplate);
-                status.setOnClickListener(this);
             }
 
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(v, getAdapterPosition());
-            }
-
-            public void SetItemClicked(ItemClickListener id)
-            {
-                itemClickListener = id;
-            }
         }
 
     }

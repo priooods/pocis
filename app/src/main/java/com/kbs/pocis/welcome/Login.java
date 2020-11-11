@@ -15,6 +15,8 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.activity.HomePage;
 import com.kbs.pocis.model.Model_User;
 
+import es.dmoral.toasty.Toasty;
+
 public class Login extends AppCompatActivity {
 
     TextInputEditText username, password;
@@ -47,7 +49,7 @@ public class Login extends AppCompatActivity {
                 model_user.setPassword_model(password.getText().toString());
                 //Kalau kosong form nya muncul peringatan.
                 if (model_user.getUsername_model().isEmpty() || model_user.getPassword_model().isEmpty()){
-                    pesan("Harap lengkapi informasi username dan password anda");
+                    pesan("Harap Lengkapi Username dan Password");
                 } else {
                     Intent intent = new Intent(Login.this, HomePage.class);
                     startActivity(intent);
@@ -60,6 +62,6 @@ public class Login extends AppCompatActivity {
     }
 
     private void pesan(String pesan){
-        Toast.makeText(this, pesan, Toast.LENGTH_LONG).show();
+        Toasty.error(this, pesan, Toast.LENGTH_LONG, true).show();
     }
 }

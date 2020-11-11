@@ -157,11 +157,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/document_upload_layoutone"
         android:layout_marginVertical="15dp"
         android:layout_above="@id/rlbtn"
         android:orientation="vertical"
-        android:layout_below="@id/two"
         android:gravity="center"
+        android:layout_below="@id/two"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -185,24 +186,76 @@
                 android:gravity="center"
                 android:text="Upload your document PDF"/>
 
-            <Button
-                android:id="@+id/document_upload_btnUpload"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/btn_green"
-                android:text="+ Add File"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textColor="@color/colorWhite"
-                android:paddingHorizontal="15dp"
-                android:textSize="11dp"
-                android:fontFamily="@font/montserrat_bold"/>
-
-
         </LinearLayout>
 
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"
+            android:id="@+id/document_upload_btnUpload"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/btn_green"
+            android:text="+ Add File"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:paddingHorizontal="15dp"
+            android:textSize="11dp"
+            android:fontFamily="@font/montserrat_bold"/>
+
     </LinearLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_marginVertical="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/document_upload_layouttwo"
+        android:layout_below="@+id/two"
+        android:layout_above="@id/rlbtn">
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textSize="11dp"
+            android:text="Added File(s)"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/xx"/>
+
+        <ListView
+            android:layout_below="@id/xx"
+            android:layout_marginTop="11dp"
+            android:layout_width="match_parent"
+            android:layout_above="@id/document_upload_btnUploadtwo"
+            android:layout_height="match_parent"
+            android:id="@+id/document_upload_recyclerpdf"/>
+
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"
+            android:id="@+id/document_upload_btnUploadtwo"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/btn_green"
+            android:text="+ Add File"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:paddingHorizontal="15dp"
+            android:textSize="11dp"
+            android:fontFamily="@font/montserrat_bold"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_marginBottom="15dp"

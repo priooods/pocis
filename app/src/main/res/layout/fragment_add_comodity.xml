@@ -157,6 +157,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/line_addcommodity_one"
         android:layout_marginVertical="15dp"
         android:layout_above="@id/rlbtn"
         android:orientation="vertical"
@@ -196,6 +198,51 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/line_addcommodity_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rlbtn"
+        android:layout_below="@id/two"
+        android:layout_marginVertical="15dp">
+
+        <TextView
+            android:id="@+id/a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Added Commodity"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="11dp"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/a"
+            android:layout_above="@id/add_commodity_btnUploadtwo"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/recycle_listcomodity"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/add_commodity_btnUploadtwo"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_green"
+            android:text="+ Add Commodity"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:paddingHorizontal="15dp"
+            android:textSize="11dp"
+            android:fontFamily="@font/montserrat_bold"/>
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_marginBottom="15dp"
