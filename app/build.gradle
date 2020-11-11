@@ -3,7 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    /*compileOptions {
+        sourceCompatibility = '1.8'//JavaVersion.VERSION_1_8
+        targetCompatibility = '1.8'//JavaVersion.VERSION_1_8
+    }*/
     defaultConfig {
         applicationId "com.kbs.pocis"
         minSdkVersion 19
@@ -36,9 +39,14 @@ dependencies {
     implementation 'com.github.andreseko:sweet-alert-dialog:1.0.6'
 
     //Toas Custom
-    implementation 'com.github.GrenderG:Toasty:1.5.0'
+
     implementation 'com.droidninja:filepicker:2.2.4'
     implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+
+    // CRUD --- ALL DATABASE CONNECTION'S MODULE
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     //fragment Navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.1'

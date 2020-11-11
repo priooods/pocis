@@ -127,6 +127,7 @@ public class UploadDocument extends Fragment {
             }
         });
     }
+
 //
 //    public class RecyclerPDF extends RecyclerView.Adapter<RecyclerPDF.vHolder>{
 //
@@ -170,17 +171,21 @@ public class UploadDocument extends Fragment {
 //        }
 //    }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
             case FilePickerConst.REQUEST_CODE_DOC:
                 if(resultCode== Activity.RESULT_OK && data!=null)
                 {
+
                     ArrayList<Uri> docPaths = new ArrayList<>();
                     docPaths.addAll(data.<Uri>getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
                     Log.i(TAG, "onActivityResult: content" + docPaths);
                     ArrayList<String> liis = new ArrayList<>();
                     for (Uri pats : docPaths){
+
                         FileUtils.getFile(getContext(), pats);
                         File files = FileUtils.getFile(getContext(), pats);
                         liis.add(files.getName());

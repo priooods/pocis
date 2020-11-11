@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kbs.pocis">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -13,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".welcome.SplashScreen" android:theme="@style/Fullscreen">
-        </activity>
-        <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
-        <activity android:name=".welcome.Login"/>
-        <activity android:name=".activity.HomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
+        <activity android:name=".activity.HomePage">
+        </activity>
+        <activity android:name=".welcome.Login"/>
         <activity android:name=".activity.CreateBooking"/>
         <activity android:name=".detailboking.BookingDetails"/>
     </application>

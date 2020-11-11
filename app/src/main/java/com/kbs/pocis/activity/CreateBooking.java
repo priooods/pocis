@@ -24,8 +24,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.kbs.pocis.createboking.CustomerAddForm;
 import com.kbs.pocis.R;
 
-import es.dmoral.toasty.Toasty;
-
 public class CreateBooking extends AppCompatActivity {
 
     ImageView icon_back;
