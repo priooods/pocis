@@ -6,42 +6,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.internal.$Gson$Types;
 import com.kbs.pocis.R;
 import com.kbs.pocis.activity.HomePage;
+import com.kbs.pocis.api.ApiClient;
+import com.kbs.pocis.api.LoginResponse;
+import com.kbs.pocis.model.Model_User;
 
-// Function dibawah untuk CRUD
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
-import com.kbs.pocis.model.CallingData;
-
-interface CallTest {
-    @FormUrlEncoded
-    @POST("auth/login")
-    Call<CallingData> getUserLogin(
-            @Field("username") String id,
-            @Field("password") String secret
-    );
-
-    //FooResponse postJson(@Body FooRequest body);
-}
 
 public class Login extends AppCompatActivity {
 
     TextInputEditText username, password;
-    CallTest callInterface;
+    Model_User model_user;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -62,75 +48,49 @@ public class Login extends AppCompatActivity {
         username = findViewById(R.id.input_username_login);
         password = findViewById(R.id.input_password_login);
         Button btn_login = findViewById(R.id.btn_login);
-
-        callInterface = APIClient.getClient().create(CallTest.class);
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (callInterface == null){
-                    pesan("Failed to Connect! Please Enable Internet");
-                    return;
-                }else {
-                    Log.i("login","Success to Connect!");
-                }
-                CallingData data = new CallingData(username.getText().toString(), password.getText().toString());
-                //if (data.username.isEmpty() || data.password.isEmpty()){
-                //    pesan("Harap Lengkapi Username dan Password");
-                //} else {
-                    loginRetrofit2Api(data);
-                //}
-            }
-        });
-    }
-
-    private void loginRetrofit2Api(CallingData data) {
-        if (data == null) {
-            Log.i("login","Data is NULL!");
-            return;
-        }else{
-            Log.i("login","Data is not NULL!");
-        }
-        Call<CallingData> call1 = callInterface.getUserLogin(data.username,data.password);
-        if (call1 == null) {
-            Log.i("login","CallingData Post Method is Bad!");
-        }
-        call1.enqueue(new Callback<CallingData>() {
-            @Override
-            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
-                CallingData loginResponse = response.body();
-
-                Log.i("login_test", "loginResponse 1 --> " + loginResponse);
-                if (loginResponse != null) {
-                    Log.i("login", "Error          -->  " + loginResponse.error);
-                    Log.i("login", "Description       -->  " + loginResponse.desc);
-
-                    String responseCode = loginResponse.error;
-                    if (responseCode.equals("0")) {
-                        pesan("Welcome "+username.getText().toString());
-                        Log.i("login", "Token        -->  " + loginResponse.data.token);
-                        Intent intent = new Intent(Login.this, HomePage.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        pesan(loginResponse.desc);
-                        Log.e("login","Failed : \n Error "+loginResponse.error+" : "+loginResponse.desc);
-
-                        //pesan("Login anda gagal");
-                    }
+                model_user = new Model_User();
+                model_user.setUsername_model(username.getText().toString());
+                model_user.setPassword_model(password.getText().toString());
+                //Kalau kosong form nya muncul peringatan.
+                if (model_user.getUsername_model().isEmpty() || model_user.getPassword_model().isEmpty()){
+                    pesan("Harap Lengkapi Username dan Password");
+                } else {
+                    LoginUser();
                 }
             }
-
-            @Override
-            public void onFailure(Call<CallingData> call, Throwable t) {
-                pesan("onFailure called!");
-                Log.i("login_test", "onFailure called!");
-                //.makeText(getApplicationContext(), "onFailure called ", Toast.LENGTH_SHORT).show();
-                //call.cancel();
-            }
         });
+
+
     }
+
     private void pesan(String pesan){
         Toasty.error(this, pesan, Toast.LENGTH_LONG, true).show();
+    }
+
+    public void LoginUser(){
+        Model_User model_users = new Model_User();
+        model_users.setUsername_model(username.getText().toString());
+        model_users.setPassword_model(password.getText().toString());
+
+        Call<LoginResponse> loginResponseCall = ApiClient.getUserServices().UserLogin(model_users);
+        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(Login.this, response.message(), Toast.LENGTH_LONG).show();
+
+                } else {
+                    pesan("Login gagal");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(Login.this, "Trouble " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

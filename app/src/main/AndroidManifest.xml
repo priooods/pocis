@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kbs.pocis">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -21,9 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
-        <activity android:name=".activity.HomePage">
-        </activity>
         <activity android:name=".welcome.Login"/>
+        <activity android:name=".activity.HomePage">
+
+        </activity>
         <activity android:name=".activity.CreateBooking"/>
         <activity android:name=".detailboking.BookingDetails"/>
     </application>
