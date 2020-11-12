@@ -101,8 +101,8 @@ public class Login extends AppCompatActivity {
                         SessionManager.setLoggedIn(Login.this, loginResponse.data.token);
 
                         Intent intent = new Intent(Login.this, HomePage.class);
-                        intent.putExtra("token", loginResponse.data.token);
-                        intent.putExtra("username", username.getText().toString());
+                        intent.putExtra("token", loginResponse);
+//                        intent.putExtra("username", username.getText().toString());
                         startActivity(intent);
                         finish();
                     } else {

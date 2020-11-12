@@ -26,6 +26,8 @@ import com.kbs.pocis.service.response.LogoutResponse;
 import com.kbs.pocis.welcome.Login;
 import com.kbs.pocis.welcome.Welcome_Screen;
 
+import java.io.Serializable;
+
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +37,8 @@ public class Popup_Profile extends DialogFragment {
 
     TextView username;
     Button buttonLogout;
-    String tokens, usernameUser;
+    String  usernameUser;
+    CallingDataLogin tokens;
     UserService userService;
 
     @Override
@@ -50,8 +53,9 @@ public class Popup_Profile extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.dialog_profile_box, container, false);
 
-        tokens = getActivity().getIntent().getStringExtra("token");
-        usernameUser = getActivity().getIntent().getStringExtra("username");
+        tokens = (CallingDataLogin)getActivity().getIntent().getParcelableExtra("token");
+        Log.i("TAG", "onCreateView: " + tokens.data.token);
+//        usernameUser = getActivity().getIntent().getStringExtra("username");
 
         username = view.findViewById(R.id.username_profile);
         buttonLogout = view.findViewById(R.id.btn_logout_profile);
@@ -62,7 +66,7 @@ public class Popup_Profile extends DialogFragment {
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogoutResponse logoutResponse = new LogoutResponse(tokens);
+                LogoutResponse logoutResponse = new LogoutResponse(tokens.data.token);
                 LogoutClick(logoutResponse);
             }
         });
@@ -78,7 +82,7 @@ public class Popup_Profile extends DialogFragment {
         }else{
             Log.i("logout","Data is not NULL!");
         }
-        Call<LogoutResponse> call1 = userService.getLogoutUser(tokens);
+        Call<LogoutResponse> call1 = userService.getLogoutUser(tokens.data.token);
         if (call1 == null) {
             Log.i("logout","CallingData Post Method is Bad!");
         }
