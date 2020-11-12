@@ -1,4 +1,4 @@
-package com.kbs.pocis.welcome;
+package com.kbs.pocis.api;
 import android.os.Build;
 
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-class APIClient {
+public class APIClient {
 
     public static final String BASE_URL = "http://cigading.ptkbs.co.id:9280/v1/";
     private static Retrofit retrofit = null;

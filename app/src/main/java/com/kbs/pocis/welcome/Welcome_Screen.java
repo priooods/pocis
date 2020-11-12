@@ -9,8 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.HomePage;
 import com.kbs.pocis.adapter.Pager_Onboard;
 import com.kbs.pocis.item.Item_onboard;
+import com.kbs.pocis.service.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class Welcome_Screen extends AppCompatActivity {
 
     AutoScrollViewPager viewPager;
     Pager_Onboard pager_onboard;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,4 +55,5 @@ public class Welcome_Screen extends AppCompatActivity {
         //ini indicatornya
         circleIndicator.initWithViewPager(viewPager);
     }
+
 }

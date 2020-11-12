@@ -74,6 +74,36 @@
         android:layout_height="60dp">
 
         <LinearLayout
+            android:id="@+id/online_booking_onlinebooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="25dp">
+
+            <ImageView
+                android:id="@+id/icon_onlineboking"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/booking_icon_white"/>
+
+            <TextView
+                android:id="@+id/id_icon_onlineboking"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8dp"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="All Booking"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/online_booking_tarif_aprove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,15 +115,17 @@
             android:layout_marginRight="25dp">
 
             <ImageView
+                android:id="@+id/icon_tarifapprove"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/icon_dollar"/>
+                android:src="@drawable/dollar_icon_grey"/>
 
             <TextView
+                android:id="@+id/id_icon_tarifapprove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="8dp"
-                android:textColor="@color/colorWhite"
+                android:textColor="#9c9c9c"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Tariff Approve"/>
 

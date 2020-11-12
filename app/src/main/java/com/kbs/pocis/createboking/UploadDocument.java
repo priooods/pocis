@@ -67,10 +67,12 @@ public class UploadDocument extends Fragment {
 
     Button next, prev;
     TextView coba;
-    ListView listPdf;
+    RecyclerView listPdf;
     Button addfile_one, addfile_two;
     LinearLayout line_one;
     RelativeLayout line_two;
+    ArrayList<Model_UploadDocument> model_uploadDocuments = new ArrayList<>();
+    RecyclerPDF recyclerPDF;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,7 +103,8 @@ public class UploadDocument extends Fragment {
             @Override
             public void onClick(View v) {
                 FilePickerBuilder.getInstance()
-                        .setMaxCount(10)
+                        .enableSelectAll(false)
+                        .setMaxCount(8)
                         .pickFile(UploadDocument.this);
             }
         });
@@ -115,7 +118,6 @@ public class UploadDocument extends Fragment {
             }
         });
 
-
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,50 +130,47 @@ public class UploadDocument extends Fragment {
         });
     }
 
-//
-//    public class RecyclerPDF extends RecyclerView.Adapter<RecyclerPDF.vHolder>{
-//
-//        Context context;
-//        List<Model_UploadDocument> modelUploadDocuments;
-//
-//        public RecyclerPDF(Context context, List<Model_UploadDocument> modelUploadDocuments) {
-//            this.context = context;
-//            this.modelUploadDocuments = modelUploadDocuments;
-//        }
-//
-//        @NonNull
-//        @Override
-//        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking, parent, false);
-//            return new vHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull vHolder holder, int position) {
-//            holder.namefile.setText(modelUploadDocuments.get(position).getUsername());
-//            holder.sizefile.setText(modelUploadDocuments.get(position).getSize());
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return modelUploadDocuments.size();
-//        }
-//
-//        public class vHolder extends RecyclerView.ViewHolder{
-//
-//            TextView namefile, deletefile, sizefile;
-//
-//            public vHolder(@NonNull View itemView) {
-//                super(itemView);
-//
-//                namefile = itemView.findViewById(R.id.model_uploadpdf_name);
-//                deletefile = itemView.findViewById(R.id.delete_files);
-//                sizefile = itemView.findViewById(R.id.model_uploadpdf_size);
-//            }
-//        }
-//    }
+    public class RecyclerPDF extends RecyclerView.Adapter<RecyclerPDF.vHolder>{
 
+        Context context;
+        List<Model_UploadDocument> modelUploadDocuments;
 
+        public RecyclerPDF(Context context, List<Model_UploadDocument> modelUploadDocuments) {
+            this.context = context;
+            this.modelUploadDocuments = modelUploadDocuments;
+        }
+
+        @NonNull
+        @Override
+        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking, parent, false);
+            return new vHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull vHolder holder, int position) {
+            holder.namefile.setText(modelUploadDocuments.get(position).getUsername());
+            holder.sizefile.setText(modelUploadDocuments.get(position).getSize());
+        }
+
+        @Override
+        public int getItemCount() {
+            return modelUploadDocuments.size();
+        }
+
+        public class vHolder extends RecyclerView.ViewHolder{
+
+            TextView namefile, deletefile, sizefile;
+
+            public vHolder(@NonNull View itemView) {
+                super(itemView);
+
+                namefile = itemView.findViewById(R.id.model_uploadpdf_name);
+                deletefile = itemView.findViewById(R.id.delete_files);
+                sizefile = itemView.findViewById(R.id.model_uploadpdf_size);
+            }
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -182,17 +181,32 @@ public class UploadDocument extends Fragment {
 
                     ArrayList<Uri> docPaths = new ArrayList<>();
                     docPaths.addAll(data.<Uri>getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
-                    Log.i(TAG, "onActivityResult: content" + docPaths);
-                    ArrayList<String> liis = new ArrayList<>();
+
+//                    ArrayList<String> liis = new ArrayList<>();
                     for (Uri pats : docPaths){
 
                         FileUtils.getFile(getContext(), pats);
                         File files = FileUtils.getFile(getContext(), pats);
-                        liis.add(files.getName());
 
-                        ArrayAdapter<String> arrayAdapter =
-                                new ArrayAdapter<String>(getContext(),R.layout.model_list_pdf, R.id.model_uploadpdf_name, liis);
-                        listPdf.setAdapter(arrayAdapter);
+                        for (Model_UploadDocument document : model_uploadDocuments){
+                            document.setUsername(files.getName());
+                            document.setSize(String.valueOf(files.length() / 1024));
+                            model_uploadDocuments.add(document);
+                        }
+
+                        Log.i("document upload", "-->  " + model_uploadDocuments);
+                        Log.i("Size document", "--> " + files.length() / 1024);
+//                        liis.add(files.getName());
+
+
+//                        recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
+//                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+//                        listPdf.setLayoutManager(layoutManager);
+//                        listPdf.setAdapter(recyclerPDF);
+
+//                        ArrayAdapter<String> arrayAdapter =
+//                                new ArrayAdapter<String>(getContext(),R.layout.model_list_pdf, R.id.model_uploadpdf_name, liis);
+//                        listPdf.setAdapter(arrayAdapter);
                     }
                 }
                 break;

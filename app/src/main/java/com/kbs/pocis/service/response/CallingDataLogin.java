@@ -1,8 +1,8 @@
-package com.kbs.pocis.model;
+package com.kbs.pocis.service.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CallingData {
+public class CallingDataLogin {
     @SerializedName("error_code")
     public String error;
     @SerializedName("error_desc")
@@ -16,7 +16,7 @@ public class CallingData {
 
     public String username;
     public String password;
-    public CallingData(String username, String password){
+    public CallingDataLogin(String username, String password){
         this.username = username;
         this.password = password;
     }

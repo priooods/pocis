@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 
 public class FormCommodity extends DialogFragment {
@@ -18,6 +19,8 @@ public class FormCommodity extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
     }
+
+    TextInputEditText inputConsigne, inputWeight, input;
 
     @Nullable
     @Override

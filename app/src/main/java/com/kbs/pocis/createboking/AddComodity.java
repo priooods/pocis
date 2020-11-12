@@ -28,6 +28,7 @@ public class AddComodity extends Fragment {
         next = view.findViewById(R.id.add_commodity_nextBtn);
         prev = view.findViewById(R.id.add_commodity_prevBtn);
         addcommodity_two = view.findViewById(R.id.add_commodity_btnUploadtwo);
+        addcommodity_one = view.findViewById(R.id.add_commodity_btnUpload);
 
         ButtonFunction();
         AddCommodity();

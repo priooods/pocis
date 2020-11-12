@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,8 +30,9 @@ public class OnlineBooking extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    ImageView icon_back, icon_search, create_booking;
-    LinearLayout tarif_approve;
+    TextView id_booking, id_tarif;
+    ImageView icon_back, icon_search, create_booking, icon_booking, icon_tarif;
+    LinearLayout tarif_approve, online_booking_onlinebooking;
 
     @Nullable
     @Override
@@ -43,7 +45,12 @@ public class OnlineBooking extends Fragment {
         viewPager = view.findViewById(R.id.viewpager_onlineBooking);
         create_booking = view.findViewById(R.id.online_booking_create_booking);
         tarif_approve = view.findViewById(R.id.online_booking_tarif_aprove);
+        online_booking_onlinebooking = view.findViewById(R.id.online_booking_onlinebooking);
 
+        id_booking = view.findViewById(R.id.id_icon_onlineboking);
+        id_tarif = view.findViewById(R.id.id_icon_tarifapprove);
+        icon_booking = view.findViewById(R.id.icon_onlineboking);
+        icon_tarif = view.findViewById(R.id.icon_tarifapprove);
 
         //Ini adalah adapter Viewpager Default ( Bisa di scroll Horizontal )
         ViewpagerDefault adapter = new ViewpagerDefault(getChildFragmentManager());
@@ -80,7 +87,22 @@ public class OnlineBooking extends Fragment {
         tarif_approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                id_booking.setTextColor(getResources().getColor(R.color.colorGrey));
+                icon_booking.setImageResource(R.drawable.booking_icon_grey);
                 Fragment fragment = new TarifApprove();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        online_booking_onlinebooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id_tarif.setTextColor(getResources().getColor(R.color.colorGrey));
+                icon_tarif.setImageResource(R.drawable.dollar_icon_grey);
+                Fragment fragment = new AllBookings();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);

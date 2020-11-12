@@ -36,6 +36,7 @@
                 android:fontFamily="@font/montserrat_bold"/>
 
             <ImageView
+                android:id="@+id/iconprofile"
                 android:src="@drawable/profile_icon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
