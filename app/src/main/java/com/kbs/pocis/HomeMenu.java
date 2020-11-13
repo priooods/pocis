@@ -8,22 +8,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.kbs.pocis.activity.CreateBooking;
+import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.item.Popup_Profile;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.service.SessionManager;
 import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.UserService;
 import com.kbs.pocis.welcome.Login;
 
 public class HomeMenu extends Fragment {
 
     ImageView menu_online_booking, menu_create_booking, iconprofile;
-    UserData user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,11 +38,13 @@ public class HomeMenu extends Fragment {
         menu_online_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new OnlineBooking();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
+                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                startActivity(new Intent(getActivity(), OnlineBook.class).putExtra("user",user));
+//                Fragment fragment = new OnlineBooking();
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+//                fragmentTransaction.commit();
             }
         });
 

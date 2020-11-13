@@ -48,7 +48,7 @@ public class OnlineBooking extends Fragment {
         //Taruh fragment ke view pager lalu pasang ke tablayout
         adapter.Addfragment(new AllBookings(), "All Bookings");
         adapter.Addfragment(new CancelBooking(), "Cancel Booking");
-        adapter.notifyDataSetChanged();
+
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 

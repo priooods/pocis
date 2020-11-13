@@ -34,8 +34,10 @@ public class AllBookings extends Fragment {
 
     Adapter_AllBooking adapter_allBooking;
     RecyclerView recyclerView;
-    ImageView kanan, kiri;
+    ImageView kanan, kiri,kanan_banget,kiri_banget;
     List<Model_Bookings> model_bookingsList;
+    int page_current = 2,page_last = 1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,21 +69,38 @@ public class AllBookings extends Fragment {
 
         return view;
     }
+
     void ganti(){
         kanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                page_current+=1;
+                GenerateList();
             }
         });
-
+        kanan_banget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page_current=page_last;
+                GenerateList();
+            }
+        });
+        kiri_banget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page_current=1;
+                GenerateList();
+            }
+        });
         kiri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                page_current-=1;
+                GenerateList();
             }
         });
     }
+
     /// Fungsi untuk membuat list
     void GenerateList(){
         UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
@@ -91,43 +110,43 @@ public class AllBookings extends Fragment {
         if (service == null) {
             Log.e("all_booking","ERROR SERVICE");
         }
-            Call<CallingData> call = service.getAllBooking(user.getToken());
-            if (call == null) {
-                Log.i("all_boking","CallingData Post Method is Bad!");
-            }
-            call.enqueue(new Callback<CallingData>() {
-                @Override
-                public void onResponse(Call<CallingData> call, Response<CallingData> response) {
-                    CallingData respone = (CallingData) response.body();
-                    if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
-                        List<Model_Bookings> list = new ArrayList<>();
-                        for (CallingData.Booking data : respone.data.book) {
-                            list.add(data.getModel());
-                        }
-                        model_bookingsList = list;
-
-                        int page_number = respone.data.current_page;
-                        //to
-                        int page_max = respone.data.last_page;
-                        int page_now = respone.data.to_page - respone.data.from_page + 1;
-                        //  of
-                        int page_of = respone.data.total;
-
-                        adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter_allBooking);
-                        Log.i("finish_list", "Finish Listing " + list.size());
-                    } else {
-                        //pesan(respone.desc);
-                        Log.e("all_boking", "Failed : \n Error " + respone.error + " : " + respone.desc);
+        Call<CallingData> call = service.getAllBooking(user.getToken(),String.valueOf(page_current));
+        if (call == null) {
+            Log.i("all_boking","CallingData Post Method is Bad!");
+        }
+        call.enqueue(new Callback<CallingData>() {
+            @Override
+            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+                CallingData respone = (CallingData) response.body();
+                if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
+                    List<Model_Bookings> list = new ArrayList<>();
+                    for (CallingData.Booking data : respone.data.book) {
+                        list.add(data.getModel());
                     }
+                    model_bookingsList = list;
+
+                    int page_number = respone.data.current_page;
+                    //to
+                    page_last = respone.data.last_page;
+                    int page_now = respone.data.to_page - respone.data.from_page + 1;
+                    //  of
+                    int page_of = respone.data.total;
+
+                    adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter_allBooking);
+                    Log.i("finish_list", "Finish Listing " + list.size());
+                } else {
+                    //pesan(respone.desc);
+                    Log.e("all_boking", "Failed : \n Error " + respone.error + " : " + respone.desc);
                 }
-                @Override
-                public void onFailure(Call<CallingData> call, Throwable t) {
-                    //pesan("onFailure called login!");
-                    Log.e("all_boking", "on Failure called!"+ t);
-                }
-            });
+            }
+            @Override
+            public void onFailure(Call<CallingData> call, Throwable t) {
+                //pesan("onFailure called login!");
+                Log.e("all_boking", "on Failure called!"+ t);
+            }
+        });
     }
 }

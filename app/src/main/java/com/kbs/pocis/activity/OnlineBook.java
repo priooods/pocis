@@ -1,7 +1,9 @@
 package com.kbs.pocis.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +19,8 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.onlineboking.AllBookings;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.onlineboking.TarifApprove;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.UserService;
 
 public class OnlineBook extends AppCompatActivity {
 
@@ -24,10 +28,19 @@ public class OnlineBook extends AppCompatActivity {
     TextView id_booking, id_tarif;
     ImageView icon_booking, icon_tarif,create_booking;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.online_book_dasar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        }
 
         tarif_approve = findViewById(R.id.online_booking_tarif_aprove);
         online_booking_onlinebooking = findViewById(R.id.online_booking_onlinebooking);
@@ -59,10 +72,11 @@ public class OnlineBook extends AppCompatActivity {
                 icon_booking.setImageResource(R.drawable.booking_icon_white);
                 id_tarif.setTextColor(getResources().getColor(R.color.colorGrey));
                 icon_tarif.setImageResource(R.drawable.dollar_icon_grey);
+
                 Fragment fragment = new OnlineBooking();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameOnline, fragment, "framentTujuan");
+                fragmentTransaction.replace(R.id.frameOnline, fragment);
                 fragmentTransaction.commit();
             }
         });
@@ -79,9 +93,10 @@ public class OnlineBook extends AppCompatActivity {
     }
 
     public void FragmentList(Fragment fragment){
+        UserData user = (UserData) getIntent().getParcelableExtra("user");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameOnline, fragment,"framentTujuan")
+        fragmentTransaction.replace(R.id.frameOnline, fragment)
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
 

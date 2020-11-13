@@ -45,8 +45,10 @@ public class CallingData{
         public String formatted_booking_date;
         public String formatted_booking_time;
         public String status_booking;
+
         ///Fungsi ini untuk membuat Model_Bookings baru sesuai dengan atribut data class booking ini
         public Model_Bookings getModel(){
+            Log.i("TAG", "getModel: " + no_booking);
             return new Model_Bookings(
                     no_contract,
                     no_booking,

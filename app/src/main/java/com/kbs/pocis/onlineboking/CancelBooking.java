@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,9 @@ public class CancelBooking extends Fragment {
 
     RecyclerView recyclerView;
     Adapter_CancelBooking adapter_cancelBooking;
+    ImageView kanan, kiri,kanan_banget,kiri_banget;
     List<Model_Bookings> model_bookingsList;
+    int page_current = 1,page_last = 1;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,6 +59,36 @@ public class CancelBooking extends Fragment {
 
         return view;
     }
+    void ganti(){
+        kanan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page_current+=1;
+                GenerateList();
+            }
+        });
+        kanan_banget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page_current=page_last;
+                GenerateList();
+            }
+        });
+        kiri_banget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page_current=1;
+                GenerateList();
+            }
+        });
+        kiri.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page_current-=1;
+                GenerateList();
+            }
+        });
+    }
     /// Fungsi untuk membuat list
     void GenerateList(){
         UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
@@ -65,7 +98,7 @@ public class CancelBooking extends Fragment {
         if (service == null) {
             Log.e("cancel_boking","ERROR SERVICE");
         }
-        Call<CallingData> call = service.getAllCancel(user.getToken());
+        Call<CallingData> call = service.getAllCancel(user.getToken(),String.valueOf(page_current));
         if (call == null) {
             Log.i("cancel_boking","CallingData Post Method is Bad!");
         }
@@ -79,6 +112,13 @@ public class CancelBooking extends Fragment {
                         list.add(data.getModel());
                     }
                     model_bookingsList = list;
+
+                    int page_number = respone.data.current_page;
+                    //to
+                    page_last = respone.data.last_page;
+                    int page_now = respone.data.to_page - respone.data.from_page + 1;
+                    //  of
+                    int page_of = respone.data.total;
 
                     adapter_cancelBooking = new Adapter_CancelBooking(getContext(), model_bookingsList);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

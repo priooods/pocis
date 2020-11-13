@@ -23,12 +23,14 @@ public interface UserService {
     @FormUrlEncoded
     @POST("tbooking/all")
     Call<CallingData> getAllBooking(
-            @Field("token") String token
+            @Field("token") String token,
+            @Field("page") String page
     );
     @FormUrlEncoded
     @POST("tbooking/tocancel")
     Call<CallingData> getAllCancel(
-            @Field("token") String token
+            @Field("token") String token,
+            @Field("page") String page
     );
 
 }
