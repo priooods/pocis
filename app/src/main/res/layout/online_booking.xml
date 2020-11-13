@@ -8,166 +8,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".onlineboking.OnlineBooking">
 
-    <RelativeLayout
-        android:id="@+id/a"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_alignParentLeft="true"
-            android:layout_width="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_back"
-            android:id="@+id/btn_back_online_booking"/>
-
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Online Booking"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_centerHorizontal="true"
-            android:textSize="17dp"
-            android:fontFamily="@font/montserrat_bold"/>
-
-        <ImageView
-            android:layout_marginRight="15dp"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_search"
-            android:layout_alignParentRight="true"
-            android:id="@+id/btn_search_online_booking"/>
-
-
-    </RelativeLayout>
-
-    <com.google.android.material.tabs.TabLayout
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/a"
-        app:tabIndicatorColor="@color/colorPrimaryDark"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="@color/colorPrimaryDark"
-        app:tabTextAppearance="@style/TablayoutStyle"
-        app:tabMode="fixed"
-        app:tabTextColor="@color/colorPrimaryDarkLow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/a"
-        android:id="@+id/tabLayout_onlineBook"/>
-
-    <androidx.viewpager.widget.ViewPager
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btm"
-        android:layout_below="@id/tabLayout_onlineBook"
-        android:id="@+id/viewpager_onlineBooking"/>
+        android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_alignParentBottom="true"
-        android:id="@+id/btm"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <LinearLayout
-            android:id="@+id/online_booking_onlinebooking"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/a"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="25dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/icon_onlineboking"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/booking_icon_white"/>
+                android:layout_alignParentLeft="true"
+                android:layout_width="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="35dp"
+                android:src="@drawable/icon_back"
+                android:id="@+id/btn_back_online_booking"/>
 
             <TextView
-                android:id="@+id/id_icon_onlineboking"
-                android:layout_marginTop="4dp"
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8dp"
-                android:textColor="@color/colorWhite"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="All Booking"/>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/online_booking_tarif_aprove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="25dp">
-
-            <ImageView
-                android:id="@+id/icon_tarifapprove"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/dollar_icon_grey"/>
-
-            <TextView
-                android:id="@+id/id_icon_tarifapprove"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="8dp"
-                android:textColor="#9c9c9c"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Tariff Approve"/>
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="100dp">
-
-        <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/circle_bg_blue"
-                android:src="@drawable/icon_add"
-                android:padding="5dp"
-                android:id="@+id/online_booking_create_booking"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create Booking"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/colorWhite"
-                android:textSize="11dp"
+                android:text="Online Booking"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerHorizontal="true"
+                android:textSize="17dp"
                 android:fontFamily="@font/montserrat_bold"/>
 
-        </LinearLayout>
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/icon_search"
+                android:layout_alignParentRight="true"
+                android:id="@+id/btn_search_online_booking"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/a"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="3dp"
+            android:animateLayoutChanges="true"
+            app:tabSelectedTextColor="@color/colorPrimaryDark"
+            app:tabTextAppearance="@style/TablayoutStyle"
+            app:tabMode="fixed"
+            app:tabTextColor="@color/colorPrimaryDarkLow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/a"
+            android:id="@+id/tabLayout_onlineBook"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tabLayout_onlineBook"
+            android:id="@+id/viewpager_onlineBooking"/>
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>

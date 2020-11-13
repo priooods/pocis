@@ -31,9 +31,8 @@ public class OnlineBooking extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    TextView id_booking, id_tarif;
-    ImageView icon_back, icon_search, create_booking, icon_booking, icon_tarif;
-    LinearLayout tarif_approve, online_booking_onlinebooking;
+    ImageView icon_back, icon_search;
+
 
     @Nullable
     @Override
@@ -44,20 +43,12 @@ public class OnlineBooking extends Fragment {
         icon_search = view.findViewById(R.id.btn_search_online_booking);
         tabLayout = view.findViewById(R.id.tabLayout_onlineBook);
         viewPager = view.findViewById(R.id.viewpager_onlineBooking);
-        create_booking = view.findViewById(R.id.online_booking_create_booking);
-        tarif_approve = view.findViewById(R.id.online_booking_tarif_aprove);
-        online_booking_onlinebooking = view.findViewById(R.id.online_booking_onlinebooking);
 
-        id_booking = view.findViewById(R.id.id_icon_onlineboking);
-        id_tarif = view.findViewById(R.id.id_icon_tarifapprove);
-        icon_booking = view.findViewById(R.id.icon_onlineboking);
-        icon_tarif = view.findViewById(R.id.icon_tarifapprove);
-
-        //Ini adalah adapter Viewpager Default ( Bisa di scroll Horizontal )
         ViewpagerDefault adapter = new ViewpagerDefault(getChildFragmentManager());
         //Taruh fragment ke view pager lalu pasang ke tablayout
         adapter.Addfragment(new AllBookings(), "All Bookings");
         adapter.Addfragment(new CancelBooking(), "Cancel Booking");
+        adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -77,42 +68,9 @@ public class OnlineBooking extends Fragment {
             }
         });
 
-        create_booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreateBooking.class);
-                startActivity(intent);
-            }
-        });
-
-        tarif_approve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id_booking.setTextColor(getResources().getColor(R.color.colorGrey));
-                icon_booking.setImageResource(R.drawable.booking_icon_grey);
-                Fragment fragment = new TarifApprove();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        online_booking_onlinebooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id_tarif.setTextColor(getResources().getColor(R.color.colorGrey));
-                icon_tarif.setImageResource(R.drawable.dollar_icon_grey);
-                Fragment fragment = new AllBookings();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
         return view;
     }
+
 
     //Ini adalah function untuk Menampilkan Dialog Searching yah
     public void ShowDialog (Context context){

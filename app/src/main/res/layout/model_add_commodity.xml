@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/c"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="11dp"
+            android:text="text"
+            android:id="@+id/model_consigne_comodity"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:gravity="left"
+                android:layout_width="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_reguler"
+                android:textSize="9dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/model_comodity_comodity"/>
+
+            <TextView
+                android:gravity="left"
+                android:layout_width="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_reguler"
+                android:textSize="9dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/model_package_comodity"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:gravity="left"
+                android:layout_width="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_reguler"
+                android:textSize="9dp"
+                android:text="General Cargo"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/model_general_comodity"/>
+
+            <TextView
+                android:gravity="left"
+                android:layout_width="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_reguler"
+                android:textSize="9dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/model_weight_comodity"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/colorRed"
+        android:textSize="10dp"
+        android:text="Delete"
+        android:id="@+id/model_delete_comodity"/>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/c"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="10dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

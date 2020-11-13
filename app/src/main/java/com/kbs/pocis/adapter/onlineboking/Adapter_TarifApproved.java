@@ -1,5 +1,6 @@
 package com.kbs.pocis.adapter.onlineboking;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.andreseko.SweetAlert.SweetAlertDialog;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.Model_Bookings;
@@ -102,10 +106,10 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.reject:
-                                Toast.makeText(context,"Reject Click", Toast.LENGTH_LONG).show();
+                                ShowDialogApprove(context);
                                 break;
                             case  R.id.approve:
-                                Toast.makeText(context,"Tariff nih", Toast.LENGTH_LONG).show();
+                                ShowDialogReject(context);
                                 break;
                         }
                         return false;
@@ -147,5 +151,70 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
             tap_toDetails = itemView.findViewById(R.id.go_detail_booking);
             dropdownMenu = itemView.findViewById(R.id.model_tapdropdown);
         }
+    }
+
+    //Dialog form ketika approve tarif click
+    private static void ShowDialogApprove (final Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_approve_tarif, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
+
+        Button btn_close = view.findViewById(R.id.btn_approveclose);
+        Button btn_approve = view.findViewById(R.id.btn_approvetarif);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("Approve Tariff Success")
+                        .setCustomImage(R.drawable.success_img)
+                        .show();
+                dialogFragment.cancel();
+            }
+        });
+        dialogFragment.show();
+    }
+
+    //Dialog form ketika reject tariff click
+    private static void ShowDialogReject (final Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_reject_tarif, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
+
+        Button btn_close = view.findViewById(R.id.btn_rejectclose);
+        Button btn_rejectTerif = view.findViewById(R.id.btn_rejecttarif);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_rejectTerif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("Reject Tariff Success")
+                        .setCustomImage(R.drawable.success_img)
+                        .showCancelButton(false)
+                        .show();
+                dialogFragment.cancel();
+            }
+        });
+        dialogFragment.show();
     }
 }

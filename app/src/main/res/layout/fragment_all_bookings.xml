@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:focusableInTouchMode="true"
         android:paddingTop="10dp"
@@ -24,12 +24,14 @@
             android:id="@+id/a"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/a"
             app:layout_constraintTop_toBottomOf="@id/a"
             android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recycle_Allbooking"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

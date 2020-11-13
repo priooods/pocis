@@ -1,5 +1,6 @@
 package com.kbs.pocis.adapter.onlineboking;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.andreseko.SweetAlert.SweetAlertDialog;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.Model_Bookings;
@@ -80,10 +84,10 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.cancel:
-                                Toast.makeText(context,"Cancel Click", Toast.LENGTH_LONG).show();
+                                ShowDialogCancell(context);
                                 break;
                             case  R.id.detail:
-                                Toast.makeText(context,"Detail nih", Toast.LENGTH_LONG).show();
+                                GoDetails(position);
                                 break;
                         }
                         return false;
@@ -96,21 +100,7 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Passing data to another Screen
-                //Default passing to Screen Details Booking
-                Intent intent = new Intent(context, BookingDetails.class);
-                intent.putExtra("from", "Cancel Bookings");
-                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
-                intent.putExtra("status", model_bookings.get(position).getStatusBook());
-                intent.putExtra("contract", model_bookings.get(position).getContractNo());
-                intent.putExtra("nama", model_bookings.get(position).getCustomerName());
-                intent.putExtra("vesel", model_bookings.get(position).getVesselName());
-                intent.putExtra("type", model_bookings.get(position).getCustomerType());
-                intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
-                intent.putExtra("date", model_bookings.get(position).getBookingDate());
-                intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
-                intent.putExtra("time", model_bookings.get(position).getBookingTime());
-                context.startActivity(intent);
+                GoDetails(position);
             }
         });
 
@@ -148,4 +138,55 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
             dropdownMenu = itemView.findViewById(R.id.model_tapdropdown);
         }
     }
+
+    public void GoDetails(int position){
+        //Passing data to another Screen
+        //Default passing to Screen Details Booking
+        Intent intent = new Intent(context, BookingDetails.class);
+        intent.putExtra("from", "Cancel Bookings");
+        intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
+        intent.putExtra("status", model_bookings.get(position).getStatusBook());
+        intent.putExtra("contract", model_bookings.get(position).getContractNo());
+        intent.putExtra("nama", model_bookings.get(position).getCustomerName());
+        intent.putExtra("vesel", model_bookings.get(position).getVesselName());
+        intent.putExtra("type", model_bookings.get(position).getCustomerType());
+        intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
+        intent.putExtra("date", model_bookings.get(position).getBookingDate());
+        intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
+        intent.putExtra("time", model_bookings.get(position).getBookingTime());
+        context.startActivity(intent);
+    }
+
+    //Dialog form ketika cancelbutton click
+    private static void ShowDialogCancell (final Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText input_alasan = view.findViewById(R.id.canceled_formInput);
+
+        Button btn_close = view.findViewById(R.id.btn_cancelclose);
+        Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("Cancell Booking Success")
+                        .setCustomImage(R.drawable.success_img)
+                        .show();
+                dialogFragment.cancel();
+            }
+        });
+        dialogFragment.show();
+    }
+
 }

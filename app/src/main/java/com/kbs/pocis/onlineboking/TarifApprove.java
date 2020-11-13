@@ -1,9 +1,12 @@
 package com.kbs.pocis.onlineboking;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.andreseko.SweetAlert.SweetAlertDialog;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.onlineboking.Adapter_TarifApproved;
 import com.kbs.pocis.model.Model_Bookings;
@@ -59,5 +64,7 @@ public class TarifApprove extends Fragment {
 
         return view;
     }
+
+
 
 }
