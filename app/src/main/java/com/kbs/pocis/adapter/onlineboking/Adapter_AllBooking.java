@@ -50,17 +50,17 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
         holder.status.setText(model_bookings.get(position).getStatusBook());
         holder.titikdua.setVisibility(View.GONE);
 
-        if (holder.status.getText().toString().equals("approved")){
+        if (holder.status.getText().toString().equals("APPROVED")){
             holder.status.setText(R.string.approved);
             holder.status.setTextColor(Color.parseColor("#4BA459"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#4BA459"));
             holder.garis.setBackgroundColor(Color.parseColor("#4BA459"));
-        } else if (holder.status.getText().toString().equals("cancelled")){
+        } else if (holder.status.getText().toString().equals("CANCELLED")){
             holder.status.setText(R.string.cancelled);
             holder.status.setTextColor(Color.parseColor("#D41111"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#D41111"));
             holder.garis.setBackgroundColor(Color.parseColor("#D41111"));
-        } else  if (holder.status.getText().toString().equals("verified")){
+        } else  if (holder.status.getText().toString().equals("VERIFIED")){
             holder.status.setText(R.string.verified);
             holder.status.setTextColor(Color.parseColor("#1A2CD1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));

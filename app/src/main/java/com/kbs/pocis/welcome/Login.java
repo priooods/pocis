@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,14 +24,15 @@ import retrofit2.Response;
 import retrofit2.Call;
 
 import com.kbs.pocis.api.APIClient;
-import com.kbs.pocis.service.SessionManager;
-import com.kbs.pocis.service.response.CallingDataLogin;
+import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.UserService;
+import com.kbs.pocis.service.CallingData;
 
 public class Login extends AppCompatActivity {
 
     TextInputEditText username, password;
     UserService callInterface;
+    UserData user;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -54,7 +54,9 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.input_password_login);
         Button btn_login = findViewById(R.id.btn_login);
 
-        callInterface = APIClient.getClient().create(UserService.class);
+        user = new UserData("toras", "toras");
+        callInterface = user.getService();
+        loginRetrofit2Api();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,55 +67,33 @@ public class Login extends AppCompatActivity {
                 }else {
                     Log.i("login","Success to Connect!");
                 }
-                CallingDataLogin data = new CallingDataLogin(username.getText().toString(), password.getText().toString());
-                loginRetrofit2Api(data);
+                user = new UserData(username.getText().toString(), password.getText().toString());
+                loginRetrofit2Api();
             }
         });
     }
 
-    public void loginRetrofit2Api(CallingDataLogin data) {
-        if (data == null) {
-            Log.i("login","Data is NULL!");
-            return;
-        }else{
-            Log.i("login","Data is not NULL!");
-        }
-        Call<CallingDataLogin> call1 = callInterface.getUserLogin(data.username,data.password);
+    public void loginRetrofit2Api() {
+        Call<CallingData> call1 = callInterface.getUserLogin(user.username,user.password);
         if (call1 == null) {
             Log.i("login","CallingData Post Method is Bad!");
         }
-        call1.enqueue(new Callback<CallingDataLogin>() {
+        call1.enqueue(new Callback<CallingData>() {
             @Override
-            public void onResponse(Call<CallingDataLogin> call, Response<CallingDataLogin> response) {
-                CallingDataLogin loginResponse = response.body();
-
-                Log.i("login", "loginResponse 1 --> " + loginResponse);
-                if (loginResponse != null) {
-                    Log.i("login", "Error          -->  " + loginResponse.error);
-                    Log.i("login", "Description       -->  " + loginResponse.desc);
-
-                    String responseCode = loginResponse.error;
-                    if (responseCode.equals("0")) {
-                        Log.i("login", "Token        -->  " + loginResponse.data.token);
-                        pesanSuccess("Welcome " + username.getText().toString());
-
-
-                        SessionManager.setLoggedIn(Login.this, loginResponse.data.token);
-
-                        Intent intent = new Intent(Login.this, HomePage.class);
-                        intent.putExtra("token", loginResponse);
-//                        intent.putExtra("username", username.getText().toString());
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        pesan(loginResponse.desc);
-                        Log.e("login","Failed : \n Error "+loginResponse.error+" : "+loginResponse.desc);
-                    }
+            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+                CallingData respone = (CallingData) response.body();
+                if (CallingData.TreatResponse(getContext(), "login", respone)) {
+                    pesan("Welcome "+user.username);
+                    user.setToken(respone.data.token);
+                    startActivity(new Intent(Login.this, HomePage.class).putExtra("user", user));
+                    finish();
+                } else {
+                    pesan(respone.desc);
+                    Log.e("login", "Failed : \n Error " + respone.error + " : " + respone.desc);
                 }
             }
-
             @Override
-            public void onFailure(Call<CallingDataLogin> call, Throwable t) {
+            public void onFailure(Call<CallingData> call, Throwable t) {
                 pesan("onFailure called login!");
                 Log.i("login_test", "onFailure called!");
             }
@@ -122,6 +102,9 @@ public class Login extends AppCompatActivity {
 
     private void pesan(String pesan){
         Toasty.error(this, pesan, Toast.LENGTH_SHORT, true).show();
+    }
+    private Context getContext() {
+        return this;
     }
 
     private void pesanSuccess(String pesan){

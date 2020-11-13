@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.ConnectionSpec;
-import okhttp3.OkHttpClient;
+//import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -24,9 +24,9 @@ public class APIClient {
                 tlsSpecs = Arrays.asList(ConnectionSpec.COMPATIBLE_TLS);
             }
 
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .connectionSpecs(tlsSpecs)
-                    .build();
+//            OkHttpClient client = new OkHttpClient.Builder()
+//                    .connectionSpecs(tlsSpecs)
+//                    .build();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
