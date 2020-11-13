@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CancelBooking extends Fragment {
-
+    //TODO INI CANCEL BOOKING MAU DIBUAT KEK MANA? KALO DAH LENGKAP, NNTI GUA LENGKAPIN BUAT SAFECONTROL SAMA TAMPILANNYA
     RecyclerView recyclerView;
     Adapter_CancelBooking adapter_cancelBooking;
     ImageView kanan, kiri,kanan_banget,kiri_banget;

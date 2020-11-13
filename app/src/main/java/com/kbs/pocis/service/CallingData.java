@@ -33,7 +33,8 @@ public class CallingData{
     }
     public class Booking {
         @SerializedName("id")
-        public String id;
+        public String booking_id;
+        @SerializedName("no_booking")
         public String no_booking;
         public String no_contract;
         public String vessel_name;

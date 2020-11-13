@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,13 +34,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AllBookings extends Fragment {
-
+    //TODO Saran, keknya perlu ditambahin tampilan loading (layar abu2 hitam dengan tulisan "loading..." misalnya) supaya selama load Booking user tau harus nunggu
     Adapter_AllBooking adapter_allBooking;
     RecyclerView recyclerView;
+    ConstraintLayout bar;
     TextView kanan, kiri,kanan_banget,kiri_banget, index_list_allboking, all_index_allboking;
     List<Model_Bookings> model_bookingsList;
     NestedScrollView nestdall;
     int page_current = 1,page_last = 2;
+    boolean Ready;
 
     @Nullable
     @Override
@@ -51,15 +54,16 @@ public class AllBookings extends Fragment {
         kiri = view.findViewById(R.id.kiri);
         kanan_banget = view.findViewById(R.id.kanan_banget);
         kiri_banget = view.findViewById(R.id.kiri_banget);
+        bar = view.findViewById(R.id.all_index_bar);
         index_list_allboking = view.findViewById(R.id.index_list_allboking);
         all_index_allboking = view.findViewById(R.id.all_index_allboking);
         nestdall = view.findViewById(R.id.nestdall);
-
+/*
         kiri.setText("<");
         kanan.setText(">");
         kanan_banget.setText(">l");
         kiri_banget.setText("l<");
-
+        kiri.setEnabled(false);*/
         GenerateList();
         ganti();
 
@@ -71,38 +75,38 @@ public class AllBookings extends Fragment {
         nestdall.fullScroll(View.FOCUS_UP);
         nestdall.smoothScrollTo(0,0);
     }
-
+    void ChangePage(int target_page){
+        if (Ready) {
+            page_current = target_page;
+            GenerateList();
+            Ready = false;
+        }else{
+            Log.w("all_booking","Aggresive Touch/Command!");
+        }
+    }
     void ganti(){
         kanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current+=1;
-                GenerateList();
-                ScrolltoTop();
+                ChangePage(page_current + 1);
             }
         });
         kanan_banget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current=page_last;
-                GenerateList();
-                ScrolltoTop();
+                ChangePage(page_last);
             }
         });
         kiri_banget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current=1;
-                GenerateList();
-                ScrolltoTop();
+                ChangePage(1);
             }
         });
         kiri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current-=1;
-                GenerateList();
-                ScrolltoTop();
+                ChangePage(page_current-1);
             }
         });
     }
@@ -123,6 +127,7 @@ public class AllBookings extends Fragment {
         call.enqueue(new Callback<CallingData>() {
             @Override
             public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+                Ready = true;
                 CallingData respone = (CallingData) response.body();
                 if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
                     List<Model_Bookings> list = new ArrayList<>();
@@ -130,31 +135,43 @@ public class AllBookings extends Fragment {
                         list.add(data.getModel());
                     }
                     model_bookingsList = list;
-
-                    int page_number = respone.data.current_page;
-                    //to
+                    page_current = respone.data.current_page;
                     page_last = respone.data.last_page;
-                    int page_now = respone.data.to_page - respone.data.from_page + 1;
-                    //  of
-                    int page_of = respone.data.total;
-                    index_list_allboking.setText(page_now + " of " + page_of);
-                    all_index_allboking.setText("Showing "+ page_number + " of " + page_last + " results");
+                    //region KONTROL VISIBILITAS KOMPONEN
+                    bar.setVisibility(View.VISIBLE);
+                    all_index_allboking.setVisibility(View.VISIBLE);
+                    ScrolltoTop();
+                    SetVisibility(kiri, page_current>1);
+                    SetVisibility(kiri_banget, page_current>2);
+                    SetVisibility(kanan, page_current<page_last);
+                    SetVisibility(kanan_banget, page_current+1<page_last);
+                    //endregion
+                    index_list_allboking.setText(page_current + " of " + page_last);
+                    all_index_allboking.setText("Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results");
 
                     adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_allBooking);
-                    Log.i("finish_list", "Finish Listing " + list.size());
+                    Log.i("finish_list", "In Page : "+page_current+" | Finish Listing " + list.size());
+                    return;
                 } else {
                     //pesan(respone.desc);
                     Log.e("all_boking", "Failed : \n Error " + respone.error + " : " + respone.desc);
                 }
+                bar.setVisibility(View.INVISIBLE);
+                all_index_allboking.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onFailure(Call<CallingData> call, Throwable t) {
                 //pesan("onFailure called login!");
+                Ready = true;
                 Log.e("all_boking", "on Failure called!"+ t);
             }
         });
     }
+    private void SetVisibility(android.widget.TextView comp, boolean condition){
+        comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);
+        comp.setEnabled(condition);
+    };
 }
