@@ -87,7 +87,7 @@ public class Login extends AppCompatActivity {
                     pesanSuccess("Welcome "+user.username);
                     user.setToken(respone.data.token);
                     startActivity(new Intent(Login.this, HomePage.class).putExtra("user", user));
-                    finish();
+                    Login.this.finish();
                 } else {
                     pesan(respone.desc);
                     Log.e("login", "Failed : \n Error " + respone.error + " : " + respone.desc);

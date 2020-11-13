@@ -97,7 +97,7 @@
                         <LinearLayout
                             app:layout_constraintTop_toTopOf="parent"
                             android:layout_marginTop="8dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,9 @@
                                 android:layout_height="wrap_content"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_width="140dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/booking_contractNo"
                                 android:textColor="@color/colorTextbooking"
@@ -125,7 +127,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +145,9 @@
                                 android:text="Customer Name"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_width="140dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
                                 android:text="PT. KRAKATAU POSCO"
@@ -157,7 +161,7 @@
 
                         <LinearLayout
                             android:layout_marginTop="8dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             app:layout_constraintTop_toBottomOf="@id/ln1"
@@ -173,7 +177,9 @@
                                 android:layout_height="wrap_content"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_width="140dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/booking_vesselName"
                                 android:textColor="@color/colorTextbooking"
@@ -203,7 +209,8 @@
                                 android:text="Customer Type"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:ellipsize="end"
+                                android:layout_width="130dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
                                 android:text="CNEE"
@@ -233,7 +240,8 @@
                                 android:layout_height="wrap_content"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:ellipsize="end"
+                                android:layout_width="140dp"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/booking_flagvessel"
                                 android:textColor="@color/colorTextbooking"
@@ -262,7 +270,9 @@
                                 android:text="Booking Date"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_width="145dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
                                 android:text="2020-04-01 13:02:43"
@@ -320,7 +330,9 @@
                                 android:text="Booking Time"/>
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_width="145dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
                                 android:text="2020-03-27 08:00:00"

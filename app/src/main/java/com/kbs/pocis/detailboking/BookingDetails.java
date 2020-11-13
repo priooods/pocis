@@ -24,7 +24,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 
-
 public class BookingDetails extends AppCompatActivity {
 
     String from, status, nomer;
@@ -97,14 +96,13 @@ public class BookingDetails extends AppCompatActivity {
                 ,cancel_booking, rejectTarif, approveTarif, this);
     }
 
-
     //Status booking dari setiap list nya disini setting nya
     private static void KondisiStatus (String statused, TextView textView, Activity activity){
-        if (statused.equals("approved")){
+        if (statused.equals("APPROVED")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
-        } else if (statused.equals("cancelled")){
+        } else if (statused.equals("CANCELLED")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorRed));
-        } else if (statused.equals("booking")){
+        } else if (statused.equals("BOOKING")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
         } else {
             textView.setTextColor(activity.getResources().getColor(R.color.colorVerified));
@@ -114,7 +112,7 @@ public class BookingDetails extends AppCompatActivity {
     //Ini untuk kondisi button pada saat status yang berbeda
     private static void KondisiButtonBawah(String statused, RelativeLayout layout, RelativeLayout layoutverif,
                                            Button cancel, Button reject, Button approve, final Activity context){
-        if (statused.equals("booking")){
+        if (statused.equals("BOOKING")){
             layout.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.VISIBLE);
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +121,7 @@ public class BookingDetails extends AppCompatActivity {
                     ShowDialogCancell(context);
                 }
             });
-        } else if (statused.equals("verified")){
+        } else if (statused.equals("VERIFIED")){
             layout.setVisibility(View.VISIBLE);
             reject.setVisibility(View.VISIBLE);
             approve.setVisibility(View.VISIBLE);

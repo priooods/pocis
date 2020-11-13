@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_project"
+    app:startDestination="@id/projects_Approved">
+
+    <fragment
+        android:id="@+id/projects_Approved"
+        android:name="com.kbs.pocis.myproject.Projects_Approved"
+        android:label="fragment_projects__approved"
+        tools:layout="@layout/fragment_projects_approved" >
+        <action
+            android:id="@+id/action_projects_Approved_to_projects_Tariff_Info"
+            app:destination="@id/projects_Tariff_Info" />
+        <action
+            android:id="@+id/action_projects_Approved_to_projectsOpen"
+            app:destination="@id/projectsOpen" />
+    </fragment>
+    <fragment
+        android:id="@+id/projectsOpen"
+        android:name="com.kbs.pocis.myproject.Projects_Open"
+        android:label="fragment_projects_open"
+        tools:layout="@layout/fragment_projects_open" >
+        <action
+            android:id="@+id/action_projectsOpen_to_projects_Approved"
+            app:destination="@id/projects_Approved" />
+    </fragment>
+    <fragment
+        android:id="@+id/projects_Tariff_Info"
+        android:name="com.kbs.pocis.myproject.Projects_Tariff_Info"
+        android:label="fragment_projects_tariff_info"
+        tools:layout="@layout/fragment_projects_tariff_info" >
+        <action
+            android:id="@+id/action_projects_Tariff_Info_to_projects_Bpaj"
+            app:destination="@id/projects_Bpaj" />
+        <action
+            android:id="@+id/action_projects_Tariff_Info_to_projects_Approved"
+            app:destination="@id/projects_Approved" />
+    </fragment>
+    <fragment
+        android:id="@+id/projects_Bpaj"
+        android:name="com.kbs.pocis.myproject.Projects_Bpaj"
+        android:label="fragment_projects_bpaj"
+        tools:layout="@layout/fragment_projects_bpaj" >
+        <action
+            android:id="@+id/action_projects_Bpaj_to_projects_Tariff_Info"
+            app:destination="@id/projects_Tariff_Info" />
+    </fragment>
+</navigation>

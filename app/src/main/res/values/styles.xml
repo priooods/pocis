@@ -28,5 +28,16 @@
         <item name="android:windowMinWidthMinor">97%</item>
     </style>
 
+    <style name="MyBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="iconSize">20dp</item>
+        <item name="itemTextAppearanceActive">@style/MyBottomNavigationView.TextAppearance</item>
+        <item name="itemTextAppearanceInactive">@style/MyBottomNavigationView.TextAppearance</item>
+    </style>
+
+    <style name="MyBottomNavigationView.TextAppearance" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">8dp</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+    </style>
+
 
 </resources>

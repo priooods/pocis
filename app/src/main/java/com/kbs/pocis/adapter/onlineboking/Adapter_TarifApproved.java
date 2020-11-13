@@ -106,10 +106,10 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.reject:
-                                ShowDialogApprove(context);
+                                ShowDialogReject(context);
                                 break;
                             case  R.id.approve:
-                                ShowDialogReject(context);
+                                ShowDialogApprove(context);
                                 break;
                         }
                         return false;

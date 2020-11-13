@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.kbs.pocis.activity.CreateBooking;
+import com.kbs.pocis.activity.MyProject_Dasar;
 import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.item.Popup_Profile;
 import com.kbs.pocis.onlineboking.OnlineBooking;
@@ -25,7 +26,7 @@ import com.kbs.pocis.welcome.Login;
 
 public class HomeMenu extends Fragment {
 
-    ImageView menu_online_booking, menu_create_booking, iconprofile;
+    ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,11 +41,6 @@ public class HomeMenu extends Fragment {
             public void onClick(View v) {
                 UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
                 startActivity(new Intent(getActivity(), OnlineBook.class).putExtra("user",user));
-//                Fragment fragment = new OnlineBooking();
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-//                fragmentTransaction.commit();
             }
         });
 
@@ -54,6 +50,15 @@ public class HomeMenu extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CreateBooking.class);
                 startActivity(intent);
+            }
+        });
+
+        menu_myproject = view.findViewById(R.id.menu_my_project);
+        menu_myproject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                startActivity(new Intent(getActivity(), MyProject_Dasar.class).putExtra("user",user));
             }
         });
 

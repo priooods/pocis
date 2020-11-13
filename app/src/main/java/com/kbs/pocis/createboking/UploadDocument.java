@@ -182,20 +182,12 @@ public class UploadDocument extends Fragment {
                     ArrayList<Uri> docPaths = new ArrayList<>();
                     docPaths.addAll(data.<Uri>getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
 
-//                    ArrayList<String> liis = new ArrayList<>();
                     for (Uri pats : docPaths){
-
                         FileUtils.getFile(getContext(), pats);
                         File files = FileUtils.getFile(getContext(), pats);
 
-                        for (Model_UploadDocument document : model_uploadDocuments){
-                            document.setUsername(files.getName());
-                            document.setSize(String.valueOf(files.length() / 1024));
-                            model_uploadDocuments.add(document);
-                        }
-
-                        Log.i("document upload", "-->  " + model_uploadDocuments);
                         Log.i("Size document", "--> " + files.length() / 1024);
+
 //                        liis.add(files.getName());
 
 

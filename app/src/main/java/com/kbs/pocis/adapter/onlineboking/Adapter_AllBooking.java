@@ -65,11 +65,16 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             holder.status.setTextColor(Color.parseColor("#1A2CD1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));
             holder.garis.setBackgroundColor(Color.parseColor("#1A2CD1"));
-        } else {
+        } else if (holder.status.getText().toString().equals("BOOKING")) {
             holder.status.setText(R.string.booking);
             holder.status.setTextColor(Color.parseColor("#00a1d1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#00a1d1"));
             holder.garis.setBackgroundColor(Color.parseColor("#00a1d1"));
+        } else {
+            holder.status.setText(model_bookings.get(position).getStatusBook());
+            holder.status.setTextColor(Color.parseColor("#1A2CD1"));
+            holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));
+            holder.garis.setBackgroundColor(Color.parseColor("#1A2CD1"));
         }
 
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {

@@ -40,22 +40,7 @@ public class CancelBooking extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cancel_booking,container,false);
 
         recyclerView = view.findViewById(R.id.recycle_Cancelbooking);
-//        model_bookingsList = new ArrayList<>();
-//        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00087", "booking",
-//                "BG. LKH 3883","CNEE","PT. KRAKATAU POSCO","Yes",
-//                "Yes","2020-04-01 13:02:43","2020-03-27 08:00:00"));
-//        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00088", "booking",
-//                "BG. LKH 3883","CNEE","PT. KRAKATAU POSCO","Yes",
-//                "Yes","2020-04-01 13:02:43","2020-03-27 08:00:00"));
-//        model_bookingsList.add(new Model_Bookings("PS.00/172.01/PMS/XI/2014", "K0001-2020-00089", "booking",
-//                "BG. LKH 3883","CNEE","PT. KRAKATAU POSCO","Yes",
-//                "Yes","2020-04-01 13:02:43","2020-03-27 08:00:00"));
-//
         GenerateList();
-//        adapter_cancelBooking = new Adapter_CancelBooking(getContext(), model_bookingsList);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter_cancelBooking);
 
         return view;
     }

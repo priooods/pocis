@@ -47,6 +47,7 @@ public class Welcome_Screen extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Welcome_Screen.this, Login.class);
                 startActivity(intent);
+                Welcome_Screen.this.finish();
             }
         });
         //Ini untuk nampilin viewpager di screen welcome

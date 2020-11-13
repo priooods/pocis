@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/a"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentLeft="true"
+            android:layout_width="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_back"
+            android:id="@+id/btn_back_my_project"/>
+
+        <LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Project"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerHorizontal="true"
+                android:textSize="17dp"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="my projects"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorGrey"
+                android:textSize="9dp"/>
+
+        </LinearLayout>
+
+        <ImageView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="15dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_search"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btn_search_myproject"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottombar_myprojects"
+        android:layout_below="@id/a"
+        android:id="@+id/frameMyProject"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:theme="@style/MyBottomNavigationView"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="@color/style_bottom_nav"
+        app:labelVisibilityMode="labeled"
+        app:itemTextColor="@color/style_bottom_nav"
+        app:menu="@menu/menu_myproject"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/bottombar_myprojects"/>
+
+</RelativeLayout>

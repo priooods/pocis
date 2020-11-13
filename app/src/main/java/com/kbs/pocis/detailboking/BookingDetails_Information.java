@@ -16,8 +16,11 @@ import com.kbs.pocis.R;
 public class BookingDetails_Information extends Fragment {
 
     String nocontract, fgvesel, fgcontract, cName, vslName, ctype, bokDate, bokTime;
+    //Box Booking Information
     TextView  nomerContract, flagVessel, customerName,
             vesselName, customerType, bookingDate, bookingTime, flagContract;
+    //Box Schedule Information
+    TextView detail_info_schedule_booking_vesselName;
 
     @Nullable
     @Override
@@ -32,6 +35,7 @@ public class BookingDetails_Information extends Fragment {
         bookingDate = view.findViewById(R.id.detail_info_booking_bookingDate);
         bookingTime = view.findViewById(R.id.detail_info_booking_bookingTime);
         flagContract = view.findViewById(R.id.detail_info_booking_flagContract);
+        detail_info_schedule_booking_vesselName = view.findViewById(R.id.detail_info_schedule_booking_vesselName);
 
         //Getting Detail Data Customer from all Adapter recyclerview
         Intent intent = getActivity().getIntent();
@@ -45,6 +49,7 @@ public class BookingDetails_Information extends Fragment {
         bokTime = intent.getStringExtra("time");
 
         BookingInformation();
+        ScheduleInformation();
 
         return view;
     }
@@ -59,5 +64,9 @@ public class BookingDetails_Information extends Fragment {
         bookingDate.setText(bokDate);
         bookingTime.setText(bokTime);
         flagContract.setText(fgcontract);
+    }
+
+    void ScheduleInformation(){
+        detail_info_schedule_booking_vesselName.setText(vslName);
     }
 }

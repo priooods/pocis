@@ -57,7 +57,7 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
         holder.bookingTime.setText(model_bookings.get(position).getBookingTime());
         holder.status.setText(model_bookings.get(position).getStatusBook());
 
-        if (holder.status.getText().toString().equals("booking")){
+        if (holder.status.getText().toString().equals("BOOKING")){
             holder.status.setTextColor(Color.parseColor("#00a1d1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#00a1d1"));
             holder.garis.setBackgroundColor(Color.parseColor("#00a1d1"));
