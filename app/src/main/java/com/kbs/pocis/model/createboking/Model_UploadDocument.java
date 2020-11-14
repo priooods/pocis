@@ -1,26 +1,29 @@
 package com.kbs.pocis.model.createboking;
 
 import android.net.Uri;
+import android.util.Log;
 
 public class Model_UploadDocument {
 
     Uri uri;
-    String username, size;
+    String username;
+    int size;
 
     public Model_UploadDocument() {
     }
 
-    public Model_UploadDocument(Uri uri, String username, String size) {
+    public Model_UploadDocument(Uri uri, String username, int size) {
         this.uri = uri;
+        Log.i("file","Load file model : "+username);
         this.username = username;
         this.size = size;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 

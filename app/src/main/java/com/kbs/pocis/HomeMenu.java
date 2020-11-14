@@ -1,18 +1,22 @@
 package com.kbs.pocis;
 
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.MyProject_Dasar;
@@ -72,4 +76,18 @@ public class HomeMenu extends Fragment {
 
         return view;
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackTime + 2000 > System.currentTimeMillis()){
+//            backToast.cancel();
+//            super.onBackPressed();
+//        }
+//        else{
+//            backToast = Toast.makeText(getBaseContext(), "Press once again to exit",
+//                    Toast.LENGTH_SHORT);
+//            backToast.show();
+//            doubleBackTime = System.currentTimeMillis();
+//        }
+//    }
 }

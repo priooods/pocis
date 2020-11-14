@@ -89,7 +89,6 @@ public class UploadDocument extends Fragment {
         addfile_two = view.findViewById(R.id.document_upload_btnUploadtwo);
         coba = view.findViewById(R.id.xx);
 
-
         ButtonFunction();
         line_one.setVisibility(View.GONE);
         line_two.setVisibility(View.VISIBLE);
@@ -143,14 +142,15 @@ public class UploadDocument extends Fragment {
         @NonNull
         @Override
         public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.model_all_booking, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.model_list_pdf, parent, false);
             return new vHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.namefile.setText(modelUploadDocuments.get(position).getUsername());
-            holder.sizefile.setText(modelUploadDocuments.get(position).getSize());
+            holder.nama.setText(modelUploadDocuments.get(position).getUsername());
+            holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()));
+
         }
 
         @Override
@@ -160,12 +160,12 @@ public class UploadDocument extends Fragment {
 
         public class vHolder extends RecyclerView.ViewHolder{
 
-            TextView namefile, deletefile, sizefile;
+            TextView nama, deletefile, sizefile;
 
             public vHolder(@NonNull View itemView) {
                 super(itemView);
 
-                namefile = itemView.findViewById(R.id.model_uploadpdf_name);
+                nama = itemView.findViewById(R.id.model_uploadpdf_name);
                 deletefile = itemView.findViewById(R.id.delete_files);
                 sizefile = itemView.findViewById(R.id.model_uploadpdf_size);
             }
@@ -177,29 +177,31 @@ public class UploadDocument extends Fragment {
         switch (requestCode){
             case FilePickerConst.REQUEST_CODE_DOC:
                 if(resultCode== Activity.RESULT_OK && data!=null)
-                {
+                 {
 
                     ArrayList<Uri> docPaths = new ArrayList<>();
-                    docPaths.addAll(data.<Uri>getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
 
+                    docPaths.addAll(data.<Uri>getParcelableArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
+                    model_uploadDocuments = new ArrayList<>(docPaths.size());
                     for (Uri pats : docPaths){
                         FileUtils.getFile(getContext(), pats);
                         File files = FileUtils.getFile(getContext(), pats);
+                        model_uploadDocuments.add(new Model_UploadDocument(pats,files.getName(), (int)files.length() / 1024));
 
+                        Log.i("Name", "onActivityResult: " + pats);
                         Log.i("Size document", "--> " + files.length() / 1024);
 
-//                        liis.add(files.getName());
 
-
-//                        recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
-//                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-//                        listPdf.setLayoutManager(layoutManager);
-//                        listPdf.setAdapter(recyclerPDF);
+                        recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        listPdf.setLayoutManager(layoutManager);
+                        listPdf.setAdapter(recyclerPDF);
 
 //                        ArrayAdapter<String> arrayAdapter =
 //                                new ArrayAdapter<String>(getContext(),R.layout.model_list_pdf, R.id.model_uploadpdf_name, liis);
 //                        listPdf.setAdapter(arrayAdapter);
                     }
+
                 }
                 break;
         }
@@ -323,8 +325,6 @@ public class UploadDocument extends Fragment {
          * @see #getFile(Context, Uri)
          */
         public static String getPath(final Context context, final Uri uri) {
-
-
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
             // DocumentProvider

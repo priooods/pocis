@@ -58,12 +58,7 @@ public class AllBookings extends Fragment {
         index_list_allboking = view.findViewById(R.id.index_list_allboking);
         all_index_allboking = view.findViewById(R.id.all_index_allboking);
         nestdall = view.findViewById(R.id.nestdall);
-/*
-        kiri.setText("<");
-        kanan.setText(">");
-        kanan_banget.setText(">l");
-        kiri_banget.setText("l<");
-        kiri.setEnabled(false);*/
+
         GenerateList();
         ganti();
 

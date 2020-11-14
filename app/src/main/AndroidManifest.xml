@@ -27,6 +27,7 @@
         <activity android:name=".detailboking.BookingDetails"/>
         <activity android:name=".activity.OnlineBook"/>
         <activity android:name=".activity.MyProject_Dasar"/>
+        <service android:name=".api.OnClearExit" android:stopWithTask="false"/>
     </application>
 
 </manifest>

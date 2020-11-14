@@ -12,24 +12,20 @@ public class SessionManager {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    /**
-     * Set the Login Status
-     * @param context
-     * @param loggedIn
-     */
-    public static void setLoggedIn(Context context, String loggedIn) {
+    public static void setLoggedIn(Context context, UserData user) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.putString(LOGGED_IN_PREF, loggedIn);
+        editor.putString(LOGGED_IN_PREF, user.username);
+        editor.putLong(LOGGED_IN_PREF, user.getTime());
+        editor.putString(LOGGED_IN_PREF, user.getToken());
         editor.apply();
     }
 
-    /**
-     * Get the Login Status
-     * @param context
-     * @return boolean: login status
-     */
-    public static String getLoggedStatus(Context context) {
-        return getPreferences(context).getString(LOGGED_IN_PREF, null);
+    public static UserData getLoggedStatus(Context context,UserData userData) {
+        String name = getPreferences(context).getString(LOGGED_IN_PREF,null);
+        long time = getPreferences(context).getLong(LOGGED_IN_PREF,0);
+        String token = getPreferences(context).getString(LOGGED_IN_PREF,null);
+
+        return new UserData(name,token,time);
     }
 
 }
