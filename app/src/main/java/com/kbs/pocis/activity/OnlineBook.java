@@ -16,13 +16,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.api.ActivityClass;
 import com.kbs.pocis.onlineboking.AllBookings;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.onlineboking.TarifApprove;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.UserService;
 
-public class OnlineBook extends AppCompatActivity {
+public class OnlineBook extends ActivityClass {
 
     LinearLayout tarif_approve, online_booking_onlinebooking;
     TextView id_booking, id_tarif;
@@ -31,6 +32,7 @@ public class OnlineBook extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.online_book_dasar);
 
@@ -86,6 +88,7 @@ public class OnlineBook extends AppCompatActivity {
         create_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ActivityClass.noAFK = false;
                 Intent intent = new Intent(OnlineBook.this, CreateBooking.class);
                 startActivity(intent);
             }
@@ -100,6 +103,21 @@ public class OnlineBook extends AppCompatActivity {
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
 
+    @Override
+    public void onBackPressed() {
+//        if (doubleBackTime + 2000 > System.currentTimeMillis()){
+//            backToast.cancel();
+//            super.onBackPressed();
+//        }
+//        else{
+//            backToast = Toast.makeText(getBaseContext(), "Press once again to exit",
+//                    Toast.LENGTH_SHORT);
+//            backToast.show();
+//            doubleBackTime = System.currentTimeMillis();
+//        }
+        ActivityClass.noAFK = false;
+        super.onBackPressed();
+    }
 
 
 }

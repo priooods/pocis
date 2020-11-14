@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.adapter.ViewpagerDefault;
+import com.kbs.pocis.api.ActivityClass;
 import com.kbs.pocis.service.UserData;
 
 public class OnlineBooking extends Fragment {
@@ -57,6 +58,7 @@ public class OnlineBooking extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+                getActivity().finish();
             }
         });
 
@@ -70,7 +72,6 @@ public class OnlineBooking extends Fragment {
 
         return view;
     }
-
 
     //Ini adalah function untuk Menampilkan Dialog Searching yah
     public void ShowDialog (Context context){
@@ -104,4 +105,5 @@ public class OnlineBooking extends Fragment {
         });
         dialogFragment.show();
     }
+
 }

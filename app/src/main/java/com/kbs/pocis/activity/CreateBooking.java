@@ -1,6 +1,7 @@
 package com.kbs.pocis.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,10 +22,11 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.kbs.pocis.api.ActivityClass;
 import com.kbs.pocis.createboking.CustomerAddForm;
 import com.kbs.pocis.R;
 
-public class CreateBooking extends AppCompatActivity {
+public class CreateBooking extends ActivityClass {
 
     ImageView icon_back;
     FragmentContainerView frameCreate;
@@ -32,6 +34,7 @@ public class CreateBooking extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_booking);
 

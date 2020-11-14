@@ -1,5 +1,6 @@
 package com.kbs.pocis.activity;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
@@ -28,6 +29,7 @@ public class HomePage extends ActivityClass {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
@@ -39,9 +41,7 @@ public class HomePage extends ActivityClass {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
-
         FragmentList(new HomeMenu());
-
     }
 
 //    @Override
@@ -59,7 +59,6 @@ public class HomePage extends ActivityClass {
 //    }
 
     public void FragmentList(Fragment fragment){
-        noAFK = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framehomepage, fragment,"framentTujuan")
