@@ -23,8 +23,11 @@ import android.widget.Toast;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
+import com.kbs.pocis.model.createboking.Model_ShowTemplate;
+import com.kbs.pocis.service.BookingData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -42,22 +45,68 @@ public class SelectTemplate extends Fragment {
 
     RecyclerView recyclerView_FeePas;
     ListingFeePas listingFeePas;
-    List<Model_SelectTemplate> model_selectTemplates;
+    ArrayList<Model_ShowTemplate> model = new ArrayList<>();
     ArrayList<String> idFeePass = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_template, container, false);
+        recyclerView_FeePas = view.findViewById(R.id.recycle_selecttemplate_f003);
 
-        Bundle bundle = getArguments();
-        mdl = (ArrayList<String>) bundle.getSerializable("showtemplate");
-        for (int i=0; i<mdl.size(); i++){
-            f003 = mdl.contains("f003");
-            g004 = mdl.contains("g004");
-            j043 = mdl.contains("j043");
-            t008 = mdl.contains("t008");
+        model.add(new Model_ShowTemplate("f003", "Fee Pas Masuk Kendaraan", R.color.colorGrey,
+                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+                    new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"),
+                    new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"),
+                    new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"),
+                    new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"),
+                    new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat")
+                ))
+        ));
+        model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey,
+                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+                        new Model_SelectTemplate("g004-g001","Pas Tes")
+                ))
+        ));
+        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey,
+                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+                        new Model_SelectTemplate("j043-j042","Pas Tes 0"),
+                        new Model_SelectTemplate("j045-j048","Pas Tes1 1")
+                ))
+        ));
+        model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey,
+                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+                        new Model_SelectTemplate("t043-j042","Pas Tes 0"),
+                        new Model_SelectTemplate("t045-j048","Pas Tes1 1"),
+                        new Model_SelectTemplate("t045-j048","Pas Tes1 2")
+                ))
+        ));
+        listingFeePas = new ListingFeePas(getContext(), model, isSelectedAll);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        recyclerView_FeePas.setLayoutManager(layoutManager);
+        recyclerView_FeePas.setAdapter(listingFeePas);
+        int i = 0;
+        if (BookingData.isExist()){
+            // Load Data
+            for(BookingData.BookTemplate temp : BookingData.i.template){
+                for(;i<model.size();i++){
+                    if (temp.code == model.get(i).getId()){
+                        break;
+                    }else{
+                        model.remove(i);
+                        i--;
+                    }
+                }
+            }
+            for(;i<model.size();i++) {
+                model.remove(i);
+                i--;
+            }
+        }else{
+            // Error Back to CustomerAddForm
         }
+        //Update
+        //BookingData.BookTemplate = setBookTemplate(models);
 
         //View card Template
         card_f003 = view.findViewById(R.id.card_f003);
@@ -115,10 +164,8 @@ public class SelectTemplate extends Fragment {
     }
 
     public void GoToUpload(){
-        Bundle arg = new Bundle();
+        BookingData.i.SetBookTemplate(model);
         Fragment fragment = new UploadDocument();
-        arg.putSerializable("listtemplate", idFeePass);
-        fragment.setArguments(arg);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
@@ -171,17 +218,12 @@ public class SelectTemplate extends Fragment {
 
     //Fungsi untuk menampilkan List CheckBox Fee Pass Masuk
     public void TemplateFeePass(View view){
-        recyclerView_FeePas = view.findViewById(R.id.recycle_selecttemplate_f003);
-        model_selectTemplates = new ArrayList<>();
-        model_selectTemplates.add(new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"));
-        model_selectTemplates.add(new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"));
-        model_selectTemplates.add(new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"));
-        model_selectTemplates.add(new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"));
-        //model_selectTemplates.add(new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat"));
-        listingFeePas = new ListingFeePas(getContext(), model_selectTemplates, isSelectedAll);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        recyclerView_FeePas.setLayoutManager(layoutManager);
-        recyclerView_FeePas.setAdapter(listingFeePas);
+//        model_selectTemplates = new ArrayList<>();
+//        model_selectTemplates.add(new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"));
+//        model_selectTemplates.add(new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"));
+//        model_selectTemplates.add(new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"));
+//        model_selectTemplates.add(new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"));
+//        model_selectTemplates.add(new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat"));
 
     }
 
@@ -190,11 +232,11 @@ public class SelectTemplate extends Fragment {
     public static class ListingFeePas extends RecyclerView.Adapter<ListingFeePas.vHolder>{
 
         Context context;
-        List<Model_SelectTemplate> model_selectTemplates;
+        List<Model_ShowTemplate> model_selectTemplates;
         ArrayList<Model_SelectTemplate> checkbokListClick = new ArrayList<>();
         boolean isSelectedAll;
 
-        public ListingFeePas(Context context, List<Model_SelectTemplate> model_selectTemplates, boolean isSelectedAll) {
+        public ListingFeePas(Context context, List<Model_ShowTemplate> model_selectTemplates, boolean isSelectedAll) {
             this.context = context;
             this.model_selectTemplates = model_selectTemplates;
             this.isSelectedAll = isSelectedAll;
@@ -211,16 +253,6 @@ public class SelectTemplate extends Fragment {
         public void onBindViewHolder(@NonNull final vHolder holder, final int position) {
             holder.name.setText(model_selectTemplates.get(position).getName());
             holder.id.setText(model_selectTemplates.get(position).getId());
-            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked){
-                        checkbokListClick.add(model_selectTemplates.get(position));
-                    } else {
-                        checkbokListClick.remove(model_selectTemplates.get(position));
-                    }
-                }
-            });
 
             if (!isSelectedAll){
                 holder.checkBox.setChecked(false);

@@ -3,9 +3,6 @@ package com.kbs.pocis.model.createboking;
 public class Model_SelectTemplate {
     String id, name;
 
-    public Model_SelectTemplate() {
-    }
-
     public Model_SelectTemplate(String id, String name) {
         this.id = id;
         this.name = name;

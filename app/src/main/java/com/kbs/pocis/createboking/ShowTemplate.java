@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
+import com.kbs.pocis.service.BookingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,21 @@ public class ShowTemplate extends Fragment {
         model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey));
         model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey));
         model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey));
+
+        int i = 0;
+        if (BookingData.isExist()){
+            // Load Data
+            for(BookingData.BookTemplate temp : BookingData.i.template){
+                for(;i<model.size();i++){
+                    if (temp.code == model.get(i).getId()){
+                        model.get(i).setCheck(true);
+                    }
+                }
+            }
+        }else{
+            // Error Back to CustomerAddForm
+        }
+
         adapter = new ListTemplate(getContext(), model);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -77,16 +93,20 @@ public class ShowTemplate extends Fragment {
     }
 
     void GoNextPage(){
+        /*
         for (Model_ShowTemplate models : adapter.checkbokListClick){
             mdl.add(models.getId());
             mdl.add(models.getName());
         }
-        if (adapter.checkbokListClick.size() > 0){
-            Log.i("TAG", "lis: " + mdl);
-            Bundle arg = new Bundle();
-            arg.putSerializable("showtemplate",mdl);
+         */
+        if (getOneIsChecked()){//(adapter.checkbokListClick.size() > 0){
+            //BookingData.i.Template = BookingData.getTemplate(models);
+            BookingData.i.SetBookTemplate(model);
+            Log.i("TAG", "lis: " + model);
+            //Bundle arg = new Bundle();
+            //arg.putSerializable("showtemplate",mdl);
             Fragment fragment = new SelectTemplate();
-            fragment.setArguments(arg);
+            //fragment.setArguments(arg);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
@@ -96,13 +116,19 @@ public class ShowTemplate extends Fragment {
         }
 
     }
+    boolean getOneIsChecked() {
+        for(Model_ShowTemplate m : model) {
+            if (m.getCheck())
+                return true;
+        }
+        return false;
+    }
 
     public static class ListTemplate extends RecyclerView.Adapter<ListTemplate.Vholder>{
 
         Context context;
         List<Model_ShowTemplate> model;
-        ArrayList<Model_ShowTemplate> checkbokListClick = new ArrayList<>();
-        boolean isCheck;
+//        ArrayList<Model_ShowTemplate> checkbokListClick = new ArrayList<>();
 
         public ListTemplate(Context context, List<Model_ShowTemplate> model) {
             this.context = context;
@@ -121,32 +147,23 @@ public class ShowTemplate extends Fragment {
             holder.img.setBackgroundResource(model.get(position).getImg());
             holder.id.setText(model.get(position).getId());
             holder.name.setText(model.get(position).getName());
+            holder.status.setChecked(model.get(position).getCheck());
 
-            holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked){
-                        checkbokListClick.add(model.get(position));
-                        Cheked( true);
-                    } else {
-                        checkbokListClick.remove(model.get(position));
-                        Cheked(false);
-                    }
-                }
-            });
+//            holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if (isChecked){
+////                        checkbokListClick.add(model.get(position));
+//                    } else {
+//                        checkbokListClick.remove(model.get(position));
+//                    }
+//                }
+//            });
         }
 
         @Override
         public int getItemCount() {
             return model.size();
-        }
-
-        public boolean getChecked() {
-            return isCheck;
-        }
-
-        public void Cheked(boolean checked) {
-            isCheck = checked;
         }
 
         public static class Vholder extends RecyclerView.ViewHolder {

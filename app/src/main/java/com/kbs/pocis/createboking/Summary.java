@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.activity.HomePage;
 import com.kbs.pocis.service.UserData;
+
+import static android.content.ContentValues.TAG;
 
 public class Summary extends Fragment {
 
@@ -36,16 +39,17 @@ public class Summary extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
 
-        Bundle bundle = new Bundle();
         cus = getArguments().getString("customertype");
         rel = getArguments().getString("contract");
-        con = getArguments().getString("relatedvessel");
+        con = getArguments().getString("relatedvesel");
+        Log.i(TAG, "onCreateView: " + cus);
+
         ves = getArguments().getString("vesel");
         des = getArguments().getString("discharge");
         por = getArguments().getString("port");
         ari = getArguments().getString("estimate");
         dep = getArguments().getString("departure");
-
+        load = getArguments().getString("shipcall");
 
         next = view.findViewById(R.id.summary_nextBtn);
         prev = view.findViewById(R.id.summary_prevBtn);
@@ -53,6 +57,7 @@ public class Summary extends Fragment {
         customer_type = view.findViewById(R.id.veselinfo_customer_type);
         related = view.findViewById(R.id.veselinfo_related_vesel);
         contract = view.findViewById(R.id.veselinfo_contract);
+
         veselname = view.findViewById(R.id.veselinfo_veselname);
         discharge = view.findViewById(R.id.veselinfo_loading_discharge);
         port = view.findViewById(R.id.veselinfo_port);
@@ -70,6 +75,12 @@ public class Summary extends Fragment {
         customer_type.setText(cus);
         related.setText(rel);
         contract.setText(con);
+        discharge.setText(load + "/" + des);
+        veselname.setText(ves);
+        port.setText(por);
+        arival.setText(ari);
+        departure.setText(dep);
+        loading.setText(load);
     }
 
     public void ButtonFunction(){

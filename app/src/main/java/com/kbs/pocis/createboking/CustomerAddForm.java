@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,9 @@ import android.widget.Toast;
 import com.kbs.pocis.R;
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
+import com.kbs.pocis.service.BookingData;
+
+import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
 
 public class CustomerAddForm extends Fragment {
 
@@ -42,6 +46,8 @@ public class CustomerAddForm extends Fragment {
     CardView card_vesel, card_contract;
     CheckBox yes_vesel, yes_contract, no_vesel, no_contract;
     Button nextButton;
+
+    String value_customer, value_related, value_contrac;
 
     private static int PRIVATE_CODE = 1;
 
@@ -86,6 +92,13 @@ public class CustomerAddForm extends Fragment {
         CheckBoxesContract();
 
         //Next Page
+        if (BookingData.isExist()){
+            Log.i("li","BookingData Exists at the First!");
+            BookingData data = BookingData.i;
+            value_customerType.setText(data.customerType);
+            value_contract.setText(data.contract);
+            value_relatedVesel.setText(data.relatedVesel);
+        }
         NextPage();
 
         //Permission
@@ -188,13 +201,19 @@ public class CustomerAddForm extends Fragment {
             @Override
             public void onClick(View v) {
                 //Kirim data pada form ini
+                /*
                 Bundle bundle = new Bundle();
-                bundle.putString(getString(R.string.relatedvessel), value_relatedVesel.getText().toString());
-                bundle.putString(getString(R.string.contract), value_contract.getText().toString());
-                bundle.putString(getString(R.string.customertype), value_customerType.getText().toString());
+                bundle.putString("relatedvesel", value_relatedVesel.getText().toString());
+                bundle.putString("contract", value_contract.getText().toString());
+                bundle.putString("customertype", value_customerType.getText().toString());
 
+
+                fragment.setArguments(bundle);*/
+                Log.i("li", "onClick: "+ value_relatedVesel.getText().toString());
+                BookingData.i.setCustumer(
+                        value_customer, value_related, value_contrac
+                );
                 Fragment fragment = new ShowTemplate();
-                fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -203,7 +222,6 @@ public class CustomerAddForm extends Fragment {
             }
         });
     }
-
 
     //TODO Permission Storage Di CustommerAddFrom
     public void Permision(){
