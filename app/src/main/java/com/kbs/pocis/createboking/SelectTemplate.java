@@ -43,6 +43,7 @@ public class SelectTemplate extends Fragment {
     RecyclerView recyclerView_FeePas;
     ListingFeePas listingFeePas;
     List<Model_SelectTemplate> model_selectTemplates;
+    ArrayList<String> idFeePass = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +51,7 @@ public class SelectTemplate extends Fragment {
         View view = inflater.inflate(R.layout.fragment_select_template, container, false);
 
         Bundle bundle = getArguments();
-        mdl = (ArrayList<String>) bundle.getSerializable("idtemp");
+        mdl = (ArrayList<String>) bundle.getSerializable("showtemplate");
         for (int i=0; i<mdl.size(); i++){
             f003 = mdl.contains("f003");
             g004 = mdl.contains("g004");
@@ -106,7 +107,6 @@ public class SelectTemplate extends Fragment {
     }
 
     void ShowListing(){
-        ArrayList<String> idFeePass = new ArrayList<String>();
         for (Model_SelectTemplate modelSelectTemplate : listingFeePas.checkbokListClick){
             idFeePass.add(modelSelectTemplate.getId());
         }
@@ -115,7 +115,10 @@ public class SelectTemplate extends Fragment {
     }
 
     public void GoToUpload(){
+        Bundle arg = new Bundle();
         Fragment fragment = new UploadDocument();
+        arg.putSerializable("listtemplate", idFeePass);
+        fragment.setArguments(arg);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
@@ -132,9 +135,11 @@ public class SelectTemplate extends Fragment {
             if (!check_g1.isChecked()){
                 Toasty.error(getContext(), "Please Selected Access Card", Toast.LENGTH_LONG).show();
             }
-        } else if (listingFeePas.checkbokListClick.size() > 0){
+        }
+        else if (listingFeePas.checkbokListClick.size() > 0){
             GoToUpload();
-        } else if (check_g1.isChecked()){
+        }
+        else if (check_g1.isChecked()){
             GoToUpload();
         }
         else {
@@ -180,7 +185,7 @@ public class SelectTemplate extends Fragment {
 
     }
 
-    //ini untuk adapter recycler Fee Pass Masuk Kendaraan
+    // ini untuk adapter recycler Fee Pass Masuk Kendaraan
     // Cara kerjanya sama kaya di show Template
     public static class ListingFeePas extends RecyclerView.Adapter<ListingFeePas.vHolder>{
 

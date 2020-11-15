@@ -8,56 +8,7 @@
     tools:context=".createboking.Finish">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:paddingHorizontal="15dp"
-        android:id="@+id/a"
-        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <ImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_back"
-            android:id="@+id/btn_back_create_booking"/>
-
-        <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create Booking"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_centerHorizontal="true"
-                android:textSize="17dp"
-                android:fontFamily="@font/montserrat_bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Online Booking"
-                android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/colorGrey"
-                android:textSize="9dp"/>
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_below="@id/a"
-        android:layout_marginTop="22dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/top"

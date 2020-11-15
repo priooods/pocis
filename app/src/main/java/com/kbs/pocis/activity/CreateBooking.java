@@ -36,7 +36,6 @@ public class CreateBooking extends AppCompatActivity {
 
     ImageView icon_back;
     FragmentContainerView frameCreate;
-    private static int PRIVATE_CODE = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class CreateBooking extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
-        Permision();
         frameCreate = findViewById(R.id.frameCreate);
 
         //Kembali ke Layout Sebelumnya
@@ -107,48 +105,6 @@ public class CreateBooking extends AppCompatActivity {
             }
         });
         dialogFragment.show();
-    }
-
-    public void Permision(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-//            Toasty.info(this, "Anda harus memberikan ijin untuk melanjutkan", Toasty.LENGTH_LONG, true).show();
-        } else {
-            IjinStorage();
-        }
-    }
-
-    public void IjinStorage(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-            new AlertDialog.Builder(this).setTitle("Membutuhkan Ijin")
-                    .setMessage("Ijin ini dibutuhkan untuk melanjutkan Membuat Booking")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(CreateBooking.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PRIVATE_CODE){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Ijin Berhasil Diberikan", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Ijin Gagal DIberikan", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     public void FragmentList(Fragment fragment){

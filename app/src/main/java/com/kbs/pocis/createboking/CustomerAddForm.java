@@ -1,9 +1,17 @@
 package com.kbs.pocis.createboking;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,8 +28,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
 
 public class CustomerAddForm extends Fragment {
@@ -32,6 +42,8 @@ public class CustomerAddForm extends Fragment {
     CardView card_vesel, card_contract;
     CheckBox yes_vesel, yes_contract, no_vesel, no_contract;
     Button nextButton;
+
+    private static int PRIVATE_CODE = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +84,12 @@ public class CustomerAddForm extends Fragment {
         //CheckBox pada setiap expanded View
         CheckBoxesRelatedVessel();
         CheckBoxesContract();
+
+        //Next Page
         NextPage();
+
+        //Permission
+        Permision();
         return view;
     }
 
@@ -165,6 +182,7 @@ public class CustomerAddForm extends Fragment {
         });
     }
 
+    //function untuk NextPage
     public void NextPage(){
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,23 +204,52 @@ public class CustomerAddForm extends Fragment {
         });
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getView().setFocusableInTouchMode(true);
-//        getView().requestFocus();
-//        getView().setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-//                    Intent intent = new Intent(getContext(), HomePage.class);
-//                    startActivity(intent);
-//                    getActivity().finish();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//    }
+
+    //TODO Permission Storage Di CustommerAddFrom
+    public void Permision(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            } else {
+                IjinStorage();
+            }
+        }
+
+    }
+
+    public void IjinStorage(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
+            new AlertDialog.Builder(getContext()).setTitle("Membutuhkan Ijin")
+                    .setMessage("Dibutuhkan ijin untuk menemukan File PDF di storage anda")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PRIVATE_CODE){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getContext(), "Ijin Berhasil Diberikan", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Ijin Gagal Diberikan", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
 
 }

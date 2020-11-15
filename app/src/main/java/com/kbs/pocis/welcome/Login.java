@@ -1,6 +1,5 @@
 package com.kbs.pocis.welcome;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,10 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Call;
 
-import com.kbs.pocis.api.APIClient;
 import com.kbs.pocis.service.SessionManager;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.UserService;
+import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.service.CallingData;
 
 public class Login extends AppCompatActivity {

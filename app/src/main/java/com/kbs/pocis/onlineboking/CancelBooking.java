@@ -18,7 +18,7 @@ import com.kbs.pocis.adapter.onlineboking.Adapter_CancelBooking;
 import com.kbs.pocis.model.Model_Bookings;
 import com.kbs.pocis.service.CallingData;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.UserService;
+import com.kbs.pocis.api.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,7 +22,7 @@ public class SessionManager {
 
     private static final String pref_name = "crudpref";
     private static final String is_login = "islogin";
-    public static final String token = "keyemail";
+    public static final String token = "keytoken";
 
     public SessionManager(Context context) {
         this.context = context;

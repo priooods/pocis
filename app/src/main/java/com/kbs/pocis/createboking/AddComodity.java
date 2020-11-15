@@ -34,12 +34,15 @@ import es.dmoral.toasty.Toasty;
 public class AddComodity extends Fragment {
 
     Button next, prev, addcommodity_two, addcommodity_one;
+    TextInputEditText input_weigth,input_package,input_consigne,input_comdity;
     LinearLayout line_addcommodity_one;
     RelativeLayout line_addcommodity_two;
+
     RecyclerView recyclerView;
     ListComoodity listComoodity;
+
     ArrayList<Model_Commodity> model_uploadDocumentsd = new ArrayList<>();
-    TextInputEditText input_weigth,input_package,input_consigne,input_comdity;
+    Model_Commodity model_commodity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +57,7 @@ public class AddComodity extends Fragment {
         line_addcommodity_two = view.findViewById(R.id.line_addcommodity_two);
         addcommodity_two = view.findViewById(R.id.add_commodity_btnUploadtwo);
         addcommodity_one = view.findViewById(R.id.add_commodity_btnUpload);
+
         addcommodity_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,14 +73,10 @@ public class AddComodity extends Fragment {
         });
 
         ButtonFunction();
-        listComoodity = new ListComoodity(getContext(), model_uploadDocumentsd);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(listComoodity);
+        SettList(model_commodity);
 
         return view;
     }
-
 
     public void AddCommodityNya (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_form_commodity, null);
@@ -111,8 +111,16 @@ public class AddComodity extends Fragment {
                     String con = input_consigne.getText().toString();
                     String wei = input_weigth.getText().toString();
                     String pac = input_package.getText().toString();
-                    model_uploadDocumentsd.add(new Model_Commodity(pac, com, wei, con));
-                    SettList();
+
+                    model_commodity = new Model_Commodity();
+                    model_commodity.setCommodity(com);
+                    model_commodity.setPackages(pac);
+                    model_commodity.setConsigne(con);
+                    model_commodity.setWeight(wei);
+                    model_uploadDocumentsd.add(model_commodity);
+
+                    SettList(model_commodity);
+
                     dialogFragment.dismiss();
                 }
             }
@@ -120,13 +128,15 @@ public class AddComodity extends Fragment {
         dialogFragment.show();
     }
 
-    public void SettList(){
-        line_addcommodity_two.setVisibility(View.VISIBLE);
-        line_addcommodity_one.setVisibility(View.GONE);
-        listComoodity = new ListComoodity(getContext(), model_uploadDocumentsd);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(listComoodity);
+    public void SettList(Model_Commodity commodity){
+        if (commodity != null){
+            line_addcommodity_two.setVisibility(View.VISIBLE);
+            line_addcommodity_one.setVisibility(View.GONE);
+            listComoodity = new ListComoodity(getContext(), model_uploadDocumentsd);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(listComoodity);
+        }
     }
 
     public void ButtonFunction(){
@@ -141,13 +151,15 @@ public class AddComodity extends Fragment {
             @Override
             public void onClick(View v) {
                 if (line_addcommodity_two.getVisibility() != View.GONE){
+                    Bundle arg = new Bundle();
+                    arg.putSerializable("comodity", model_uploadDocumentsd);
                     Fragment fragment = new VesselInformation();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
                     fragmentTransaction.commit();
                 } else {
-                    Toasty.error(getContext(), "Tambah Commodity dulu", Toasty.LENGTH_SHORT, true).show();
+                    Toasty.error(getContext(), "Please Add Your Commodity", Toasty.LENGTH_SHORT, true).show();
                 }
             }
         });
@@ -172,16 +184,20 @@ public class AddComodity extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.weight.setText(model_commodities.get(position).getWeight());
+            holder.weight.setText(model_commodities.get(position).getWeight() + " Tonage");
             holder.consigne.setText(model_commodities.get(position).getConsigne());
             holder.comodity.setText(model_commodities.get(position).getCommodity());
-            holder.packages.setText(model_commodities.get(position).getPackages());
+            holder.packages.setText(model_commodities.get(position).getPackages() + " Package");
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model_commodities.remove(position);
                     notifyItemRemoved(position);
                     notifyItemChanged(position, model_commodities.size());
+                    if (model_commodities.size() == 0){
+                        line_addcommodity_one.setVisibility(View.VISIBLE);
+                        line_addcommodity_two.setVisibility(View.GONE);
+                    }
                 }
             });
 

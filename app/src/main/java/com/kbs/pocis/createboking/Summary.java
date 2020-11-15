@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,10 @@ import com.kbs.pocis.service.UserData;
 public class Summary extends Fragment {
 
     Button next, prev;
+    TextView customer_type, related, contract, veselname, discharge,
+            port, arival, departure, loading;
+
+    String cus, rel, con, ves, des, por, ari, dep, load;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,11 +36,40 @@ public class Summary extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
 
+        Bundle bundle = new Bundle();
+        cus = getArguments().getString("customertype");
+        rel = getArguments().getString("contract");
+        con = getArguments().getString("relatedvessel");
+        ves = getArguments().getString("vesel");
+        des = getArguments().getString("discharge");
+        por = getArguments().getString("port");
+        ari = getArguments().getString("estimate");
+        dep = getArguments().getString("departure");
+
+
         next = view.findViewById(R.id.summary_nextBtn);
         prev = view.findViewById(R.id.summary_prevBtn);
 
+        customer_type = view.findViewById(R.id.veselinfo_customer_type);
+        related = view.findViewById(R.id.veselinfo_related_vesel);
+        contract = view.findViewById(R.id.veselinfo_contract);
+        veselname = view.findViewById(R.id.veselinfo_veselname);
+        discharge = view.findViewById(R.id.veselinfo_loading_discharge);
+        port = view.findViewById(R.id.veselinfo_port);
+        arival = view.findViewById(R.id.veselinfo_arrival);
+        departure = view.findViewById(R.id.veselinfo_departure);
+        loading = view.findViewById(R.id.veselinfo_loading);
+
+        setStringToText();
+
         ButtonFunction();
         return view;
+    }
+
+    void setStringToText(){
+        customer_type.setText(cus);
+        related.setText(rel);
+        contract.setText(con);
     }
 
     public void ButtonFunction(){
@@ -68,15 +102,15 @@ public class Summary extends Fragment {
         ImageView bg = view.findViewById(R.id.bc);
         bg.setImageResource(R.drawable.crb);
         title.setText("Are you sure want to create booking based on your provided information?");
-
+        title.setGravity(Gravity.CENTER);
 
         Button btn_close = view.findViewById(R.id.btn_cancelclose);
         btn_close.setText("No");
         btn_close.setAllCaps(false);
-        Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
-        btn_cancelBoking.setText("Yes");
-        btn_cancelBoking.setBackground(getResources().getDrawable(R.drawable.btn_green));
-        btn_cancelBoking.setAllCaps(false);
+        Button btn_go = view.findViewById(R.id.btn_cancelbookinggo);
+        btn_go.setText("Yes");
+        btn_go.setBackground(getResources().getDrawable(R.drawable.btn_green));
+        btn_go.setAllCaps(false);
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +118,15 @@ public class Summary extends Fragment {
                 dialogFragment.cancel();
             }
         });
-        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
+        btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
-                Intent intent = new Intent(context, Finish.class).putExtra("user", user);
-                startActivity(intent);
-                getActivity().finish();
+                dialogFragment.dismiss();
+                Fragment fragment = new Finish();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameCreate, fragment);
+                fragmentTransaction.commit();
             }
         });
         dialogFragment.show();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -20,51 +21,45 @@ import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
 import com.kbs.pocis.service.UserData;
 
-public class Finish extends AppCompatActivity {
+public class Finish extends Fragment {
 
     Button backhome;
     TextView bookagain;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_finish, container, false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
-        }
-
-        setContentView(R.layout.fragment_finish);
-        backhome = findViewById(R.id.finish_backHome);
-        bookagain = findViewById(R.id.finish_bookegain);
+        backhome = view.findViewById(R.id.finish_backHome);
+        bookagain = view.findViewById(R.id.finish_bookegain);
 
         ButtonFunction();
+
+        return view;
     }
 
     public void ButtonFunction(){
         backhome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getIntent().getParcelableExtra("user");
-                Intent intent = new Intent(Finish.this, HomePage.class).putExtra("user", user);
+                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                Intent intent = new Intent(getActivity(), HomePage.class).putExtra("user", user);
                 startActivity(intent);
-                finish();
+                getActivity().finish();
             }
         });
 
 
-        bookagain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserData user = (UserData) getIntent().getParcelableExtra("user");
-                Intent intent = new Intent(Finish.this, CreateBooking.class).putExtra("user", user);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        bookagain.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                UserData user = (UserData) getIntent().getParcelableExtra("user");
+//                Intent intent = new Intent(Finish.this, CreateBooking.class).putExtra("user", user);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
 
 }

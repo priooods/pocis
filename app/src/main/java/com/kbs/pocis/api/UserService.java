@@ -1,4 +1,6 @@
-package com.kbs.pocis.service;
+package com.kbs.pocis.api;
+
+import com.kbs.pocis.service.CallingData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
