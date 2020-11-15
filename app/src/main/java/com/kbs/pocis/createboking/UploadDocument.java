@@ -57,6 +57,7 @@ import java.util.List;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
+import es.dmoral.toasty.Toasty;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -73,6 +74,7 @@ public class UploadDocument extends Fragment {
     RelativeLayout line_two;
     ArrayList<Model_UploadDocument> model_uploadDocuments = new ArrayList<>();
     RecyclerPDF recyclerPDF;
+    File files;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,15 +91,23 @@ public class UploadDocument extends Fragment {
         addfile_two = view.findViewById(R.id.document_upload_btnUploadtwo);
         coba = view.findViewById(R.id.xx);
 
-        ButtonFunction();
-        line_one.setVisibility(View.GONE);
-        line_two.setVisibility(View.VISIBLE);
         ButtonAddFile();
+        ButtonFunction();
 
         return view;
     }
 
     public void ButtonAddFile(){
+        addfile_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilePickerBuilder.getInstance()
+                        .enableSelectAll(false)
+                        .setMaxCount(8)
+                        .pickFile(UploadDocument.this);
+            }
+        });
+
         addfile_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,11 +130,16 @@ public class UploadDocument extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new AddComodity();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
+                if (line_two.getVisibility() != View.GONE){
+                    Log.i("cob", "onClick: " + files.getName());
+                    Fragment fragment = new AddComodity();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
+                } else {
+                    Toasty.error(getContext(), "Upload Document Dulu", Toasty.LENGTH_SHORT, true).show();
+                }
             }
         });
     }
@@ -150,6 +165,15 @@ public class UploadDocument extends Fragment {
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
             holder.nama.setText(modelUploadDocuments.get(position).getUsername());
             holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()));
+            holder.deletefile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model_uploadDocuments.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemChanged(position, model_uploadDocuments.size());
+
+                }
+            });
 
         }
 
@@ -185,11 +209,12 @@ public class UploadDocument extends Fragment {
                     model_uploadDocuments = new ArrayList<>(docPaths.size());
                     for (Uri pats : docPaths){
                         FileUtils.getFile(getContext(), pats);
-                        File files = FileUtils.getFile(getContext(), pats);
+                        files = FileUtils.getFile(getContext(), pats);
                         model_uploadDocuments.add(new Model_UploadDocument(pats,files.getName(), (int)files.length() / 1024));
 
                         Log.i("Name", "onActivityResult: " + pats);
                         Log.i("Size document", "--> " + files.length() / 1024);
+
 
 
                         recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
@@ -197,9 +222,11 @@ public class UploadDocument extends Fragment {
                         listPdf.setLayoutManager(layoutManager);
                         listPdf.setAdapter(recyclerPDF);
 
-//                        ArrayAdapter<String> arrayAdapter =
-//                                new ArrayAdapter<String>(getContext(),R.layout.model_list_pdf, R.id.model_uploadpdf_name, liis);
-//                        listPdf.setAdapter(arrayAdapter);
+                        if (model_uploadDocuments != null){
+                            line_two.setVisibility(View.VISIBLE);
+                            line_one.setVisibility(View.GONE);
+                        }
+
                     }
 
                 }

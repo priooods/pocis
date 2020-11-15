@@ -3,7 +3,6 @@ package com.kbs.pocis.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,14 +15,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.api.ActivityClass;
-import com.kbs.pocis.onlineboking.AllBookings;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.onlineboking.TarifApprove;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.UserService;
 
-public class OnlineBook extends ActivityClass {
+public class OnlineBook extends AppCompatActivity {
 
     LinearLayout tarif_approve, online_booking_onlinebooking;
     TextView id_booking, id_tarif;
@@ -32,14 +28,14 @@ public class OnlineBook extends ActivityClass {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.online_book_dasar);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
@@ -58,7 +54,7 @@ public class OnlineBook extends ActivityClass {
                 id_booking.setTextColor(getResources().getColor(R.color.colorGrey));
                 icon_booking.setImageResource(R.drawable.booking_icon_grey);
                 id_tarif.setTextColor(getResources().getColor(R.color.colorWhite));
-                icon_tarif.setImageResource(R.drawable.icon_dollar);
+                icon_tarif.setImageResource(R.drawable.dollar_white);
                 Fragment fragment = new TarifApprove();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -88,7 +84,6 @@ public class OnlineBook extends ActivityClass {
         create_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityClass.noAFK = false;
                 Intent intent = new Intent(OnlineBook.this, CreateBooking.class);
                 startActivity(intent);
             }
@@ -102,22 +97,5 @@ public class OnlineBook extends ActivityClass {
         fragmentTransaction.replace(R.id.frameOnline, fragment)
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
-
-    @Override
-    public void onBackPressed() {
-//        if (doubleBackTime + 2000 > System.currentTimeMillis()){
-//            backToast.cancel();
-//            super.onBackPressed();
-//        }
-//        else{
-//            backToast = Toast.makeText(getBaseContext(), "Press once again to exit",
-//                    Toast.LENGTH_SHORT);
-//            backToast.show();
-//            doubleBackTime = System.currentTimeMillis();
-//        }
-        ActivityClass.noAFK = false;
-        super.onBackPressed();
-    }
-
 
 }

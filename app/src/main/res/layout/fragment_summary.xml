@@ -192,11 +192,11 @@
             android:id="@+id/summary_nextBtn"
             android:layout_width="140dp"
             android:layout_height="40dp"
-            android:text="Next"
+            android:text="Create Booking"
             android:fontFamily="@font/montserrat_bold"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/btn_primary"
+            android:background="@drawable/btn_green"
             android:textSize="13dp"/>
 
     </RelativeLayout>

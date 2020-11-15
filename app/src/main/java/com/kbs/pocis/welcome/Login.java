@@ -24,6 +24,7 @@ import retrofit2.Response;
 import retrofit2.Call;
 
 import com.kbs.pocis.api.APIClient;
+import com.kbs.pocis.service.SessionManager;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.UserService;
 import com.kbs.pocis.service.CallingData;
@@ -33,6 +34,7 @@ public class Login extends AppCompatActivity {
     TextInputEditText username, password;
     UserService callInterface;
     UserData user;
+    SessionManager sessionManager;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -50,13 +52,10 @@ public class Login extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
+        sessionManager = new SessionManager(this);
         username = findViewById(R.id.input_username_login);
         password = findViewById(R.id.input_password_login);
         Button btn_login = findViewById(R.id.btn_login);
-
-//        user = new UserData("toras", "toras");
-//        callInterface = user.getService();
-//        loginRetrofit2Api();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +82,12 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(Call<CallingData> call, Response<CallingData> response) {
                 CallingData respone = (CallingData) response.body();
-                if (CallingData.TreatResponse(getContext(), "login", respone)) {
-                    pesanSuccess("Welcome "+user.username);
+                if (CallingData.TreatResponse(Login.this, "login", respone)) {
+
+                    pesanSuccess("Welcome "+ user.username);
                     user.setToken(respone.data.token);
                     startActivity(new Intent(Login.this, HomePage.class).putExtra("user", user));
-                    Login.this.finish();
+                    finish();
                 } else {
                     pesan(respone.desc);
                     Log.e("login", "Failed : \n Error " + respone.error + " : " + respone.desc);
@@ -104,9 +104,7 @@ public class Login extends AppCompatActivity {
     private void pesan(String pesan){
         Toasty.error(this, pesan, Toast.LENGTH_SHORT, true).show();
     }
-    private Context getContext() {
-        return this;
-    }
+
 
     private void pesanSuccess(String pesan){
         Toast.makeText(this, pesan, Toast.LENGTH_SHORT).show();

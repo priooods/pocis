@@ -50,7 +50,7 @@ public class SelectTemplate extends Fragment {
         View view = inflater.inflate(R.layout.fragment_select_template, container, false);
 
         Bundle bundle = getArguments();
-        mdl = (ArrayList<String>) bundle.getSerializable("idshowtemplate");
+        mdl = (ArrayList<String>) bundle.getSerializable("idtemp");
         for (int i=0; i<mdl.size(); i++){
             f003 = mdl.contains("f003");
             g004 = mdl.contains("g004");
@@ -99,15 +99,19 @@ public class SelectTemplate extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> idFeePass = new ArrayList<String>();
-                for (Model_SelectTemplate modelSelectTemplate : listingFeePas.checkbokListClick){
-                    idFeePass.add(modelSelectTemplate.getId());
-                }
-                ErrorBox(f003, g004);
-                Log.i(TAG, "onClick: FeePass" + idFeePass);
+                ShowListing();
 
             }
         });
+    }
+
+    void ShowListing(){
+        ArrayList<String> idFeePass = new ArrayList<String>();
+        for (Model_SelectTemplate modelSelectTemplate : listingFeePas.checkbokListClick){
+            idFeePass.add(modelSelectTemplate.getId());
+        }
+        ErrorBox(f003, g004);
+        Log.i(TAG, "onClick: FeePass" + idFeePass);
     }
 
     public void GoToUpload(){
@@ -168,7 +172,7 @@ public class SelectTemplate extends Fragment {
         model_selectTemplates.add(new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"));
         model_selectTemplates.add(new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"));
         model_selectTemplates.add(new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"));
-        model_selectTemplates.add(new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat"));
+        //model_selectTemplates.add(new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat"));
         listingFeePas = new ListingFeePas(getContext(), model_selectTemplates, isSelectedAll);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView_FeePas.setLayoutManager(layoutManager);

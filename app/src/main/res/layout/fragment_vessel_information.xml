@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".createboking.VesselInformation">
 
@@ -157,11 +158,408 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_marginTop="15dp"
+        android:paddingHorizontal="20dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rlbtn"
         android:layout_below="@id/two">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vessel Information"
+                app:layout_constraintTop_toTopOf="parent"
+                android:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/tt"/>
+
+            <LinearLayout
+                android:id="@+id/a"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/tt"
+                android:padding="10dp"
+                android:background="@drawable/card_border"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLow"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="To Be Nominated"
+                    android:textSize="10dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/customerAdd_relative2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="No"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:id="@+id/veselinfo_relatedvesel_value"/>
+
+                    <ImageView
+                        android:id="@+id/cutomerAdd_relatedvesel_icon"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/icon_botom"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/veselinfo_expand_relatedvesel"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.4dp"
+                        android:background="@color/colorGrey"/>
+
+                    <RelativeLayout
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="11dp"
+                            android:text="Yes"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/check_yes_vesel_relatedvesel"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="11dp"
+                            android:text="No"/>
+
+                        <CheckBox
+                            android:checked="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/check_no_vessel_relatedvesel"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:layout_constraintTop_toBottomOf="@id/a"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorGrey"
+                android:id="@+id/x"/>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/b"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/x"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vessel Name"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="text"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Enter Vessel Name (min. 4 chars)"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_veselname_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/c"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/b"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading Ship Call Number"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="number"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Enter Vessel Name (min. 4 chars)"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_shipcal_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/d"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/c"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discharge Ship Call Number"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="number"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Enter Vessel Name (min. 4 chars)"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_discharge_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:layout_constraintTop_toBottomOf="@id/d"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorGrey"
+                android:id="@+id/y"/>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/e"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/y"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Port Discharge/Loading"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="text"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Enter port discharge/loading name (min 2 chars)"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_port_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/f"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/e"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Port Origin/Destination"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="number"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Enter port origin/destination name (min 2 chars)"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_origin_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/g"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/f"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estimate Arrival"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="text"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Select date and time"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_estimate_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/h"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
+                app:layout_constraintTop_toBottomOf="@id/g"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estimate Departure"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="text"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Select date and time"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_departure_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 

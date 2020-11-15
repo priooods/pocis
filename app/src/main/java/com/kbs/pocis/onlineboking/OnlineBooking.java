@@ -2,14 +2,11 @@ package com.kbs.pocis.onlineboking;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -17,16 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.adapter.ViewpagerDefault;
-import com.kbs.pocis.api.ActivityClass;
-import com.kbs.pocis.service.UserData;
 
 public class OnlineBooking extends Fragment {
 
@@ -37,7 +29,9 @@ public class OnlineBooking extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.online_booking, container, false);
 
         icon_back = view.findViewById(R.id.btn_back_online_booking);

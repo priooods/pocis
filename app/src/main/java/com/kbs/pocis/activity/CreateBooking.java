@@ -1,14 +1,19 @@
 package com.kbs.pocis.activity;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,11 +27,12 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.kbs.pocis.api.ActivityClass;
+import com.google.android.material.textfield.TextInputLayout;
 import com.kbs.pocis.createboking.CustomerAddForm;
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.UserData;
 
-public class CreateBooking extends ActivityClass {
+public class CreateBooking extends AppCompatActivity {
 
     ImageView icon_back;
     FragmentContainerView frameCreate;
@@ -34,7 +40,7 @@ public class CreateBooking extends ActivityClass {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ActivityClass.noAFK = true;
+//        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_booking);
 
@@ -54,14 +60,53 @@ public class CreateBooking extends ActivityClass {
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateBooking.this, HomePage.class);
-                startActivity(intent);
-                finish();
+                ShowDialogCancell(CreateBooking.this);
             }
         });
 
         FragmentList(new CustomerAddForm());
 
+    }
+
+    //Dialog form ketika cancelbutton click
+    public void ShowDialogCancell (final Context context){
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
+        final Dialog dialogFragment = new Dialog(context);
+        dialogFragment.setCancelable(true);
+        dialogFragment.setContentView(view);
+        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextInputLayout input_alasan = view.findViewById(R.id.onp);
+        input_alasan.setVisibility(View.GONE);
+        TextView title = view.findViewById(R.id.tl);
+        ImageView bg = view.findViewById(R.id.bc);
+        bg.setImageResource(R.drawable.show_cancel);
+        title.setText("Are you sure want to quit create booking?");
+
+
+        Button btn_close = view.findViewById(R.id.btn_cancelclose);
+        btn_close.setText("Close");
+        btn_close.setAllCaps(false);
+        Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
+        btn_cancelBoking.setText("Yes");
+        btn_cancelBoking.setAllCaps(false);
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragment.cancel();
+            }
+        });
+        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserData user = (UserData) getIntent().getParcelableExtra("user");
+                Intent intent = new Intent(context, HomePage.class).putExtra("user", user);
+                startActivity(intent);
+                finish();
+            }
+        });
+        dialogFragment.show();
     }
 
     public void Permision(){

@@ -69,7 +69,7 @@ public class ShowTemplate extends Fragment {
 
                 if (adapter.checkbokListClick.size() > 0){
                     Bundle arg = new Bundle();
-                    arg.putSerializable("idshowtemplate",mdl);
+                    arg.putSerializable("idtemp",mdl);
                     Fragment fragment = new SelectTemplate();
                     fragment.setArguments(arg);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -77,7 +77,7 @@ public class ShowTemplate extends Fragment {
                     fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
                     fragmentTransaction.commit();
                 } else {
-                    Toasty.error(getContext(), "Anda Harus Memilih Template", Toast.LENGTH_LONG, true).show();
+                    Toasty.error(getContext(), "Anda Harus Memilih Template", Toast.LENGTH_SHORT, true).show();
                 }
             }
         });

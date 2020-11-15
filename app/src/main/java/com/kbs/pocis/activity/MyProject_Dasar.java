@@ -14,13 +14,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
-import com.kbs.pocis.api.ActivityClass;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
 import com.kbs.pocis.myproject.Projects_Open;
 import com.kbs.pocis.myproject.Projects_Tariff_Info;
 
-public class MyProject_Dasar extends ActivityClass {
+public class MyProject_Dasar extends AppCompatActivity {
 
     ImageView icon_back, icon_search;
     BottomNavigationView bottombar_myprojects;
@@ -28,7 +27,7 @@ public class MyProject_Dasar extends ActivityClass {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ActivityClass.noAFK = true;
+//        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.myproject_dasar);
 

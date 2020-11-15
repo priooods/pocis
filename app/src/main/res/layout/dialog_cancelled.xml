@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/bc"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
@@ -34,6 +35,7 @@
         android:background="@color/colorWhite">
 
         <TextView
+            android:id="@+id/tl"
             android:layout_marginTop="15dp"
             android:text="Please tell us why you should cancel this booking?"
             android:fontFamily="@font/montserrat_bold"
@@ -44,6 +46,7 @@
             android:layout_height="wrap_content"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/onp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusableInTouchMode="true"

@@ -38,6 +38,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
 
     @Override
     public void onBindViewHolder(@NonNull final VHolder holder, final int position) {
+
         holder.nomerBooking.setText(model_bookings.get(position).getNomerBook());
         holder.nomerContract.setText(model_bookings.get(position).getContractNo());
         holder.customerName.setText(model_bookings.get(position).getCustomerName());
@@ -55,22 +56,26 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             holder.status.setTextColor(Color.parseColor("#4BA459"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#4BA459"));
             holder.garis.setBackgroundColor(Color.parseColor("#4BA459"));
-        } else if (holder.status.getText().toString().equals("CANCELLED")){
+        }
+        else if (holder.status.getText().toString().equals("CANCELLED")){
             holder.status.setText(R.string.cancelled);
             holder.status.setTextColor(Color.parseColor("#D41111"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#D41111"));
             holder.garis.setBackgroundColor(Color.parseColor("#D41111"));
-        } else  if (holder.status.getText().toString().equals("VERIFIED")){
+        }
+        else if (holder.status.getText().toString().equals("VERIFIED")){
             holder.status.setText(R.string.verified);
             holder.status.setTextColor(Color.parseColor("#1A2CD1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));
             holder.garis.setBackgroundColor(Color.parseColor("#1A2CD1"));
-        } else if (holder.status.getText().toString().equals("BOOKING")) {
+        }
+        else if (holder.status.getText().toString().equals("BOOKING")) {
             holder.status.setText(R.string.booking);
             holder.status.setTextColor(Color.parseColor("#00a1d1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#00a1d1"));
             holder.garis.setBackgroundColor(Color.parseColor("#00a1d1"));
-        } else {
+        }
+        else {
             holder.status.setText(model_bookings.get(position).getStatusBook());
             holder.status.setTextColor(Color.parseColor("#1A2CD1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));

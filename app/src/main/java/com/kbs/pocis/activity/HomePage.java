@@ -1,8 +1,5 @@
 package com.kbs.pocis.activity;
 
-import android.app.Activity;
-import android.app.Service;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -12,24 +9,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.kbs.pocis.HomeMenu;
 import com.kbs.pocis.R;
-import com.kbs.pocis.api.ActivityClass;
 
-public class HomePage extends ActivityClass {
+public class HomePage extends AppCompatActivity {
 
-    private long doubleBackTime;
-    private Toast backToast;
-    Service service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 

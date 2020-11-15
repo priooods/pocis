@@ -18,6 +18,7 @@ public class UserData implements Parcelable {
     private String token;
     private long time;
     private UserService service;
+
     public UserData(String username, String password) {
         this.username = username;
         this.password = password;
@@ -35,6 +36,8 @@ public class UserData implements Parcelable {
         }
         return service;
     }
+
+
     public void RefreshTime(){
         time = Calendar.getInstance().getTime().getTime();
     }
@@ -63,6 +66,7 @@ public class UserData implements Parcelable {
         token = in.readString();
         RefreshTime();
     }
+
     //region Parceable Things
     public static final Parcelable.Creator<UserData> CREATOR = new Parcelable.Creator<UserData>() {
         @Override
