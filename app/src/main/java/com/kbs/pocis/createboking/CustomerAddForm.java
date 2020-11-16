@@ -98,6 +98,8 @@ public class CustomerAddForm extends Fragment {
             value_customerType.setText(data.customerType);
             value_contract.setText(data.contract);
             value_relatedVesel.setText(data.relatedVesel);
+        }else{
+            BookingData.i = new BookingData();
         }
         NextPage();
 
@@ -209,10 +211,12 @@ public class CustomerAddForm extends Fragment {
 
 
                 fragment.setArguments(bundle);*/
-                Log.i("li", "onClick: "+ value_relatedVesel.getText().toString());
                 BookingData.i.setCustumer(
-                        value_customer, value_related, value_contrac
+                        value_customerType.getText().toString(),
+                        value_relatedVesel.getText().toString(),
+                        value_contract.getText().toString()
                 );
+                Log.i(TAG, "onClick: " + BookingData.i.customerType);
                 Fragment fragment = new ShowTemplate();
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
