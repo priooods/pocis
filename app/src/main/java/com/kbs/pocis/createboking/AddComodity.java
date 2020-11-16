@@ -42,8 +42,7 @@ public class AddComodity extends Fragment {
     RecyclerView recyclerView;
     ListComoodity listComoodity;
 
-    ArrayList<Model_Commodity> model_uploadDocumentsd = new ArrayList<>();
-    Model_Commodity model_commodity;
+    ArrayList<Model_Commodity> model_commodity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +71,16 @@ public class AddComodity extends Fragment {
                 AddCommodityNya(getContext());
             }
         });
+
+        if (BookingData.isExist()){
+            if (BookingData.i.commodity != null){
+                // Already Opened
+                model_commodity = BookingData.i.commodity;
+            }else
+            if (model_commodity == null){
+                model_commodity = new ArrayList<>();
+            }
+        }
 
         ButtonFunction();
         SettList(model_commodity);
@@ -108,17 +117,11 @@ public class AddComodity extends Fragment {
                         input_weigth.getText().toString().isEmpty() || input_package.getText().toString().isEmpty()){
                     Toasty.error(context, "Harap Lengkapi Semua From !", Toasty.LENGTH_SHORT, true).show();
                 } else {
-                    String com = input_comdity.getText().toString();
-                    String con = input_consigne.getText().toString();
-                    String wei = input_weigth.getText().toString();
-                    String pac = input_package.getText().toString();
-
-                    model_commodity = new Model_Commodity();
-                    model_commodity.setCommodity(com);
-                    model_commodity.setPackages(pac);
-                    model_commodity.setConsigne(con);
-                    model_commodity.setWeight(wei);
-                    model_uploadDocumentsd.add(model_commodity);
+                    String commodity = input_comdity.getText().toString();
+                    String consigne = input_consigne.getText().toString();
+                    String weight = input_weigth.getText().toString();
+                    String pack = input_package.getText().toString();
+                    model_commodity.add(new Model_Commodity(pack,commodity,weight,consigne));
 
                     SettList(model_commodity);
 
@@ -129,11 +132,11 @@ public class AddComodity extends Fragment {
         dialogFragment.show();
     }
 
-    public void SettList(Model_Commodity commodity){
-        if (commodity != null){
+    public void SettList(ArrayList<Model_Commodity> commodity){
+        if (commodity == null? false : commodity.size()>0){
             line_addcommodity_two.setVisibility(View.VISIBLE);
             line_addcommodity_one.setVisibility(View.GONE);
-            listComoodity = new ListComoodity(getContext(), model_uploadDocumentsd);
+            listComoodity = new ListComoodity(getContext(), commodity);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(listComoodity);
@@ -144,6 +147,7 @@ public class AddComodity extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BookingData.i.commodity = model_commodity;
                 getActivity().onBackPressed();
             }
         });
@@ -152,8 +156,7 @@ public class AddComodity extends Fragment {
             @Override
             public void onClick(View v) {
                 if (line_addcommodity_two.getVisibility() != View.GONE){
-                    Bundle arg = new Bundle();
-                    arg.putSerializable("comodity", model_uploadDocumentsd);
+                    BookingData.i.commodity = model_commodity;
                     Fragment fragment = new VesselInformation();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

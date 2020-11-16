@@ -4,9 +4,6 @@ public class Model_Commodity {
 
     public String packages, commodity, weight, consigne;
 
-    public Model_Commodity() {
-    }
-
     public Model_Commodity(String packages, String commodity, String weight, String consigne) {
         this.packages = packages;
         this.commodity = commodity;

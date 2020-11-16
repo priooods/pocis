@@ -22,6 +22,8 @@ import android.widget.TimePicker;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.CallingData;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -90,7 +92,7 @@ public class VesselInformation extends Fragment {
 
     void ShowDateTime(TextInputEditText texit){
         Calendar calendar = Calendar.getInstance();
-
+        // TODO INI DATANYA GA BISA DIAMBIL PAKE DATE INI ERROR SEMUA
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
@@ -116,33 +118,6 @@ public class VesselInformation extends Fragment {
         datePickerDialog.setMinDate(calendar);
         datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePickerDialog.show(getChildFragmentManager(),"DateDialog");
-
-
-
-
-//        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                calendar.set(Calendar.YEAR, year);
-//                calendar.set(Calendar.MONTH, month);
-//                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//
-//                TimePickerDialog.OnTimeSetListener setListener = new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//                        calendar.set(android.icu.util.Calendar.MINUTE, minute);
-////                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateFormat.LONG, DateFormat.SHORT);
-//                        texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
-//                    }
-//                };
-//                new TimePickerDialog(getContext(), setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
-//
-//            }
-//        };
-//
-//        new DatePickerDialog(getContext(), dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-
     }
 
     void ToBeNominated(){
@@ -213,6 +188,16 @@ public class VesselInformation extends Fragment {
             arg.putString("estimate", estimate_arival.getText().toString());
             arg.putString("shipcall", loading_shipcall.getText().toString());
             arg.putString("departure", estimate_departure.getText().toString());
+            BookingData.i.vessel = new BookingData.VesselData(
+                    vesel_name.getText().toString(),
+                    loading_shipcall.getText().toString(),
+                    discharge_ship.getText().toString(),
+                    port_discharge.getText().toString(),
+                    port_origin.getText().toString(),
+                    estimate_arival.getText().toString(),
+                    estimate_departure.getText().toString()
+            );
+
             Fragment fragment = new Summary();
             fragment.setArguments(arg);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

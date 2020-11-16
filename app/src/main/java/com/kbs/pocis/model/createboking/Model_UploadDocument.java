@@ -9,9 +9,6 @@ public class Model_UploadDocument {
     String username;
     int size;
 
-    public Model_UploadDocument() {
-    }
-
     public Model_UploadDocument(Uri uri, String username, int size) {
         this.uri = uri;
         Log.i("file","Load file model : "+username);

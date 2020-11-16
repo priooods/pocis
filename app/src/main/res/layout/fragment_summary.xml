@@ -554,6 +554,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="11dp"/>
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -578,93 +579,11 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="11dp"/>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_marginTop="10dp"
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp">
-
-                    <LinearLayout
-                        android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="#F9F9F9">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="12dp"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            android:id="@+id/comodity_information"/>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="9dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="140dp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_alignParentLeft="true">
-
-                                <TextView
-                                    android:text="Steel Bar"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/veselinfo_comodity"
-                                    android:fontFamily="@font/montserrat_reguler"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textSize="11dp"/>
-
-                                <TextView
-                                    android:layout_marginTop="9dp"
-                                    android:text="General Cargo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/montserrat_reguler"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textSize="11dp"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_alignParentRight="true">
-
-                                <TextView
-                                    android:text="1 Package"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/veselinfo_package"
-                                    android:fontFamily="@font/montserrat_reguler"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textSize="11dp"/>
-
-                                <TextView
-                                    android:id="@+id/veselinfo_tonage"
-                                    android:layout_marginTop="9dp"
-                                    android:text="1234 Tonage"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/montserrat_reguler"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textSize="11dp"/>
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/recycle_vesel_comodityInfo"/>
 
             </LinearLayout>
 
@@ -696,6 +615,7 @@
                         android:background="#F9F9F9">
 
                         <ListView
+                            android:dividerHeight="0dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/veselinfo_documentList"/>

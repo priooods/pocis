@@ -1,16 +1,23 @@
 package com.kbs.pocis.model.createboking;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Model_ShowTemplate {
 
     String id, name;
     int img;
-    public List<Model_SelectTemplate> list;
+    public ArrayList<Model_SelectTemplate> list;
     boolean Check;
 
-    public Model_ShowTemplate() {
+    public boolean OneChecked(){
+        for(Model_SelectTemplate temp:list){
+            if (temp.checked){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Model_ShowTemplate(String id, String name, int img) {
@@ -19,11 +26,24 @@ public class Model_ShowTemplate {
         this.img = img;
         list = null;
     }
-    public Model_ShowTemplate(String id, String name, int img, List<Model_SelectTemplate> temp) {
+    public Model_ShowTemplate(String id, String name, int img, ArrayList<Model_SelectTemplate> temp ) {
         this.id = id;
         this.name = name;
         this.img = img;
+        Check = true;
         list = temp;
+    }
+
+    public ArrayList<Model_SelectTemplate> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<Model_SelectTemplate> list) {
+        this.list = list;
+    }
+
+    public boolean isCheck() {
+        return Check;
     }
 
     public void setCheck(boolean check) {

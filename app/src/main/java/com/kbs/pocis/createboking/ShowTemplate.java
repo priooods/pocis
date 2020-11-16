@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,8 +39,7 @@ public class ShowTemplate extends Fragment {
     Button btnPrev, btnNext;
     RecyclerView listtemplate;
     ListTemplate adapter;
-    ArrayList<String>  mdl = new ArrayList<>();
-    List<Model_ShowTemplate> model = new ArrayList<>();
+    List<Model_ShowTemplate> model;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,25 +50,23 @@ public class ShowTemplate extends Fragment {
         btnPrev = view.findViewById(R.id.cust_add_form_prevBtn);
         btnNext = view.findViewById(R.id.cust_add_form_nextBtn);
 
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-
-        model.add(new Model_ShowTemplate("f003", "Fee Pas Masuk Kendaraan", R.color.colorGrey));
-        model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey));
-        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey));
-        model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey));
-
+        if (model == null) {
+            model = new ArrayList<>();
+            model.add(new Model_ShowTemplate("f003", "Fee Pas Masuk Kendaraan", R.color.colorGrey));
+            model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey));
+            model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey));
+            model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey));
+        }
         int i = 0;
         if (BookingData.isExist()){
             // Load Data
-            for(BookingData.BookTemplate temp : BookingData.i.template){
-                for(;i<model.size();i++){
-                    if (temp.code == model.get(i).getId()){
-                        model.get(i).setCheck(true);
+            if (BookingData.i.template != null) {
+                for (BookingData.BookTemplate temp : BookingData.i.template) {
+                    for (; i < model.size(); i++) {
+                        if (temp.code == model.get(i).getId()) {
+                            model.get(i).setCheck(true);
+                            break;
+                        }
                     }
                 }
             }
@@ -86,6 +84,13 @@ public class ShowTemplate extends Fragment {
             @Override
             public void onClick(View v) {
                 GoNextPage();
+            }
+        });
+        btnPrev.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                BookingData.i.SetBookTemplate(model);
+                getActivity().onBackPressed();
             }
         });
 
@@ -149,16 +154,14 @@ public class ShowTemplate extends Fragment {
             holder.name.setText(model.get(position).getName());
             holder.status.setChecked(model.get(position).getCheck());
 
-//            holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    if (isChecked){
-////                        checkbokListClick.add(model.get(position));
-//                    } else {
-//                        checkbokListClick.remove(model.get(position));
-//                    }
-//                }
-//            });
+            holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        model.get(position).setCheck(isChecked);
+                }
+            });
+
+
         }
 
         @Override
@@ -179,9 +182,6 @@ public class ShowTemplate extends Fragment {
                 id = itemView.findViewById(R.id.idshowtemplate);
                 status = itemView.findViewById(R.id.check_showtemplate);
             }
-
         }
-
     }
-
 }

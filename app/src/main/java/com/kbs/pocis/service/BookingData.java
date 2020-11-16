@@ -1,5 +1,7 @@
 package com.kbs.pocis.service;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -68,12 +70,27 @@ public class BookingData {
         }
     }
     //data booking ketiga UploadDocument
-    public List<Model_UploadDocument> file;
+    public ArrayList<Model_UploadDocument> file;
 
     //data booking keempat AddComodity
-    public List<Model_Commodity> comodity;
+    public ArrayList<Model_Commodity> commodity;
 
     //data Vessel
-    public String vesel_name, loading_shipcall, discharge_ship, port_discharge, port_origin,
-            estimate_arival, estimate_departure;
+    public VesselData vessel;
+    public static class VesselData{
+        public String vessel_name, loading_shipcall, discharge_ship, port_discharge, port_origin,
+                estimate_arival, estimate_departure;
+        public VesselData(String vessel_name, String shipcall, String dis_ship, String dis_port, String origin, String est_arival, String est_departure ){
+            this.vessel_name = vessel_name;
+            loading_shipcall = shipcall;
+            discharge_ship = dis_ship;
+            port_discharge = dis_port;
+            port_origin = origin;
+            estimate_arival = est_arival;
+            estimate_departure = est_departure;
+        }
+        public void findData(){
+            Log.i("tag","Nothin Happen");
+        }
+    }
 }

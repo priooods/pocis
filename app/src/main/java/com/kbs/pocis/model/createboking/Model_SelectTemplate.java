@@ -2,6 +2,7 @@ package com.kbs.pocis.model.createboking;
 
 public class Model_SelectTemplate {
     String id, name;
+    boolean checked;
 
     public Model_SelectTemplate(String id, String name) {
         this.id = id;
@@ -22,5 +23,13 @@ public class Model_SelectTemplate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

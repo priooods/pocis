@@ -2,28 +2,33 @@ package com.kbs.pocis.createboking;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.HomePage;
-import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.model.Model_Commodity;
+import com.kbs.pocis.model.createboking.Model_UploadDocument;
+import com.kbs.pocis.service.BookingData;
 
-import static android.content.ContentValues.TAG;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Summary extends Fragment {
 
@@ -31,7 +36,12 @@ public class Summary extends Fragment {
     TextView customer_type, related, contract, veselname, discharge,
             port, arival, departure, loading;
 
-    String cus, rel, con, ves, des, por, ari, dep, load;
+    RecyclerView list_serviceInfo, list_comodityInfo;
+    ListView list_Document;
+    ArrayList<Model_Commodity> summaryComodities ;
+    ArrayList<Model_UploadDocument> uploadDocuments;
+    ArrayAdapter arrayAdapter;
+    AdapterComodity adapterComodity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,17 +49,6 @@ public class Summary extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
 
-        cus = getArguments().getString("customertype");
-        rel = getArguments().getString("contract");
-        con = getArguments().getString("relatedvesel");
-        Log.i(TAG, "onCreateView: " + cus);
-
-        ves = getArguments().getString("vesel");
-        des = getArguments().getString("discharge");
-        por = getArguments().getString("port");
-        ari = getArguments().getString("estimate");
-        dep = getArguments().getString("departure");
-        load = getArguments().getString("shipcall");
 
         next = view.findViewById(R.id.summary_nextBtn);
         prev = view.findViewById(R.id.summary_prevBtn);
@@ -65,22 +64,41 @@ public class Summary extends Fragment {
         departure = view.findViewById(R.id.veselinfo_departure);
         loading = view.findViewById(R.id.veselinfo_loading);
 
-        setStringToText();
+
+        list_serviceInfo = view.findViewById(R.id.veselinfo_list);
+        list_comodityInfo = view.findViewById(R.id.recycle_vesel_comodityInfo);
+        list_Document = view.findViewById(R.id.veselinfo_documentList);
+
+        BookingData data = BookingData.i;
+        customer_type.setText(data.customerType);
+        related.setText(data.relatedVesel);
+        contract.setText(data.contract);
+        discharge.setText(data.vessel.loading_shipcall + "/" + data.vessel.discharge_ship);
+        veselname.setText(data.vessel.vessel_name);
+        port.setText(data.vessel.port_discharge);
+        arival.setText(data.vessel.estimate_arival);
+        departure.setText(data.vessel.estimate_departure);
+        loading.setText(data.vessel.port_origin);
+
+
+        ListingAllList();
+
 
         ButtonFunction();
         return view;
     }
 
-    void setStringToText(){
-        customer_type.setText(cus);
-        related.setText(rel);
-        contract.setText(con);
-        discharge.setText(load + "/" + des);
-        veselname.setText(ves);
-        port.setText(por);
-        arival.setText(ari);
-        departure.setText(dep);
-        loading.setText(load);
+    private void ListingAllList() {
+        summaryComodities = BookingData.i.commodity;
+        adapterComodity = new AdapterComodity(getContext(), summaryComodities);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        list_comodityInfo.setLayoutManager(layoutManager);
+        list_comodityInfo.setAdapter(adapterComodity);
+
+//        uploadDocuments = BookingData.i.file;
+//        arrayAdapter = new ArrayAdapter(getContext(), R.layout.model_summary_documentlist, uploadDocuments);
+//        list_Document.setAdapter(arrayAdapter);
+
     }
 
     public void ButtonFunction(){
@@ -142,4 +160,53 @@ public class Summary extends Fragment {
         });
         dialogFragment.show();
     }
+
+
+
+    public class AdapterComodity extends RecyclerView.Adapter<AdapterComodity.vHolder>{
+
+        Context context;
+        List<Model_Commodity> comodityList;
+
+        public AdapterComodity(Context context, List<Model_Commodity> comodityList) {
+            this.context = context;
+            this.comodityList = comodityList;
+        }
+
+        @NonNull
+        @Override
+        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.model_vesel_comoditylist, parent, false);
+
+            return new vHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull vHolder holder, int position) {
+            holder.comodity.setText(comodityList.get(position).getCommodity());
+            holder.consigne.setText(comodityList.get(position).getConsigne());
+            holder.packages.setText(comodityList.get(position).getPackages());
+            holder.weight.setText(comodityList.get(position).getWeight());
+        }
+
+        @Override
+        public int getItemCount() {
+            return comodityList.size();
+        }
+
+        public class vHolder extends RecyclerView.ViewHolder{
+            TextView consigne, comodity, packages, weight;
+            public vHolder(@NonNull View itemView) {
+                super(itemView);
+
+                comodity = itemView.findViewById(R.id.vesel_infovesel_comodity);
+                consigne = itemView.findViewById(R.id.vesel_infovesel_consigne);
+                packages = itemView.findViewById(R.id.vesel_infovesel_package);
+                weight = itemView.findViewById(R.id.vesel_infovesel_weight);
+
+
+            }
+        }
+    }
+
 }

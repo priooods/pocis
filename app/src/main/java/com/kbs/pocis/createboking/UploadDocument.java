@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ import android.widget.TextView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
+import com.kbs.pocis.service.BookingData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,7 +39,6 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 import static android.app.Activity.RESULT_OK;
-import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
 
 public class UploadDocument extends Fragment {
 
@@ -50,8 +49,7 @@ public class UploadDocument extends Fragment {
 
     RecyclerView listPdf;
     RecyclerPDF recyclerPDF;
-    ArrayList<Model_UploadDocument> model_uploadDocuments = new ArrayList<>();
-    Model_UploadDocument document;
+    ArrayList<Model_UploadDocument> model_uploadDocuments;
 
     Intent openFileManager;
     File files;
@@ -70,7 +68,15 @@ public class UploadDocument extends Fragment {
         addfile_one = view.findViewById(R.id.document_upload_btnUpload);
         addfile_two = view.findViewById(R.id.document_upload_btnUploadtwo);
 
-        statusList(document);
+        if (BookingData.isExist()){
+            if (BookingData.i.file != null){
+                // Already Opened
+                model_uploadDocuments = BookingData.i.file;
+            }else{
+                model_uploadDocuments = new ArrayList<>();
+            }
+        }
+        statusList(model_uploadDocuments);
         ButtonAddFile();
         ButtonFunction();
 
@@ -97,6 +103,7 @@ public class UploadDocument extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BookingData.i.file = model_uploadDocuments;
                 getActivity().onBackPressed();
             }
         });
@@ -105,6 +112,7 @@ public class UploadDocument extends Fragment {
             @Override
             public void onClick(View v) {
                 if (line_two.getVisibility() != View.GONE){
+                    BookingData.i.file = model_uploadDocuments;
                     Fragment fragment = new AddComodity();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -120,7 +128,6 @@ public class UploadDocument extends Fragment {
     void OpenManager(){
         openFileManager = new Intent(Intent.ACTION_GET_CONTENT);
         openFileManager.setType("application/pdf");
-        openFileManager.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(openFileManager, 10);
     }
 
@@ -129,25 +136,22 @@ public class UploadDocument extends Fragment {
         switch (requestCode){
             case 10:
                 if (resultCode == RESULT_OK){
-
-                    //TODO Upload Content File Sudah Work disini.
-                    // Dalam Bentuk URI dan File
-                    document = new Model_UploadDocument();
                     Uri path = data.getData();
                     files = FileUtils.getFile(getContext(), path);
-                    document.setUsername(files.getName());
-                    document.setSize((int)files.length() / 1024);
-                    model_uploadDocuments.add(document);
+                    // TODO for Prio, ini bakal error, files.getName() == null ketika diupload lebih dari 1
+                    String name = files.getName();
+                    int size = (int)files.length() / 1024;
+                    model_uploadDocuments.add(new Model_UploadDocument(path, name, size));
 
                     //Setting Visibility Layout Upload
-                    statusList(document);
+                    statusList(model_uploadDocuments);
                 }
                 break;
         }
     }
 
-    void statusList(Model_UploadDocument document){
-        if (document != null){
+    void statusList(ArrayList<Model_UploadDocument> document){
+        if (document != null? document.size()>0 : false){
             line_two.setVisibility(View.VISIBLE);
             line_one.setVisibility(View.GONE);
             recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
@@ -293,8 +297,6 @@ public class UploadDocument extends Fragment {
                     if ("primary".equalsIgnoreCase(type)) {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
-
-                    // TODO handle non-primary volumes
                 }
                 // DownloadsProvider
                 else if (isDownloadsDocument(uri)) {
