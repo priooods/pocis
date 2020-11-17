@@ -196,7 +196,7 @@ public class SelectTemplate extends Fragment {
 
     public void GoToUpload(){
         //TODO to prio, oi ini kn udah selesai sebenarnya bisa diload, cmn dari UI gak keubah value di modelnya,
-        // INI DIBAWAH HASIL NGECEK, semua value jdi false padahal udah di checklist
+        // INI DIBAWAH HASIL NGECEK, semua value jdi false padahal udah di checklist jjkjkjk
         for(Model_ShowTemplate mod : model){
             for(Model_SelectTemplate sel : mod.list){
                 Log.i("out",sel.getId()+" "+sel.getName()+" - "+sel.isChecked());
