@@ -98,20 +98,10 @@ public class ShowTemplate extends Fragment {
     }
 
     void GoNextPage(){
-        /*
-        for (Model_ShowTemplate models : adapter.checkbokListClick){
-            mdl.add(models.getId());
-            mdl.add(models.getName());
-        }
-         */
-        if (getOneIsChecked()){//(adapter.checkbokListClick.size() > 0){
-            //BookingData.i.Template = BookingData.getTemplate(models);
+        if (getOneIsChecked()){
             BookingData.i.SetBookTemplate(model);
             Log.i("TAG", "lis: " + model);
-            //Bundle arg = new Bundle();
-            //arg.putSerializable("showtemplate",mdl);
             Fragment fragment = new SelectTemplate();
-            //fragment.setArguments(arg);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
@@ -121,6 +111,8 @@ public class ShowTemplate extends Fragment {
         }
 
     }
+
+    //ini untuk check apakah checkbox kosong atau engga
     boolean getOneIsChecked() {
         for(Model_ShowTemplate m : model) {
             if (m.getCheck())
@@ -129,11 +121,11 @@ public class ShowTemplate extends Fragment {
         return false;
     }
 
+    //ini adapter untuk list Show Template
     public static class ListTemplate extends RecyclerView.Adapter<ListTemplate.Vholder>{
 
         Context context;
         List<Model_ShowTemplate> model;
-//        ArrayList<Model_ShowTemplate> checkbokListClick = new ArrayList<>();
 
         public ListTemplate(Context context, List<Model_ShowTemplate> model) {
             this.context = context;

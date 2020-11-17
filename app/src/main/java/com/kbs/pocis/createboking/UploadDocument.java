@@ -138,7 +138,6 @@ public class UploadDocument extends Fragment {
                 if (resultCode == RESULT_OK){
                     Uri path = data.getData();
                     files = FileUtils.getFile(getContext(), path);
-                    // TODO for Prio, ini bakal error, files.getName() == null ketika diupload lebih dari 1
                     String name = files.getName();
                     int size = (int)files.length() / 1024;
                     model_uploadDocuments.add(new Model_UploadDocument(path, name, size));
@@ -161,6 +160,7 @@ public class UploadDocument extends Fragment {
         }
     }
 
+    //Function untuk Convert semua URI dan Jenis file untuk mendapatkan Nama
     public static class FileUtils {
 
         //replace this with your authority
@@ -170,9 +170,6 @@ public class UploadDocument extends Fragment {
         private FileUtils() {
         } //private constructor to enforce Singleton pattern
 
-        /**
-         * TAG for log messages.
-         */
         static final String TAG = "FileUtils";
         private static final boolean DEBUG = false; // Set to true to enable logging
 
@@ -228,9 +225,6 @@ public class UploadDocument extends Fragment {
         }
 
         /**
-         * Get the value of the data column for this Uri. This is useful for
-         * MediaStore Uris, and other file-based ContentProviders.
-         *
          * @param context       The context.
          * @param uri           The Uri to query.
          * @param selection     (Optional) Filter used in the query.
@@ -265,13 +259,6 @@ public class UploadDocument extends Fragment {
         }
 
         /**
-         * Get a file path from a Uri. This will get the the path for Storage Access
-         * Framework Documents, as well as the _data field for the MediaStore and
-         * other file-based ContentProviders.<br>
-         * <br>
-         * Callers should check whether the path is local before assuming it
-         * represents a local file.
-         *
          * @param context The context.
          * @param uri     The Uri to query.
          * @author paulburke

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="8dp"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="#F9F9F9"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/a">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:id="@+id/project_service_name"
+                    android:layout_marginTop="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/b"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/a"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/project_service_location"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/c"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/a"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Date"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/project_service_startdate"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/d"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/c"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End Date"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+
+                <TextView
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/project_service_Enddate"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/d"
+                android:id="@+id/e">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calculation"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/project_service_calculation"
+                    android:layout_marginTop="3dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/e"
+                android:id="@+id/f">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/project_service_total"
+                    android:layout_marginTop="3dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:text="IDR 123.123.123"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/f"
+                android:id="@+id/g">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total DP"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/project_service_totalDP"
+                    android:layout_marginTop="3dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12dp"/>
+
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

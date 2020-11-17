@@ -47,8 +47,6 @@ public class CustomerAddForm extends Fragment {
     CheckBox yes_vesel, yes_contract, no_vesel, no_contract;
     Button nextButton;
 
-    String value_customer, value_related, value_contrac;
-
     private static int PRIVATE_CODE = 1;
 
     @Override
@@ -57,7 +55,7 @@ public class CustomerAddForm extends Fragment {
         View view = inflater.inflate(R.layout.fragment_customer_add_form, container, false);
 
         // Sebab design yang beraneka ragam dan kompleks,
-        // maka semua function dibuat manual untuk mendapatkan UI yang sama persis
+        // maka semua function dibuat manual untuk mendapatkan UI yang sama persis dan function yg sesuai
 
         //value form
         value_customerType = view.findViewById(R.id.cutomerAdd_customertype_value);
@@ -202,15 +200,6 @@ public class CustomerAddForm extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Kirim data pada form ini
-                /*
-                Bundle bundle = new Bundle();
-                bundle.putString("relatedvesel", value_relatedVesel.getText().toString());
-                bundle.putString("contract", value_contract.getText().toString());
-                bundle.putString("customertype", value_customerType.getText().toString());
-
-
-                fragment.setArguments(bundle);*/
                 BookingData.i.setCustumer(
                         value_customerType.getText().toString(),
                         value_relatedVesel.getText().toString(),
@@ -227,7 +216,7 @@ public class CustomerAddForm extends Fragment {
         });
     }
 
-    //TODO Permission Storage Di CustommerAddFrom
+    //TODO Permission Storage dari sini sampai bawah Di CustommerAddFrom
     public void Permision(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             if (ContextCompat.checkSelfPermission(getContext(),

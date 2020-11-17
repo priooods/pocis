@@ -14,21 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".welcome.SplashScreen" android:theme="@style/Fullscreen">
-
-        </activity>
-        <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
-        <activity android:name=".welcome.Login"/>
-        <activity android:name=".activity.HomePage"/>
-        <activity android:name=".activity.CreateBooking">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
+        <activity android:name=".welcome.Login"/>
+        <activity android:name=".activity.HomePage"/>
+        <activity android:name=".activity.CreateBooking">
+
+        </activity>
         <activity android:name=".detailboking.BookingDetails"/>
         <activity android:name=".activity.OnlineBook"/>
-        <activity android:name=".activity.MyProject_Dasar"/>
+        <activity android:name=".activity.MyProject_Dasar">
+        </activity>
+        <activity android:name=".myproject.detail.Detail_MyProject"/>
     </application>
 
 </manifest>

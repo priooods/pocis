@@ -58,6 +58,8 @@ public class AllBookings extends Fragment {
         all_index_allboking = view.findViewById(R.id.all_index_allboking);
         nestdall = view.findViewById(R.id.nestdall);
 
+
+
         GenerateList();
         ganti();
 
@@ -151,7 +153,13 @@ public class AllBookings extends Fragment {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_allBooking);
 
-                    adapter_allBooking.notifyDataSetChanged();
+//                    if (filterQuery.getQuery() == null){
+//                        Log.i("TAG", "onResponse: " + "qury kosong");
+//                    } else {
+//                        Log.i("TAG", "onResponse: " + "qury ada");
+//                        adapter_allBooking.notifyDataSetChanged();
+//                    }
+
 
                     return;
                 } else {

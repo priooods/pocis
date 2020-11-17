@@ -6,9 +6,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +23,19 @@ import android.widget.ImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.adapter.ViewpagerDefault;
+import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
+import com.kbs.pocis.item.Filter_OnlineBooking;
+import com.kbs.pocis.model.Model_Bookings;
+
+import java.util.ArrayList;
 
 public class OnlineBooking extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
     ImageView icon_back, icon_search;
-
 
     @Nullable
     @Override
@@ -43,9 +53,11 @@ public class OnlineBooking extends Fragment {
         //Taruh fragment ke view pager lalu pasang ke tablayout
         adapter.Addfragment(new AllBookings(), "All Bookings");
         adapter.Addfragment(new CancelBooking(), "Cancel Booking");
+        Log.i("TAG", "onCreateView: "+ adapter);
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
 
         //Icon Arrow Back Click
         icon_back.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +72,8 @@ public class OnlineBooking extends Fragment {
         icon_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowDialog(getContext());
+                DialogFragment fragment = new Filter_OnlineBooking();
+                fragment.show(getChildFragmentManager(), "filter_online");
             }
         });
 
@@ -68,36 +81,5 @@ public class OnlineBooking extends Fragment {
     }
 
     //Ini adalah function untuk Menampilkan Dialog Searching yah
-    public void ShowDialog (Context context){
-        //setting dialog
-        View view  = getLayoutInflater().inflate(R.layout.dialog_filters, null);
-        final Dialog dialogFragment = new Dialog(context);
-        dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
-
-        //Setting ukuran dialog
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        //widget pada dialog
-        TextInputEditText input_nomerBooking = view.findViewById(R.id.filter_nomerbooking);
-        TextInputEditText input_veselName = view.findViewById(R.id.filter_veselname);
-        Button btn_cancel = view.findViewById(R.id.btn_cancelbooking);
-        Button btn_filtering = view.findViewById(R.id.btn_filterbooking);
-
-        //fungsi pada widget
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_filtering.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        dialogFragment.show();
-    }
 
 }

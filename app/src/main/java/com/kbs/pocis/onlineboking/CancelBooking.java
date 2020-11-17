@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,47 +33,83 @@ import retrofit2.Response;
 public class CancelBooking extends Fragment {
     //TODO INI CANCEL BOOKING MAU DIBUAT KEK MANA? KALO DAH LENGKAP, NNTI GUA LENGKAPIN BUAT SAFECONTROL SAMA TAMPILANNYA
     RecyclerView recyclerView;
+    NestedScrollView nestdcan;
+    ConstraintLayout bar;
     Adapter_CancelBooking adapter_cancelBooking;
-    ImageView kanan, kiri,kanan_banget,kiri_banget;
+    TextView kanan, kiri,kanan_banget,kiri_banget,index_list_cancelboking, all_index_cancelboking;
     List<Model_Bookings> model_bookingsList;
     int page_current = 1,page_last = 1;
+    boolean Ready;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cancel_booking,container,false);
 
+        kanan = view.findViewById(R.id.kanan_cancel);
+        kiri = view.findViewById(R.id.kiri_cancel);
+        kanan_banget = view.findViewById(R.id.kanan_banget_cancel);
+        kiri_banget = view.findViewById(R.id.kiri_banget_cancel);
+        bar = view.findViewById(R.id.all_index_bar_cancel);
+        index_list_cancelboking = view.findViewById(R.id.index_list_cancelboking);
+        all_index_cancelboking = view.findViewById(R.id.all_index_cancelboking);
         recyclerView = view.findViewById(R.id.recycle_Cancelbooking);
+
+        nestdcan = view.findViewById(R.id.nestdcan);
+
         GenerateList();
+        ganti();
 
         return view;
     }
+
+    void ScrolltoTop(){
+        nestdcan.fullScroll(View.FOCUS_UP);
+        nestdcan.smoothScrollTo(0,0);
+    }
+
+    void ChangePage(int target_page){
+        if (Ready) {
+            page_current = target_page;
+            GenerateList();
+            Ready = false;
+        }else{
+            Log.w("cancel_booking","Aggresive Touch/Command!");
+        }
+    }
+
+
     void ganti(){
         kanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current+=1;
-                GenerateList();
+//                page_current+=1;
+//                GenerateList();
+                ChangePage(page_current + 1);
             }
         });
         kanan_banget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current=page_last;
-                GenerateList();
+//                page_current=page_last;
+//                GenerateList();
+                ChangePage(page_last);
             }
         });
         kiri_banget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current=1;
-                GenerateList();
+//                page_current=1;
+//                GenerateList();
+                ChangePage(1);
             }
         });
         kiri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                page_current-=1;
-                GenerateList();
+//                page_current-=1;
+//                GenerateList();
+                ChangePage(page_current-1);
             }
         });
     }
@@ -90,6 +129,7 @@ public class CancelBooking extends Fragment {
         call.enqueue(new Callback<CallingData>() {
             @Override
             public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+                Ready = true;
                 CallingData respone = (CallingData) response.body();
                 if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
                     List<Model_Bookings> list = new ArrayList<>();
@@ -98,17 +138,35 @@ public class CancelBooking extends Fragment {
                     }
                     model_bookingsList = list;
 
-                    int page_number = respone.data.current_page;
-                    //to
+//                    int page_number = respone.data.current_page;
+//                    //to
+//                    page_last = respone.data.last_page;
+//                    int page_now = respone.data.to_page - respone.data.from_page + 1;
+//                    //  of
+//                    int page_of = respone.data.total;
+                    page_current = respone.data.current_page;
                     page_last = respone.data.last_page;
-                    int page_now = respone.data.to_page - respone.data.from_page + 1;
-                    //  of
-                    int page_of = respone.data.total;
+
+                    //region KONTROL VISIBILITAS KOMPONEN
+                    bar.setVisibility(View.VISIBLE);
+                    all_index_cancelboking.setVisibility(View.VISIBLE);
+
+                    ScrolltoTop();
+                    SetVisibility(kiri, page_current>1);
+                    SetVisibility(kiri_banget, page_current>2);
+                    SetVisibility(kanan, page_current<page_last);
+                    SetVisibility(kanan_banget, page_current+1<page_last);
+
+                    //endregion
+                    index_list_cancelboking.setText(page_current + " of " + page_last);
+                    all_index_cancelboking.setText("Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results");
+
 
                     adapter_cancelBooking = new Adapter_CancelBooking(getContext(), model_bookingsList);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_cancelBooking);
+                    adapter_cancelBooking.notifyDataSetChanged();
                     Log.i("finish_list","Finish Listing "+ list.size());
                 } else {
                     //pesan(respone.desc);
@@ -122,4 +180,9 @@ public class CancelBooking extends Fragment {
             }
         });
     }
+
+    private void SetVisibility(android.widget.TextView comp, boolean condition){
+        comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);
+        comp.setEnabled(condition);
+    };
 }

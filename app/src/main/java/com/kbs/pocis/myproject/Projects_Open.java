@@ -36,8 +36,8 @@ public class Projects_Open extends Fragment {
     void ListingProject(){
         model_project_opens = new ArrayList<>();
         model_project_opens.add(new Model_Project_Open("5 September 2020 08:00","PPJ-2020/02669","P0019-063","SEAMS001","39,977.600","16 September 2020 13:02","PT Krakatau Steel","MV. Sea Master"));
-        model_project_opens.add(new Model_Project_Open("5 September 2020 08:00","PPJ-2020/02669","P0019-063","SEAMS001","39,977.600","16 September 2020 13:02","PT Krakatau Steel","MV. Sea Master"));
-        model_project_opens.add(new Model_Project_Open("5 September 2020 08:00","PPJ-2020/02669","P0019-063","SEAMS001","39,977.600","16 September 2020 13:02","PT Krakatau Steel","MV. Sea Master"));
+        model_project_opens.add(new Model_Project_Open("1 November 2020 20:00","PPJ-2020/03902","P0019-063","SEAMS001","39,977.600","20 November 2020 13:02","PT Krakatau Posco","MV. Sea Master"));
+        model_project_opens.add(new Model_Project_Open("10 Januari 2020 10:00","PPJ-2020/08747","P0019-063","SEAMS001","39,977.600","1 Desember 2020 13:02","PT Uji Coba List","MV. Sea Master"));
 
         Adapter_Project_Open adapter_project_open = new Adapter_Project_Open(getContext(), model_project_opens);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

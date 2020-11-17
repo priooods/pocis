@@ -39,8 +39,6 @@ public class Summary extends Fragment {
     RecyclerView list_serviceInfo, list_comodityInfo;
     ListView list_Document;
     ArrayList<Model_Commodity> summaryComodities ;
-    ArrayList<Model_UploadDocument> uploadDocuments;
-    ArrayAdapter arrayAdapter;
     AdapterComodity adapterComodity;
 
     @Override
@@ -94,11 +92,6 @@ public class Summary extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         list_comodityInfo.setLayoutManager(layoutManager);
         list_comodityInfo.setAdapter(adapterComodity);
-
-//        uploadDocuments = BookingData.i.file;
-//        arrayAdapter = new ArrayAdapter(getContext(), R.layout.model_summary_documentlist, uploadDocuments);
-//        list_Document.setAdapter(arrayAdapter);
-
     }
 
     public void ButtonFunction(){

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingHorizontal="15dp"
+            android:id="@+id/w"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="12dp"
+                android:text="List Of Services Related To Project"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/a"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/a"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/recycle_service_project"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/bot"
+            android:layout_below="@id/w"
+            android:background="@drawable/bg_bottom_total"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <TextView
+                app:layout_constraintBottom_toBottomOf="@+id/x"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorWhite"
+                android:text="--"/>
+
+            <LinearLayout
+                android:id="@+id/x"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_centerVertical="true"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textSize="11dp"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+                <TextView
+                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IDR 123.123.123"
+                    android:id="@+id/project_service_total"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>

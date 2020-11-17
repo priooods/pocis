@@ -92,7 +92,6 @@ public class VesselInformation extends Fragment {
 
     void ShowDateTime(TextInputEditText texit){
         Calendar calendar = Calendar.getInstance();
-        // TODO INI DATANYA GA BISA DIAMBIL PAKE DATE INI ERROR SEMUA
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
@@ -178,16 +177,16 @@ public class VesselInformation extends Fragment {
                 discharge_ship.getText().toString().isEmpty() || port_origin.getText().toString().isEmpty() ||
                 estimate_arival.getText().toString().isEmpty() ||loading_shipcall.getText().toString().isEmpty() ||
                 estimate_departure.getText().toString().isEmpty()){
-            Toasty.error(getContext(), "Form Input Harus Diisi Lengkap", Toasty.LENGTH_SHORT, true).show();
+            Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
         } else {
-            Bundle arg = new Bundle();
-            arg.putString("vesel", vesel_name.getText().toString());
-            arg.putString("port", port_discharge.getText().toString());
-            arg.putString("discharge", discharge_ship.getText().toString());
-            arg.putString("origin", port_origin.getText().toString());
-            arg.putString("estimate", estimate_arival.getText().toString());
-            arg.putString("shipcall", loading_shipcall.getText().toString());
-            arg.putString("departure", estimate_departure.getText().toString());
+//            Bundle arg = new Bundle();
+//            arg.putString("vesel", vesel_name.getText().toString());
+//            arg.putString("port", port_discharge.getText().toString());
+//            arg.putString("discharge", discharge_ship.getText().toString());
+//            arg.putString("origin", port_origin.getText().toString());
+//            arg.putString("estimate", estimate_arival.getText().toString());
+//            arg.putString("shipcall", loading_shipcall.getText().toString());
+//            arg.putString("departure", estimate_departure.getText().toString());
             BookingData.i.vessel = new BookingData.VesselData(
                     vesel_name.getText().toString(),
                     loading_shipcall.getText().toString(),
@@ -199,7 +198,7 @@ public class VesselInformation extends Fragment {
             );
 
             Fragment fragment = new Summary();
-            fragment.setArguments(arg);
+//            fragment.setArguments(arg);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);

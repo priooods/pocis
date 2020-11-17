@@ -14,6 +14,7 @@
         app:cardCornerRadius="8dp">
 
         <RelativeLayout
+            android:id="@+id/layout_project_open"
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorGrey"
                         android:text="Booking No"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:textStyle="italic"
                         android:layout_height="wrap_content"/>
 
@@ -114,7 +115,7 @@
                         android:id="@+id/myproject_no_booking"
                         android:textColor="@color/colorTextbooking"
                         android:textAllCaps="true"
-                        android:textSize="11dp"
+                        android:textSize="10dp"
                         android:text="PS.00/172.01/PMS/XI/2014"
                         android:fontFamily="@font/montserrat_bold"/>
 
@@ -134,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:textColor="@color/colorGrey"
                         android:textStyle="italic"
                         android:text="Start Date"/>
@@ -146,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextbooking"
                         android:text="PT. KRAKATAU POSCO"
-                        android:textSize="11dp"
+                        android:textSize="10dp"
                         android:textAllCaps="true"
                         android:fontFamily="@font/montserrat_bold"
                         android:id="@+id/myproject_start_date"/>
@@ -167,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorGrey"
                         android:text="Schedule Code"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:textStyle="italic"
                         android:layout_height="wrap_content"/>
 
@@ -179,7 +180,7 @@
                         android:id="@+id/myproject_code_schedule"
                         android:textColor="@color/colorTextbooking"
                         android:textAllCaps="true"
-                        android:textSize="11dp"
+                        android:textSize="10dp"
                         android:text="BG. LKH 3883"
                         android:fontFamily="@font/montserrat_bold"/>
 
@@ -198,7 +199,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:textColor="@color/colorGrey"
                         android:textStyle="italic"
                         android:text="Consignee Name"/>
@@ -209,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextbooking"
                         android:text="CNEE"
-                        android:textSize="11dp"
+                        android:textSize="10dp"
                         android:textAllCaps="true"
                         android:fontFamily="@font/montserrat_bold"
                         android:id="@+id/myproject_name_consigne"/>
@@ -230,7 +231,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorGrey"
                         android:text="Tonage"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:textStyle="italic"
                         android:layout_height="wrap_content"/>
 
@@ -240,7 +241,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/myproject_tonage"
                         android:textColor="@color/colorTextbooking"
-                        android:textSize="11dp"
+                        android:textSize="10dp"
                         android:text="Yes"
                         android:fontFamily="@font/montserrat_bold"/>
 
@@ -259,7 +260,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="10dp"
+                        android:textSize="9dp"
                         android:textColor="@color/colorGrey"
                         android:textStyle="italic"
                         android:text="Vessel Name"/>
@@ -271,7 +272,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextbooking"
                         android:text="2020-04-01 13:02:43"
-                        android:textSize="11dp"
+                        android:textSize="10dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:id="@+id/myproject_name_vesel"/>
 
