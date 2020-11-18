@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Commodity;
+import com.kbs.pocis.model.createboking.Model_SelectTemplate;
+import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
 
@@ -36,17 +38,21 @@ public class Summary extends Fragment {
     TextView customer_type, related, contract, veselname, discharge,
             port, arival, departure, loading;
 
-    RecyclerView list_serviceInfo, list_comodityInfo;
-    ListView list_Document;
+    RecyclerView list_serviceInfo, list_comodityInfo, list_Document;
     ArrayList<Model_Commodity> summaryComodities ;
+    ArrayList<Model_UploadDocument> uploadDocuments;
+    List<BookingData.BookTemplate> modelShowTemplates;
+    List<BookingData.BookTemplate.BookTempList> modelServisSub;
     AdapterComodity adapterComodity;
+    AdapterServices adapterServices;
+    AdapterSubServices adapterSubServices;
+    AdapterFile adapterFile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
-
 
         next = view.findViewById(R.id.summary_nextBtn);
         prev = view.findViewById(R.id.summary_prevBtn);
@@ -61,7 +67,6 @@ public class Summary extends Fragment {
         arival = view.findViewById(R.id.veselinfo_arrival);
         departure = view.findViewById(R.id.veselinfo_departure);
         loading = view.findViewById(R.id.veselinfo_loading);
-
 
         list_serviceInfo = view.findViewById(R.id.veselinfo_list);
         list_comodityInfo = view.findViewById(R.id.recycle_vesel_comodityInfo);
@@ -78,15 +83,29 @@ public class Summary extends Fragment {
         departure.setText(data.vessel.estimate_departure);
         loading.setText(data.vessel.port_origin);
 
-
-        ListingAllList();
+        ListingComodityList();
+        ListingList();
 
 
         ButtonFunction();
         return view;
     }
 
-    private void ListingAllList() {
+    private void ListingList(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        modelShowTemplates = BookingData.i.template;
+        adapterServices = new AdapterServices(getContext(), modelShowTemplates);
+        list_serviceInfo.setLayoutManager(layoutManager);
+        list_serviceInfo.setAdapter(adapterServices);
+
+        uploadDocuments = BookingData.i.file;
+        adapterFile = new AdapterFile(getContext(), uploadDocuments);
+        list_Document.setLayoutManager(manager);
+        list_Document.setAdapter(adapterFile);
+    }
+
+    private void ListingComodityList() {
         summaryComodities = BookingData.i.commodity;
         adapterComodity = new AdapterComodity(getContext(), summaryComodities);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -154,7 +173,98 @@ public class Summary extends Fragment {
         dialogFragment.show();
     }
 
+    //Template Service Information TYPE
+    public class AdapterServices extends RecyclerView.Adapter<AdapterServices.vHolder>{
 
+        Context context;
+        List<BookingData.BookTemplate> model_showTemplates;
+
+        public AdapterServices(Context context, List<BookingData.BookTemplate> model_showTemplates) {
+            this.context = context;
+            this.model_showTemplates = model_showTemplates;
+        }
+
+        @NonNull
+        @Override
+        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.model_summary_serviceinfo_title, parent, false);
+            return new vHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull vHolder holder, int position) {
+            holder.title.setText(model_showTemplates.get(position).name);
+
+            List<BookingData.BookTemplate.BookTempList> templatesAnak = model_showTemplates.get(position).listCheck;
+            AdapterSubServices templateAnak = new AdapterSubServices(context, templatesAnak);
+            holder.recyclerView_subType.setHasFixedSize(true);
+            holder.recyclerView_subType.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            holder.recyclerView_subType.setAdapter(templateAnak);
+        }
+
+        @Override
+        public int getItemCount() {
+            return model_showTemplates.size();
+        }
+
+        public class vHolder extends RecyclerView.ViewHolder{
+
+            TextView title, id ;
+            RecyclerView recyclerView_subType;
+
+            public vHolder(@NonNull View itemView) {
+                super(itemView);
+
+                title = itemView.findViewById(R.id.model_serviceinfo_title);
+                id = itemView.findViewById(R.id.model_serviceinfo_code);
+                recyclerView_subType = itemView.findViewById(R.id.recycle_subtype);
+            }
+        }
+
+    }
+    //Template Service Information subTYPE
+    public class AdapterSubServices extends RecyclerView.Adapter<AdapterSubServices.vHolder>{
+
+        Context context;
+        List<BookingData.BookTemplate.BookTempList> model_selectTemplates;
+
+        public AdapterSubServices(Context context, List<BookingData.BookTemplate.BookTempList> model_selectTemplates) {
+            this.context = context;
+            this.model_selectTemplates = model_selectTemplates;
+        }
+
+        @NonNull
+        @Override
+        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.model_summary_serviceinfo_subtitle, parent, false);
+            return new vHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull vHolder holder, int position) {
+            holder.title.setText(model_selectTemplates.get(position).name);
+            holder.id.setText(model_selectTemplates.get(position).code);
+        }
+
+        @Override
+        public int getItemCount() {
+            return model_selectTemplates.size();
+        }
+
+
+        public class vHolder extends RecyclerView.ViewHolder{
+
+            TextView title, id ;
+
+            public vHolder(@NonNull View itemView) {
+                super(itemView);
+
+                title = itemView.findViewById(R.id.name_subtipe);
+                id = itemView.findViewById(R.id.id_subtipe);
+            }
+        }
+
+    }
 
     public class AdapterComodity extends RecyclerView.Adapter<AdapterComodity.vHolder>{
 
@@ -178,8 +288,8 @@ public class Summary extends Fragment {
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
             holder.comodity.setText(comodityList.get(position).getCommodity());
             holder.consigne.setText(comodityList.get(position).getConsigne());
-            holder.packages.setText(comodityList.get(position).getPackages());
-            holder.weight.setText(comodityList.get(position).getWeight());
+            holder.packages.setText(comodityList.get(position).getPackages() + " Package");
+            holder.weight.setText(comodityList.get(position).getWeight() + " Tonage");
         }
 
         @Override
@@ -196,6 +306,46 @@ public class Summary extends Fragment {
                 consigne = itemView.findViewById(R.id.vesel_infovesel_consigne);
                 packages = itemView.findViewById(R.id.vesel_infovesel_package);
                 weight = itemView.findViewById(R.id.vesel_infovesel_weight);
+
+
+            }
+        }
+    }
+
+    public class AdapterFile extends RecyclerView.Adapter<AdapterFile.vHolder>{
+
+        Context context;
+        List<Model_UploadDocument> uploadDocuments;
+
+        public AdapterFile(Context context, List<Model_UploadDocument> uploadDocuments) {
+            this.context = context;
+            this.uploadDocuments = uploadDocuments;
+        }
+
+        @NonNull
+        @Override
+        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.model_summary_documentlist, parent, false);
+
+            return new vHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull vHolder holder, int position) {
+            holder.filename.setText(uploadDocuments.get(position).getUsername());
+        }
+
+        @Override
+        public int getItemCount() {
+            return uploadDocuments.size();
+        }
+
+        public class vHolder extends RecyclerView.ViewHolder{
+            TextView filename;
+            public vHolder(@NonNull View itemView) {
+                super(itemView);
+
+                filename = itemView.findViewById(R.id.filename_summary);
 
 
             }

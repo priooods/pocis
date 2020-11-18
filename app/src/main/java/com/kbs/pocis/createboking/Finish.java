@@ -50,16 +50,15 @@ public class Finish extends Fragment {
             }
         });
 
-
-//        bookagain.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UserData user = (UserData) getIntent().getParcelableExtra("user");
-//                Intent intent = new Intent(Finish.this, CreateBooking.class).putExtra("user", user);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        bookagain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                Intent intent = new Intent(getActivity(), CreateBooking.class).putExtra("user", user);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
     }
 
 }

@@ -614,8 +614,7 @@
                         android:layout_height="wrap_content"
                         android:background="#F9F9F9">
 
-                        <ListView
-                            android:dividerHeight="0dp"
+                        <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/veselinfo_documentList"/>
