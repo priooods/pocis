@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -37,22 +38,22 @@ import static android.content.ContentValues.TAG;
 
 public class SelectTemplate extends Fragment {
 
-    boolean f003,g004,j043,t008 = true;
-    boolean isSelectedAll;
     CardView boxesCheckAll;
-    CheckBox checkAll, check_g1;
+    CheckBox checkAll;
     Button prev, next;
-    ArrayList<String> mdl = new ArrayList<>();
-
+    boolean checkAllList;
     RecyclerView recyclerView_FeePas;
     ListingFeePas listingFeePas;
     ArrayList<Model_ShowTemplate> model = new ArrayList<>();
-
+    ArrayList<Model_SelectTemplate> templatesAnak;
+    ArrayList<SelectTemplate.AdapterTemplateAnak.VHolder> button = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_template, container, false);
         recyclerView_FeePas = view.findViewById(R.id.list_template);
+        boxesCheckAll = view.findViewById(R.id.e);
+        checkAll = view.findViewById(R.id.select_template_checkAll);
 
 
         model.add(new Model_ShowTemplate("f003", "Fee Pas Masuk Kendaraan", R.color.colorGrey,
@@ -66,20 +67,20 @@ public class SelectTemplate extends Fragment {
         ));
         model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                        new Model_SelectTemplate("g004-g001","Pas Tes")
+                        new Model_SelectTemplate("g004-g001","Get Access Card")
                 ))
         ));
         model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                        new Model_SelectTemplate("j043-j042","Pas Tes 0"),
-                        new Model_SelectTemplate("j045-j048","Pas Tes1 1")
+                        new Model_SelectTemplate("j043-j042","Jasa Angukatan Kereta Api KS 0"),
+                        new Model_SelectTemplate("j045-j048","Jasa Angukatan Kereta Api KS 1")
                 ))
         ));
         model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                        new Model_SelectTemplate("t043-j042","Pas Tes 0"),
-                        new Model_SelectTemplate("t045-j048","Pas Tes1 1"),
-                        new Model_SelectTemplate("t045-j048","Pas Tes1 2")
+                        new Model_SelectTemplate("t043-j042","Train Test 0"),
+                        new Model_SelectTemplate("t045-j048","Train Test 1"),
+                        new Model_SelectTemplate("t045-j048","Train Test 2")
                 ))
         ));
 
@@ -96,7 +97,7 @@ public class SelectTemplate extends Fragment {
                             for (; j < sel.size(); j++) {
                                 if (mod.getId() == sel.get(j).getId()) {
                                     Log.i("showTemplate","Check True for SubList "+mod.getId()+" "+mod.getName());
-                                    sel.get(j).setChecked(true);
+                                    //sel.get(j).setChecked(true);
                                     break;
                                 }
                             }
@@ -115,29 +116,32 @@ public class SelectTemplate extends Fragment {
                 model.remove(i);
                 i--;
             }
-        }else{
+        }
+            else{
             // Error Back to CustomerAddForm
         }
+
         for(Model_ShowTemplate temp : model){
             Log.i( "showTemplate" , "Model Exist "+temp.getId()+" "+temp.getName()+" List ="+(temp.list!=null?temp.list.size():"NULL"));
         }
-        ///TODO to Prio, MODEL KE LIST NGGA JADI CHECKLIST PADAHAL VALUE NYA TRUE
         listingFeePas = new ListingFeePas(getContext(), model);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView_FeePas.setLayoutManager(layoutManager);
         recyclerView_FeePas.setAdapter(listingFeePas);
-
-        boxesCheckAll = view.findViewById(R.id.e);
-
-        //CheckButton
-        checkAll = view.findViewById(R.id.select_template_checkAll);
 
         //Button go & backn
         prev = view.findViewById(R.id.select_template_prevBtn);
         next = view.findViewById(R.id.select_template_nextBtn);
 
         FunctionButton();
-
+        checkAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                for(AdapterTemplateAnak.VHolder b : button){
+                    b.checkBox.setChecked(isChecked);
+                }
+            }
+        });
         return view;
     }
 
@@ -145,6 +149,7 @@ public class SelectTemplate extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BookingData.i.SetBookTemplate(model);
                 getActivity().onBackPressed();
             }
         });
@@ -152,23 +157,20 @@ public class SelectTemplate extends Fragment {
             @Override
             public void onClick(View v) {
                 for(Model_ShowTemplate data : model){
-                    if (!data.OneChecked())
-                        Log.i("selTemplate","no one is Checked");
-                        //return;
+                    if (!data.OneChecked()) {
+                        Log.i("selTemplate", "no one is Checked");
+                        Toasty.error(getContext(), "Anda harus memilih template dahulu", Toasty.LENGTH_SHORT,true).show();
+                        return;
+                    }
                 }
                 GoToUpload();
             }
         });
     }
-
     public void GoToUpload(){
-        //TODO to prio, oi ini kn udah selesai sebenarnya bisa diload, cmn dari UI gak keubah value di modelnya,
-        // INI DIBAWAH HASIL NGECEK, semua value jdi false padahal udah di checklist jjkjkjk
-        if (isOneChecked()) {
             for (Model_ShowTemplate mod : model) {
                 for (Model_SelectTemplate sel : mod.list) {
                     Log.i("out", sel.getId() + " " + sel.getName() + " - " + sel.isChecked());
-                    //sel.setChecked(true);
                 }
             }
             BookingData.i.SetBookTemplate(model);
@@ -177,31 +179,29 @@ public class SelectTemplate extends Fragment {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
             fragmentTransaction.commit();
-        }else {
-            Toasty.error(getContext(), "Error Gaes", Toasty.LENGTH_SHORT,true).show();
-        }
+
     }
 
     //Melihat status dari subType Template apakah tidak ada yg true di Type Template
-    boolean isOneChecked(){
-        boolean checked = false;
-        for (Model_ShowTemplate mod : model) {
-            checked = false;
-            for (Model_SelectTemplate sel : mod.list) {
-                if (sel.isChecked()){
-                    checked = true;
-                    break;
-                }
-            }
-            if (!checked){
-                return false;
-            }
-        }
-        return true;
-    }
+//    boolean isOneChecked(){
+//        boolean checked = false;
+//        for (Model_ShowTemplate mod : model) {
+//            checked = false;
+//            for (Model_SelectTemplate sel : mod.list) {
+//                if (sel.isChecked()){
+//                    checked = true;
+//                    break;
+//                }
+//            }
+//            if (!checked){
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     //Ini untuk Listing ID dan NAME dari setiap type Template
-    public static class ListingFeePas extends RecyclerView.Adapter<ListingFeePas.vHolder>{
+    public class ListingFeePas extends RecyclerView.Adapter<ListingFeePas.vHolder>{
         Context context;
         List<Model_ShowTemplate> model;
 
@@ -225,7 +225,7 @@ public class SelectTemplate extends Fragment {
 
             //Untuk mempermudah pengembangan selanjutnya dari setiap pilihan sub Template.
             // maka disini dibuat kan list didalam list
-            ArrayList<Model_SelectTemplate> templatesAnak = model.get(position).list;
+            templatesAnak = model.get(position).list;
             AdapterTemplateAnak templateAnak = new AdapterTemplateAnak(context, templatesAnak);
             holder.listRecycle.setHasFixedSize(true);
             holder.listRecycle.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -237,7 +237,7 @@ public class SelectTemplate extends Fragment {
             return model.size();
         }
 
-        public static class vHolder extends RecyclerView.ViewHolder {
+        public class vHolder extends RecyclerView.ViewHolder {
             ImageView img;
             RecyclerView listRecycle;
             TextView nametitle, idtitle;
@@ -254,14 +254,15 @@ public class SelectTemplate extends Fragment {
     }
 
     //Ini untuk Listing ID dan NAME dari setiap subtype Template
-    public static class AdapterTemplateAnak extends RecyclerView.Adapter<AdapterTemplateAnak.VHolder>{
+    public  class AdapterTemplateAnak extends RecyclerView.Adapter<AdapterTemplateAnak.VHolder>{
         Context context;
         List<Model_SelectTemplate> selectTemplates;
-        boolean isSelectedAll;
+        //ArrayList<Model_SelectTemplate> selectAll;
 
         public AdapterTemplateAnak(Context context, List<Model_SelectTemplate> selectTemplates) {
             this.context = context;
             this.selectTemplates = selectTemplates;
+
         }
 
         @NonNull
@@ -276,35 +277,35 @@ public class SelectTemplate extends Fragment {
             holder.name.setText(selectTemplates.get(position).getName());
             holder.id.setText(selectTemplates.get(position).getId());
             holder.checkBox.setChecked(selectTemplates.get(position).isChecked());
+            button.add(holder);
             holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     holder.checkBox.setChecked(isChecked);
                     selectTemplates.get(position).setChecked(isChecked);
+                    //selectAll.add(holder.checkBox.)
                 }
             });
-            if (!isSelectedAll){
-                holder.checkBox.setChecked(false);
-            } else {
-                holder.checkBox.setChecked(true);
-            }
+
         }
+
 
         @Override
         public int getItemCount() {
             return selectTemplates.size();
         }
 
-        public static class VHolder extends RecyclerView.ViewHolder{
+        public class VHolder extends RecyclerView.ViewHolder{
             TextView id, name;
             CheckBox checkBox;
             public VHolder(@NonNull View itemView) {
                 super(itemView);
-
                 id = itemView.findViewById(R.id.idselecttemplate);
                 name = itemView.findViewById(R.id.nameselecttemplate);
                 checkBox = itemView.findViewById(R.id.modelcheck_selecttemplate);
+
             }
         }
     }
+
 }

@@ -1,41 +1,33 @@
 package com.kbs.pocis.onlineboking;
 
-import android.app.Dialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.adapter.ViewpagerDefault;
-import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
-import com.kbs.pocis.item.Filter_OnlineBooking;
-import com.kbs.pocis.model.Model_Bookings;
-
-import java.util.ArrayList;
+import com.kbs.pocis.filter.FIlter_Service;
+import com.kbs.pocis.filter.Filter_OnlineBooking;
 
 public class OnlineBooking extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
+    private static int REQUEST_CODE = 123;
     ImageView icon_back, icon_search;
+    DialogFragment fragment;
 
     @Nullable
     @Override
@@ -72,7 +64,8 @@ public class OnlineBooking extends Fragment {
         icon_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment fragment = new Filter_OnlineBooking();
+                fragment = new Filter_OnlineBooking();
+                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
                 fragment.show(getChildFragmentManager(), "filter_online");
             }
         });
@@ -80,6 +73,11 @@ public class OnlineBooking extends Fragment {
         return view;
     }
 
-    //Ini adalah function untuk Menampilkan Dialog Searching yah
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE){
+            String datas = data.getStringExtra("inputvesel");
+            Log.e("TAG", "onActivityResult: " +  datas);
+        }
+    }
 }

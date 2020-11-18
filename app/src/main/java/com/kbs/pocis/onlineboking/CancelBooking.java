@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class CancelBooking extends Fragment {
     //TODO INI CANCEL BOOKING MAU DIBUAT KEK MANA? KALO DAH LENGKAP, NNTI GUA LENGKAPIN BUAT SAFECONTROL SAMA TAMPILANNYA
     RecyclerView recyclerView;
     NestedScrollView nestdcan;
+    RelativeLayout relativeLayout_ada, relativeLayout_kosong;
     ConstraintLayout bar;
     Adapter_CancelBooking adapter_cancelBooking;
     TextView kanan, kiri,kanan_banget,kiri_banget,index_list_cancelboking, all_index_cancelboking;
@@ -54,6 +56,9 @@ public class CancelBooking extends Fragment {
         index_list_cancelboking = view.findViewById(R.id.index_list_cancelboking);
         all_index_cancelboking = view.findViewById(R.id.all_index_cancelboking);
         recyclerView = view.findViewById(R.id.recycle_Cancelbooking);
+        relativeLayout_ada = view.findViewById(R.id.lay_cancelbooking_ada);
+        relativeLayout_kosong = view.findViewById(R.id.lay_cancelbooking_kosong);
+
 
         nestdcan = view.findViewById(R.id.nestdcan);
 
@@ -161,12 +166,19 @@ public class CancelBooking extends Fragment {
                     index_list_cancelboking.setText(page_current + " of " + page_last);
                     all_index_cancelboking.setText("Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results");
 
-
-                    adapter_cancelBooking = new Adapter_CancelBooking(getContext(), model_bookingsList);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter_cancelBooking);
-                    adapter_cancelBooking.notifyDataSetChanged();
+                    if (model_bookingsList !=null ? model_bookingsList.size()>0 : false) {
+                        relativeLayout_kosong.setVisibility(View.GONE);
+                        relativeLayout_ada.setVisibility(View.VISIBLE);
+                        adapter_cancelBooking = new Adapter_CancelBooking(getContext(), model_bookingsList);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter_cancelBooking);
+                        adapter_cancelBooking.notifyDataSetChanged();
+                    } else {
+                        relativeLayout_ada.setVisibility(View.GONE);
+                        relativeLayout_kosong.setVisibility(View.VISIBLE);
+                        Log.e("TAG", "onResponse: " + "Kosong Layoutnya" );
+                    }
                     Log.i("finish_list","Finish Listing "+ list.size());
                 } else {
                     //pesan(respone.desc);

@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,16 +27,19 @@ import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.Model_Bookings;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApproved.VHolder> {
+public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApproved.VHolder> implements Filterable {
 
     Context context;
     List<Model_Bookings> model_bookings;
+    List<Model_Bookings> modelfilter;
 
     public Adapter_TarifApproved(Context context, List<Model_Bookings> model_bookings) {
         this.context = context;
         this.model_bookings = model_bookings;
+        this.modelfilter = model_bookings;
     }
 
     @NonNull
@@ -123,6 +128,38 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
     @Override
     public int getItemCount() {
         return model_bookings.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String key = constraint.toString();
+                if (key.isEmpty()){
+                    model_bookings = modelfilter;
+                } else {
+                    List<Model_Bookings> bookings = new ArrayList<>();
+                    for (Model_Bookings modelBookings : modelfilter){
+                        if (modelBookings.getNomerBook().toLowerCase().contains(key.toLowerCase()) ||
+                                modelBookings.getVesselName().toLowerCase().contains(key.toLowerCase())){
+                            bookings.add(modelBookings);
+                        }
+                    }
+
+                    model_bookings = bookings;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = model_bookings;
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                model_bookings = (List<Model_Bookings>)results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public static class VHolder extends RecyclerView.ViewHolder{

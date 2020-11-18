@@ -60,6 +60,7 @@ public class Popup_Profile extends DialogFragment {
 
             }
         });
+        username.setText(user.username);
 
         return view;
 

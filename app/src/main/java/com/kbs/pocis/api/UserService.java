@@ -16,7 +16,6 @@ public interface UserService {
             @Field("username") String id,
             @Field("password") String secret
     );
-
     @FormUrlEncoded
     @POST("auth/logout")
     Call<CallingData> getLogoutUser(
@@ -34,5 +33,10 @@ public interface UserService {
             @Field("token") String token,
             @Field("page") String page
     );
-
+    @FormUrlEncoded
+    @POST("tarif-approve/all")
+    Call<CallingData> getTariffAprove(
+            @Field("token") String token,
+            @Field("page") String page
+    );
 }

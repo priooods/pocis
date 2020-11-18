@@ -20,6 +20,8 @@
             android:src="@drawable/profile_icon"/>
 
         <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginTop="12dp"
             android:text="username pengguna"
             android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
+import com.kbs.pocis.filter.FIlter_Service;
 import com.kbs.pocis.model.Model_Bookings;
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.CallingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
@@ -34,6 +37,7 @@ public class AllBookings extends Fragment {
 
     Adapter_AllBooking adapter_allBooking;
     RecyclerView recyclerView;
+    RelativeLayout layout_ada, layout_kosong;
     ConstraintLayout bar;
     TextView kanan, kiri, kanan_banget, kiri_banget,
             index_list_allboking, all_index_allboking;
@@ -57,8 +61,8 @@ public class AllBookings extends Fragment {
         index_list_allboking = view.findViewById(R.id.index_list_allboking);
         all_index_allboking = view.findViewById(R.id.all_index_allboking);
         nestdall = view.findViewById(R.id.nestdall);
-
-
+        layout_kosong = view.findViewById(R.id.lay_allbooking_kosong);
+        layout_ada = view.findViewById(R.id.lay_allbooking_ada);
 
         GenerateList();
         ganti();
@@ -111,7 +115,7 @@ public class AllBookings extends Fragment {
 
     /// Fungsi untuk membuat list
     void GenerateList(){
-        UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+        UserData user = UserData.i;//(UserData) getActivity().getIntent().getParcelableExtra("user");
         UserService service = user.getService();
         if (service == null) {
             Log.e("all_booking","ERROR SERVICE");
@@ -148,18 +152,19 @@ public class AllBookings extends Fragment {
                     index_list_allboking.setText(page_current + " of " + page_last);
                     all_index_allboking.setText("Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results");
 
-                    adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter_allBooking);
-
-//                    if (filterQuery.getQuery() == null){
-//                        Log.i("TAG", "onResponse: " + "qury kosong");
-//                    } else {
-//                        Log.i("TAG", "onResponse: " + "qury ada");
-//                        adapter_allBooking.notifyDataSetChanged();
-//                    }
-
+                    if (model_bookingsList !=null ? model_bookingsList.size()>0 : false) {
+                        layout_ada.setVisibility(View.VISIBLE);
+                        layout_kosong.setVisibility(View.GONE);
+                        adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        adapter_allBooking.getFilter().filter(user.filter);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter_allBooking);
+                    } else {
+                        layout_ada.setVisibility(View.GONE);
+                        layout_kosong.setVisibility(View.VISIBLE);
+                        Log.e("TAG", "onResponse: " + " Layout nya kosong" );
+                    }
 
                     return;
                 } else {

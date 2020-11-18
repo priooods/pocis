@@ -10,10 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
+import com.kbs.pocis.filter.Filter_MyProject;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
 import com.kbs.pocis.myproject.Projects_Open;
@@ -27,7 +29,6 @@ public class MyProject_Dasar extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        ActivityClass.noAFK = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.myproject_dasar);
 
@@ -44,11 +45,19 @@ public class MyProject_Dasar extends AppCompatActivity {
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                MyProject_Dasar.this.onBackPressed();
                 finish();
             }
         });
+
         icon_search = findViewById(R.id.btn_search_myproject);
+        icon_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment fragment = new Filter_MyProject();
+                fragment.show(getSupportFragmentManager(),"Filter My project");
+            }
+        });
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
         title = findViewById(R.id.titile);
         bottombar_myprojects.setOnNavigationItemSelectedListener(listener);

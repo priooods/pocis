@@ -42,10 +42,8 @@ public class Summary extends Fragment {
     ArrayList<Model_Commodity> summaryComodities ;
     ArrayList<Model_UploadDocument> uploadDocuments;
     List<BookingData.BookTemplate> modelShowTemplates;
-    List<BookingData.BookTemplate.BookTempList> modelServisSub;
     AdapterComodity adapterComodity;
     AdapterServices adapterServices;
-    AdapterSubServices adapterSubServices;
     AdapterFile adapterFile;
 
     @Override
@@ -174,7 +172,7 @@ public class Summary extends Fragment {
     }
 
     //Template Service Information TYPE
-    public class AdapterServices extends RecyclerView.Adapter<AdapterServices.vHolder>{
+    public static class AdapterServices extends RecyclerView.Adapter<AdapterServices.vHolder>{
 
         Context context;
         List<BookingData.BookTemplate> model_showTemplates;
@@ -197,7 +195,6 @@ public class Summary extends Fragment {
 
             List<BookingData.BookTemplate.BookTempList> templatesAnak = model_showTemplates.get(position).listCheck;
             AdapterSubServices templateAnak = new AdapterSubServices(context, templatesAnak);
-            holder.recyclerView_subType.setHasFixedSize(true);
             holder.recyclerView_subType.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             holder.recyclerView_subType.setAdapter(templateAnak);
         }
@@ -207,7 +204,7 @@ public class Summary extends Fragment {
             return model_showTemplates.size();
         }
 
-        public class vHolder extends RecyclerView.ViewHolder{
+        public static class vHolder extends RecyclerView.ViewHolder{
 
             TextView title, id ;
             RecyclerView recyclerView_subType;
@@ -223,7 +220,7 @@ public class Summary extends Fragment {
 
     }
     //Template Service Information subTYPE
-    public class AdapterSubServices extends RecyclerView.Adapter<AdapterSubServices.vHolder>{
+    public static class AdapterSubServices extends RecyclerView.Adapter<AdapterSubServices.vHolder>{
 
         Context context;
         List<BookingData.BookTemplate.BookTempList> model_selectTemplates;
@@ -252,7 +249,7 @@ public class Summary extends Fragment {
         }
 
 
-        public class vHolder extends RecyclerView.ViewHolder{
+        public static class vHolder extends RecyclerView.ViewHolder{
 
             TextView title, id ;
 
@@ -266,7 +263,7 @@ public class Summary extends Fragment {
 
     }
 
-    public class AdapterComodity extends RecyclerView.Adapter<AdapterComodity.vHolder>{
+    public static class AdapterComodity extends RecyclerView.Adapter<AdapterComodity.vHolder>{
 
         Context context;
         List<Model_Commodity> comodityList;
@@ -297,8 +294,10 @@ public class Summary extends Fragment {
             return comodityList.size();
         }
 
-        public class vHolder extends RecyclerView.ViewHolder{
+        public static class vHolder extends RecyclerView.ViewHolder{
+
             TextView consigne, comodity, packages, weight;
+
             public vHolder(@NonNull View itemView) {
                 super(itemView);
 
@@ -312,7 +311,7 @@ public class Summary extends Fragment {
         }
     }
 
-    public class AdapterFile extends RecyclerView.Adapter<AdapterFile.vHolder>{
+    public static class AdapterFile extends RecyclerView.Adapter<AdapterFile.vHolder>{
 
         Context context;
         List<Model_UploadDocument> uploadDocuments;
@@ -340,7 +339,7 @@ public class Summary extends Fragment {
             return uploadDocuments.size();
         }
 
-        public class vHolder extends RecyclerView.ViewHolder{
+        public static class vHolder extends RecyclerView.ViewHolder{
             TextView filename;
             public vHolder(@NonNull View itemView) {
                 super(itemView);
