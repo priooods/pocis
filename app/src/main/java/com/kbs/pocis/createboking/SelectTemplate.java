@@ -90,7 +90,6 @@ public class SelectTemplate extends Fragment {
                 Log.i("showTemplate","on BookTemplate = "+temp.code+" "+temp.name);
                 for(;i<model.size();i++){
                     if (temp.code == model.get(i).getId()){
-                        i++;
                         int j=0;
                         ArrayList<Model_SelectTemplate> sel = model.get(i).list;
                         for (Model_SelectTemplate mod : model.get(i).list) {
@@ -102,6 +101,7 @@ public class SelectTemplate extends Fragment {
                                 }
                             }
                         }
+                        i++;
                         break;
                     }else{
                         Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());

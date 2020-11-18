@@ -84,9 +84,19 @@ public class VesselInformation extends Fragment {
         next = view.findViewById(R.id.veselinfo_nextBtn);
         prev = view.findViewById(R.id.veselinfo_prevBtn);
 
+        if (BookingData.isExist()){
+            BookingData.VesselData bd = BookingData.i.vessel;
+            if (bd !=null) {
+                vesel_name.setText(bd.vessel_name);
+                port_discharge.setText(bd.port_discharge);
+                discharge_ship.setText(bd.discharge_ship);
+                port_origin.setText(bd.port_origin);
+                estimate_arival.setText(bd.estimate_arival);
+                loading_shipcall.setText(bd.loading_shipcall);
+                estimate_departure.setText(bd.estimate_departure);
+            }
+        }
         ButtonFunction();
-
-
         return view;
     }
 
@@ -171,7 +181,17 @@ public class VesselInformation extends Fragment {
             pesanError("Port Discharge and Port Origin Minimun 2 Character");
         }
     }
-
+    void UpdateData(){
+        BookingData.i.vessel = new BookingData.VesselData(
+                vesel_name.getText().toString(),
+                loading_shipcall.getText().toString(),
+                discharge_ship.getText().toString(),
+                port_discharge.getText().toString(),
+                port_origin.getText().toString(),
+                estimate_arival.getText().toString(),
+                estimate_departure.getText().toString()
+        );
+    }
     void StatusInputNull(){
         if (vesel_name.getText().toString().isEmpty() || port_discharge.getText().toString().isEmpty() ||
                 discharge_ship.getText().toString().isEmpty() || port_origin.getText().toString().isEmpty() ||
@@ -179,24 +199,7 @@ public class VesselInformation extends Fragment {
                 estimate_departure.getText().toString().isEmpty()){
             Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
         } else {
-//            Bundle arg = new Bundle();
-//            arg.putString("vesel", vesel_name.getText().toString());
-//            arg.putString("port", port_discharge.getText().toString());
-//            arg.putString("discharge", discharge_ship.getText().toString());
-//            arg.putString("origin", port_origin.getText().toString());
-//            arg.putString("estimate", estimate_arival.getText().toString());
-//            arg.putString("shipcall", loading_shipcall.getText().toString());
-//            arg.putString("departure", estimate_departure.getText().toString());
-            BookingData.i.vessel = new BookingData.VesselData(
-                    vesel_name.getText().toString(),
-                    loading_shipcall.getText().toString(),
-                    discharge_ship.getText().toString(),
-                    port_discharge.getText().toString(),
-                    port_origin.getText().toString(),
-                    estimate_arival.getText().toString(),
-                    estimate_departure.getText().toString()
-            );
-
+            UpdateData();
             Fragment fragment = new Summary();
 //            fragment.setArguments(arg);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -210,6 +213,7 @@ public class VesselInformation extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UpdateData();
                 getActivity().onBackPressed();
             }
         });
@@ -219,8 +223,6 @@ public class VesselInformation extends Fragment {
             public void onClick(View v) {
                 ConditionError();
                 StatusInputNull();
-
-
             }
         });
     }

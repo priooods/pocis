@@ -60,11 +60,11 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 user = new UserData(username.getText().toString(), password.getText().toString());
                 callInterface = user.getService();
-                if (callInterface == null){
+                if (callInterface == null) {
                     pesan("Failed to Connect! Please Enable Internet");
                     return;
-                }else {
-                    Log.i("login","Success to Connect!");
+                } else {
+                    Log.i("login", "Success to Connect!");
                 }
                 loginRetrofit2Api();
             }
@@ -72,9 +72,9 @@ public class Login extends AppCompatActivity {
     }
 
     public void loginRetrofit2Api() {
-        Call<CallingData> call1 = callInterface.getUserLogin(user.username,user.password);
+        Call<CallingData> call1 = callInterface.getUserLogin(user.username, user.password);
         if (call1 == null) {
-            Log.i("login","CallingData Post Method is Bad!");
+            Log.i("login", "CallingData Post Method is Bad!");
         }
         call1.enqueue(new Callback<CallingData>() {
             @Override
@@ -82,7 +82,7 @@ public class Login extends AppCompatActivity {
                 CallingData respone = (CallingData) response.body();
                 if (CallingData.TreatResponse(Login.this, "login", respone)) {
 
-                    pesanSuccess("Welcome "+ user.username);
+                    pesanSuccess("Welcome " + user.username);
                     user.setToken(respone.data.token);
                     startActivity(new Intent(Login.this, HomePage.class).putExtra("user", user));
                     finish();
@@ -91,6 +91,7 @@ public class Login extends AppCompatActivity {
                     Log.e("login", "Failed : \n Error " + respone.error + " : " + respone.desc);
                 }
             }
+
             @Override
             public void onFailure(Call<CallingData> call, Throwable t) {
                 pesan("onFailure called login!");
@@ -99,12 +100,12 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void pesan(String pesan){
+    private void pesan(String pesan) {
         Toasty.error(this, pesan, Toast.LENGTH_SHORT, true).show();
     }
 
 
-    private void pesanSuccess(String pesan){
+    private void pesanSuccess(String pesan) {
         Toast.makeText(this, pesan, Toast.LENGTH_SHORT).show();
     }
 }

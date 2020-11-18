@@ -10,17 +10,28 @@ import com.kbs.pocis.api.UserService;
 import java.util.Calendar;
 
 public class UserData implements Parcelable {
+    //region Singleton
+    public static UserData i;
+    public static boolean isExists(){
+        return (i!=null);
+    }
+    //endregion
     static final int detik = 10;
     public String username;
     public String password;
     private String token;
     private long time;
     private UserService service;
+    public String filter;
 
     public UserData(String username, String password) {
         this.username = username;
         this.password = password;
         RefreshTime();
+        i = this;
+    }
+    public void updateData(String filter){
+        this.filter = filter;
     }
 
     public UserData(String username, String password, long time) {

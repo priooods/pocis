@@ -39,9 +39,16 @@ public class BookingData {
             this.code = code;
             this.name = name;
             if (list != null) {
-                listCheck = new ArrayList<>(list.size());
+                int size = 0;
+                for(Model_SelectTemplate t:list){
+                    if (t.isChecked())
+                        size++;
+                }
+                listCheck = new ArrayList<>(size);
                 for (Model_SelectTemplate t : list) {
-                    listCheck.add(new BookTempList(t.getId(), t.getName()));
+                    if (t.isChecked()) {
+                        listCheck.add(new BookTempList(t.getId(), t.getName()));
+                    }
                 }
             }
         }
