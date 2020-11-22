@@ -81,10 +81,10 @@ public class Login extends AppCompatActivity {
             public void onResponse(Call<CallingData> call, Response<CallingData> response) {
                 CallingData respone = (CallingData) response.body();
                 if (CallingData.TreatResponse(Login.this, "login", respone)) {
-
                     pesanSuccess("Welcome " + user.username);
                     user.setToken(respone.data.token);
-                    startActivity(new Intent(Login.this, HomePage.class).putExtra("user", user));
+                    UserData.i = user;
+                    startActivity(new Intent(Login.this, HomePage.class));
                     finish();
                 } else {
                     pesan(respone.desc);

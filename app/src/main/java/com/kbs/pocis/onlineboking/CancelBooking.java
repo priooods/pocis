@@ -120,7 +120,7 @@ public class CancelBooking extends Fragment {
     }
     /// Fungsi untuk membuat list
     void GenerateList(){
-        UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+        UserData user = UserData.i;//(UserData) getActivity().getIntent().getParcelableExtra("user");
         UserService service = user.getService();
         if (user==null)
             return;
@@ -177,9 +177,9 @@ public class CancelBooking extends Fragment {
                     } else {
                         relativeLayout_ada.setVisibility(View.GONE);
                         relativeLayout_kosong.setVisibility(View.VISIBLE);
-                        Log.e("TAG", "onResponse: " + "Kosong Layoutnya" );
+                        Log.e("cancel", "onResponse: " + "Kosong Layoutnya" );
                     }
-                    Log.i("finish_list","Finish Listing "+ list.size());
+                    Log.i("cancel","Finish Listing "+ list.size());
                 } else {
                     //pesan(respone.desc);
                     Log.e("cancel_boking", "Failed : \n Error " + respone.error + " : " + respone.desc);

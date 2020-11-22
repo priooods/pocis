@@ -78,7 +78,7 @@ public class Popup_Profile extends DialogFragment {
                 CallingData.TreatResponse(getContext(), "logout", (CallingData) response.body());
                 user.setToken("");
                 pesanSuccess("Anda telah keluar");
-                startActivity(new Intent(getActivity(), Welcome_Screen.class).putExtra("token", user));
+                startActivity(new Intent(getActivity(), Welcome_Screen.class));
                 getActivity().finish();
             }
 

@@ -31,8 +31,8 @@ public class HomeMenu extends Fragment {
         menu_online_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
-                startActivity(new Intent(getActivity(), OnlineBook.class).putExtra("user",user));
+                //UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                startActivity(new Intent(getActivity(), OnlineBook.class));
             }
         });
 
@@ -40,8 +40,8 @@ public class HomeMenu extends Fragment {
         menu_create_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
-                Intent intent = new Intent(getContext(), CreateBooking.class).putExtra("user", user);
+                //UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                Intent intent = new Intent(getContext(), CreateBooking.class);
                 startActivity(intent);
             }
         });
@@ -50,8 +50,8 @@ public class HomeMenu extends Fragment {
         menu_myproject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
-                startActivity(new Intent(getActivity(), MyProject_Dasar.class).putExtra("user",user));
+                //UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                startActivity(new Intent(getActivity(), MyProject_Dasar.class));
             }
         });
 

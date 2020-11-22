@@ -216,7 +216,7 @@ public class CustomerAddForm extends Fragment {
         });
     }
 
-    //TODO Permission Storage dari sini sampai bawah Di CustommerAddFrom
+    //Permission Storage dari sini sampai bawah Di CustommerAddFrom
     public void Permision(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             if (ContextCompat.checkSelfPermission(getContext(),

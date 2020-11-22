@@ -23,7 +23,7 @@ public class BookingData {
         return true;
     }
     // data booking pertama CustomerAddForm
-    public String customerType, relatedVesel, contract;
+    public String customerType, relatedVesel, contract,uploadDate;
     public void setCustumer(String customer, String related, String contract){
         customerType = customer;
         relatedVesel = related;
@@ -99,5 +99,10 @@ public class BookingData {
         public void findData(){
             Log.i("tag","Nothin Happen");
         }
+    }
+
+    public void Upload(){
+        i = null;
+        BookingList.getI().AddBookingData(this);
     }
 }

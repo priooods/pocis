@@ -19,6 +19,7 @@ import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
 import com.kbs.pocis.filter.FIlter_Service;
 import com.kbs.pocis.model.Model_Bookings;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingList;
 import com.kbs.pocis.service.CallingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
@@ -44,7 +45,7 @@ public class AllBookings extends Fragment {
     List<Model_Bookings> model_bookingsList;
     NestedScrollView nestdall;
 
-    int page_current = 1, page_last = 2;
+    int page_current = 0, page_last = 2;
     boolean Ready;
 
     @Override
@@ -115,7 +116,7 @@ public class AllBookings extends Fragment {
 
     /// Fungsi untuk membuat list
     void GenerateList(){
-        UserData user = UserData.i;//(UserData) getActivity().getIntent().getParcelableExtra("user");
+        UserData user = UserData.i;
         UserService service = user.getService();
         if (service == null) {
             Log.e("all_booking","ERROR SERVICE");
@@ -129,6 +130,12 @@ public class AllBookings extends Fragment {
             public void onResponse(Call<CallingData> call, Response<CallingData> response) {
                 Ready = true;
                 CallingData respone = (CallingData) response.body();
+                if (respone.data.book.length == 0) {
+                    respone = BookingList.getI().getAllBookingLikeAPI(page_current);
+                    Log.i("tag", "Default getAllBOKING cuy");
+                }else{
+                    Log.e("tag","Weh ko ada listnya cuy");
+                }
                 if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
                     List<Model_Bookings> list = new ArrayList<>();
                     for (CallingData.Booking data : respone.data.book) {
@@ -157,13 +164,13 @@ public class AllBookings extends Fragment {
                         layout_kosong.setVisibility(View.GONE);
                         adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                        adapter_allBooking.getFilter().filter(user.filter);
+                        //adapter_allBooking.getFilter().filter(user.filter);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter_allBooking);
                     } else {
                         layout_ada.setVisibility(View.GONE);
                         layout_kosong.setVisibility(View.VISIBLE);
-                        Log.e("TAG", "onResponse: " + " Layout nya kosong" );
+                        Log.e("allBooking", "onResponse: " + " Layout nya kosong" );
                     }
 
                     return;

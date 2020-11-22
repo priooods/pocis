@@ -18,7 +18,7 @@ public class CallingData{
     public String desc;
     //@SerializedName("data")
     public Input data;
-    public class Input{
+    public static class Input{
         @SerializedName("token")
         public String token;
         @SerializedName("current_page")
@@ -31,7 +31,7 @@ public class CallingData{
         public int to_page;
         public int last_page, per_page,total;
     }
-    public class Booking {
+    public static class Booking {
         @SerializedName("id")
         public String booking_id;
         @SerializedName("no_booking")

@@ -91,7 +91,6 @@ public class OnlineBook extends AppCompatActivity {
     }
 
     public void FragmentList(Fragment fragment){
-        UserData user = (UserData) getIntent().getParcelableExtra("user");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameOnline, fragment)

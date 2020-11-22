@@ -9,7 +9,7 @@ import com.kbs.pocis.api.UserService;
 
 import java.util.Calendar;
 
-public class UserData implements Parcelable {
+public class UserData {
     //region Singleton
     public static UserData i;
     public static boolean isExists(){
@@ -73,37 +73,4 @@ public class UserData implements Parcelable {
         Log.i("token","Token Updated to : "+token);
         this.token = token;
     }
-
-    protected UserData(Parcel in) {
-        username = in.readString();
-        password = in.readString();
-        token = in.readString();
-        RefreshTime();
-    }
-
-    //region Parceable Things
-    public static final Parcelable.Creator<UserData> CREATOR = new Parcelable.Creator<UserData>() {
-        @Override
-        public UserData createFromParcel(Parcel in) {
-            return new UserData(in);
-        }
-
-        @Override
-        public UserData[] newArray(int size) {
-            return new UserData[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(username);
-        dest.writeString(password);
-        dest.writeString(token);
-    }
-    //endregion
 }

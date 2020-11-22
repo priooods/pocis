@@ -98,8 +98,8 @@ public class CreateBooking extends AppCompatActivity {
         btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getIntent().getParcelableExtra("user");
-                Intent intent = new Intent(context, HomePage.class).putExtra("user", user);
+                //UserData user = (UserData) getIntent().getParcelableExtra("user");
+                Intent intent = new Intent(context, HomePage.class);
                 startActivity(intent);
                 finish();
             }
@@ -113,5 +113,4 @@ public class CreateBooking extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameCreate, fragment,"framentTujuan")
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
-
 }

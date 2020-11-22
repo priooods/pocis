@@ -28,6 +28,7 @@ import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +161,7 @@ public class Summary extends Fragment {
         btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BookingData.i.Upload();
                 dialogFragment.dismiss();
                 Fragment fragment = new Finish();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

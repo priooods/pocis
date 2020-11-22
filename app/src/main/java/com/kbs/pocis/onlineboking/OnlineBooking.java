@@ -27,6 +27,7 @@ public class OnlineBooking extends Fragment {
     ViewPager viewPager;
     private static int REQUEST_CODE = 123;
     ImageView icon_back, icon_search;
+    ViewpagerDefault adapter;
     DialogFragment fragment;
 
     @Nullable
@@ -41,10 +42,13 @@ public class OnlineBooking extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout_onlineBook);
         viewPager = view.findViewById(R.id.viewpager_onlineBooking);
 
-        ViewpagerDefault adapter = new ViewpagerDefault(getChildFragmentManager());
+        //ViewpagerDefault adapter = new ViewpagerDefault(getChildFragmentManager());
         //Taruh fragment ke view pager lalu pasang ke tablayout
-        adapter.Addfragment(new AllBookings(), "All Bookings");
-        adapter.Addfragment(new CancelBooking(), "Cancel Booking");
+//        adapter.Addfragment(new AllBookings(), "All Bookings");
+//        adapter.Addfragment(new CancelBooking(), "Cancel Booking");
+        adapter = new ViewpagerDefault(getChildFragmentManager());
+        adapter.Addfragment(new AllBookings(),"All Bookings");
+        adapter.Addfragment(new CancelBooking(),"Cancel Booking");
         Log.i("TAG", "onCreateView: "+ adapter);
 
         viewPager.setAdapter(adapter);
@@ -64,20 +68,20 @@ public class OnlineBooking extends Fragment {
         icon_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new Filter_OnlineBooking();
-                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
-                fragment.show(getChildFragmentManager(), "filter_online");
+//                fragment = new Filter_OnlineBooking();
+//                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
+//                fragment.show(getChildFragmentManager(), "filter_online");
             }
         });
 
         return view;
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE){
-            String datas = data.getStringExtra("inputvesel");
-            Log.e("TAG", "onActivityResult: " +  datas);
-        }
-    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        if (requestCode == REQUEST_CODE){
+//            String datas = data.getStringExtra("inputvesel");
+//            Log.e("TAG", "onActivityResult: " +  datas);
+//        }
+//    }
 }
