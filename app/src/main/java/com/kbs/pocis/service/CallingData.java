@@ -50,6 +50,7 @@ public class CallingData{
         ///Fungsi ini untuk membuat Model_Bookings baru sesuai dengan atribut data class booking ini
         public Model_Bookings getModel(){
             return new Model_Bookings(
+                    booking_id,
                     no_contract,
                     no_booking,
                     status_booking,

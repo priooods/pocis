@@ -15,6 +15,7 @@ import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.MyProject_Dasar;
 import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.item.Popup_Profile;
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 
 public class HomeMenu extends Fragment {
@@ -41,6 +42,7 @@ public class HomeMenu extends Fragment {
             @Override
             public void onClick(View v) {
                 //UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+                BookingData.i = null;
                 Intent intent = new Intent(getContext(), CreateBooking.class);
                 startActivity(intent);
             }

@@ -39,4 +39,10 @@ public interface UserService {
             @Field("token") String token,
             @Field("page") String page
     );
+    @FormUrlEncoded
+    @POST("tbooking/view")
+    Call<CallingData> getBookingDetail(
+            @Field("token") String token,
+            @Field("tbooking_id") String tbooking_id
+    );
 }

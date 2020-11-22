@@ -2,6 +2,7 @@ package com.kbs.pocis.detailboking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.api.UserService;
+import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingList;
+import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.service.UserData;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingDetails_Information extends Fragment {
 
@@ -38,22 +48,34 @@ public class BookingDetails_Information extends Fragment {
         detail_info_schedule_booking_vesselName = view.findViewById(R.id.detail_info_schedule_booking_vesselName);
 
         //Getting Detail Data Customer from all Adapter recyclerview
-        Intent intent = getActivity().getIntent();
-        nocontract = intent.getStringExtra("nomer");
-        fgvesel = intent.getStringExtra("flagvesel");
-        fgcontract = intent.getStringExtra("flagcontract");
-        cName = intent.getStringExtra("nama");
-        vslName = intent.getStringExtra("vesel");
-        ctype = intent.getStringExtra("type");
-        bokDate = intent.getStringExtra("date");
-        bokTime = intent.getStringExtra("time");
-
-        BookingInformation();
+//        Intent intent = getActivity().getIntent();
+//        nocontract = intent.getStringExtra("nomer");
+//        fgvesel = intent.getStringExtra("flagvesel");
+//        fgcontract = intent.getStringExtra("flagcontract");
+//        cName = intent.getStringExtra("nama");
+//        vslName = intent.getStringExtra("vesel");
+//        ctype = intent.getStringExtra("type");
+//        bokDate = intent.getStringExtra("date");
+//        bokTime = intent.getStringExtra("time");
+//
+//        BookingInformation();
+        BookingData bl = BookingData.i;
+        nomerContract.setText(bl.contract);
+        flagVessel.setText(bl.relatedVesel);
+        customerName.setText(UserData.i.username);
+        vesselName.setText(bl.vessel.vessel_name);
+        customerType.setText(bl.customerType);
+        bookingDate.setText(bl.uploadDate);
+        bookingTime.setText(bl.uploadTime);
+        flagContract.setText("");
         ScheduleInformation();
+        //DataGet();
 
         return view;
     }
 
+    void UpdateDataFromList(){
+    }
     //Set text detail Booking Information
     public void BookingInformation (){
         nomerContract.setText(nocontract);

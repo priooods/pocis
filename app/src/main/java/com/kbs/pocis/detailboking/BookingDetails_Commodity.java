@@ -1,6 +1,7 @@
 package com.kbs.pocis.detailboking;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.detailboking.Adapter_DetailCommodity;
+import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.Model_DetailsCommodity;
+import com.kbs.pocis.service.BookingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +33,12 @@ public class BookingDetails_Commodity extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycle_commodity);
         List<Model_DetailsCommodity> model_detailsCommodities = new ArrayList<>();
-        model_detailsCommodities.add(new Model_DetailsCommodity("coal","non grain bulk", 1,37340000));
-        model_detailsCommodities.add(new Model_DetailsCommodity("iron ore","non grain bulk", 2,175000000));
+
+        Log.i("Tag","DetailCommodity = id = "+ BookingData.i.vessel.vessel_name);
+        for(Model_Commodity mod : BookingData.i.commodity){
+            model_detailsCommodities.add(new Model_DetailsCommodity(mod.commodity,mod.consigne, mod.packages,mod.weight));
+        }
+        //model_detailsCommodities.add(new Model_DetailsCommodity("iron ore","non grain bulk", 2,175000000));
 
         adapter = new Adapter_DetailCommodity(getContext(), model_detailsCommodities);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

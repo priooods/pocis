@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,15 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
+import com.kbs.pocis.api.UserService;
+import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingList;
+import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.service.UserData;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingDetails extends AppCompatActivity {
 
@@ -54,7 +64,7 @@ public class BookingDetails extends AppCompatActivity {
         Intent intent = getIntent();
         from = intent.getStringExtra("from");
         status = intent.getStringExtra("status");
-        nomer = intent.getStringExtra("nomer");
+        nomer = intent.getStringExtra("id");
 
         topfrom = findViewById(R.id.booking_details_Textfrompage);
         nomerBooking = findViewById(R.id.booking_details_bookingNo);
@@ -62,22 +72,16 @@ public class BookingDetails extends AppCompatActivity {
         tabLayout = findViewById(R.id.bookingdetail_tablayout);
         viewPager = findViewById(R.id.bookingdetail_viewpager);
         btn_back = findViewById(R.id.btn_back_detail_booking);
-
         layout_btn_bawah = findViewById(R.id.bookingdetail_layoutBawah);
         layout_btn_verified = findViewById(R.id.ltr_btn_verified);
         cancel_booking = findViewById(R.id.btn_bokingdetail_cancelBooking);
         approveTarif = findViewById(R.id.btn_approve);
         rejectTarif = findViewById(R.id.btn_reject);
 
+        DataGet(this);
 
         //Ini untuk mengatur setiap layout yang akan di tampilkan
         // pada tab detail booking
-        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
-        viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
-        viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
-        viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
-        viewPager.setAdapter(viewpagerDefault);
-        tabLayout.setupWithViewPager(viewPager);
 
         topfrom.setText(from);
         nomerBooking.setText(nomer);
@@ -95,6 +99,45 @@ public class BookingDetails extends AppCompatActivity {
         KondisiStatus(status, statusBooking,this);
         KondisiButtonBawah(status, layout_btn_bawah, layout_btn_verified
                 ,cancel_booking, rejectTarif, approveTarif, this);
+    }
+
+
+    public void DataGet(Activity activity){
+        UserData user = UserData.i;
+        UserService service = user.getService();
+        Intent intent = getIntent();
+        String BookingId = intent.getStringExtra("id");
+        Log.d("TAG", "DataGet: " + BookingId);
+        if (service == null) {
+            Log.e("booking_detail","ERROR SERVICE");
+        }
+        Call<CallingData> call = service.getBookingDetail(user.getToken(),String.valueOf(BookingId));
+        if (call == null) {
+            Log.i("all_boking","CallingData Post Method is Bad!");
+        }
+        call.enqueue(new Callback<CallingData>() {
+            @Override
+            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+                CallingData respone = (CallingData) response.body();
+                if (CallingData.TreatResponse(activity, "detail_booking", respone)) {
+                    return;
+                } else {
+                    Log.e("detail_booking", "Failed on API : \n Error " + (respone!=null?respone.error:"NULL?") + " : " + (respone!=null?respone.desc:"NULL?"));
+                    Log.i("detail_booking","Show Detail by offline id="+BookingId);
+                    BookingData.i = BookingList.getI().data_list.get(Integer.parseInt(BookingId)-1);
+                    ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                    viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
+                    viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
+                    viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
+                    viewPager.setAdapter(viewpagerDefault);
+                    tabLayout.setupWithViewPager(viewPager);
+                }
+            }
+            @Override
+            public void onFailure(Call<CallingData> call, Throwable t) {
+                Log.e("detail_booking", "on Failure called!"+ t);
+            }
+        });
     }
 
     //Status booking dari setiap list nya disini setting nya

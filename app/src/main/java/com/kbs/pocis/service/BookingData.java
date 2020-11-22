@@ -23,7 +23,7 @@ public class BookingData {
         return true;
     }
     // data booking pertama CustomerAddForm
-    public String customerType, relatedVesel, contract,uploadDate;
+    public String customerType, relatedVesel, contract,uploadDate,uploadTime;
     public void setCustumer(String customer, String related, String contract){
         customerType = customer;
         relatedVesel = related;
@@ -103,6 +103,8 @@ public class BookingData {
 
     public void Upload(){
         i = null;
+        uploadDate = "23 November 2020";
+        uploadTime = "17:00 WIB";
         BookingList.getI().AddBookingData(this);
     }
 }

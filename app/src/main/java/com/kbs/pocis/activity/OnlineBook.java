@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.kbs.pocis.R;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.onlineboking.TarifApprove;
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 
 public class OnlineBook extends AppCompatActivity {
@@ -84,6 +85,7 @@ public class OnlineBook extends AppCompatActivity {
         create_booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BookingData.i = null;
                 Intent intent = new Intent(OnlineBook.this, CreateBooking.class);
                 startActivity(intent);
             }

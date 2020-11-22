@@ -3,13 +3,12 @@ package com.kbs.pocis.model;
 public class Model_DetailsCommodity {
 
     String comodityName, comodityTyoe;
-    int packageNo;
-    double tonage;
+    String packageNo,tonage;
 
     public Model_DetailsCommodity() {
     }
 
-    public Model_DetailsCommodity(String comodityName, String comodityTyoe, int packageNo, double tonage) {
+    public Model_DetailsCommodity(String comodityName, String comodityTyoe, String packageNo, String tonage) {
         this.comodityName = comodityName;
         this.comodityTyoe = comodityTyoe;
         this.packageNo = packageNo;
@@ -32,19 +31,19 @@ public class Model_DetailsCommodity {
         this.comodityTyoe = comodityTyoe;
     }
 
-    public int getPackageNo() {
+    public String getPackageNo() {
         return packageNo;
     }
 
-    public void setPackageNo(int packageNo) {
+    public void setPackageNo(String packageNo) {
         this.packageNo = packageNo;
     }
 
-    public double getTonage() {
+    public String getTonage() {
         return tonage;
     }
 
-    public void setTonage(double tonage) {
+    public void setTonage(String tonage) {
         this.tonage = tonage;
     }
 }

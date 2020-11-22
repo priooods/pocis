@@ -1,6 +1,7 @@
 package com.kbs.pocis.detailboking;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.detailboking.Adapter_DetailsService;
+import com.kbs.pocis.model.Model_Commodity;
+import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.model.Model_DetailsService;
+import com.kbs.pocis.service.BookingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +34,13 @@ public class BookingDetails_Service extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycle_service);
         List<Model_DetailsService> model_detailsServices = new ArrayList<>();
-        model_detailsServices.add(new Model_DetailsService("A107 - PORT FACILITY SERVICE (SCRAP) (T2)","12.000"));
-        model_detailsServices.add(new Model_DetailsService("A015 - PORT FACILITY SERVICE LOADING PLATE","15.000"));
-        model_detailsServices.add(new Model_DetailsService("B075 - SHIP UNLOADER","21.000"));
-
+        Log.i("Tag","BookingData.i = "+ (BookingData.i!=null));
+        Log.i("Tag","DetailService = id = "+ BookingData.i.vessel.vessel_name);
+        for(BookingData.BookTemplate mod : BookingData.i.template) {
+            for (BookingData.BookTemplate.BookTempList anak : mod.listCheck) {
+                model_detailsServices.add(new Model_DetailsService(anak.code + " - " + anak.name, "10000"));
+            }
+        }
         detailsService = new Adapter_DetailsService(getContext(), model_detailsServices);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

@@ -22,7 +22,6 @@ public class BookingList {
     // data booking pertama CustomerAddForm
     public ArrayList<BookingData> data_list;
     public void AddBookingData(@NotNull BookingData add){
-        add.uploadDate = "Waktu Upload<?>";
         data_list.add(add);
     }
     public int pCurrent,pLast;
@@ -73,8 +72,8 @@ public class BookingList {
         book.customer_name = data.customerType;
         book.customer_type_name = data.customerType;
         book.booking_date = data.uploadDate;
-        book.formatted_booking_date = "?"+data.vessel.estimate_departure;
-        book.formatted_booking_time = "?";
+        book.formatted_booking_date = data.uploadDate;
+        book.formatted_booking_time = data.uploadTime;
         book.status_booking = "BOOKING";
     }
 }

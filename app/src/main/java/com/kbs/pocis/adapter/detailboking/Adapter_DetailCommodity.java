@@ -39,13 +39,10 @@ public class Adapter_DetailCommodity extends RecyclerView.Adapter<Adapter_Detail
         holder.name.setText(model_detailsCommodities.get(position).getComodityName());
         holder.type.setText(model_detailsCommodities.get(position).getComodityTyoe());
 
-        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
-        formatter.applyPattern("#,###,###,###");
-        String formattedString = formatter.format(model_detailsCommodities.get(position).getTonage());
-        holder.tonage.setText(formattedString);
+        holder.tonage.setText((model_detailsCommodities.get(position).getTonage()));
 
 
-        holder.packageNo.setText(String.valueOf(model_detailsCommodities.get(position).getPackageNo()));
+        holder.packageNo.setText(model_detailsCommodities.get(position).getPackageNo());
     }
 
     @Override
