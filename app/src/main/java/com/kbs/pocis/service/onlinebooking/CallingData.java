@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
 
 import es.dmoral.toasty.Toasty;
 
@@ -43,11 +44,18 @@ public class CallingData {
         public String flag_related_vessel;
         public String flag_contract;
         public String customer_name;
+        public String customer_code;
+        @SerializedName(value="customer_type_name", alternate = "customer_type_code")
         public String customer_type_name;
+        //public String customer_type_code;
         public String booking_date;
         public String formatted_booking_date;
         public String formatted_booking_time;
         public String status_booking;
+        public String est_arrival;
+        public String est_berthing;
+        public String contract_no;
+        public String book_status;
 
         ///Fungsi ini untuk membuat Model_Bookings baru sesuai dengan atribut data class booking ini
         public Model_Bookings getModel() {
@@ -63,6 +71,23 @@ public class CallingData {
                     flag_contract,
                     booking_date,
                     formatted_booking_date + " " + formatted_booking_time
+            );
+        }
+        ///Fungsi ini untuk membuat Model_Tariff baru sesuai dengan atribut data class booking ini
+        public Model_TariffAprove getTariff() {
+            return new Model_TariffAprove(
+                    booking_id,
+                    no_booking,
+                    contract_no,
+                    customer_name,
+                    customer_code,
+                    flag_contract,
+                    book_status,
+                    customer_type_name,
+                    flag_related_vessel,
+                    vessel_name,
+                    est_arrival,
+                    est_berthing
             );
         }
     }

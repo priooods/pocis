@@ -21,6 +21,7 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.onlineboking.Adapter_TarifApproved;
 import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.service.onlinebooking.TariffData;
 import com.kbs.pocis.service.UserData;
 
@@ -130,20 +131,19 @@ public class TarifApprove extends Fragment {
         if (service == null) {
             Log.e("tarif_aprrove","ERROR SERVICE");
         }
-        Call<TariffData> call = service.getTariffAprove(user.getToken(),String.valueOf(page_current));
+        Call<CallingData> call = service.getTariffAprove(user.getToken(),String.valueOf(page_current));
         if (call == null) {
             Log.i("tarif_aprrove","CallingData Post Method is Bad!");
         }
-        call.enqueue(new Callback<TariffData>() {
+        call.enqueue(new Callback<CallingData>() {
             @Override
-            public void onResponse(Call<TariffData> call, Response<TariffData> response) {
+            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
                 Ready = true;
-                TariffData respone = (TariffData) response.body();
-                if (TariffData.TreatResponse(getContext(), "tarif_aprrove", respone)) {
-                    Log.e(TAG, "onResponse: " + respone.data.current_page );
+                CallingData respone = (CallingData) response.body();
+                if (CallingData.TreatResponse(getContext(), "tarif_aprrove", respone)) {
                     List<Model_TariffAprove> list = new ArrayList<>();
 
-                    for (TariffData.Tariff_App datas : respone.data.tar) {
+                    for (CallingData.Booking datas : respone.data.book) {
                         Log.e("TAG", "tarif_Aprovve: " + datas);
                         list.add(datas.getTariff());
                     }
@@ -171,6 +171,7 @@ public class TarifApprove extends Fragment {
                         layout_kosong.setVisibility(View.GONE);
                         adapter_tarifApproved = new Adapter_TarifApproved(getContext(), model_tariffAproveList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+//                        adapter_tarifApproved.getFilter().filter(user.filter);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter_tarifApproved);
                     } else {
@@ -186,7 +187,7 @@ public class TarifApprove extends Fragment {
                 all_index_allboking.setVisibility(View.INVISIBLE);
             }
             @Override
-            public void onFailure(Call<TariffData> call, Throwable t) {
+            public void onFailure(Call<CallingData> call, Throwable t) {
                 Ready = true;
                 Log.e("tarif_aprrove", "on Failure called!"+ t);
             }

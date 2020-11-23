@@ -164,6 +164,7 @@ public class CancelBooking extends Fragment {
                         adapter_cancelBooking = new Adapter_CancelBooking(getContext(), model_bookingsList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
+//                        adapter_cancelBooking.getFilter().filter(user.filter);
                         recyclerView.setAdapter(adapter_cancelBooking);
                         adapter_cancelBooking.notifyDataSetChanged();
                     } else {

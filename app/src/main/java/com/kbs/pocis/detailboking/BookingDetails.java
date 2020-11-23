@@ -23,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
+import com.kbs.pocis.service.BookingData;
 
 public class BookingDetails extends AppCompatActivity {
 
@@ -55,6 +56,7 @@ public class BookingDetails extends AppCompatActivity {
         from = intent.getStringExtra("from");
         status = intent.getStringExtra("status");
         nomer = intent.getStringExtra("id");
+
 
         topfrom = findViewById(R.id.booking_details_Textfrompage);
         nomerBooking = findViewById(R.id.booking_details_bookingNo);

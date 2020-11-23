@@ -1,5 +1,6 @@
 package com.kbs.pocis.detailboking;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,10 @@ public class BookingDetails_Information extends Fragment {
         bookingTime = view.findViewById(R.id.detail_info_booking_bookingTime);
         flagContract = view.findViewById(R.id.detail_info_booking_flagContract);
         detail_info_schedule_booking_vesselName = view.findViewById(R.id.detail_info_schedule_booking_vesselName);
+
+        Intent intent = getActivity().getIntent();
+        String id = intent.getStringExtra("id");
+
 
 //        BookingData bl = BookingData.i;
 //        nomerContract.setText(bl.contract);

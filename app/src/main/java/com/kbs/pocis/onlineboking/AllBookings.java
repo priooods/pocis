@@ -152,7 +152,7 @@ public class AllBookings extends Fragment {
                         layout_kosong.setVisibility(View.GONE);
                         adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                        //adapter_allBooking.getFilter().filter(user.filter);
+//                        adapter_allBooking.getFilter().filter(user.filter);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter_allBooking);
                     } else {

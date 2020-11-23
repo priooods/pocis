@@ -36,7 +36,7 @@ public interface UserService {
     );
     @FormUrlEncoded
     @POST("tarif-approve/all")
-    Call<TariffData> getTariffAprove(
+    Call<CallingData> getTariffAprove(
             @Field("token") String token,
             @Field("page") String page
     );
