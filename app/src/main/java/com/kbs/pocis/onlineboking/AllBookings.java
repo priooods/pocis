@@ -16,11 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
-import com.kbs.pocis.filter.FIlter_Service;
-import com.kbs.pocis.model.Model_Bookings;
-import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingList;
-import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
 
@@ -32,9 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AllBookings extends Fragment {
-
-    //TODO Saran, keknya perlu ditambahin tampilan loading (layar abu2 hitam dengan tulisan "loading..." misalnya)
-    // supaya selama load Booking user tau harus nunggu
 
     Adapter_AllBooking adapter_allBooking;
     RecyclerView recyclerView;
@@ -130,12 +124,6 @@ public class AllBookings extends Fragment {
             public void onResponse(Call<CallingData> call, Response<CallingData> response) {
                 Ready = true;
                 CallingData respone = (CallingData) response.body();
-                if (respone.data.book.length == 0) {
-                    respone = BookingList.getI().getAllBookingLikeAPI(page_current);
-                    Log.i("tag", "Default getAllBOKING cuy");
-                }else{
-                    Log.e("tag","Weh ko ada listnya cuy");
-                }
                 if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
                     List<Model_Bookings> list = new ArrayList<>();
                     for (CallingData.Booking data : respone.data.book) {

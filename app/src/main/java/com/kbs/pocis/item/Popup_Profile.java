@@ -18,7 +18,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.api.APIClient;
-import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.welcome.Welcome_Screen;

@@ -1,6 +1,7 @@
 package com.kbs.pocis.api;
 
-import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.service.onlinebooking.CallingData;
+import com.kbs.pocis.service.onlinebooking.TariffData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -35,7 +36,7 @@ public interface UserService {
     );
     @FormUrlEncoded
     @POST("tarif-approve/all")
-    Call<CallingData> getTariffAprove(
+    Call<TariffData> getTariffAprove(
             @Field("token") String token,
             @Field("page") String page
     );

@@ -25,7 +25,7 @@ import retrofit2.Call;
 import com.kbs.pocis.service.SessionManager;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
-import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 
 public class Login extends AppCompatActivity {
 

@@ -1,13 +1,10 @@
 package com.kbs.pocis.onlineboking;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,14 +17,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.andreseko.SweetAlert.SweetAlertDialog;
-import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
 import com.kbs.pocis.adapter.onlineboking.Adapter_TarifApproved;
 import com.kbs.pocis.api.UserService;
-import com.kbs.pocis.model.Model_Bookings;
-import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
+import com.kbs.pocis.service.onlinebooking.TariffData;
 import com.kbs.pocis.service.UserData;
 
 import java.util.ArrayList;
@@ -36,6 +30,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class TarifApprove extends Fragment {
 
@@ -46,7 +42,7 @@ public class TarifApprove extends Fragment {
     ConstraintLayout bar;
     TextView kanan, kiri, kanan_banget, kiri_banget,
             index_list_allboking, all_index_allboking;
-    List<Model_Bookings> model_bookingsList;
+    List<Model_TariffAprove> model_tariffAproveList;
     NestedScrollView nestdall;
 
     int page_current = 1, page_last = 2;
@@ -75,6 +71,7 @@ public class TarifApprove extends Fragment {
         nestdall = view.findViewById(R.id.nest_tarif);
         layout_kosong = view.findViewById(R.id.lay_tarifapprove_kosong);
         layout_ada = view.findViewById(R.id.lay_tarifapprove_ada);
+        recyclerView = view.findViewById(R.id.tarif_approve_recycleview);
 
 
         GenerateList();
@@ -128,26 +125,30 @@ public class TarifApprove extends Fragment {
     /// Fungsi untuk membuat list
     void GenerateList(){
         UserData user = UserData.i;
+        Log.i(TAG, "tarif_aprrove: token "+ user.getToken());
         UserService service = user.getService();
         if (service == null) {
             Log.e("tarif_aprrove","ERROR SERVICE");
         }
-        Call<CallingData> call = service.getTariffAprove(user.getToken(),String.valueOf(page_current));
+        Call<TariffData> call = service.getTariffAprove(user.getToken(),String.valueOf(page_current));
         if (call == null) {
             Log.i("tarif_aprrove","CallingData Post Method is Bad!");
         }
-        call.enqueue(new Callback<CallingData>() {
+        call.enqueue(new Callback<TariffData>() {
             @Override
-            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+            public void onResponse(Call<TariffData> call, Response<TariffData> response) {
                 Ready = true;
-                CallingData respone = (CallingData) response.body();
-                if (CallingData.TreatResponse(getContext(), "tarif_aprrove", respone)) {
-                    List<Model_Bookings> list = new ArrayList<>();
-                    for (CallingData.Booking data : respone.data.book) {
-                        list.add(data.getModel());
+                TariffData respone = (TariffData) response.body();
+                if (TariffData.TreatResponse(getContext(), "tarif_aprrove", respone)) {
+                    Log.e(TAG, "onResponse: " + respone.data.current_page );
+                    List<Model_TariffAprove> list = new ArrayList<>();
+
+                    for (TariffData.Tariff_App datas : respone.data.tar) {
+                        Log.e("TAG", "tarif_Aprovve: " + datas);
+                        list.add(datas.getTariff());
                     }
 
-                    model_bookingsList = list;
+                    model_tariffAproveList = list;
                     page_current = respone.data.current_page;
                     page_last = respone.data.last_page;
 
@@ -165,13 +166,11 @@ public class TarifApprove extends Fragment {
                     index_list_allboking.setText(page_current + " of " + page_last);
                     all_index_allboking.setText("Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results");
 
-                    if (model_bookingsList !=null ? model_bookingsList.size()>0 : false) {
+                    if (model_tariffAproveList !=null ? model_tariffAproveList.size()>0 : false) {
                         layout_ada.setVisibility(View.VISIBLE);
                         layout_kosong.setVisibility(View.GONE);
-                        adapter_tarifApproved = new Adapter_TarifApproved(getContext(), model_bookingsList);
+                        adapter_tarifApproved = new Adapter_TarifApproved(getContext(), model_tariffAproveList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                        adapter_tarifApproved.getFilter().filter(user.filter);
-                        Log.e("TAG", "onResponse: "+ user.filter);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter_tarifApproved);
                     } else {
@@ -187,7 +186,7 @@ public class TarifApprove extends Fragment {
                 all_index_allboking.setVisibility(View.INVISIBLE);
             }
             @Override
-            public void onFailure(Call<CallingData> call, Throwable t) {
+            public void onFailure(Call<TariffData> call, Throwable t) {
                 Ready = true;
                 Log.e("tarif_aprrove", "on Failure called!"+ t);
             }

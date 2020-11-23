@@ -1,4 +1,4 @@
-package com.kbs.pocis.model;
+package com.kbs.pocis.model.onlineboking;
 
 import java.util.Date;
 

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.onlineboking.Adapter_CancelBooking;
-import com.kbs.pocis.model.Model_Bookings;
-import com.kbs.pocis.service.CallingData;
+import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
 
@@ -120,7 +119,7 @@ public class CancelBooking extends Fragment {
     }
     /// Fungsi untuk membuat list
     void GenerateList(){
-        UserData user = UserData.i;//(UserData) getActivity().getIntent().getParcelableExtra("user");
+        UserData user = UserData.i;
         UserService service = user.getService();
         if (user==null)
             return;
@@ -142,13 +141,6 @@ public class CancelBooking extends Fragment {
                         list.add(data.getModel());
                     }
                     model_bookingsList = list;
-
-//                    int page_number = respone.data.current_page;
-//                    //to
-//                    page_last = respone.data.last_page;
-//                    int page_now = respone.data.to_page - respone.data.from_page + 1;
-//                    //  of
-//                    int page_of = respone.data.total;
                     page_current = respone.data.current_page;
                     page_last = respone.data.last_page;
 

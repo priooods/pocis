@@ -14,7 +14,6 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,7 +23,8 @@ import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
-import com.kbs.pocis.model.Model_Bookings;
+import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -33,12 +33,12 @@ import java.util.List;
 public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApproved.VHolder> implements Filterable {
 
     Context context;
-    List<Model_Bookings> model_bookings;
-    List<Model_Bookings> modelfilter;
+    List<Model_TariffAprove> model_tariffAproves;
+    List<Model_TariffAprove> modelfilter;
 
-    public Adapter_TarifApproved(Context context, List<Model_Bookings> model_bookings) {
+    public Adapter_TarifApproved(Context context, List<Model_TariffAprove> model_bookings) {
         this.context = context;
-        this.model_bookings = model_bookings;
+        this.model_tariffAproves = model_bookings;
         this.modelfilter = model_bookings;
     }
 
@@ -51,18 +51,18 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
 
     @Override
     public void onBindViewHolder(@NonNull final VHolder holder, final int position) {
-        holder.nomerBooking.setText(model_bookings.get(position).getNomerBook());
-        holder.nomerContract.setText(model_bookings.get(position).getContractNo());
-        holder.customerName.setText(model_bookings.get(position).getCustomerName());
-        holder.vesselName.setText(model_bookings.get(position).getVesselName());
-        holder.customerType.setText(model_bookings.get(position).getCustomerType());
-        holder.flagVessel.setText(model_bookings.get(position).getFlagVessel());
-        holder.bookingDate.setText(model_bookings.get(position).getBookingDate());
-        holder.flagContract.setText(model_bookings.get(position).getFlagContract());
-        holder.bookingTime.setText(model_bookings.get(position).getBookingTime());
-        holder.status.setText(model_bookings.get(position).getStatusBook());
+        holder.nomerBooking.setText(model_tariffAproves.get(position).getNomer_boking());
+        holder.nomerContract.setText(model_tariffAproves.get(position).getContractNo());
+        holder.customerName.setText(model_tariffAproves.get(position).getCustomerName());
+        holder.vesselName.setText(model_tariffAproves.get(position).getVessel_Name());
+        holder.customerType.setText(model_tariffAproves.get(position).getCustomerType_code());
+        holder.flagVessel.setText(model_tariffAproves.get(position).getFlagRelated_vessel());
+        holder.bookingDate.setText(model_tariffAproves.get(position).getEst_arival());
+        holder.flagContract.setText(model_tariffAproves.get(position).getFlag_contract());
+        holder.bookingTime.setText(model_tariffAproves.get(position).getEst_berthing());
+        holder.status.setText(model_tariffAproves.get(position).getBookingStatus());
 
-        if (holder.status.getText().toString().equals("verified")){
+        if (holder.status.getText().toString().equals("VERIFIED")){
             holder.status.setText(R.string.verified);
             holder.status.setTextColor(Color.parseColor("#1A2CD1"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#1A2CD1"));
@@ -72,20 +72,11 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Passing data to another Screen
-                //Default passing to Screen Details Booking
                 Intent intent = new Intent(context, BookingDetails.class);
                 intent.putExtra("from", "Tarif Approve");
-                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
-                intent.putExtra("status", model_bookings.get(position).getStatusBook());
-                intent.putExtra("contract", model_bookings.get(position).getContractNo());
-                intent.putExtra("nama", model_bookings.get(position).getCustomerName());
-                intent.putExtra("vesel", model_bookings.get(position).getVesselName());
-                intent.putExtra("type", model_bookings.get(position).getCustomerType());
-                intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
-                intent.putExtra("date", model_bookings.get(position).getBookingDate());
-                intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
-                intent.putExtra("time", model_bookings.get(position).getBookingTime());
+                intent.putExtra("id", model_tariffAproves.get(position).getBookingId());
+                intent.putExtra("status", model_tariffAproves.get(position).getBookingStatus());
+
                 context.startActivity(intent);
             }
         });
@@ -127,7 +118,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
 
     @Override
     public int getItemCount() {
-        return model_bookings.size();
+        return model_tariffAproves.size();
     }
 
     @Override
@@ -137,26 +128,26 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
             protected FilterResults performFiltering(CharSequence constraint) {
                 String key = constraint.toString();
                 if (key.isEmpty()){
-                    model_bookings = modelfilter;
+                    model_tariffAproves = modelfilter;
                 } else {
-                    List<Model_Bookings> bookings = new ArrayList<>();
-                    for (Model_Bookings modelBookings : modelfilter){
-                        if (modelBookings.getNomerBook().toLowerCase().contains(key.toLowerCase()) ||
-                                modelBookings.getVesselName().toLowerCase().contains(key.toLowerCase())){
+                    List<Model_TariffAprove> bookings = new ArrayList<>();
+                    for (Model_TariffAprove modelBookings : modelfilter){
+                        if (modelBookings.getNomer_boking().toLowerCase().contains(key.toLowerCase()) ||
+                                modelBookings.getVessel_Name().toLowerCase().contains(key.toLowerCase())){
                             bookings.add(modelBookings);
                         }
                     }
 
-                    model_bookings = bookings;
+                    model_tariffAproves = bookings;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = model_bookings;
+                filterResults.values = model_tariffAproves;
                 return filterResults;
             }
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                model_bookings = (List<Model_Bookings>)results.values;
+                model_tariffAproves = (List<Model_TariffAprove>)results.values;
                 notifyDataSetChanged();
             }
         };

@@ -14,21 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.CallingData;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
@@ -175,13 +171,6 @@ public class VesselInformation extends Fragment {
         });
     }
 
-    void ConditionError(){
-        if (vesel_name.getText().length() < 4 || loading_shipcall.getText().length() < 4 || discharge_ship.getText().length() < 4){
-            pesanError("Vessel Name, Loading Ship, Discharge Ship Minimun 4 Character");
-        } else if (port_origin.getText().length() < 2 || estimate_arival.getText().length() < 2){
-            pesanError("Port Discharge and Port Origin Minimun 2 Character");
-        }
-    }
     void UpdateData(){
         BookingData.i.vessel = new BookingData.VesselData(
                 vesel_name.getText().toString(),
@@ -193,16 +182,22 @@ public class VesselInformation extends Fragment {
                 estimate_departure.getText().toString()
         );
     }
+
     void StatusInputNull(){
         if (vesel_name.getText().toString().isEmpty() || port_discharge.getText().toString().isEmpty() ||
                 discharge_ship.getText().toString().isEmpty() || port_origin.getText().toString().isEmpty() ||
                 estimate_arival.getText().toString().isEmpty() ||loading_shipcall.getText().toString().isEmpty() ||
                 estimate_departure.getText().toString().isEmpty()){
             Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
+        }
+
+        if (vesel_name.getText().length() < 4 || loading_shipcall.getText().length() < 4 || discharge_ship.getText().length() < 4){
+            pesanError("Vessel Name, Loading Ship, Discharge Ship Minimun 4 Character");
+        } else if (port_origin.getText().length() < 2 || estimate_arival.getText().length() < 2){
+            pesanError("Port Discharge and Port Origin Minimun 2 Character");
         } else {
             UpdateData();
             Fragment fragment = new Summary();
-//            fragment.setArguments(arg);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
@@ -222,7 +217,6 @@ public class VesselInformation extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConditionError();
                 StatusInputNull();
             }
         });

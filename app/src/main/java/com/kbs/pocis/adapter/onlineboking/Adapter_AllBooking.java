@@ -3,7 +3,6 @@ package com.kbs.pocis.adapter.onlineboking;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,23 +13,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.detailboking.BookingDetails;
-import com.kbs.pocis.model.Model_Bookings;
-import com.kbs.pocis.service.BookingList;
-import com.kbs.pocis.service.CallingData;
-import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.model.onlineboking.Model_Bookings;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.VHolder> implements Filterable {
 
@@ -99,22 +89,10 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Passing data to another Screen
-                //Default passing to Screen Details Booking
-                // Send API
-                //model_bookings.get(position)
                 Intent intent = new Intent(context, BookingDetails.class);
-//                intent.putExtra("from", "All Bookings");
+                intent.putExtra("from", "All Bookings");
                 intent.putExtra("id", model_bookings.get(position).getBookingId());
                 intent.putExtra("status", model_bookings.get(position).getStatusBook());
-//                intent.putExtra("contract", model_bookings.get(position).getContractNo());
-//                intent.putExtra("nama", model_bookings.get(position).getCustomerName());
-//                intent.putExtra("vesel", model_bookings.get(position).getVesselName());
-//                intent.putExtra("type", model_bookings.get(position).getCustomerType());
-//                intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
-//                intent.putExtra("date", model_bookings.get(position).getBookingDate());
-//                intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
-//                intent.putExtra("time", model_bookings.get(position).getBookingTime());
                 context.startActivity(intent);
             }
         });

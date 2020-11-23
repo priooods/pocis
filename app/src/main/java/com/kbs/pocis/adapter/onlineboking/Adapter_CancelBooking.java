@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,7 +21,7 @@ import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
-import com.kbs.pocis.model.Model_Bookings;
+import com.kbs.pocis.model.onlineboking.Model_Bookings;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -140,20 +139,10 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
     }
 
     public void GoDetails(int position){
-        //Passing data to another Screen
-        //Default passing to Screen Details Booking
         Intent intent = new Intent(context, BookingDetails.class);
         intent.putExtra("from", "Cancel Bookings");
-        intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
         intent.putExtra("status", model_bookings.get(position).getStatusBook());
-        intent.putExtra("contract", model_bookings.get(position).getContractNo());
-        intent.putExtra("nama", model_bookings.get(position).getCustomerName());
-        intent.putExtra("vesel", model_bookings.get(position).getVesselName());
-        intent.putExtra("type", model_bookings.get(position).getCustomerType());
-        intent.putExtra("flagvesel", model_bookings.get(position).getFlagVessel());
-        intent.putExtra("date", model_bookings.get(position).getBookingDate());
-        intent.putExtra("flagcontract", model_bookings.get(position).getFlagContract());
-        intent.putExtra("time", model_bookings.get(position).getBookingTime());
+        intent.putExtra("id", model_bookings.get(position).getBookingId());
         context.startActivity(intent);
     }
 
