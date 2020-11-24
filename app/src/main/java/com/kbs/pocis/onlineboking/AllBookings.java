@@ -152,9 +152,17 @@ public class AllBookings extends Fragment {
                         layout_kosong.setVisibility(View.GONE);
                         adapter_allBooking = new Adapter_AllBooking(getContext(), model_bookingsList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-//                        adapter_allBooking.getFilter().filter(user.filter);
+
+
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter_allBooking);
+                        if (user.filter!=null) {
+                            Log.i("filter","filtering : "+user.filter);
+                            adapter_allBooking.getFilter().filter("MV. NORD PEAK");
+                        }else{
+                            Log.i("filter",String.valueOf(user == null));
+                        }
+                        adapter_allBooking.notifyDataSetChanged();
                     } else {
                         layout_ada.setVisibility(View.GONE);
                         layout_kosong.setVisibility(View.VISIBLE);

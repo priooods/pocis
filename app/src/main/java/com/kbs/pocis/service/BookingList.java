@@ -70,9 +70,9 @@ public class BookingList {
         book.flag_contract = data.contract;
         book.customer_name = data.customerType;
         book.customer_type_name = data.customerType;
-        book.booking_date = data.uploadDate;
-        book.formatted_booking_date = data.uploadDate;
-        book.formatted_booking_time = data.uploadTime;
-        book.status_booking = "BOOKING";
+        book.booking_date = data.bookingDate;
+        book.format_date1 = data.booking_date;
+        book.format_date2 = data.bookingTime;
+        book.state_booking = "BOOKING";
     }
 }

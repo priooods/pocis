@@ -17,6 +17,7 @@ import com.kbs.pocis.adapter.detailboking.Adapter_DetailCommodity;
 import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,17 @@ public class BookingDetails_Commodity extends Fragment {
         recyclerView = view.findViewById(R.id.recycle_commodity);
         List<Model_DetailsCommodity> model_detailsCommodities = new ArrayList<>();
 
-        Log.i("Tag","DetailCommodity = id = "+ BookingData.i.vessel.vessel_name);
-        for(Model_Commodity mod : BookingData.i.commodity){
-            model_detailsCommodities.add(new Model_DetailsCommodity(mod.commodity,mod.consigne, mod.packages,mod.weight));
+        //Log.i("Tag","DetailCommodity = id = "+ BookingData.i.vessel.vessel_name);
+        if (BookingDetailData.i!=null) {
+            if (BookingDetailData.i.commodity!=null) {
+                for (Model_DetailsCommodity mod : BookingDetailData.i.commodity) {
+                    model_detailsCommodities.add(mod);
+                }
+            }
+        }else {
+            for (Model_Commodity mod : BookingData.i.commodity) {
+                model_detailsCommodities.add(new Model_DetailsCommodity(mod.commodity, mod.consigne, mod.packages, mod.weight));
+            }
         }
         //model_detailsCommodities.add(new Model_DetailsCommodity("iron ore","non grain bulk", 2,175000000));
 

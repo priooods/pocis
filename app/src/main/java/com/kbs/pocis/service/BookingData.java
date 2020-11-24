@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
@@ -23,7 +24,65 @@ public class BookingData {
         return true;
     }
     // data booking pertama CustomerAddForm
-    public String customerType, relatedVesel, contract,uploadDate,uploadTime;
+    //region DB
+    /*
+            v "id": 36538,
+            v "no_booking": "B0001-2020-00010",
+            v "customer_type_code": "AGENT",
+            v "booking_date": "2020-10-21 10:30:45",
+            v "flag_related_vessel": "Yes",
+            v "flag_contract": "No",
+            "flag_compound": null,
+            "status": "RM",
+            "customerbooking": [],
+            "formatted_booking_date": "21 October 2020",
+            "formatted_booking_time": "10:30",
+            "voyage_no": null,
+            "customer_code": "B0001",
+            "customer_name": "BUANA INDAH GEMACA PT.",
+            "contract_no": "-",
+            "book_status": "REJECTED BY MARKETING",
+            "project_status": "-",
+            "project_no": "-",
+            "vessel_name": "MV. NORD PEAK",
+            "no_dp": "-",
+            "no_reff": "-",
+            "no_invoice": "-",
+            "est_arrival": "2020-10-22 00:00:00",
+            "est_berthing": null,
+            "compoundbooking": null,
+    */
+    //endregion
+    @SerializedName("customer_type_code")
+    public String customerType;
+    public String booking_date;
+    @SerializedName("flag_related_flag")
+    public String relatedVesel;
+    @SerializedName("flag_related_contract")
+    public String contract;
+    @SerializedName("formatted_booking_date")
+    public String bookingDate;
+    @SerializedName("formatted_booking_time")
+    public String bookingTime;
+    public String id_booking;
+    public String no_booking;
+    public String flag_compound;
+    public String status;
+    public String voyage_no;
+    public String customer_code;
+    public String customer_name;
+    public String contract_no;
+    public String book_status;
+    public String project_status;
+    public String project_no;
+    public String vessel_name;
+    public String no_dp;
+    public String no_reff;
+    public String no_invoice;
+    public String est_arrival;
+    public String est_berthing;
+    public String compoundbooking;
+
     public void setCustumer(String customer, String related, String contract){
         customerType = customer;
         relatedVesel = related;
@@ -79,8 +138,34 @@ public class BookingData {
     //data booking ketiga UploadDocument
     public ArrayList<Model_UploadDocument> file;
 
+    /*
+        "commoditybooking": [
+            {
+                "id": 31013,
+                "t_booking_id": "36538",
+                "m_commodity_name_id": "3",
+                "m_commodity_type_id": "4",
+                "tonage": "950.000",
+                "packaging": "1",
+                "commoditycode": {
+                    "id": 3,
+                    "code": "SOBM",
+                    "desc": "SOYBEAN MEAL",
+                    "m_commodity_type_name": "-",
+                    "type": null
+                },
+                "commoditytype": {
+                    "id": 4,
+                    "desc": "GRAIN BULK"
+                }
+            }
+        ]
+        */
     //data booking keempat AddComodity
+    @SerializedName("commodity_booking")
     public ArrayList<Model_Commodity> commodity;
+
+
 
     //data Vessel
     public VesselData vessel;
@@ -103,8 +188,8 @@ public class BookingData {
 
     public void Upload(){
         i = null;
-        uploadDate = "23 November 2020";
-        uploadTime = "17:00 WIB";
+        bookingDate = "23 November 2020";
+        bookingTime = "17:00 WIB";
         BookingList.getI().AddBookingData(this);
     }
 }

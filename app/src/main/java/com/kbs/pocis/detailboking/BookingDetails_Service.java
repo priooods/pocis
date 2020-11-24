@@ -18,6 +18,7 @@ import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.model.Model_DetailsService;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,19 @@ public class BookingDetails_Service extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycle_service);
         List<Model_DetailsService> model_detailsServices = new ArrayList<>();
-        Log.i("Tag","BookingData.i = "+ (BookingData.i!=null));
-        Log.i("Tag","DetailService = id = "+ BookingData.i.vessel.vessel_name);
-        for(BookingData.BookTemplate mod : BookingData.i.template) {
-            for (BookingData.BookTemplate.BookTempList anak : mod.listCheck) {
-                model_detailsServices.add(new Model_DetailsService(anak.code + " - " + anak.name, "10000"));
+        Log.i("Tag","BookingData.i = "+ (BookingDetailData.i!=null));
+        //Log.i("Tag","DetailService = id = "+ BookingData.i.vessel.vessel_name);
+        if (BookingDetailData.i!=null) {
+            if (BookingDetailData.i.template!=null) {
+                for (Model_DetailsService mod : BookingDetailData.i.template) {
+                    model_detailsServices.add(mod);
+                }
+            }
+        }else if (BookingData.i!=null){
+            for(BookingData.BookTemplate mod : BookingData.i.template) {
+                for (BookingData.BookTemplate.BookTempList anak : mod.listCheck) {
+                    model_detailsServices.add(new Model_DetailsService(anak.code,anak.name, "10000"));
+                }
             }
         }
         detailsService = new Adapter_DetailsService(getContext(), model_detailsServices);

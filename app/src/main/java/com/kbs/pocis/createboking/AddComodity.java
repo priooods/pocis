@@ -170,7 +170,6 @@ public class AddComodity extends Fragment {
     }
 
     public class ListComoodity extends RecyclerView.Adapter<ListComoodity.vHolder>{
-
         Context context;
         List<Model_Commodity> model_commodities;
 

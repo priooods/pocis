@@ -47,15 +47,14 @@ public class CallingData {
         public String customer_code;
         @SerializedName(value="customer_type_name", alternate = "customer_type_code")
         public String customer_type_name;
-        //public String customer_type_code;
         public String booking_date;
-        public String formatted_booking_date;
-        public String formatted_booking_time;
-        public String status_booking;
-        public String est_arrival;
-        public String est_berthing;
+        @SerializedName(value="status_booking", alternate = "book_status")
+        public String state_booking;
+        @SerializedName(value="formatted_booking_date", alternate = "est_arrival")
+        public String format_date1;
+        @SerializedName(value="formatted_booking_time", alternate = "est_berthing")
+        public String format_date2;
         public String contract_no;
-        public String book_status;
 
         ///Fungsi ini untuk membuat Model_Bookings baru sesuai dengan atribut data class booking ini
         public Model_Bookings getModel() {
@@ -63,14 +62,14 @@ public class CallingData {
                     booking_id,
                     no_contract,
                     no_booking,
-                    status_booking,
+                    state_booking,
                     vessel_name,
                     customer_type_name,
                     customer_name,
                     flag_related_vessel,
                     flag_contract,
                     booking_date,
-                    formatted_booking_date + " " + formatted_booking_time
+                    format_date1 + " " + format_date2
             );
         }
         ///Fungsi ini untuk membuat Model_Tariff baru sesuai dengan atribut data class booking ini
@@ -82,12 +81,12 @@ public class CallingData {
                     customer_name,
                     customer_code,
                     flag_contract,
-                    book_status,
+                    state_booking,
                     customer_type_name,
                     flag_related_vessel,
                     vessel_name,
-                    est_arrival,
-                    est_berthing
+                    format_date1,
+                    format_date2
             );
         }
     }

@@ -38,7 +38,9 @@ public class Filter_OnlineBooking extends DialogFragment {
         input_vesel = view.findViewById(R.id.filter_veselname);
         button_back = view.findViewById(R.id.btn_cancelbooking);
         button_next = view.findViewById(R.id.btn_filterbooking);
-        
+        if (UserData.isExists()) {
+            input_vesel.setText(UserData.i.filter);
+        }
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +55,7 @@ public class Filter_OnlineBooking extends DialogFragment {
                 if (UserData.isExists()){
                     UserData.i.updateData(input_vesel.getText().toString());
                 }
+                dismiss();
             }
         });
 

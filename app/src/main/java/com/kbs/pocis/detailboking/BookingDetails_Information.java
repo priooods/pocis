@@ -2,6 +2,7 @@ package com.kbs.pocis.detailboking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.UserData;
 
 public class BookingDetails_Information extends Fragment {
 
@@ -37,23 +41,35 @@ public class BookingDetails_Information extends Fragment {
         flagContract = view.findViewById(R.id.detail_info_booking_flagContract);
         detail_info_schedule_booking_vesselName = view.findViewById(R.id.detail_info_schedule_booking_vesselName);
 
-        Intent intent = getActivity().getIntent();
-        String id = intent.getStringExtra("id");
-
-
-//        BookingData bl = BookingData.i;
-//        nomerContract.setText(bl.contract);
-//        flagVessel.setText(bl.relatedVesel);
-//        customerName.setText(UserData.i.username);
-//        vesselName.setText(bl.vessel.vessel_name);
-//        customerType.setText(bl.customerType);
-//        bookingDate.setText(bl.uploadDate);
-//        bookingTime.setText(bl.uploadTime);
-//        flagContract.setText("");
-        ScheduleInformation();
+        if (BookingDetailData.i!=null) {
+            BookingDetailData bl = BookingDetailData.i;
+            nomerContract.setText(bl.contract_no);
+            flagVessel.setText(bl.relatedVesel);
+            customerName.setText(bl.customer_name);
+            vesselName.setText(bl.vessel_name);
+            customerType.setText(bl.customerType);
+            bookingDate.setText(bl.bookingDate);
+            bookingTime.setText(bl.bookingTime);
+            flagContract.setText(bl.contract);
+            detail_info_schedule_booking_vesselName.setText(bl.vessel_name);
+        }else {
+            BookingData bl = BookingData.i;
+            nomerContract.setText(bl.contract);
+            flagVessel.setText(bl.relatedVesel);
+            customerName.setText(UserData.i.username);
+            vesselName.setText(bl.vessel.vessel_name);
+            customerType.setText(bl.customerType);
+            bookingDate.setText(bl.bookingDate);
+            bookingTime.setText(bl.bookingTime);
+            flagContract.setText("");
+            detail_info_schedule_booking_vesselName.setText(bl.vessel_name);
+        }
         //DataGet();
 
         return view;
+    }
+
+    void UpdateDataFromList(){
     }
     //Set text detail Booking Information
     public void BookingInformation (){
@@ -65,9 +81,5 @@ public class BookingDetails_Information extends Fragment {
         bookingDate.setText(bokDate);
         bookingTime.setText(bokTime);
         flagContract.setText(fgcontract);
-    }
-
-    void ScheduleInformation(){
-        detail_info_schedule_booking_vesselName.setText(vslName);
     }
 }

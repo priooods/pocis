@@ -89,7 +89,6 @@ public class VesselInformation extends Fragment {
                 port_origin.setText(bd.port_origin);
                 loading_shipcall.setText(bd.loading_shipcall);
                 estimate_arival.setText(bd.estimate_arival);
-                loading_shipcall.setText(bd.loading_shipcall);
                 estimate_departure.setText(bd.estimate_departure);
             }
         }

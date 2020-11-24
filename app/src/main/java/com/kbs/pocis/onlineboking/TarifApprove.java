@@ -22,7 +22,6 @@ import com.kbs.pocis.adapter.onlineboking.Adapter_TarifApproved;
 import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
 import com.kbs.pocis.service.onlinebooking.CallingData;
-import com.kbs.pocis.service.onlinebooking.TariffData;
 import com.kbs.pocis.service.UserData;
 
 import java.util.ArrayList;

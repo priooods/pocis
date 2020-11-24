@@ -36,13 +36,13 @@ public class Adapter_DetailCommodity extends RecyclerView.Adapter<Adapter_Detail
 
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
-        holder.name.setText(model_detailsCommodities.get(position).getComodityName());
-        holder.type.setText(model_detailsCommodities.get(position).getComodityTyoe());
+        holder.name.setText(model_detailsCommodities.get(position).getCommodityName());
+        holder.type.setText(model_detailsCommodities.get(position).getCommodityType());
 
-        holder.tonage.setText((model_detailsCommodities.get(position).getTonage()));
+        holder.tonage.setText((model_detailsCommodities.get(position).tonage));
 
 
-        holder.packageNo.setText(model_detailsCommodities.get(position).getPackageNo());
+        holder.packageNo.setText(model_detailsCommodities.get(position).packaging);
     }
 
     @Override

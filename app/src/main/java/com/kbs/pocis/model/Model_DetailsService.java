@@ -1,30 +1,21 @@
 package com.kbs.pocis.model;
 
 public class Model_DetailsService {
-
-    String include, price;
-
-    public Model_DetailsService() {
+/*
+                "service_code": "A003",
+                        "service_name": "TAMBAT LUAR NEGERI",
+                        "tarif": "IDR 0 Per TONAGE "
+    */
+    String service_code, service_name, tarif;
+    public Model_DetailsService(String service_code, String service_name, String tarif){
+        this.service_code = service_code;
+        this.service_name = service_name;
+        this.tarif = tarif;
     }
-
-    public Model_DetailsService(String include, String price) {
-        this.include = include;
-        this.price = price;
+    public String getName(){
+        return service_code + " - "+service_name;
     }
-
-    public String getInclude() {
-        return include;
-    }
-
-    public void setInclude(String include) {
-        this.include = include;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+    public String getPrice(){
+        return tarif;
     }
 }

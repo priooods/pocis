@@ -1,7 +1,7 @@
 package com.kbs.pocis.api;
 
+import com.kbs.pocis.service.detailbooking.DetailData;
 import com.kbs.pocis.service.onlinebooking.CallingData;
-import com.kbs.pocis.service.onlinebooking.TariffData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -42,7 +42,7 @@ public interface UserService {
     );
     @FormUrlEncoded
     @POST("tbooking/view")
-    Call<CallingData> getBookingDetail(
+    Call<DetailData> getBookingDetail(
             @Field("token") String token,
             @Field("tbooking_id") String tbooking_id
     );

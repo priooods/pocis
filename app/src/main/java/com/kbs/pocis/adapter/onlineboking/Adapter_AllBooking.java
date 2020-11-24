@@ -101,7 +101,10 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
 
     @Override
     public int getItemCount() {
-        return model_bookings.size();
+        if (model != null){
+            return model_bookings.size();
+        }
+        return 0;
     }
 
     @Override
