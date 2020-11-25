@@ -45,7 +45,7 @@ public class DetailData {
     }
     //endregion
 
-    public String toString() {
+    public String readString() {
         StringBuilder result = new StringBuilder();
         String newLine = System.getProperty("line.separator");
 
@@ -70,7 +70,7 @@ public class DetailData {
             result.append(newLine);
         }
         result.append("}");
-        Log.i("detail_booking",data.toString());
+        Log.i("detail_booking",data.readString());
         return result.toString();
     }
 

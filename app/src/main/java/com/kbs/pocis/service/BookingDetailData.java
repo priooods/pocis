@@ -77,7 +77,17 @@ public class BookingDetailData {
     public String no_invoice;
     public String est_arrival;
     public String est_berthing;
-    public String compoundbooking;
+    public Compound compoundbooking;
+    public class Compound {
+        public int id;
+        public String t_booking_id,description,tariff,currency,unit_code,crated,created_by,modified,modified_by;
+        public String unit_code1,unit_code2,quantity,quantity1,quantity2,Unit;
+        public Unit unit;
+    }
+    public class Unit{
+        public int id;
+        public String code,desc,created,created_by,modified,modified_by;
+    }
 
     //data booking kedua ShowTemplate - SelectTemplate
     @SerializedName("customerbooking")
@@ -125,4 +135,61 @@ public class BookingDetailData {
             this.cigading_port = cigading_port;
         }
     }
+
+    public String readString() {
+        if (customerType!=null) {
+            StringBuilder result = new StringBuilder();
+            String newLine = System.getProperty("line.separator");
+
+            result.append(this.getClass().getName());
+            result.append(" Object {");
+            result.append(newLine);
+
+            //determine fields declared in this class only (no fields of superclass)
+            Field[] fields = this.getClass().getDeclaredFields();
+
+            //print field names paired with their values
+            for (Field field : fields) {
+                result.append("  ");
+                try {
+                    result.append(field.getName());
+                    result.append(": ");
+                    //requires access to private field:
+                    result.append(field.get(this));
+                } catch (IllegalAccessException ex) {
+                    System.out.println(ex);
+                }
+                result.append(newLine);
+            }
+            result.append("}");
+            return result.toString();
+        }
+        return "ERROR!";
+    }
+    /*
+        "id": 5124,
+        "t_booking_id": "19676",
+        "description": "SUPPLY AIR VIA HYDRANT (KAPAL LN) TB. KIM HOCK TUG 3",
+        "tariff": "7.000",
+        "currency": "USD",
+        "unit_code": "M3",
+        "created": "2019-05-05 22:44:24",
+        "created_by": "1169",
+        "modified": "2019-05-05 22:44:24",
+        "modified_by": null,
+        "unit_code1": null,
+        "unit_code2": null,
+        "quantity": null,
+        "quantity1": "30.000",
+        "quantity2": null,
+        "unit": {
+        "id": 23,
+                "code": "M3",
+                "desc": "CUBIC METER",
+                "created": "2016-09-29 10:11:50",
+                "created_by": "27",
+                "modified": "2016-09-29 10:29:33",
+                "modified_by": "27"
+    }
+    */
 }

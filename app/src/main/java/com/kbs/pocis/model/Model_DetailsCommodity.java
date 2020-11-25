@@ -49,28 +49,38 @@ class Type {
     public String getCommodityType(){
         return commoditytype.desc;
     }
+/*
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        String newLine = System.getProperty("line.separator");
 
-    public String getComodityTyoe() {
-        return comodityTyoe;
-    }
+        result.append( this.getClass().getName() );
+        result.append( " Object {" );
+        result.append(newLine);
 
-    public void setComodityTyoe(String comodityTyoe) {
-        this.comodityTyoe = comodityTyoe;
-    }
+        //determine fields declared in this class only (no fields of superclass)
+        Field[] fields = this.getClass().getDeclaredFields();
 
-    public String getPackageNo() {
-        return packageNo;
-    }
+        //print field names paired with their values
+        for ( Field field : fields  ) {
+            result.append("  ");
+            try {
+                result.append( field.getName() );
+                result.append(": ");
+                //requires access to private field:
+                result.append( field.get(this) );
+            } catch ( IllegalAccessException ex ) {
+                System.out.println(ex);
+            }
+            result.append(newLine);
+        }
 
-    public void setPackageNo(String packageNo) {
-        this.packageNo = packageNo;
+        result.append( " @@@commoditycode :" + String.valueOf(commoditycode.id) + " " + commoditycode.code +" "+commoditycode.desc+" "+commoditycode.m_commodity_type_name+" "+commoditycode.type);
+        result.append(newLine);
+        result.append( " @@@commoditytype :" + String.valueOf(commoditytype.id) + " " + commoditytype.desc);
+        result.append(newLine);
+        result.append("}");
+        return result.toString();
     }
-
-    public String getTonage() {
-        return tonage;
-    }
-
-    public void setTonage(String tonage) {
-        this.tonage = tonage;
-    }
+ */
 }

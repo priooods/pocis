@@ -121,7 +121,7 @@ public class BookingDetails extends AppCompatActivity {
             public void onResponse(Call<DetailData> call, Response<DetailData> response) {
                 DetailData respone = (DetailData) response.body();
                 if (DetailData.TreatResponse(activity, "detail_booking", respone)) {
-                    Log.i("detail_booking",respone.toString());
+                    Log.i("detail_booking",respone.readString());
                     BookingDetailData.i = respone.data;
                     ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
                     viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
