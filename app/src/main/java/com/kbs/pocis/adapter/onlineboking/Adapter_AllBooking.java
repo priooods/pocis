@@ -61,7 +61,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             holder.bg_color.setBackgroundColor(Color.parseColor("#4BA459"));
             holder.garis.setBackgroundColor(Color.parseColor("#4BA459"));
         }
-        else if (holder.status.getText().toString().equals("CANCELLED")){
+        else if (holder.status.getText().toString().equals("CANCELED")){
             holder.status.setText(R.string.cancelled);
             holder.status.setTextColor(Color.parseColor("#D41111"));
             holder.bg_color.setBackgroundColor(Color.parseColor("#D41111"));
@@ -91,8 +91,9 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             public void onClick(View v) {
                 Intent intent = new Intent(context, BookingDetails.class);
                 intent.putExtra("from", "All Bookings");
-                intent.putExtra("id", model_bookings.get(position).getBookingId());
+                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
                 intent.putExtra("status", model_bookings.get(position).getStatusBook());
+                intent.putExtra("id", model_bookings.get(position).getBookingId());
                 context.startActivity(intent);
             }
         });
@@ -101,10 +102,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
 
     @Override
     public int getItemCount() {
-        if (model != null){
-            return model_bookings.size();
-        }
-        return 0;
+        return model_bookings.size();
     }
 
     @Override

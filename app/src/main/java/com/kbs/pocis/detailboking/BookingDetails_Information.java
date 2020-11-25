@@ -29,7 +29,7 @@ public class BookingDetails_Information extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.booking_details_information,container,false);
+        View view = inflater.inflate(R.layout.booking_details_information, container, false);
 
         nomerContract = view.findViewById(R.id.detail_info_booking_contractNo);
         flagVessel = view.findViewById(R.id.detail_info_booking_flagvessel);
@@ -41,7 +41,7 @@ public class BookingDetails_Information extends Fragment {
         flagContract = view.findViewById(R.id.detail_info_booking_flagContract);
         detail_info_schedule_booking_vesselName = view.findViewById(R.id.detail_info_schedule_booking_vesselName);
 
-        if (BookingDetailData.i!=null) {
+        if (BookingDetailData.i != null) {
             BookingDetailData bl = BookingDetailData.i;
             nomerContract.setText(bl.contract_no);
             flagVessel.setText(bl.relatedVesel);
@@ -52,7 +52,7 @@ public class BookingDetails_Information extends Fragment {
             bookingTime.setText(bl.bookingTime);
             flagContract.setText(bl.contract);
             detail_info_schedule_booking_vesselName.setText(bl.vessel_name);
-        }else {
+        } else if (BookingData.i != null) {
             BookingData bl = BookingData.i;
             nomerContract.setText(bl.contract);
             flagVessel.setText(bl.relatedVesel);
@@ -63,14 +63,15 @@ public class BookingDetails_Information extends Fragment {
             bookingTime.setText(bl.bookingTime);
             flagContract.setText("");
             detail_info_schedule_booking_vesselName.setText(bl.vessel_name);
+        } else {
+            // TODO INFORMATION = NULL;
+            Log.i("Tag", "list kosong: " + "List anda kosong");
         }
         //DataGet();
 
         return view;
     }
 
-    void UpdateDataFromList(){
-    }
     //Set text detail Booking Information
     public void BookingInformation (){
         nomerContract.setText(nocontract);

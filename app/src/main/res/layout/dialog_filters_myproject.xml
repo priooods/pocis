@@ -44,6 +44,7 @@
             android:text="Search by one of these fields"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="11dp"
+            android:textColor="@color/colorGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

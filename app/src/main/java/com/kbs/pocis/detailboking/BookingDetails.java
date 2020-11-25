@@ -37,13 +37,13 @@ import retrofit2.Response;
 
 public class BookingDetails extends AppCompatActivity {
 
-    String from, status, nomer;
+    String from, status, nomer, id;
     TextView topfrom, nomerBooking, statusBooking;
     ViewPager viewPager;
     TabLayout tabLayout;
     ImageView btn_back;
 
-    RelativeLayout layout_btn_bawah, layout_btn_verified;
+    RelativeLayout layout_btn_bawah, layout_btn_verified, layout_ada, layout_kosong;
     Button cancel_booking, rejectTarif, approveTarif;
 
     @Override
@@ -65,7 +65,8 @@ public class BookingDetails extends AppCompatActivity {
         Intent intent = getIntent();
         from = intent.getStringExtra("from");
         status = intent.getStringExtra("status");
-        nomer = intent.getStringExtra("id");
+        nomer = intent.getStringExtra("nomer");
+        id = intent.getStringExtra("id");
 
         topfrom = findViewById(R.id.booking_details_Textfrompage);
         nomerBooking = findViewById(R.id.booking_details_bookingNo);
@@ -78,6 +79,8 @@ public class BookingDetails extends AppCompatActivity {
         cancel_booking = findViewById(R.id.btn_bokingdetail_cancelBooking);
         approveTarif = findViewById(R.id.btn_approve);
         rejectTarif = findViewById(R.id.btn_reject);
+        layout_ada = findViewById(R.id.detail_ada);
+        layout_kosong = findViewById(R.id.detail_kosong);
 
         DataGet(this);
 
@@ -120,6 +123,7 @@ public class BookingDetails extends AppCompatActivity {
             @Override
             public void onResponse(Call<DetailData> call, Response<DetailData> response) {
                 DetailData respone = (DetailData) response.body();
+
                 if (DetailData.TreatResponse(activity, "detail_booking", respone)) {
                     Log.i("detail_booking",respone.readString());
                     BookingDetailData.i = respone.data;
@@ -140,8 +144,9 @@ public class BookingDetails extends AppCompatActivity {
                     viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
                     viewPager.setAdapter(viewpagerDefault);
                     tabLayout.setupWithViewPager(viewPager);
-                }else{
-                    /// TODO eksekusi tampilan booking_detail kalo API error
+                }
+                else {
+                    layout_kosong.setVisibility(View.VISIBLE);
                 }
             }
             @Override

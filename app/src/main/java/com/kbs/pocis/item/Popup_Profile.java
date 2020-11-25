@@ -33,7 +33,6 @@ public class Popup_Profile extends DialogFragment {
     TextView username;
     Button buttonLogout;
     UserService userService;
-    UserData user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +46,10 @@ public class Popup_Profile extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.dialog_profile_box, container, false);
 
-        user = (UserData) getActivity().getIntent().getParcelableExtra("user");
+        UserData user = UserData.i;
         username = view.findViewById(R.id.username_profile);
         buttonLogout = view.findViewById(R.id.btn_logout_profile);
+        username.setText(user.username);
 
         userService = APIClient.getClient().create(UserService.class);
 
@@ -67,6 +67,7 @@ public class Popup_Profile extends DialogFragment {
     }
 
     public void LogoutClick(){
+        UserData user = UserData.i;
         Call<CallingData> call1 = userService.getLogoutUser(user.getToken());
         if (call1 == null) {
             Log.i("logout","CallingData Post Method is Bad!");

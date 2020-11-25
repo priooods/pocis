@@ -5,203 +5,243 @@
     android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:paddingHorizontal="15dp"
-        android:id="@+id/a"
-        android:layout_marginTop="7dp"
+    <RelativeLayout
+        android:id="@+id/detail_ada"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:src="@drawable/icon_back"
-            android:id="@+id/btn_back_detail_booking"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingHorizontal="15dp"
+            android:id="@+id/a"
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
 
-        <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:src="@drawable/icon_back"
+                android:id="@+id/btn_back_detail_booking"/>
 
-            <TextView
+            <LinearLayout
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Booking Details"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_centerHorizontal="true"
-                android:textSize="17dp"
-                android:fontFamily="@font/montserrat_bold"/>
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Booking Details"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="17dp"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Online Booking - "
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="9dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/booking_details_Textfrompage"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="9dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/b"
+            android:paddingHorizontal="15dp"
+            android:layout_below="@id/a"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Online Booking - "
-                    android:fontFamily="@font/montserrat_bold"
-                    android:textColor="@color/colorGrey"
-                    android:textSize="9dp"/>
+                    android:textSize="10dp"
+                    android:text="Booking No."
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorAccent"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/booking_details_Textfrompage"
+                    android:textColor="@color/colorAccent"
                     android:fontFamily="@font/montserrat_bold"
-                    android:textColor="@color/colorGrey"
-                    android:textSize="9dp"/>
+                    android:textSize="12dp"
+                    android:text="K0001-2020-00097"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/booking_details_bookingNo"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="end"
+                android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="Status"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorAccent"/>
 
-    <RelativeLayout
-        android:id="@+id/b"
-        android:paddingHorizontal="15dp"
-        android:layout_below="@id/a"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:text="approved"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/booking_details_status"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:orientation="vertical">
+            android:layout_below="@id/b"
+            android:layout_marginTop="5dp"
+            app:tabSelectedTextColor="@color/colorPrimaryDark"
+            app:tabTextAppearance="@style/TablayoutStyle"
+            app:tabMode="fixed"
+            app:tabTextColor="@color/colorPrimaryDarkLow"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="3dp"
+            android:layout_marginHorizontal="20dp"
+            android:id="@+id/bookingdetail_tablayout"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:text="Booking No."
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorAccent"/>
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_height="match_parent"
+            android:layout_below="@id/bookingdetail_tablayout"
+            android:layout_above="@id/bookingdetail_layoutBawah"
+            android:id="@+id/bookingdetail_viewpager"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="12dp"
-                android:text="K0001-2020-00097"
-                android:textAllCaps="true"
-                android:layout_marginTop="4dp"
-                android:id="@+id/booking_details_bookingNo"/>
+        <RelativeLayout
+            android:layout_marginBottom="8dp"
+            android:id="@+id/bookingdetail_layoutBawah"
+            android:layout_marginHorizontal="15dp"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
 
-        </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_red"
+                android:text="Cancel Booking"
+                android:visibility="gone"
+                android:textColor="@color/colorWhite"
+                android:textAllCaps="false"
+                android:id="@+id/btn_bokingdetail_cancelBooking"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="end"
-            android:orientation="vertical">
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ltr_btn_verified">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:text="Status"
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorAccent"/>
+                <Button
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/btn_reject"
+                    android:textColor="@color/colorWhite"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:background="@drawable/btn_red"
+                    android:text="Reject Tariff"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:text="approved"
-                android:layout_marginTop="4dp"
-                android:id="@+id/booking_details_status"/>
+                <Button
+                    android:layout_alignParentRight="true"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/btn_approve"
+                    android:textColor="@color/colorWhite"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:background="@drawable/btn_green"
+                    android:text="Approve Tariff"/>
 
-        </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/b"
-        android:layout_marginTop="5dp"
-        app:tabSelectedTextColor="@color/colorPrimaryDark"
-        app:tabTextAppearance="@style/TablayoutStyle"
-        app:tabMode="fixed"
-        app:tabTextColor="@color/colorPrimaryDarkLow"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="3dp"
-        android:layout_marginHorizontal="20dp"
-        android:id="@+id/bookingdetail_tablayout"/>
-
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_marginBottom="3dp"
-        android:layout_height="match_parent"
-        android:layout_below="@id/bookingdetail_tablayout"
-        android:layout_above="@id/bookingdetail_layoutBawah"
-        android:id="@+id/bookingdetail_viewpager"/>
-
     <RelativeLayout
-        android:layout_marginBottom="8dp"
-        android:id="@+id/bookingdetail_layoutBawah"
-        android:layout_marginHorizontal="15dp"
         android:visibility="gone"
-        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:id="@+id/detail_kosong"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="match_parent">
 
-        <Button
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/ww"
+            android:src="@drawable/notfound"
+            android:scaleType="fitXY"/>
+
+
+        <TextView
+            android:layout_below="@id/ww"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/btn_red"
-            android:text="Cancel Booking"
-            android:visibility="gone"
-            android:textColor="@color/colorWhite"
-            android:textAllCaps="false"
-            android:id="@+id/btn_bokingdetail_cancelBooking"/>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="15dp"
+            android:layout_marginTop="20dp"
+            android:text="Opps... Nothing Your Details Booking"
+            android:gravity="center"/>
 
-        <RelativeLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/ltr_btn_verified">
-
-            <Button
-                android:layout_width="140dp"
-                android:layout_height="match_parent"
-                android:id="@+id/btn_reject"
-                android:textColor="@color/colorWhite"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                android:background="@drawable/btn_red"
-                android:text="Reject Tariff"/>
-
-            <Button
-                android:layout_alignParentRight="true"
-                android:layout_width="140dp"
-                android:layout_height="match_parent"
-                android:id="@+id/btn_approve"
-                android:textColor="@color/colorWhite"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                android:background="@drawable/btn_green"
-                android:text="Approve Tariff"/>
-
-        </RelativeLayout>
 
     </RelativeLayout>
 

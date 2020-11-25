@@ -179,6 +179,7 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
         intent.putExtra("from", "Cancel Bookings");
         intent.putExtra("status", model_bookings.get(position).getStatusBook());
         intent.putExtra("id", model_bookings.get(position).getBookingId());
+        intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
         context.startActivity(intent);
     }
 

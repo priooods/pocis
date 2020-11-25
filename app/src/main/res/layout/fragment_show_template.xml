@@ -178,7 +178,6 @@
         android:paddingHorizontal="20dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintTop_toBottomOf="@id/c"
-        android:layout_marginTop="15dp"
         android:id="@+id/recycle_showtemplate">
 
     </androidx.recyclerview.widget.RecyclerView>

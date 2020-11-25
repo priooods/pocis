@@ -359,7 +359,6 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/veselinfo_veselname"
                                 android:textColor="@color/colorTextbooking"
-                                android:textAllCaps="true"
                                 android:textSize="10dp"
                                 android:text="PS.00/172.01/PMS/XI/2014"
                                 android:fontFamily="@font/montserrat_bold"/>
@@ -459,7 +458,6 @@
                                 android:textColor="@color/colorTextbooking"
                                 android:text="CNEE"
                                 android:textSize="10dp"
-                                android:textAllCaps="true"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:id="@+id/veselinfo_port"/>
 

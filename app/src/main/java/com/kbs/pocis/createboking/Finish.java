@@ -36,6 +36,7 @@ public class Finish extends Fragment {
 
         ButtonFunction();
 
+
         return view;
     }
 
@@ -43,7 +44,6 @@ public class Finish extends Fragment {
         backhome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserData user = (UserData) getActivity().getIntent().getParcelableExtra("user");
                 Intent intent = new Intent(getActivity(), HomePage.class);
                 startActivity(intent);
                 getActivity().finish();
@@ -56,6 +56,27 @@ public class Finish extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateBooking.class);
                 startActivity(intent);
                 getActivity().finish();
+            }
+        });
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getView() == null){
+            return;
+        }
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    // handle back button's click listener
+                    return true;
+                }
+                return false;
             }
         });
     }

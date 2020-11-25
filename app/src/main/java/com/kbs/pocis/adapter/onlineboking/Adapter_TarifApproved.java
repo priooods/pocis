@@ -75,6 +75,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
                 Intent intent = new Intent(context, BookingDetails.class);
                 intent.putExtra("from", "Tarif Approve");
                 intent.putExtra("id", model_tariffAproves.get(position).getBookingId());
+                intent.putExtra("nomer", model_tariffAproves.get(position).getNomer_boking());
                 intent.putExtra("status", model_tariffAproves.get(position).getBookingStatus());
 
                 context.startActivity(intent);
