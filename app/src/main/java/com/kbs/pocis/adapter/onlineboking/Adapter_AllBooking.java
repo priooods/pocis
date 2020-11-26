@@ -43,7 +43,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
 
     @Override
     public void onBindViewHolder(@NonNull final VHolder holder, final int position) {
-        holder.nomerBooking.setText(model_bookings.get(position).getBookingId());
+        holder.nomerBooking.setText(model_bookings.get(position).getNomerBook());
         holder.nomerContract.setText(model_bookings.get(position).getContractNo());
         holder.customerName.setText(model_bookings.get(position).getCustomerName());
         holder.vesselName.setText(model_bookings.get(position).getVesselName());

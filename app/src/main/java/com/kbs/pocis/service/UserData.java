@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.kbs.pocis.api.APIClient;
 import com.kbs.pocis.api.UserService;
+import com.kbs.pocis.onlineboking.Filters;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import java.util.Calendar;
 
@@ -22,7 +24,7 @@ public class UserData {
     private String token;
     private long time;
     private UserService service;
-    public String filter;
+    public Filters filter;
 
     public UserData(String username, String password) {
         this.username = username;
@@ -30,14 +32,38 @@ public class UserData {
         RefreshTime();
         i = this;
     }
-    public void updateData(String filter){
-        this.filter = filter;
+    public void updateFilter(String id, String vessel) {
+        if (!id.isEmpty() && !vessel.isEmpty()) {
+            filter = new Filters(id,vessel) {
+                @Override
+                public boolean checkFilter(CallingData.Booking data) {
+                    return data.no_booking!=null && data.vessel_name != null && data.no_booking.contains(id) && data.vessel_name.contains(vessel);
+                }
+            };
+        } else if (!id.isEmpty()) {
+            filter = new Filters(id,vessel) {
+                @Override
+                public boolean checkFilter(CallingData.Booking data) {
+                    return data.no_booking!=null && data.no_booking.contains(id);
+                }
+            };
+        } else if (!vessel.isEmpty()) {
+            filter = new Filters(id,vessel) {
+                @Override
+                public boolean checkFilter(CallingData.Booking data) {
+                    return data.vessel_name != null && data.vessel_name.contains(vessel);
+                }
+            };
+        } else {
+            filter = null;
+        }
     }
 
     public UserData(String username, String password, long time) {
         this.username = username;
         this.password = password;
         this.time = time;
+        filter = null;
     }
 
     public UserService getService(){

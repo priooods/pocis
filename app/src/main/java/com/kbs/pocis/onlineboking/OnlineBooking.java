@@ -29,6 +29,8 @@ public class OnlineBooking extends Fragment {
     ImageView icon_back, icon_search;
     ViewpagerDefault adapter;
     DialogFragment fragment;
+    AllBookings[] allbooking;
+    AllBookings select_booking;
 
     @Nullable
     @Override
@@ -41,10 +43,27 @@ public class OnlineBooking extends Fragment {
         icon_search = view.findViewById(R.id.btn_search_online_booking);
         tabLayout = view.findViewById(R.id.tabLayout_onlineBook);
         viewPager = view.findViewById(R.id.viewpager_onlineBooking);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //Log.i("ViewPager", "Scrolled | position = "+position+" , positionOffset = "+positionOffset+", pos.of.pix = "+positionOffsetPixels);
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("ViewPager", "Select | position = "+position);
+                select_booking = allbooking[position];
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                    //Log.i("ViewPager", "Changed | state = "+state);
+            }
+        });
+        allbooking = new AllBookings[2];
         adapter = new ViewpagerDefault(getChildFragmentManager());
-        adapter.Addfragment(new AllBookings(),"All Bookings");
-        adapter.Addfragment(new CancelBooking(),"Cancel Booking");
+        adapter.Addfragment(select_booking = allbooking[0] = new AllBookings(0),"All Bookings");
+        adapter.Addfragment(allbooking[1] = new AllBookings(1),"Cancel Bookings");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -63,7 +82,7 @@ public class OnlineBooking extends Fragment {
         icon_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new Filter_OnlineBooking();
+                fragment = new Filter_OnlineBooking(select_booking);
                 fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
                 fragment.show(getChildFragmentManager(), "filter_online");
             }
