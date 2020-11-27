@@ -35,11 +35,10 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="11dp"/>
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:textColorHint="@color/colorGrey"
             android:paddingLeft="8dp"
-            android:inputType="text"
             android:textColor="@color/colorPrimaryDark"
             android:fontFamily="@font/montserrat_bold"
             android:layout_marginTop="10dp"
@@ -50,6 +49,7 @@
             android:background="@color/float_transparent"/>
 
     </LinearLayout>
+
 
     <LinearLayout
         android:focusableInTouchMode="true"
@@ -71,7 +71,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="11dp"/>
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:paddingLeft="8dp"
             android:textColor="@color/colorPrimaryDark"

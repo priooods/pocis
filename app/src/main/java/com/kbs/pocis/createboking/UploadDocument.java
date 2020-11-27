@@ -76,6 +76,7 @@ public class UploadDocument extends Fragment {
                 model_uploadDocuments = new ArrayList<>();
             }
         }
+        model_uploadDocuments.add(new Model_UploadDocument(null,"file.pdf",100000));
         statusList(model_uploadDocuments);
         ButtonAddFile();
         ButtonFunction();

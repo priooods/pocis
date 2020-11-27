@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,7 @@ public class Summary extends Fragment {
         customer_type.setText(data.customerType);
         related.setText(data.relatedVesel);
         contract.setText(data.contract);
-        discharge.setText(data.vessel.loading_shipcall + "/" + data.vessel.discharge_ship);
+        discharge.setText(data.vessel.voyage_number);
         veselname.setText(data.vessel.vessel_name);
         port.setText(data.vessel.port_discharge);
         arival.setText(data.vessel.estimate_arival);

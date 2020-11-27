@@ -325,6 +325,20 @@
                 android:background="@color/colorCardbg"
                 android:layout_height="wrap_content">
 
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/schedule_isempty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13dp"
+                    android:text="Schedule is empty"/>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/go_detail_booking"
                     app:layout_constraintTop_toTopOf="parent"
@@ -333,7 +347,7 @@
 
                     <LinearLayout
                         android:layout_marginTop="4dp"
-                        android:layout_width="160dp"
+                        android:layout_width="145dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toTopOf="parent"
@@ -364,7 +378,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toTopOf="parent"
@@ -376,15 +390,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textColor="@color/colorGrey"
                             android:textStyle="italic"
                             android:text="Loading / Discharge Ship Call"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
                             android:text="12814d"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textSize="11dp"
                             android:textAllCaps="true"
                             android:fontFamily="@font/montserrat_bold"
@@ -395,7 +413,7 @@
 
                     <LinearLayout
                         android:layout_marginTop="8dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="145dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/ln11"
@@ -416,6 +434,8 @@
                             android:id="@+id/detail_info_schedule_booking_estArival"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:text="2020-04-02 06:00:00"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -423,7 +443,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/ln21"
@@ -432,6 +452,8 @@
                         android:layout_marginTop="8dp">
 
                         <TextView
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
@@ -441,7 +463,9 @@
 
                         <TextView
                             android:textAllCaps="true"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
                             android:text="cigading port 2"
@@ -454,7 +478,7 @@
 
                     <LinearLayout
                         android:layout_marginTop="8dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="145dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/ln31"
@@ -475,6 +499,8 @@
                             android:id="@+id/detail_info_schedule_booking_departure"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:text="2020-04-06 18:00:00"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -482,7 +508,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/ln41"
@@ -491,7 +517,9 @@
                         android:layout_marginTop="8dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
                             android:textColor="@color/colorGrey"
@@ -504,6 +532,8 @@
                             android:textColor="@color/colorTextbooking"
                             android:text="SGSIN - SINGAPORE"
                             android:textSize="11dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/detail_info_schedule_booking_loading"/>
 

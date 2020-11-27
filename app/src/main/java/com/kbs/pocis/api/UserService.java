@@ -1,12 +1,22 @@
 package com.kbs.pocis.api;
 
+import com.kbs.pocis.model.createboking.Model_AddForm;
+import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.createbooking.CreateBok;
+import com.kbs.pocis.service.createbooking.DataCalling;
 import com.kbs.pocis.service.detailbooking.DetailData;
 import com.kbs.pocis.service.onlinebooking.CallingData;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserService {
 
@@ -46,4 +56,46 @@ public interface UserService {
             @Field("token") String token,
             @Field("tbooking_id") String tbooking_id
     );
+
+    @FormUrlEncoded
+    @POST("tbooking/customer_type")
+    Call<CreateBok> getCustumerType(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("tbooking/template_header")
+    Call<CreateBok> getShowTemplate(
+            @Field("token") String token,
+            @Field("customer_type_id") int id,
+            @Field("flag_related_vessel") String related,
+            @Field("flag_contract") String contract
+    );
+
+
+    @GET("master/consignee/{name}")
+    Call<List<DataCalling>> getConsignee(
+            @Path("name") String name
+    );
+
+    @GET("master/commodity_type/{desc}")
+    Call<List<DataCalling>> getCommodityType(
+            @Path("desc") String desc
+    );
+
+    @FormUrlEncoded
+    @POST("master/voyage")
+    Call<List<BookingDetailData>> getVoyageNumber(
+            @Field("voyage_no") String voyage_no
+    );
+
+    @GET("master/port_cigadings/{name}")
+    Call<List<DataCalling>> getPortDischarge(
+            @Path("name") String name
+    );
+
+    @GET("master/ports")
+    Call<List<DataCalling>> getPortOrigin();
+
+
 }

@@ -60,6 +60,7 @@ public class Adapter_CancelBooking extends RecyclerView.Adapter<Adapter_CancelBo
         holder.flagContract.setText(model_bookings.get(position).getFlagContract());
         holder.bookingTime.setText(model_bookings.get(position).getBookingTime());
         holder.status.setText(model_bookings.get(position).getStatusBook());
+        holder.titikdua.setVisibility(View.VISIBLE);
 
         if (holder.status.getText().toString().equals("BOOKING")){
             holder.status.setTextColor(Color.parseColor("#00a1d1"));

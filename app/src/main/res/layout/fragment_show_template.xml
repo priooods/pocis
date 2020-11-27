@@ -24,7 +24,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cust. Add Form"
+            android:text="Booking Information"
             android:textColor="#6F95BB"/>
 
         <TextView

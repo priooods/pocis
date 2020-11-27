@@ -26,11 +26,19 @@ import android.widget.Toast;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.createbooking.CreateBok;
+import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.detailbooking.DetailData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
 
@@ -59,6 +67,7 @@ public class ShowTemplate extends Fragment {
         }
         int i = 0;
         if (BookingData.isExist()){
+            Log.i("call","id = "+BookingData.i.customerId);
             // Load Data
             if (BookingData.i.template != null) {
                 for (BookingData.BookTemplate temp : BookingData.i.template) {
@@ -94,7 +103,30 @@ public class ShowTemplate extends Fragment {
             }
         });
 
+        ShowListTemplate();
+
         return view;
+    }
+
+    void ShowListTemplate(){
+        Call<CreateBok> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
+        call.enqueue(new Callback<CreateBok>() {
+            @Override
+            public void onResponse(Call<CreateBok> call, Response<CreateBok> response) {
+                CreateBok detailData = response.body();
+                if (detailData.TreatResponse(getContext(),"show", detailData)){
+                    for (DataCalling dataCalling : detailData.data){
+                        Log.i(TAG, "onResponse: => " + dataCalling.data.created_by);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateBok> call, Throwable t) {
+
+            }
+        });
     }
 
     void GoNextPage(){

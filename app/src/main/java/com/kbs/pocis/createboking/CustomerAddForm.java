@@ -1,6 +1,8 @@
 package com.kbs.pocis.createboking;
 
 import android.Manifest;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -34,18 +38,40 @@ import android.widget.Toast;
 import com.kbs.pocis.R;
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
+import com.kbs.pocis.adapter.createbooking.addform.Adapter_AddForm;
+import com.kbs.pocis.api.UserService;
+import com.kbs.pocis.model.Model_DetailsCommodity;
+import com.kbs.pocis.model.createboking.Model_AddForm;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.createbooking.CreateBok;
+import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.detailbooking.DetailData;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
 
 public class CustomerAddForm extends Fragment {
 
     TextView value_customerType, value_relatedVesel, value_contract;
-    LinearLayout  expanded_vesel, expanded_contract;
+    LinearLayout  expanded_vesel, expanded_contract, expanded_type;
     ImageView icon_type, icon_vesel, icon_contract;
-    CardView card_vesel, card_contract;
-    CheckBox yes_vesel, yes_contract, no_vesel, no_contract;
+    CardView card_vesel, card_contract, card_type;
+    CheckBox yes_vesel, yes_contract, no_vesel, no_contract, type_general, type_agent;
     Button nextButton;
+
+    Adapter_AddForm adapter_addForm;
+    RecyclerView list_costumertype;
+    public DataCalling data;
+    String CustomerType;
 
     private static int PRIVATE_CODE = 1;
 
@@ -56,6 +82,8 @@ public class CustomerAddForm extends Fragment {
 
         // Sebab design yang beraneka ragam dan kompleks,
         // maka semua function dibuat manual untuk mendapatkan UI yang sama persis dan function yg sesuai
+
+        list_costumertype = view.findViewById(R.id.list_customertype);
 
         //value form
         value_customerType = view.findViewById(R.id.cutomerAdd_customertype_value);
@@ -69,17 +97,21 @@ public class CustomerAddForm extends Fragment {
 
         // cardView
         card_vesel = view.findViewById(R.id.c2);
+        card_type = view.findViewById(R.id.c1);
         card_contract = view.findViewById(R.id.c3);
 
         // expanded layout
         expanded_contract = view.findViewById(R.id.customerAdd_expand_contract);
         expanded_vesel = view.findViewById(R.id.customerAdd_expand_relatedvesel);
+        expanded_type = view.findViewById(R.id.customerAdd_expand_type);
 
         //checkBoxes
         yes_vesel = view.findViewById(R.id.check_yes_customerAdd_relatedvesel);
         yes_contract = view.findViewById(R.id.check_yes_cutomerAdd_contract);
         no_contract = view.findViewById(R.id.check_no_customerAdd_contract);
         no_vesel = view.findViewById(R.id.check_no_customerAdd_relatedvesel);
+        type_agent = view.findViewById(R.id.check_customerAdd_agent);
+        type_general = view.findViewById(R.id.check_customerAdd_general);
 
         //nextButton
         nextButton = view.findViewById(R.id.cust_add_form_nextBtn);
@@ -91,14 +123,18 @@ public class CustomerAddForm extends Fragment {
 
         //Next Page
         if (BookingData.isExist()){
-            Log.i("li","BookingData Exists at the First!");
-            BookingData data = BookingData.i;
-            value_customerType.setText(data.customerType);
-            value_contract.setText(data.contract);
-            value_relatedVesel.setText(data.relatedVesel);
+            BookingData bdata = BookingData.i;
+            CustomerType = bdata.customerType;
+            value_customerType.setText(CustomerType);
+            value_contract.setText(bdata.contract);
+            value_relatedVesel.setText(bdata.relatedVesel);
+            Log.i("li","BookingData Exists at the First! "+(CustomerType!=null?CustomerType:"NULL"));
         }else{
             BookingData.i = new BookingData();
         }
+
+        Log.i(TAG, "onCreateView: => " + UserData.i.getToken());
+        CallingAPI();
         NextPage();
 
         //Permission
@@ -137,6 +173,21 @@ public class CustomerAddForm extends Fragment {
                 }
             }
         });
+
+        icon_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expanded_type.getVisibility() == View.GONE){
+                    TransitionManager.beginDelayedTransition(card_type, new AutoTransition());
+                    expanded_type.setVisibility(View.VISIBLE);
+                    icon_type.setImageResource(R.drawable.icon_top);
+                } else {
+                    TransitionManager.beginDelayedTransition(card_type, new AutoTransition());
+                    expanded_type.setVisibility(View.GONE);
+                    icon_type.setImageResource(R.drawable.icon_botom);
+                }
+            }
+        });
     }
 
     //function untuk CheckBox
@@ -145,10 +196,10 @@ public class CustomerAddForm extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    value_relatedVesel.setText("No");
+                    value_relatedVesel.setText("N");
                     yes_vesel.setChecked(false);
                 } else {
-                    value_relatedVesel.setText("Yes");
+                    value_relatedVesel.setText("Y");
                     yes_vesel.setChecked(true);
                 }
             }
@@ -158,24 +209,25 @@ public class CustomerAddForm extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    value_relatedVesel.setText("Yes");
+                    value_relatedVesel.setText("Y");
                     no_vesel.setChecked(false);
                 } else {
-                    value_relatedVesel.setText("No");
+                    value_relatedVesel.setText("N");
                     no_vesel.setChecked(true);
                 }
             }
         });
     }
+
     public void CheckBoxesContract(){
         no_contract.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    value_contract.setText("No");
+                    value_contract.setText("N");
                     yes_contract.setChecked(false);
                 } else {
-                    value_contract.setText("Yes");
+                    value_contract.setText("Y");
                     yes_contract.setChecked(true);
                 }
             }
@@ -185,33 +237,86 @@ public class CustomerAddForm extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    value_contract.setText("Yes");
+                    value_contract.setText("Y");
                     no_contract.setChecked(false);
                 } else {
-                    value_contract.setText("No");
+                    value_contract.setText("N");
                     no_contract.setChecked(true);
                 }
             }
         });
     }
 
+
+    //CallingAPi
+    public void CallingAPI(){
+        Call<CreateBok> call;
+        call = UserData.i.getService().getCustumerType(UserData.i.getToken());
+        if (call == null){
+            Log.i(TAG, "CallingAPI: => Failure");
+        } else {
+            call.enqueue(new Callback<CreateBok>() {
+                @Override
+                public void onResponse(Call<CreateBok> call, Response<CreateBok> response) {
+                    CreateBok createBok = response.body();
+                    if (createBok.TreatResponse(getContext(), "costumer_type", createBok)) {
+                        List<DataCalling> commodities = new ArrayList<>();
+                        if (CustomerType != null) {
+                            for (DataCalling dataCreate : createBok.data) {
+                                //Log.i("tag",dataCreate.name+"="+CustomerType);
+                                if (dataCreate.name.equals(CustomerType)) {
+                                    //Log.i("tag",dataCreate.name+"="+CustomerType+"ADD");
+                                    data = dataCreate;
+                                }
+                                commodities.add(dataCreate);
+                            }
+                        } else {
+                            for (DataCalling dataCreate : createBok.data) {
+                                commodities.add(dataCreate);
+                            }
+                        }
+                        if (data == null)
+                            data = createBok.data[0];
+                        value_customerType.setText(data.name);
+                        adapter_addForm = new Adapter_AddForm(getContext(), commodities, value_customerType, CustomerAddForm.this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        list_costumertype.setLayoutManager(layoutManager);
+                        list_costumertype.setAdapter(adapter_addForm);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CreateBok> call, Throwable t) {
+                    Log.e(TAG, "onFailure: = " + t);
+                }
+            });
+        }
+    }
+
+
     //function untuk NextPage
     public void NextPage(){
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookingData.i.setCustumer(
-                        value_customerType.getText().toString(),
-                        value_relatedVesel.getText().toString(),
-                        value_contract.getText().toString()
-                );
-                Log.i(TAG, "onClick: " + BookingData.i.customerType);
-                Fragment fragment = new ShowTemplate();
+                if (data!=null) {
+                    BookingData.i.setCustumer(
+                            data.id,
+                            data.name,
+                            value_relatedVesel.getText().toString(),
+                            value_contract.getText().toString()
+                    );
+                    Log.i(TAG, "onClick: " + BookingData.i.customerType);
+                    Fragment fragment = new ShowTemplate();
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
+                }else{
+                    //pesan harap isi customer type
+                    Toasty.error(getContext(), "Please Check All Booking Information", Toasty.LENGTH_SHORT, true).show();
+                }
             }
         });
     }
@@ -260,7 +365,5 @@ public class CustomerAddForm extends Fragment {
             }
         }
     }
-
-
 
 }

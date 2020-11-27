@@ -11,31 +11,48 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.adapter.createbooking.addform.Adapter_AddForm;
 import com.kbs.pocis.model.Model_Commodity;
-import com.kbs.pocis.model.createboking.Model_UploadDocument;
+import com.kbs.pocis.model.createboking.Model_AddForm;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.createbooking.CreateBok;
+import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class AddComodity extends Fragment {
 
     Button next, prev, addcommodity_two, addcommodity_one;
-    TextInputEditText input_weigth,input_package,input_consigne,input_comdity;
+    AutoCompleteTextView input_comdity, input_consigne;
+    TextInputEditText input_weigth,input_package;
     LinearLayout line_addcommodity_one;
     RelativeLayout line_addcommodity_two;
 
@@ -43,6 +60,7 @@ public class AddComodity extends Fragment {
     ListComoodity listComoodity;
 
     ArrayList<Model_Commodity> model_commodity;
+    Call<List<DataCalling>> call;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,6 +106,49 @@ public class AddComodity extends Fragment {
         return view;
     }
 
+    void ListingList(String sequence, boolean status, Context context, AutoCompleteTextView autoCompleteTextView){
+        if (status == true) {
+           call  = UserData.i.getService().getConsignee(sequence);
+        } else {
+            call  = UserData.i.getService().getCommodityType(sequence);
+        }
+        call.enqueue(new Callback<List<DataCalling>>() {
+            @Override
+            public void onResponse(Call<List<DataCalling>> call, Response<List<DataCalling>> response) {
+                List<DataCalling> createBok = response.body();
+                if (createBok.size()>0) {
+                    String[] arr = new String[createBok.size()];
+                    if (status == true) {
+                        for (int i = 0; i < arr.length; i++) {
+                            Log.i(TAG, "onResponse: list =>  " + createBok.get(i).name);
+                            arr[i] = createBok.get(i).name;
+                        }
+                        Log.i(TAG, "onResponse: list finish");
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.model_spiner, R.id.val_spiner, arr);
+                        autoCompleteTextView.setAdapter(adapter);
+                        autoCompleteTextView.setThreshold(2);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        for (int i = 0; i < arr.length; i++) {
+                            Log.i(TAG, "onResponse: list =>  " + createBok.get(i).desc);
+                            arr[i] = createBok.get(i).desc;
+                        }
+                        Log.i(TAG, "onResponse: list finish");
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.model_spiner, R.id.val_spiner, arr);
+                        autoCompleteTextView.setAdapter(adapter);
+                        autoCompleteTextView.setThreshold(2);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DataCalling>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t );
+            }
+        });
+    }
+
     public void AddCommodityNya (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_form_commodity, null);
         final Dialog dialogFragment = new Dialog(context);
@@ -100,9 +161,47 @@ public class AddComodity extends Fragment {
         input_consigne = view.findViewById(R.id.input_consigne_commodity);
         input_comdity = view.findViewById(R.id.input_comodity_commodity);
 
+        input_consigne.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()){
+                    ListingList(s.toString(),true, context, input_consigne);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        input_comdity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()){
+                    ListingList(s.toString(), false, context, input_comdity);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         Button btn_close = view.findViewById(R.id.cancel_form_comodity);
         Button btn_go = view.findViewById(R.id.add_form_comodity);
-
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override

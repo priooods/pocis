@@ -167,6 +167,7 @@ public class SelectTemplate extends Fragment {
             }
         });
     }
+
     public void GoToUpload(){
             for (Model_ShowTemplate mod : model) {
                 for (Model_SelectTemplate sel : mod.list) {

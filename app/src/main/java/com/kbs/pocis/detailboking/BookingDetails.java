@@ -160,7 +160,7 @@ public class BookingDetails extends AppCompatActivity {
     private static void KondisiStatus (String statused, TextView textView, Activity activity){
         if (statused.equals("APPROVED")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
-        } else if (statused.equals("CANCELLED")){
+        } else if (statused.equals("CANCELED")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorRed));
         } else if (statused.equals("BOOKING")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorPrimary));

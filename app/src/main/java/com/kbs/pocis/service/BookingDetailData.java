@@ -48,12 +48,17 @@ public class BookingDetailData {
             "est_berthing": null,
             "compoundbooking": null,
     */
+    // region
+
+
     //endregion
+
     @SerializedName("customer_type_code")
     public String customerType;
-    public String booking_date;
     @SerializedName("flag_related_flag")
     public String relatedVesel;
+
+    public String booking_date;
     @SerializedName("flag_related_contract")
     public String contract;
     @SerializedName("formatted_booking_date")
@@ -99,6 +104,10 @@ public class BookingDetailData {
     @SerializedName("commoditybooking")
     public ArrayList<Model_DetailsCommodity> commodity;
 
+    public ArrayList<Model_DetailsCommodity> addinfo;
+
+
+
     //data Schedule
     /*
             "id": 17490,
@@ -114,6 +123,7 @@ public class BookingDetailData {
             "origin_port": "CWNID - Port Of Ciwandan",
             "cigading_port": "Cwd - CIWANDAN PORT"
     */
+    @SerializedName("schedule")
     public ScheduleData vessel;
     public static class ScheduleData{
         int id;

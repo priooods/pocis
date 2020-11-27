@@ -56,7 +56,7 @@
                 android:textSize="15dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Service Anda Kosong"/>
+                android:text="Service is empty"/>
 
 
         </RelativeLayout>

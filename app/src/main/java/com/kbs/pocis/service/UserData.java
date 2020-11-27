@@ -32,23 +32,23 @@ public class UserData {
         RefreshTime();
         i = this;
     }
-    public void updateFilter(String id, String vessel) {
-        if (!id.isEmpty() && !vessel.isEmpty()) {
-            filter = new Filters(id,vessel) {
+    public void updateFilter(String no, String vessel) {
+        if (!no.isEmpty() && !vessel.isEmpty()) {
+            filter = new Filters(no,vessel) {
                 @Override
                 public boolean checkFilter(CallingData.Booking data) {
-                    return data.no_booking!=null && data.vessel_name != null && data.no_booking.contains(id) && data.vessel_name.contains(vessel);
+                    return data.no_booking!=null && data.vessel_name != null && data.no_booking.contains(no) && data.vessel_name.contains(vessel);
                 }
             };
-        } else if (!id.isEmpty()) {
-            filter = new Filters(id,vessel) {
+        } else if (!no.isEmpty()) {
+            filter = new Filters(no,vessel) {
                 @Override
                 public boolean checkFilter(CallingData.Booking data) {
-                    return data.no_booking!=null && data.no_booking.contains(id);
+                    return data.no_booking!=null && data.no_booking.contains(no);
                 }
             };
         } else if (!vessel.isEmpty()) {
-            filter = new Filters(id,vessel) {
+            filter = new Filters(no,vessel) {
                 @Override
                 public boolean checkFilter(CallingData.Booking data) {
                     return data.vessel_name != null && data.vessel_name.contains(vessel);

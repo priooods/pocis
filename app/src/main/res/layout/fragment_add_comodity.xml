@@ -224,7 +224,7 @@
             android:layout_above="@id/add_commodity_btnUploadtwo"
             android:layout_marginBottom="10dp"
             android:id="@+id/recycle_listcomodity"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="18dp"/>
 
         <Button
             android:id="@+id/add_commodity_btnUploadtwo"

@@ -317,6 +317,7 @@
                     android:layout_width="match_parent"
                     android:paddingLeft="8dp"
                     android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:textSize="12dp"
                     android:fontFamily="@font/montserrat_bold"
                     android:layout_marginTop="10dp"
@@ -334,7 +335,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/c"
+                android:id="@+id/z"
                 android:padding="10dp"
                 android:background="@drawable/forminput_transparent"
                 app:layout_constraintTop_toBottomOf="@id/b"
@@ -344,59 +345,24 @@
                     android:paddingLeft="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading Ship Call Number"
+                    android:text="Voyage Number"
                     android:fontFamily="@font/montserrat_reguler"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="11dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:paddingLeft="8dp"
-                    android:inputType="number"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:textSize="12dp"
                     android:fontFamily="@font/montserrat_bold"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="#C5C5C5"
-                    android:hint="Enter Vessel Name (min. 4 chars)"
+                    android:hint="Min. 3 chars"
                     android:layout_height="match_parent"
-                    android:id="@+id/input_shipcal_vesselinfo"
-                    android:background="@color/float_transparent"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/d"
-                android:padding="10dp"
-                android:background="@drawable/forminput_transparent"
-                app:layout_constraintTop_toBottomOf="@id/c"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:paddingLeft="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Discharge Ship Call Number"
-                    android:fontFamily="@font/montserrat_reguler"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="11dp"/>
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:paddingLeft="8dp"
-                    android:inputType="number"
-                    android:textSize="12dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textColorHint="#C5C5C5"
-                    android:hint="Enter Vessel Name (min. 4 chars)"
-                    android:layout_height="match_parent"
-                    android:id="@+id/input_discharge_vesselinfo"
+                    android:id="@+id/input_voyagenumber_vesselinfo"
                     android:background="@color/float_transparent"/>
 
             </LinearLayout>
@@ -404,7 +370,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                app:layout_constraintTop_toBottomOf="@id/d"
+                app:layout_constraintTop_toBottomOf="@id/z"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorGrey"
                 android:id="@+id/y"/>
@@ -429,13 +395,15 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="11dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:paddingLeft="8dp"
-                    android:inputType="text"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    android:ellipsize="end"
                     android:textSize="12dp"
                     android:fontFamily="@font/montserrat_bold"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="#C5C5C5"
                     android:hint="Enter port discharge/loading name (min 2 chars)"
@@ -465,13 +433,15 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="11dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:paddingLeft="8dp"
-                    android:inputType="text"
                     android:textSize="12dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:imeOptions="actionNext"
                     android:fontFamily="@font/montserrat_bold"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="#C5C5C5"
                     android:hint="Enter port origin/destination name (min 2 chars)"

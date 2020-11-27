@@ -10,7 +10,8 @@ import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
-
+import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class BookingData {
     }
     // data booking pertama CustomerAddForm
     //region DB
+
     /*
             v "id": 36538,
             v "no_booking": "B0001-2020-00010",
@@ -52,9 +54,11 @@ public class BookingData {
             "est_berthing": null,
             "compoundbooking": null,
     */
+
     //endregion
     @SerializedName("customer_type_code")
     public String customerType;
+    public int customerId;
     public String booking_date;
     @SerializedName("flag_related_flag")
     public String relatedVesel;
@@ -82,8 +86,10 @@ public class BookingData {
     public String est_arrival;
     public String est_berthing;
     public String compoundbooking;
+    public String voyage_number;
 
-    public void setCustumer(String customer, String related, String contract){
+    public void setCustumer(int id, String customer, String related, String contract){
+        customerId = id;
         customerType = customer;
         relatedVesel = related;
         this.contract = contract;
@@ -170,16 +176,15 @@ public class BookingData {
     //data Vessel
     public VesselData vessel;
     public static class VesselData{
-        public String vessel_name, loading_shipcall, discharge_ship, port_discharge, port_origin,
-                estimate_arival, estimate_departure;
-        public VesselData(String vessel_name, String shipcall, String dis_ship, String dis_port, String origin, String est_arival, String est_departure ){
+        public String vessel_name, port_discharge, port_origin,
+                estimate_arival, estimate_departure,voyage_number;
+        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , String voyage_number ){
             this.vessel_name = vessel_name;
-            loading_shipcall = shipcall;
-            discharge_ship = dis_ship;
             port_discharge = dis_port;
             port_origin = origin;
             estimate_arival = est_arival;
             estimate_departure = est_departure;
+            this.voyage_number = voyage_number;
         }
         public void findData(){
             Log.i("tag","Nothin Happen");

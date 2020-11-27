@@ -61,7 +61,7 @@ public class Filter_OnlineBooking extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (UserData.isExists()){
-                    UserData.i.updateFilter(input_nomerBook.getText().toString(),input_vesel.getText().toString());
+                    UserData.i.updateFilter(input_nomerBook.getText().toString().toUpperCase(),input_vesel.getText().toString().toUpperCase());
                 }
                 if (online_booking != null) {
                     online_booking.filter = UserData.i.filter;
