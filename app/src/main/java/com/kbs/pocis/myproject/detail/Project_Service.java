@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,26 +24,39 @@ import java.util.List;
 public class Project_Service extends Fragment {
 
     Adapter_Project_Service detailService;
+    ConstraintLayout layout_total_harga;
     RecyclerView recyclerView;
+    int codetemplate;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.myproject_service, container,false);
 
+        codetemplate = getActivity().getIntent().getIntExtra("get", 0);
+        layout_total_harga = view.findViewById(R.id.bot);
+
         recyclerView = view.findViewById(R.id.recycle_service_project);
         List<Model_Project_Service> model_project_services = new ArrayList<>();
-        model_project_services.add(new Model_Project_Service("B020 - Jasa Ritasi (Port Facility Service)",
-                "Quay/Dermaga","16 September 2020 13:02","20 September 2020 08:00","IDR 3.000 x 39.977,600 T","IDR 3.000 x 39.977,600 T","-"));
-
-        model_project_services.add(new Model_Project_Service("A007 - Jasa Dermaga (T1)",
-                "Quay/Dermaga","16 September 2020 13:02","20 September 2020 08:00","IDR 3.000 x 39.977,600 T","IDR 3.000 x 39.977,600 T","-"));
-
+        model_project_services.add(new Model_Project_Service("B020 - Jasa Ritasi (Port Facility Service)","USD 0.001","39,977.600 T","-","IDR 567,682","IDR 567,682"));
+        model_project_services.add(new Model_Project_Service("B020 - Jasa Ritasi (Port Facility Service)","USD 0.001","39,977.600 T","-","IDR 567,682","IDR 567,682"));
+        model_project_services.add(new Model_Project_Service("B020 - Jasa Ritasi (Port Facility Service)","USD 0.001","39,977.600 T","-","IDR 567,682","IDR 567,682"));
         detailService = new Adapter_Project_Service(getContext(), model_project_services);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(detailService);
 
+
+        /* Kalau mau setting value di text harus di function ini
+        * biar rapih dan ga error ketika update value */
+        SettingChangeByTemp(codetemplate);
+
         return view;
+    }
+
+    void SettingChangeByTemp(int code){
+        if (code == 1){
+            layout_total_harga.setVisibility(View.GONE);
+        }
     }
 }

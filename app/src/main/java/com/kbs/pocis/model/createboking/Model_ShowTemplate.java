@@ -1,13 +1,15 @@
 package com.kbs.pocis.model.createboking;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model_ShowTemplate {
 
-    String id, name;
-    int img;
+    String id;
+    String img,name;
     public ArrayList<Model_SelectTemplate> list;
     boolean Check;
 
@@ -20,13 +22,13 @@ public class Model_ShowTemplate {
         return false;
     }
 
-    public Model_ShowTemplate(String id, String name, int img) {
+    public Model_ShowTemplate(String id, String name, String img) {
         this.id = id;
         this.name = name;
         this.img = img;
         list = null;
     }
-    public Model_ShowTemplate(String id, String name, int img, ArrayList<Model_SelectTemplate> temp ) {
+    public Model_ShowTemplate(String id, String name, String img, ArrayList<Model_SelectTemplate> temp ) {
         this.id = id;
         this.name = name;
         this.img = img;
@@ -53,11 +55,11 @@ public class Model_ShowTemplate {
         return Check;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 

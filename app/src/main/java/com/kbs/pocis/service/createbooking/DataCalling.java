@@ -13,7 +13,6 @@ public class DataCalling {
     public String desc;
     @SerializedName("code")
     public String code;
-//    public getData data;
 
 
 
@@ -31,56 +30,6 @@ public class DataCalling {
 //            "t_contract_id": null,
 //            "status": "E",
 //            "image_file": "hydrant2.jpg"
-    public class getData{
-        @SerializedName("id")
-        public String show_id;
-        public String t_contract_id;
-        public String flag_contract;
-        public String flag_vessel_new;
-        public String display_desc_header;
-        @SerializedName("code")
-        public String showTemp_code;
-        public String flag_related_vessel;
-        public String image_file;
-        @SerializedName("created")
-        public String showTemp_created;
-        @SerializedName("created_by")
-        public String showTemp_created_by;
-        @SerializedName("modified")
-        public String showTemp_modified;
-        @SerializedName("modified_by")
-        public String showTemp_modified_by;
-        public String created;
-        public String created_by;
-        public String modified;
-        public String modified_by;
-}
-//        @SerializedName("id")
-//        public String show_id;
-//        public String t_contract_id;
-//        public String flag_contract;
-//        public String flag_vessel_new;
-//        public String display_desc_header;
-//        @SerializedName("code")
-//        public String showTemp_code;
-//        public String flag_related_vessel;
-//        public String image_file;
-//        @SerializedName("created")
-//        public String showTemp_created;
-//        @SerializedName("created_by")
-//        public String showTemp_created_by;
-//        @SerializedName("modified")
-//        public String showTemp_modified;
-//        @SerializedName("modified_by")
-//        public String showTemp_modified_by;
-//        public String created;
-//        public String created_by;
-//        public String modified;
-//        public String modified_by;
-
-    //region ShowTemp
-
-//    //endregion
 
 //    public Model_AddForm getCostumerType() {
 //        return new Model_AddForm(id,code,name, desc);

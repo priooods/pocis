@@ -2,85 +2,111 @@ package com.kbs.pocis.model.myprojects;
 
 public class Model_Project_Open {
 
-    String date, id, no_booking, code_schedule, tonage, start_date, name_consigne, name_vesel;
+    public String booking_no, status, temp_proj, schedule_code, consig_name, start_date, end_date, ppj_nomer, date_issue,
+        related_vesel, payment_type, flag_compound, tonage, voyage, bill_payment, number_bot, depart_group, vesel_name;
+    public int id;
 
-    public Model_Project_Open() {
+    //For Project Approved
+    public Model_Project_Open(String booking_no, String status, String customer_name, String ppj_nomer, String vesel_name, String tempNo, String schedule_code){
+        this.booking_no = booking_no;
+        this.status = status;
+        this.ppj_nomer = ppj_nomer;
+        this.vesel_name = vesel_name;
+        this.consig_name = customer_name;
+        this.temp_proj = tempNo;
+        this.schedule_code = schedule_code;
     }
 
-    public Model_Project_Open(String date, String id, String no_booking,
-                              String code_schedule, String tonage, String start_date,
-                              String name_consigne, String name_vesel) {
-        this.date = date;
-        this.id = id;
-        this.no_booking = no_booking;
-        this.code_schedule = code_schedule;
-        this.tonage = tonage;
+    //For Project List
+    public Model_Project_Open(String booking_no, String status, String temp_proj, String schedule_code, String consig_name, String start_date, String ppj_nomer, String date_issue, String tonage, String bill_payment, String number_bot, String vesel_name) {
+        this.booking_no = booking_no;
+        this.status = status;
+        this.temp_proj = temp_proj;
+        this.schedule_code = schedule_code;
+        this.consig_name = consig_name;
         this.start_date = start_date;
-        this.name_consigne = name_consigne;
-        this.name_vesel = name_vesel;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getNo_booking() {
-        return no_booking;
-    }
-
-    public void setNo_booking(String no_booking) {
-        this.no_booking = no_booking;
-    }
-
-    public String getCode_schedule() {
-        return code_schedule;
-    }
-
-    public void setCode_schedule(String code_schedule) {
-        this.code_schedule = code_schedule;
-    }
-
-    public String getTonage() {
-        return tonage;
-    }
-
-    public void setTonage(String tonage) {
+        this.ppj_nomer = ppj_nomer;
+        this.date_issue = date_issue;
         this.tonage = tonage;
+        this.bill_payment = bill_payment;
+        this.number_bot = number_bot;
+        this.vesel_name = vesel_name;
     }
 
     public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
+    public String getEnd_date() {
+        return end_date;
     }
 
-    public String getName_consigne() {
-        return name_consigne;
+    public String getDate_issue() {
+        return date_issue;
     }
 
-    public void setName_consigne(String name_consigne) {
-        this.name_consigne = name_consigne;
+    public String getPpj_nomer() {
+        return ppj_nomer;
     }
 
-    public String getName_vesel() {
-        return name_vesel;
+    public String getBooking_no() {
+        return booking_no;
     }
 
-    public void setName_vesel(String name_vesel) {
-        this.name_vesel = name_vesel;
+    public String getStatus() {
+        return status;
+    }
+
+    public String getTemp_proj() {
+        return temp_proj;
+    }
+
+    public String getSchedule_code() {
+        return schedule_code;
+    }
+
+    public String getConsig_name() {
+        return consig_name;
+    }
+
+    public String getRelated_vesel() {
+        return related_vesel;
+    }
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public String getFlag_compound() {
+        return flag_compound;
+    }
+
+    public String getTonage() {
+        return tonage;
+    }
+
+    public String getVoyage() {
+        return voyage;
+    }
+
+    public String getBill_payment() {
+        return bill_payment;
+    }
+
+    public String getNumber_bot() {
+        return number_bot;
+    }
+
+    public String getDepart_group() {
+        return depart_group;
+    }
+
+    public String getVesel_name() {
+        return vesel_name;
+    }
+
+    public int getId() {
+        return id;
     }
 }
+

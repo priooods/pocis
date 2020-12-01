@@ -143,7 +143,6 @@ public class TarifApprove extends Fragment {
                     List<Model_TariffAprove> list = new ArrayList<>();
 
                     for (CallingData.Booking datas : respone.data.book) {
-                        Log.e("TAG", "tarif_Aprovve: " + datas);
                         list.add(datas.getTariff());
                     }
 

@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.model.Model_DetailsFile;
 import com.kbs.pocis.model.Model_DetailsService;
+import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -48,10 +49,8 @@ public class BookingDetailData {
             "est_berthing": null,
             "compoundbooking": null,
     */
-    // region
+    //for response Show Template
 
-
-    //endregion
 
     @SerializedName("customer_type_code")
     public String customerType;

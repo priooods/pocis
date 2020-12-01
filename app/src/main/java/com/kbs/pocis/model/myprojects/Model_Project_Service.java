@@ -2,19 +2,15 @@ package com.kbs.pocis.model.myprojects;
 
 public class Model_Project_Service {
 
-    String name, location, startDate, endDate, calculation, total, totalDp;
+    String name, tarif, param1, param2, amountDP, amount;
 
-    public Model_Project_Service() {
-    }
-
-    public Model_Project_Service(String name, String location, String startDate, String endDate, String calculation, String total, String totalDp) {
+    public Model_Project_Service(String name, String tarif, String param1, String param2, String amountDP, String amount) {
         this.name = name;
-        this.location = location;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.calculation = calculation;
-        this.total = total;
-        this.totalDp = totalDp;
+        this.tarif = tarif;
+        this.param1 = param1;
+        this.param2 = param2;
+        this.amountDP = amountDP;
+        this.amount = amount;
     }
 
     public String getName() {
@@ -25,52 +21,44 @@ public class Model_Project_Service {
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
+    public String getTarif() {
+        return tarif;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setTarif(String tarif) {
+        this.tarif = tarif;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getParam1() {
+        return param1;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setParam1(String param1) {
+        this.param1 = param1;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getParam2() {
+        return param2;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setParam2(String param2) {
+        this.param2 = param2;
     }
 
-    public String getCalculation() {
-        return calculation;
+    public String getAmountDP() {
+        return amountDP;
     }
 
-    public void setCalculation(String calculation) {
-        this.calculation = calculation;
+    public void setAmountDP(String amountDP) {
+        this.amountDP = amountDP;
     }
 
-    public String getTotal() {
-        return total;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setTotal(String total) {
-        this.total = total;
-    }
-
-    public String getTotalDp() {
-        return totalDp;
-    }
-
-    public void setTotalDp(String totalDp) {
-        this.totalDp = totalDp;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }
 

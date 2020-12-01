@@ -157,7 +157,7 @@ public class BookingDetails extends AppCompatActivity {
     }
 
     //Status booking dari setiap list nya disini setting nya
-    private static void KondisiStatus (String statused, TextView textView, Activity activity){
+    private void KondisiStatus (String statused, TextView textView, Activity activity){
         if (statused.equals("APPROVED")){
             textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
         } else if (statused.equals("CANCELED")){
@@ -170,7 +170,7 @@ public class BookingDetails extends AppCompatActivity {
     }
 
     //Ini untuk kondisi button pada saat status yang berbeda
-    private static void KondisiButtonBawah(String statused, RelativeLayout layout, RelativeLayout layoutverif,
+    private void KondisiButtonBawah(String statused, RelativeLayout layout, RelativeLayout layoutverif,
                                            Button cancel, Button reject, Button approve, final Activity context){
         //if (statused.)
         if (statused.equals("BOOKING")){
@@ -205,17 +205,17 @@ public class BookingDetails extends AppCompatActivity {
     }
 
     //Dialog form ketika cancelbutton click
-    private static void ShowDialogCancell (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
+    private void ShowDialogCancell (final Context context){
+        View v  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
+        dialogFragment.setContentView(v);
         dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = view.findViewById(R.id.canceled_formInput);
+        TextInputEditText input_alasan = v.findViewById(R.id.canceled_formInput);
 
-        Button btn_close = view.findViewById(R.id.btn_cancelclose);
-        Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
+        Button btn_close = v.findViewById(R.id.btn_cancelclose);
+        Button btn_cancelBoking = v.findViewById(R.id.btn_cancelbookinggo);
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +237,7 @@ public class BookingDetails extends AppCompatActivity {
     }
 
     //Dialog form ketika approve tarif click
-    private static void ShowDialogApprove (final Context context){
+    private void ShowDialogApprove (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_approve_tarif, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
@@ -269,7 +269,7 @@ public class BookingDetails extends AppCompatActivity {
     }
 
     //Dialog form ketika reject tariff click
-    private static void ShowDialogReject (final Context context){
+    private void ShowDialogReject (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_reject_tarif, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);

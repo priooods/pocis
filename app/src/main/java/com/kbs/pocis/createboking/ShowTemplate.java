@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,8 +27,8 @@ import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CreateBok;
-import com.kbs.pocis.service.createbooking.DataCalling;
-import com.kbs.pocis.service.detailbooking.DetailData;
+import com.kbs.pocis.service.createbooking.CreateTemp;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,73 +56,74 @@ public class ShowTemplate extends Fragment {
         btnPrev = view.findViewById(R.id.cust_add_form_prevBtn);
         btnNext = view.findViewById(R.id.cust_add_form_nextBtn);
 
-        if (model == null) {
-            model = new ArrayList<>();
-            model.add(new Model_ShowTemplate("f003", "Fee Pas Masuk Kendaraan", R.color.colorGrey));
-            model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey));
-            model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey));
-            model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey));
-        }
-        int i = 0;
-        if (BookingData.isExist()){
-            Log.i("call","id = "+BookingData.i.customerId);
-            // Load Data
-            if (BookingData.i.template != null) {
-                for (BookingData.BookTemplate temp : BookingData.i.template) {
-                    for (; i < model.size(); i++) {
-                        if (temp.code == model.get(i).getId()) {
-                            model.get(i).setCheck(true);
-                            break;
-                        }
-                    }
-                }
-            }
-        }else{
-            // Error Back to CustomerAddForm
-        }
-
-        adapter = new ListTemplate(getContext(), model);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        listtemplate.setLayoutManager(layoutManager);
-        listtemplate.setAdapter(adapter);
+//        int i = 0;
+//        if (BookingData.isExist()){
+//            Log.i("call","id = "+BookingData.i.customerId);
+//            // Load Data
+//            if (BookingData.i.template != null) {
+//                for (BookingData.BookTemplate temp : BookingData.i.template) {
+//                    for (; i < model.size(); i++) {
+//                        if (temp.code == model.get(i).getId()) {
+//                            model.get(i).setCheck(true);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }else{
+//            // Error Back to CustomerAddForm
+//        }
+        ShowListTemplate();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoNextPage();
+                if (model != null){
+                    GoNextPage();
+                } else {
+                    Toast.makeText(getContext(), " Please back again and choose another information", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         btnPrev.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                BookingData.i.SetBookTemplate(model);
+                if (model != null){
+                    BookingData.i.SetBookTemplate(model);
+                }
                 getActivity().onBackPressed();
             }
         });
-
-        ShowListTemplate();
 
         return view;
     }
 
     void ShowListTemplate(){
-        Call<CreateBok> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
-        call.enqueue(new Callback<CreateBok>() {
+        Call<CreateTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
+        call.enqueue(new Callback<CreateTemp>() {
             @Override
-            public void onResponse(Call<CreateBok> call, Response<CreateBok> response) {
-                CreateBok detailData = response.body();
-                if (detailData.TreatResponse(getContext(),"show", detailData)){
-                    for (DataCalling dataCalling : detailData.data){
-                        Log.i(TAG, "onResponse: => " + dataCalling.data.created_by);
+            public void onResponse(Call<CreateTemp> call, Response<CreateTemp> response) {
+                CreateTemp data = response.body();
+                if (data.TreatResponse(getContext(),"tag", data)){
+                    model = new ArrayList<>();
+                    for (CreateTemp.ShowTemp tmp : data.data){
+                        model.add(tmp.getShowTemplate());
                     }
-
+                    if (model == null){
+                         Toasty.error(getContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
+                    } else {
+                        adapter = new ListTemplate(getContext(), model);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        listtemplate.setLayoutManager(layoutManager);
+                        listtemplate.setAdapter(adapter);
+                    }
                 }
+
             }
 
             @Override
-            public void onFailure(Call<CreateBok> call, Throwable t) {
-
+            public void onFailure(Call<CreateTemp> call, Throwable t) {
+                Log.i(TAG, "onFailure: => " + t );
             }
         });
     }
@@ -173,7 +172,6 @@ public class ShowTemplate extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final Vholder holder, final int position) {
-            holder.img.setBackgroundResource(model.get(position).getImg());
             holder.id.setText(model.get(position).getId());
             holder.name.setText(model.get(position).getName());
             holder.status.setChecked(model.get(position).getCheck());

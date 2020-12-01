@@ -76,6 +76,36 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/lay_top_kiri_proejctApproved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:text="Booking No"
+                android:fontFamily="@font/montserrat_reguler"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="12dp"
+                android:text="P0019-2020-00027"
+                android:textAllCaps="true"
+                android:layout_marginTop="4dp"
+                android:id="@+id/detail_myproject_bookingNo"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/lay_top_kiri_projectList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -98,11 +128,12 @@
                 android:text="K0001-2020-00097"
                 android:textAllCaps="true"
                 android:layout_marginTop="4dp"
-                android:id="@+id/project_details_TempNo"/>
+                android:id="@+id/detail_myproject_TempNo"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/zz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -112,8 +143,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:text="Date Issued"
+                android:textSize="9dp"
+                android:id="@+id/nm_status"
+                android:text="Project Status"
                 android:fontFamily="@font/montserrat_reguler"
                 android:textColor="@color/colorPrimaryDark"/>
 
@@ -122,13 +154,154 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorGrey"
                 android:fontFamily="@font/montserrat_bold"
-                android:textSize="11dp"
+                android:textSize="12dp"
                 android:textStyle="bold"
-                android:text="approved"
+                android:text="PREPARED"
                 android:layout_marginTop="4dp"
-                android:id="@+id/project_details_date_issue"/>
+                android:id="@+id/detail_myproject_projectstatus"/>
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay_top_detail_info_aproved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="#f9f9f9"
+            android:paddingHorizontal="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/zz">
+
+            <LinearLayout
+                android:layout_alignParentLeft="true"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9dp"
+                    android:textStyle="italic"
+                    android:text="Temp Project No."
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorGrey"/>
+
+                <TextView
+                    android:id="@+id/detail_myproject_info_tempProj_aproved"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="PPJ/P0019-288/01"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9dp"
+                    android:textStyle="italic"
+                    android:text="Schedule Code"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorGrey"/>
+
+                <TextView
+                    android:id="@+id/detail_myproject_info_schedule_approved"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="H9JY01002"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/lay_top_detail_info_projectlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="#f9f9f9"
+            android:paddingHorizontal="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/zz">
+
+            <LinearLayout
+                android:layout_alignParentLeft="true"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9dp"
+                    android:textStyle="italic"
+                    android:text="Date Issue"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorGrey"/>
+
+                <TextView
+                    android:id="@+id/detail_myproject_info_dateissue_projectList"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="23 Desember 2020 - 11:50"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9dp"
+                    android:textStyle="italic"
+                    android:text="PPJ Number"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorGrey"/>
+
+                <TextView
+                    android:id="@+id/detail_myproject_info_ppjnumber_projectList"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="23 Desember 2020 - 11:50"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

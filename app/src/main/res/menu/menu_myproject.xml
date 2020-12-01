@@ -5,9 +5,7 @@
         android:icon="@drawable/icon_project_approved"
         android:title="Projects Approved"/>
     <item android:id="@+id/project_open" android:icon="@drawable/icon_open_myproject"
-        android:title="Projects Open"/>
-    <item android:id="@+id/tarif_info"
-        android:icon="@drawable/icon_tarifinfo_myproject" android:title="Tariff Info" />
+        android:title="Projects Lists"/>
     <item android:id="@+id/bpaj_aprove"
         android:icon="@drawable/icon_bpaj_myproject" android:title="BPAJ Approval"/>
 

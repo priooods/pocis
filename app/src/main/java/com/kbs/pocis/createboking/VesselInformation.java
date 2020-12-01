@@ -120,7 +120,9 @@ public class VesselInformation extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                GetAPIPortDischarge(s, port_origin, false);
+                if (!s.toString().isEmpty()){
+                    GetAPIPortDischarge(s, port_origin, false);
+                }
             }
 
             @Override
@@ -211,6 +213,7 @@ public class VesselInformation extends Fragment {
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                         textView.setAdapter(adapter);
+                        textView.setThreshold(2);
                         adapter.notifyDataSetChanged();
                     } else {
                         for (int i = 0; i < arr.length; i++) {
@@ -219,6 +222,7 @@ public class VesselInformation extends Fragment {
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                         textView.setAdapter(adapter);
+                        textView.setThreshold(2);
                         adapter.notifyDataSetChanged();
                     }
                 }

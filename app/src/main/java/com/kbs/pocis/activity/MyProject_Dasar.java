@@ -19,13 +19,12 @@ import com.kbs.pocis.filter.Filter_MyProject;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
 import com.kbs.pocis.myproject.Projects_Open;
-import com.kbs.pocis.myproject.Projects_Tariff_Info;
 
 public class MyProject_Dasar extends AppCompatActivity {
 
     ImageView icon_back, icon_search;
     BottomNavigationView bottombar_myprojects;
-    TextView title;
+    TextView title, formPage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class MyProject_Dasar extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
-        icon_back = findViewById(R.id.btn_back_my_project);
+        icon_back = findViewById(R.id.btn_back_myproject);
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,14 +49,14 @@ public class MyProject_Dasar extends AppCompatActivity {
             }
         });
 
-        icon_search = findViewById(R.id.btn_search_myproject);
-        icon_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment fragment = new Filter_MyProject();
-                fragment.show(getSupportFragmentManager(),"Filter My project");
-            }
-        });
+//        icon_search = findViewById(R.id.btn_search_myproject);
+//        icon_search.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DialogFragment fragment = new Filter_MyProject();
+//                fragment.show(getSupportFragmentManager(),"Filter My project");
+//            }
+//        });
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
         title = findViewById(R.id.titile);
         bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
@@ -77,11 +76,7 @@ public class MyProject_Dasar extends AppCompatActivity {
                             break;
                         case R.id.project_open:
                             selectFragment = new Projects_Open();
-                            title.setText("Projects Open");
-                            break;
-                        case R.id.tarif_info:
-                            selectFragment = new Projects_Tariff_Info();
-                            title.setText("Tariff Info");
+                            title.setText("Projects Lists");
                             break;
                         case R.id.bpaj_aprove:
                             selectFragment = new Projects_Bpaj();

@@ -34,12 +34,11 @@ public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Projec
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
         holder.name.setText(model_project_services.get(position).getName());
-        holder.startDate.setText(model_project_services.get(position).getStartDate());
-        holder.endDate.setText(model_project_services.get(position).getEndDate());
-        holder.total.setText(model_project_services.get(position).getTotal());
-        holder.calculate.setText(model_project_services.get(position).getCalculation());
-        holder.totalDp.setText(model_project_services.get(position).getTotalDp());
-        holder.location.setText(model_project_services.get(position).getLocation());
+        holder.tarif.setText(model_project_services.get(position).getTarif());
+        holder.param1.setText(model_project_services.get(position).getParam1());
+        holder.param2.setText(model_project_services.get(position).getParam2());
+        holder.amountDP.setText(model_project_services.get(position).getAmountDP());
+        holder.amount.setText(model_project_services.get(position).getAmount());
     }
 
     @Override
@@ -49,18 +48,18 @@ public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Projec
 
     public class vHolder extends RecyclerView.ViewHolder{
 
-        TextView name, startDate, endDate, total, calculate, totalDp, location;
+        TextView name, tarif, param1, param2, amountDP, amount;
 
         public vHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.project_service_name);
-            startDate = itemView.findViewById(R.id.project_service_startdate);
-            endDate = itemView.findViewById(R.id.project_service_Enddate);
-            total = itemView.findViewById(R.id.project_service_total);
-            calculate = itemView.findViewById(R.id.project_service_calculation);
-            totalDp = itemView.findViewById(R.id.project_service_totalDP);
-            location = itemView.findViewById(R.id.project_service_location);
+            tarif = itemView.findViewById(R.id.project_service_tarif);
+            param1 = itemView.findViewById(R.id.project_service_parameter1);
+            param2 = itemView.findViewById(R.id.project_service_parameter2);
+            amount = itemView.findViewById(R.id.project_service_amountIDR);
+            amountDP = itemView.findViewById(R.id.project_service_DPinIdr);
+
         }
     }
 

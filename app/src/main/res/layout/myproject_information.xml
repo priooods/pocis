@@ -57,9 +57,10 @@
                         android:id="@+id/ln1">
 
                         <TextView
+                            android:id="@+id/title_consigne_and_bookNo"
                             android:layout_width="wrap_content"
                             android:textColor="@color/colorGrey"
-                            android:text="Consignee Name"
+                            android:text="Booking No."
                             android:textSize="10dp"
                             android:textStyle="italic"
                             android:layout_height="wrap_content"/>
@@ -69,10 +70,10 @@
                             android:maxLines="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/detail_project_info_consigne"
+                            android:id="@+id/detail_project_info_consigne_and_bookNo"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="PS.00/172.01/PMS/XI/2014"
+                            android:text="P0019-063"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -120,9 +121,10 @@
                         android:id="@+id/ln3">
 
                         <TextView
+                            android:id="@+id/title_schedule_and_veselname"
                             android:layout_width="wrap_content"
                             android:textColor="@color/colorGrey"
-                            android:text="Vessel Name"
+                            android:text="Schedule Code"
                             android:textSize="10dp"
                             android:textStyle="italic"
                             android:layout_height="wrap_content"/>
@@ -132,10 +134,10 @@
                             android:maxLines="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/detail_project_info_vesselName"
+                            android:id="@+id/detail_project_info_schedule_and_veselname"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="BG. LKH 3883"
+                            android:text="SEAMS001"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -182,9 +184,10 @@
                         android:id="@+id/ln5">
 
                         <TextView
+                            android:id="@+id/title_related_and_tonage"
                             android:layout_width="wrap_content"
                             android:textColor="@color/colorGrey"
-                            android:text="Related Vessel"
+                            android:text="Tonage"
                             android:textSize="10dp"
                             android:textStyle="italic"
                             android:layout_height="wrap_content"/>
@@ -194,10 +197,10 @@
                             android:maxLines="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/detail_project_info_relatedvessel"
+                            android:id="@+id/detail_project_info_related_and_tonage"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="Yes"
+                            android:text="39,977.600"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -213,12 +216,13 @@
                         android:layout_marginTop="8dp">
 
                         <TextView
+                            android:id="@+id/title_payment_and_consigne"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
                             android:textColor="@color/colorGrey"
                             android:textStyle="italic"
-                            android:text="Payment Type"/>
+                            android:text="Consignee Name"/>
 
                         <TextView
                             android:ellipsize="end"
@@ -226,10 +230,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="Full Payment"
+                            android:text="PT Krakatau Steel"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
-                            android:id="@+id/detail_project_info_paymentType"/>
+                            android:id="@+id/detail_project_info_payment_and_consigne"/>
 
 
                     </LinearLayout>
@@ -244,9 +248,10 @@
                         android:id="@+id/ln7">
 
                         <TextView
+                            android:id="@+id/title_flag_and_related"
                             android:layout_width="wrap_content"
                             android:textColor="@color/colorGrey"
-                            android:text="Flag Compound"
+                            android:text="Related Vessel"
                             android:textSize="10dp"
                             android:textStyle="italic"
                             android:layout_height="wrap_content"/>
@@ -256,10 +261,10 @@
                             android:maxLines="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/detail_project_info_flagCompound"
+                            android:id="@+id/detail_project_info_flag_and_related"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="Yes"
+                            android:text="No"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -275,12 +280,13 @@
                         android:layout_marginTop="8dp">
 
                         <TextView
+                            android:id="@+id/title_tonage_and_vesel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
                             android:textColor="@color/colorGrey"
                             android:textStyle="italic"
-                            android:text="Tonnage"/>
+                            android:text="Vessel Name"/>
 
                         <TextView
                             android:ellipsize="end"
@@ -288,10 +294,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="2020-03-27 08:00:00"
+                            android:text="MV. Sea Master"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
-                            android:id="@+id/detail_project_info_tonage"/>
+                            android:id="@+id/detail_project_info_tonage_and_vesel"/>
 
 
                     </LinearLayout>
@@ -306,9 +312,10 @@
                         android:id="@+id/ln9">
 
                         <TextView
+                            android:id="@+id/title_voyage_and_flagcompond"
                             android:layout_width="wrap_content"
                             android:textColor="@color/colorGrey"
-                            android:text="Loading/Discharge Shipp Call No"
+                            android:text="Flag Compound"
                             android:textSize="10dp"
                             android:textStyle="italic"
                             android:layout_height="wrap_content"/>
@@ -318,10 +325,155 @@
                             android:maxLines="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/detail_project_info_shipCall"
+                            android:id="@+id/detail_project_info_voyage_and_flagcompond"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="/1145D"
+                            android:text="No"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln8"
+                        android:id="@+id/ln10"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Voyage No"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="1145D"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/detail_project_info_voyage_no"/>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    app:layout_constraintTop_toBottomOf="@id/yy"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorGrey"
+                    android:id="@+id/xx"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/xc"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/xx"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/bl1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Bill Payment Number"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_project_bilpayment"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="0216055983811"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/bl2"
+                        app:layout_constraintStart_toEndOf="@id/bl1"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Number"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="8923716055987308"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/detail_project_number"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/bl1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/bl3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Payment Type"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_project_paymenttype"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="Full Payment"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -332,15 +484,15 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.6dp"
-                    app:layout_constraintTop_toBottomOf="@id/yy"
+                    app:layout_constraintTop_toBottomOf="@id/xc"
                     android:layout_marginTop="20dp"
                     android:background="@color/colorGrey"
-                    android:id="@+id/xx"/>
+                    android:id="@+id/xo"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/xx"
+                    app:layout_constraintTop_toBottomOf="@id/xo"
                     android:layout_marginTop="15dp"
                     android:orientation="vertical">
 

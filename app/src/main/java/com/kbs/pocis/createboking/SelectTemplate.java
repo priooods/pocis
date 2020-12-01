@@ -41,7 +41,6 @@ public class SelectTemplate extends Fragment {
     CardView boxesCheckAll;
     CheckBox checkAll;
     Button prev, next;
-    boolean checkAllList;
     RecyclerView recyclerView_FeePas;
     ListingFeePas listingFeePas;
     ArrayList<Model_ShowTemplate> model = new ArrayList<>();
@@ -56,7 +55,7 @@ public class SelectTemplate extends Fragment {
         checkAll = view.findViewById(R.id.select_template_checkAll);
 
 
-        model.add(new Model_ShowTemplate("f003", "Fee Pas Masuk Kendaraan", R.color.colorGrey,
+        model.add(new Model_ShowTemplate("F003", "Fee Pas Masuk Kendaraan", null,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
                     new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"),
                     new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"),
@@ -65,65 +64,65 @@ public class SelectTemplate extends Fragment {
                     new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat")
                 ))
         ));
-        model.add(new Model_ShowTemplate("g004", "Get Access Card", R.color.colorGrey,
+        model.add(new Model_ShowTemplate("G004", "Get Access Card", null,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
                         new Model_SelectTemplate("g004-g001","Get Access Card")
                 ))
         ));
-        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)", R.color.colorGrey,
+        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)",null,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
                         new Model_SelectTemplate("j043-j042","Jasa Angukatan Kereta Api KS 0"),
                         new Model_SelectTemplate("j045-j048","Jasa Angukatan Kereta Api KS 1")
                 ))
         ));
-        model.add(new Model_ShowTemplate("t008", "Train", R.color.colorGrey,
+        model.add(new Model_ShowTemplate("t008", "Train", null,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
                         new Model_SelectTemplate("t043-j042","Train Test 0"),
                         new Model_SelectTemplate("t045-j048","Train Test 1"),
                         new Model_SelectTemplate("t045-j048","Train Test 2")
                 ))
         ));
-
-        int i = 0;
-        if (BookingData.isExist()){
-            // Load Data
-            for(BookingData.BookTemplate temp : BookingData.i.template){
-                Log.i("showTemplate","on BookTemplate = "+temp.code+" "+temp.name);
-                for(;i<model.size();i++){
-                    if (temp.code == model.get(i).getId()){
-                        int j=0;
-                        ArrayList<Model_SelectTemplate> sel = model.get(i).list;
-                        for (Model_SelectTemplate mod : model.get(i).list) {
-                            for (; j < sel.size(); j++) {
-                                if (mod.getId() == sel.get(j).getId()) {
-                                    Log.i("showTemplate","Check True for SubList "+mod.getId()+" "+mod.getName());
-                                    //sel.get(j).setChecked(true);
-                                    break;
-                                }
-                            }
-                        }
-                        i++;
-                        break;
-                    }else{
-                        Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());
-                        model.remove(i);
-                        i--;
-                    }
-                }
-            }
-            for(;i<model.size();i++) {
-                Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());
-                model.remove(i);
-                i--;
-            }
-        }
-            else{
-            // Error Back to CustomerAddForm
-        }
-
-        for(Model_ShowTemplate temp : model){
-            Log.i( "showTemplate" , "Model Exist "+temp.getId()+" "+temp.getName()+" List ="+(temp.list!=null?temp.list.size():"NULL"));
-        }
+//region
+//        int i = 0;
+//        if (BookingData.isExist()){
+//            // Load Data
+//            for(BookingData.BookTemplate temp : BookingData.i.template){
+//                Log.i("showTemplate","on BookTemplate = "+temp.code+" "+temp.name);
+//                for(;i<model.size();i++){
+//                    if (temp.code == model.get(i).getId()){
+//                        int j=0;
+//                        ArrayList<Model_SelectTemplate> sel = model.get(i).list;
+//                        for (Model_SelectTemplate mod : model.get(i).list) {
+//                            for (; j < sel.size(); j++) {
+//                                if (mod.getId() == sel.get(j).getId()) {
+//                                    Log.i("showTemplate","Check True for SubList "+mod.getId()+" "+mod.getName());
+//                                    //sel.get(j).setChecked(true);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                        i++;
+//                        break;
+//                    }else{
+//                        Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());
+//                        model.remove(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//            for(;i<model.size();i++) {
+//                Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());
+//                model.remove(i);
+//                i--;
+//            }
+//        }
+//            else{
+//            // Error Back to CustomerAddForm
+//        }
+/// endregion
+//        for(Model_ShowTemplate temp : model){
+//            Log.i( "showTemplate" , "Model Exist "+temp.getId()+" "+temp.getName()+" List ="+(temp.list!=null?temp.list.size():"NULL"));
+//        }
         listingFeePas = new ListingFeePas(getContext(), model);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView_FeePas.setLayoutManager(layoutManager);
@@ -220,7 +219,6 @@ public class SelectTemplate extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final vHolder holder, final int position) {
-            holder.img.setBackgroundResource(model.get(position).getImg());
             holder.idtitle.setText(model.get(position).getId());
             holder.nametitle.setText(model.get(position).getName());
 

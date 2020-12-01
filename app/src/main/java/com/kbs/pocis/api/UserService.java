@@ -1,9 +1,8 @@
 package com.kbs.pocis.api;
 
-import com.kbs.pocis.model.createboking.Model_AddForm;
-import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.createbooking.CreateBok;
+import com.kbs.pocis.service.createbooking.CreateTemp;
 import com.kbs.pocis.service.createbooking.DataCalling;
 import com.kbs.pocis.service.detailbooking.DetailData;
 import com.kbs.pocis.service.onlinebooking.CallingData;
@@ -16,7 +15,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface UserService {
 
@@ -65,7 +63,7 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("tbooking/template_header")
-    Call<CreateBok> getShowTemplate(
+    Call<CreateTemp> getShowTemplate(
             @Field("token") String token,
             @Field("customer_type_id") int id,
             @Field("flag_related_vessel") String related,
