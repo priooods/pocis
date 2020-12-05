@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -182,6 +183,13 @@ public class VesselInformation extends Fragment {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, tr);
                     textView.setAdapter(adapter);
                     textView.setThreshold(2);
+                    textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //TODO Getting voyage_no
+                            Log.i(TAG, "onItemClick voyageId: => " + detailData.get(position).voyage_no);
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -223,6 +231,14 @@ public class VesselInformation extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                         textView.setAdapter(adapter);
                         textView.setThreshold(2);
+                        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //TODO dibawah ini sample get id. bisa disesuaikan sama kebutuhan. mau id atau name dst
+                                // atau kalau cuman get name/desc aja udah automatis ke save ko di singletoon yg udah dibuat kemarin - kemarin
+                                Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
+                            }
+                        });
                         adapter.notifyDataSetChanged();
                     }
                 }

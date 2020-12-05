@@ -56,6 +56,9 @@ public class ShowTemplate extends Fragment {
         btnPrev = view.findViewById(R.id.cust_add_form_prevBtn);
         btnNext = view.findViewById(R.id.cust_add_form_nextBtn);
 
+        //TODO ini sebelumnya lu kan check list ketika back.
+        // karena sebelumnya pake model manual jadi gua bingung update ketika model udah ganti dari API
+        // jadi belum ke save ke singletoon nya. masih harus check lagi ketika back / next di show_template
 //        int i = 0;
 //        if (BookingData.isExist()){
 //            Log.i("call","id = "+BookingData.i.customerId);
@@ -105,14 +108,15 @@ public class ShowTemplate extends Fragment {
             public void onResponse(Call<CreateTemp> call, Response<CreateTemp> response) {
                 CreateTemp data = response.body();
                 if (data.TreatResponse(getContext(),"tag", data)){
-                    model = new ArrayList<>();
-                    for (CreateTemp.ShowTemp tmp : data.data){
-                        model.add(tmp.getShowTemplate());
-                    }
-                    if (model == null){
+                    if (data.data == null){
                          Toasty.error(getContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
                     } else {
-                        adapter = new ListTemplate(getContext(), model);
+                        //TODO Model untuk show_Template gua dapet dari CreateTemp. disitu isinya semua response dari Show_Temp
+                        // kalau misal lu mau rubah tinggal ubah di
+                        // 1 . api - UserService
+                        // 2 . ganti disini biasa
+                        // terakhir sama di ListTemplatenya juga bi di ganti model nya
+                        adapter = new ListTemplate(getContext(), data.data);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                         listtemplate.setLayoutManager(layoutManager);
                         listtemplate.setAdapter(adapter);
@@ -156,9 +160,9 @@ public class ShowTemplate extends Fragment {
     public static class ListTemplate extends RecyclerView.Adapter<ListTemplate.Vholder>{
 
         Context context;
-        List<Model_ShowTemplate> model;
+        CreateTemp.ShowTemp[] model;
 
-        public ListTemplate(Context context, List<Model_ShowTemplate> model) {
+        public ListTemplate(Context context, CreateTemp.ShowTemp[] model) {
             this.context = context;
             this.model = model;
         }
@@ -172,14 +176,15 @@ public class ShowTemplate extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final Vholder holder, final int position) {
-            holder.id.setText(model.get(position).getId());
-            holder.name.setText(model.get(position).getName());
-            holder.status.setChecked(model.get(position).getCheck());
+            holder.id.setText(model[position].code);
+            holder.name.setText(model[position].display_desc_header);
+//            holder.status.setChecked(model.get(position).getCheck());
 
             holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        model.get(position).setCheck(isChecked);
+//                        model.get(position).setCheck(isChecked);
+                        if (isChecked) Log.i(TAG, "onCheckedChanged: => " + model[position].id);
                 }
             });
 
@@ -188,7 +193,7 @@ public class ShowTemplate extends Fragment {
 
         @Override
         public int getItemCount() {
-            return model.size();
+            return model.length;
         }
 
         public static class Vholder extends RecyclerView.ViewHolder {

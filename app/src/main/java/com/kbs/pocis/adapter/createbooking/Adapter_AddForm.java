@@ -1,4 +1,4 @@
-package com.kbs.pocis.adapter.createbooking.addform;
+package com.kbs.pocis.adapter.createbooking;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,21 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.createboking.CustomerAddForm;
-import com.kbs.pocis.model.createboking.Model_AddForm;
-import com.kbs.pocis.service.createbooking.CreateBok;
 import com.kbs.pocis.service.createbooking.DataCalling;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;

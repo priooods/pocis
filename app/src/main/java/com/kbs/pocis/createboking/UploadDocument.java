@@ -139,6 +139,10 @@ public class UploadDocument extends Fragment {
                 if (resultCode == RESULT_OK){
                     Uri path = data.getData();
                     files = FileUtils.getFile(getContext(), path);
+
+                    //TODO files itu udah automatis dalam format Files document.
+                    // jadi bisa langsung ke set(Files);
+
                     String name = files.getName();
                     int size = (int)files.length() / 1024;
                     model_uploadDocuments.add(new Model_UploadDocument(path, name, size));

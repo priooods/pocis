@@ -61,6 +61,7 @@ public interface UserService {
             @Field("token") String token
     );
 
+    //Show_Template or Template_Header
     @FormUrlEncoded
     @POST("tbooking/template_header")
     Call<CreateTemp> getShowTemplate(
@@ -68,6 +69,14 @@ public interface UserService {
             @Field("customer_type_id") int id,
             @Field("flag_related_vessel") String related,
             @Field("flag_contract") String contract
+    );
+
+    //Select_Template or Template_Detail
+    @FormUrlEncoded
+    @POST("tbooking/template_detail")
+    Call<CreateTemp> getSelectTemplate(
+            @Field("token") String token,
+            @Field("m_booking_template_header_id[]") int id
     );
 
 

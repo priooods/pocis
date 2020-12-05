@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,19 +27,12 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.adapter.createbooking.addform.Adapter_AddForm;
 import com.kbs.pocis.model.Model_Commodity;
-import com.kbs.pocis.model.createboking.Model_AddForm;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.createbooking.CreateBok;
 import com.kbs.pocis.service.createbooking.DataCalling;
-import com.kbs.pocis.service.onlinebooking.CallingData;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -123,10 +117,16 @@ public class AddComodity extends Fragment {
                             Log.i(TAG, "onResponse: list =>  " + createBok.get(i).name);
                             arr[i] = createBok.get(i).name;
                         }
-                        Log.i(TAG, "onResponse: list finish");
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.model_spiner, R.id.val_spiner, arr);
                         autoCompleteTextView.setAdapter(adapter);
                         autoCompleteTextView.setThreshold(2);
+                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //TODO Getting commodity_id
+                                Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
+                            }
+                        });
                         adapter.notifyDataSetChanged();
                     } else {
                         for (int i = 0; i < arr.length; i++) {
@@ -137,6 +137,13 @@ public class AddComodity extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.model_spiner, R.id.val_spiner, arr);
                         autoCompleteTextView.setAdapter(adapter);
                         autoCompleteTextView.setThreshold(2);
+                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //TODO Getting m_custommer_id
+                                Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
+                            }
+                        });
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -160,7 +167,6 @@ public class AddComodity extends Fragment {
         input_package = view.findViewById(R.id.input_packages_commodity);
         input_consigne = view.findViewById(R.id.input_consigne_commodity);
         input_comdity = view.findViewById(R.id.input_comodity_commodity);
-
         input_consigne.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

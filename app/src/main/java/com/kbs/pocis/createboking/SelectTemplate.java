@@ -54,6 +54,8 @@ public class SelectTemplate extends Fragment {
         boxesCheckAll = view.findViewById(R.id.e);
         checkAll = view.findViewById(R.id.select_template_checkAll);
 
+        //TODO select Template belum beres. simpen aja setting singletoon nya kaya manual biasa.
+        // nanti besok beres disini gua info lg
 
         model.add(new Model_ShowTemplate("F003", "Fee Pas Masuk Kendaraan", null,
                 new ArrayList<Model_SelectTemplate>(Arrays.asList(
