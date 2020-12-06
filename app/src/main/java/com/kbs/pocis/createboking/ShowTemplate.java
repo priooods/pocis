@@ -31,6 +31,8 @@ import com.kbs.pocis.service.createbooking.CreateTemp;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -102,31 +104,25 @@ public class ShowTemplate extends Fragment {
     }
 
     void ShowListTemplate(){
-        Call<CreateTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
-        call.enqueue(new Callback<CreateTemp>() {
+        Call<Model_ShowTemplate> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
+        call.enqueue(new Callback<Model_ShowTemplate>() {
             @Override
-            public void onResponse(Call<CreateTemp> call, Response<CreateTemp> response) {
-                CreateTemp data = response.body();
+            public void onResponse(Call<Model_ShowTemplate> call, Response<Model_ShowTemplate> response) {
+                Model_ShowTemplate data = response.body();
                 if (data.TreatResponse(getContext(),"tag", data)){
                     if (data.data == null){
                          Toasty.error(getContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
                     } else {
-                        //TODO Model untuk show_Template gua dapet dari CreateTemp. disitu isinya semua response dari Show_Temp
-                        // kalau misal lu mau rubah tinggal ubah di
-                        // 1 . api - UserService
-                        // 2 . ganti disini biasa
-                        // terakhir sama di ListTemplatenya juga bi di ganti model nya
-                        adapter = new ListTemplate(getContext(), data.data);
+                        adapter = new ListTemplate(getContext(), data);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                         listtemplate.setLayoutManager(layoutManager);
                         listtemplate.setAdapter(adapter);
                     }
                 }
-
             }
 
             @Override
-            public void onFailure(Call<CreateTemp> call, Throwable t) {
+            public void onFailure(Call<Model_ShowTemplate> call, Throwable t) {
                 Log.i(TAG, "onFailure: => " + t );
             }
         });
@@ -160,9 +156,10 @@ public class ShowTemplate extends Fragment {
     public static class ListTemplate extends RecyclerView.Adapter<ListTemplate.Vholder>{
 
         Context context;
-        CreateTemp.ShowTemp[] model;
+        Model_ShowTemplate model;
+        ArrayList<Integer> integers = new ArrayList<>();
 
-        public ListTemplate(Context context, CreateTemp.ShowTemp[] model) {
+        public ListTemplate(Context context, Model_ShowTemplate model) {
             this.context = context;
             this.model = model;
         }
@@ -176,24 +173,22 @@ public class ShowTemplate extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final Vholder holder, final int position) {
-            holder.id.setText(model[position].code);
-            holder.name.setText(model[position].display_desc_header);
-//            holder.status.setChecked(model.get(position).getCheck());
-
+            holder.id.setText(model.data.get(position).code);
+            holder.name.setText(model.data.get(position).display_desc_header);
             holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                        model.get(position).setCheck(isChecked);
-                        if (isChecked) Log.i(TAG, "onCheckedChanged: => " + model[position].id);
+                    if (isChecked) {
+                        integers.add(model.data.get(position).id);
+                        Log.i(TAG, "onCheckedChanged: => " + integers);
+                    }
                 }
             });
-
-
         }
 
         @Override
         public int getItemCount() {
-            return model.length;
+            return model.data.size();
         }
 
         public static class Vholder extends RecyclerView.ViewHolder {

@@ -27,12 +27,16 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.UserData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
@@ -46,6 +50,9 @@ public class SelectTemplate extends Fragment {
     ArrayList<Model_ShowTemplate> model = new ArrayList<>();
     ArrayList<Model_SelectTemplate> templatesAnak;
     ArrayList<SelectTemplate.AdapterTemplateAnak.VHolder> button = new ArrayList<>();
+
+    ArrayList<Integer> arr = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,36 +61,33 @@ public class SelectTemplate extends Fragment {
         boxesCheckAll = view.findViewById(R.id.e);
         checkAll = view.findViewById(R.id.select_template_checkAll);
 
-        //TODO select Template belum beres. simpen aja setting singletoon nya kaya manual biasa.
-        // nanti besok beres disini gua info lg
-
-        model.add(new Model_ShowTemplate("F003", "Fee Pas Masuk Kendaraan", null,
-                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                    new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"),
-                    new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"),
-                    new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"),
-                    new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"),
-                    new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat")
-                ))
-        ));
-        model.add(new Model_ShowTemplate("G004", "Get Access Card", null,
-                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                        new Model_SelectTemplate("g004-g001","Get Access Card")
-                ))
-        ));
-        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)",null,
-                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                        new Model_SelectTemplate("j043-j042","Jasa Angukatan Kereta Api KS 0"),
-                        new Model_SelectTemplate("j045-j048","Jasa Angukatan Kereta Api KS 1")
-                ))
-        ));
-        model.add(new Model_ShowTemplate("t008", "Train", null,
-                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-                        new Model_SelectTemplate("t043-j042","Train Test 0"),
-                        new Model_SelectTemplate("t045-j048","Train Test 1"),
-                        new Model_SelectTemplate("t045-j048","Train Test 2")
-                ))
-        ));
+//        model.add(new Model_ShowTemplate("F003", "Fee Pas Masuk Kendaraan", null,
+//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+//                    new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"),
+//                    new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"),
+//                    new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"),
+//                    new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"),
+//                    new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat")
+//                ))
+//        ));
+//        model.add(new Model_ShowTemplate("G004", "Get Access Card", null,
+//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+//                        new Model_SelectTemplate("g004-g001","Get Access Card")
+//                ))
+//        ));
+//        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)",null,
+//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+//                        new Model_SelectTemplate("j043-j042","Jasa Angukatan Kereta Api KS 0"),
+//                        new Model_SelectTemplate("j045-j048","Jasa Angukatan Kereta Api KS 1")
+//                ))
+//        ));
+//        model.add(new Model_ShowTemplate("t008", "Train", null,
+//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
+//                        new Model_SelectTemplate("t043-j042","Train Test 0"),
+//                        new Model_SelectTemplate("t045-j048","Train Test 1"),
+//                        new Model_SelectTemplate("t045-j048","Train Test 2")
+//                ))
+//        ));
 //region
 //        int i = 0;
 //        if (BookingData.isExist()){
@@ -125,10 +129,10 @@ public class SelectTemplate extends Fragment {
 //        for(Model_ShowTemplate temp : model){
 //            Log.i( "showTemplate" , "Model Exist "+temp.getId()+" "+temp.getName()+" List ="+(temp.list!=null?temp.list.size():"NULL"));
 //        }
-        listingFeePas = new ListingFeePas(getContext(), model);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        recyclerView_FeePas.setLayoutManager(layoutManager);
-        recyclerView_FeePas.setAdapter(listingFeePas);
+//        listingFeePas = new ListingFeePas(getContext(), model);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+//        recyclerView_FeePas.setLayoutManager(layoutManager);
+//        recyclerView_FeePas.setAdapter(listingFeePas);
 
         //Button go & backn
         prev = view.findViewById(R.id.select_template_prevBtn);
@@ -144,6 +148,34 @@ public class SelectTemplate extends Fragment {
             }
         });
         return view;
+    }
+
+
+    public void ListingData () {
+        Call<Model_ShowTemplate> call = UserData.i.getService().getSelectTemplate(UserData.i.getToken(), arr);
+        call.enqueue(new Callback<Model_ShowTemplate>() {
+            @Override
+            public void onResponse(Call<Model_ShowTemplate> call, Response<Model_ShowTemplate> response) {
+                Model_ShowTemplate data = response.body();
+                if (data.TreatResponse(getContext(),"tag", data)){
+                    if (data.data == null){
+                        Toasty.error(getContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
+                    } else {
+//                        listingFeePas = new ListingFeePas(getContext(), data);
+//                        adapter = new ShowTemplate.ListTemplate(getContext(), data);
+//                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+//                        listtemplate.setLayoutManager(layoutManager);
+//                        listtemplate.setAdapter(adapter);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Model_ShowTemplate> call, Throwable t) {
+                Log.i(UploadDocument.FileUtils.TAG, "onFailure: => " + t );
+            }
+        });
     }
 
     public void FunctionButton(){

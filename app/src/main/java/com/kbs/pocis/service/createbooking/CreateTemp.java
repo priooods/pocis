@@ -45,13 +45,13 @@ public class CreateTemp {
         public String status;
 
 
-        public Model_ShowTemplate getShowTemplate(){
-            return new Model_ShowTemplate(
-                    code,
-                    display_desc_header,
-                    image_file
-            );
-        }
+//        public Model_ShowTemplate getShowTemplate(){
+//            return new Model_ShowTemplate(
+//                    code,
+//                    display_desc_header,
+//                    image_file
+//            );
+//        }
 
     }
 

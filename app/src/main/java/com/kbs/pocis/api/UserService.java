@@ -1,5 +1,6 @@
 package com.kbs.pocis.api;
 
+import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.createbooking.CreateBok;
 import com.kbs.pocis.service.createbooking.CreateTemp;
@@ -7,6 +8,7 @@ import com.kbs.pocis.service.createbooking.DataCalling;
 import com.kbs.pocis.service.detailbooking.DetailData;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -64,7 +66,7 @@ public interface UserService {
     //Show_Template or Template_Header
     @FormUrlEncoded
     @POST("tbooking/template_header")
-    Call<CreateTemp> getShowTemplate(
+    Call<Model_ShowTemplate> getShowTemplate(
             @Field("token") String token,
             @Field("customer_type_id") int id,
             @Field("flag_related_vessel") String related,
@@ -74,10 +76,10 @@ public interface UserService {
     //Select_Template or Template_Detail
     @FormUrlEncoded
     @POST("tbooking/template_detail")
-    Call<CreateTemp> getSelectTemplate(
+    Call<Model_ShowTemplate> getSelectTemplate(
             @Field("token") String token,
-            @Field("m_booking_template_header_id[]") int id
-    );
+            @Field("m_booking_template_header_id[]") ArrayList<Integer> id
+            );
 
 
     @GET("master/consignee/{name}")
