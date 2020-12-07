@@ -4,14 +4,14 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.annotations.SerializedName;
+import com.kbs.pocis.createboking.ShowTemplate;
 import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
-import com.kbs.pocis.service.createbooking.DataCalling;
-import com.kbs.pocis.service.onlinebooking.CallingData;
+import com.kbs.pocis.service.createbooking.CallingShowTemp;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,51 +95,101 @@ public class BookingData {
         this.contract = contract;
     }
     //data booking kedua ShowTemplate - SelectTemplate
-    public List<BookTemplate> template;
+    public ArrayList<BookTemplate> template;
     public class BookTemplate{
+        public int id;
         public String code;
         public String name;
-        public List<BookTempList> listCheck;
-        public BookTemplate(String code,String name,@Nullable List<Model_SelectTemplate> list){
+        public ArrayList<BookTempList> listCheck;
+        public Model_ShowTemplate getModel(){
+            return new Model_ShowTemplate(id,code,name,null);
+        }
+        public BookTemplate(int id, String code,String name,@Nullable ArrayList<Model_SelectTemplate> list){
+            this.id = id;
             this.code = code;
             this.name = name;
             if (list != null) {
                 int size = 0;
                 for(Model_SelectTemplate t:list){
-                    if (t.isChecked())
+                    if (t.checked)
                         size++;
                 }
                 listCheck = new ArrayList<>(size);
                 for (Model_SelectTemplate t : list) {
-                    if (t.isChecked()) {
-                        listCheck.add(new BookTempList(t.getId(), t.getName()));
+                    if (t.checked) {
+                        listCheck.add(new BookTempList(t.id, t.code, t.desc));
                     }
                 }
             }
         }
         public class BookTempList{
+            public int id;
             public String code;
             public String name;
-            public BookTempList(String Code, String Name){
+            public BookTempList(int Id, String Code, String Name){
+                id = Id;
                 code = Code;
                 name = Name;
             }
         }
     }
-    public void SetBookTemplate(List<Model_ShowTemplate> temp){
+    public void ShowBookUpdate(ArrayList<Model_ShowTemplate> temp) {
         //region Just Count Total Active Model_ShowTemplate
-        int Count=0;
-        for(Model_ShowTemplate t : temp){
-            if (t.getCheck())
+        int Count = 0;
+        for (Model_ShowTemplate t : temp) {
+            if (t.checked)
                 Count++;
         }
         //endregion
-        template = new ArrayList<>(Count);
-        for(Model_ShowTemplate t : temp) {
-            if (t.getCheck()) {
-                template.add(new BookTemplate(t.getId(), t.getName(), t.list));
+        if (template == null) {
+            template = new ArrayList<>(Count);
+            Log.e("add_show","new!");
+            for (Model_ShowTemplate t : temp) {
+                if (t.checked) {
+                    template.add(new BookTemplate(t.id, t.code, t.display_desc_header, t.list));
+                }
             }
         }
+        else{
+            Log.e("add_show","update!");
+            int i = 0;
+            ArrayList<BookTemplate> book = template;
+            template = new ArrayList<>(Count);
+            for (Model_ShowTemplate t : temp) {
+                if (t.checked) {
+                    boolean add = true;
+                    for(;i<book.size();i++){
+                        if (book.get(i).id == t.id){
+                            Log.e("add_show","update! shifting "+t.id+" "+t.code+" "+t.display_desc_header+ " "+book.get(i).listCheck.size());
+                            template.add(book.get(i));
+                            add = false;
+                            break;
+                        }
+                    }
+                    if (add) {
+                        Log.e("add_show","update! new add "+t.id+" "+t.code+" "+t.display_desc_header);
+                        template.add(new BookTemplate(t.id, t.code, t.display_desc_header, t.list));
+                    }
+                }
+            }
+        }
+    }
+//        public boolean SelectBookUpdate(ArrayList<Model_ShowTemplate> temp){
+//            ShowBookUpdate(temp);
+//            return true;
+//        }
+    public boolean SelectBookUpdate(ArrayList<Model_ShowTemplate> temp){
+        if (template.size() != temp.size())
+            return false;
+        for(int i = 0; i < temp.size();i++) {
+            Model_ShowTemplate t = temp.get(i);
+            if (t.id != template.get(i).id)
+                return false;
+
+            template.set(i, new BookTemplate(t.id, t.code, t.display_desc_header, t.list));
+        }
+        Log.i("finish","success update select!");
+        return true;
     }
     //data booking ketiga UploadDocument
     public ArrayList<Model_UploadDocument> file;

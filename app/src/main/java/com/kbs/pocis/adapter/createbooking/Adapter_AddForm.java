@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.createboking.CustomerAddForm;
-import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.createbooking.CallingList;
 
 import java.util.List;
 
@@ -23,12 +23,12 @@ import static android.content.ContentValues.TAG;
 public class Adapter_AddForm extends RecyclerView.Adapter<Adapter_AddForm.VHolder> {
 
     Context context;
-    List<DataCalling> model_addForms;
+    List<CallingList> model_addForms;
     TextView name;
     CustomerAddForm data;
     CheckBox lastchecked;
 
-    public Adapter_AddForm(Context context, List<DataCalling> model_addForms, TextView nm, CustomerAddForm data) {
+    public Adapter_AddForm(Context context, List<CallingList> model_addForms, TextView nm, CustomerAddForm data) {
         this.context = context;
         this.model_addForms = model_addForms;
         this.name = nm;
@@ -70,7 +70,7 @@ public class Adapter_AddForm extends RecyclerView.Adapter<Adapter_AddForm.VHolde
         now_check.setChecked(true);
         lastchecked = now_check;
     }
-    public DataCalling getData (){
+    public CallingList getData (){
         return data.data;
     }
 

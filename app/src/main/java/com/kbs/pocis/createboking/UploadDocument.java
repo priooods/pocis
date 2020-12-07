@@ -74,6 +74,8 @@ public class UploadDocument extends Fragment {
                 model_uploadDocuments = BookingData.i.file;
             }else{
                 model_uploadDocuments = new ArrayList<>();
+                // Cuman test ae
+                model_uploadDocuments.add(new Model_UploadDocument(null,"Test.pdf",1230));
             }
         }
         model_uploadDocuments.add(new Model_UploadDocument(null,"file.pdf",100000));

@@ -24,16 +24,10 @@ import android.widget.Toast;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.createbooking.CreateBok;
-import com.kbs.pocis.service.createbooking.CreateTemp;
-import com.kbs.pocis.service.onlinebooking.CallingData;
+import com.kbs.pocis.service.createbooking.CallingShowTemp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -47,7 +41,7 @@ public class ShowTemplate extends Fragment {
     Button btnPrev, btnNext;
     RecyclerView listtemplate;
     ListTemplate adapter;
-    List<Model_ShowTemplate> model;
+    ArrayList<Model_ShowTemplate> model;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,62 +52,56 @@ public class ShowTemplate extends Fragment {
         btnPrev = view.findViewById(R.id.cust_add_form_prevBtn);
         btnNext = view.findViewById(R.id.cust_add_form_nextBtn);
 
-        //TODO ini sebelumnya lu kan check list ketika back.
-        // karena sebelumnya pake model manual jadi gua bingung update ketika model udah ganti dari API
-        // jadi belum ke save ke singletoon nya. masih harus check lagi ketika back / next di show_template
-//        int i = 0;
-//        if (BookingData.isExist()){
-//            Log.i("call","id = "+BookingData.i.customerId);
-//            // Load Data
-//            if (BookingData.i.template != null) {
-//                for (BookingData.BookTemplate temp : BookingData.i.template) {
-//                    for (; i < model.size(); i++) {
-//                        if (temp.code == model.get(i).getId()) {
-//                            model.get(i).setCheck(true);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        }else{
-//            // Error Back to CustomerAddForm
-//        }
         ShowListTemplate();
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (model != null){
-                    GoNextPage();
-                } else {
-                    Toast.makeText(getContext(), " Please back again and choose another information", Toast.LENGTH_SHORT).show();
-                }
+        btnNext.setOnClickListener(v -> {
+            if (model != null){
+                GoNextPage();
+            } else {
+                Toast.makeText(getContext(), " Please back again and choose another information", Toast.LENGTH_SHORT).show();
             }
         });
-        btnPrev.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                if (model != null){
-                    BookingData.i.SetBookTemplate(model);
-                }
-                getActivity().onBackPressed();
+        btnPrev.setOnClickListener(v -> {
+            if (model != null){
+                BookingData.i.ShowBookUpdate(model);
             }
+            getActivity().onBackPressed();
         });
 
         return view;
     }
 
     void ShowListTemplate(){
-        Call<Model_ShowTemplate> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
-        call.enqueue(new Callback<Model_ShowTemplate>() {
+        Call<CallingShowTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
+        call.enqueue(new Callback<CallingShowTemp>() {
             @Override
-            public void onResponse(Call<Model_ShowTemplate> call, Response<Model_ShowTemplate> response) {
-                Model_ShowTemplate data = response.body();
+            public void onResponse(Call<CallingShowTemp> call, Response<CallingShowTemp> response) {
+                CallingShowTemp data = response.body();
                 if (data.TreatResponse(getContext(),"tag", data)){
-                    if (data.data == null){
+                    model = data.data;
+                    if (model == null){
                          Toasty.error(getContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
                     } else {
-                        adapter = new ListTemplate(getContext(), data);
+                        //TODO SELESAI SHOW_TEMPLATE
+                        int i = 0;
+                        if (BookingData.isExist()){
+                            Log.i("call","id = "+BookingData.i.customerId);
+                            // Load Data
+                            if (BookingData.i.template != null) {
+                                for (BookingData.BookTemplate temp : BookingData.i.template) {
+                                    for (; i < model.size(); i++) {
+                                        if (temp.id == model.get(i).id) {
+                                            model.get(i).checked = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+                            // Error Back to CustomerAddForm
+                        }
+
+                        adapter = new ListTemplate(getContext(), model);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                         listtemplate.setLayoutManager(layoutManager);
                         listtemplate.setAdapter(adapter);
@@ -122,7 +110,7 @@ public class ShowTemplate extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Model_ShowTemplate> call, Throwable t) {
+            public void onFailure(Call<CallingShowTemp> call, Throwable t) {
                 Log.i(TAG, "onFailure: => " + t );
             }
         });
@@ -130,7 +118,7 @@ public class ShowTemplate extends Fragment {
 
     void GoNextPage(){
         if (getOneIsChecked()){
-            BookingData.i.SetBookTemplate(model);
+            BookingData.i.ShowBookUpdate(model);
             Log.i("TAG", "lis: " + model);
             Fragment fragment = new SelectTemplate();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -138,15 +126,14 @@ public class ShowTemplate extends Fragment {
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         } else {
-            Toasty.error(getContext(), "Please Selected Template Type", Toast.LENGTH_SHORT, true).show();
+            Toasty.error(getContext(), "Please Selecting Template Type", Toast.LENGTH_SHORT, true).show();
         }
-
     }
 
     //ini untuk check apakah checkbox kosong atau engga
     boolean getOneIsChecked() {
         for(Model_ShowTemplate m : model) {
-            if (m.getCheck())
+            if (m.checked)
                 return true;
         }
         return false;
@@ -156,10 +143,9 @@ public class ShowTemplate extends Fragment {
     public static class ListTemplate extends RecyclerView.Adapter<ListTemplate.Vholder>{
 
         Context context;
-        Model_ShowTemplate model;
-        ArrayList<Integer> integers = new ArrayList<>();
+        ArrayList<Model_ShowTemplate> model;
 
-        public ListTemplate(Context context, Model_ShowTemplate model) {
+        public ListTemplate(Context context, ArrayList<Model_ShowTemplate> model) {
             this.context = context;
             this.model = model;
         }
@@ -173,22 +159,17 @@ public class ShowTemplate extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final Vholder holder, final int position) {
-            holder.id.setText(model.data.get(position).code);
-            holder.name.setText(model.data.get(position).display_desc_header);
-            holder.status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        integers.add(model.data.get(position).id);
-                        Log.i(TAG, "onCheckedChanged: => " + integers);
-                    }
-                }
-            });
+            holder.id.setText(model.get(position).code);
+            holder.name.setText(model.get(position).display_desc_header);
+            holder.status.setChecked(model.get(position).checked);
+            holder.status.setOnCheckedChangeListener((buttonView, isChecked) ->
+                    model.get(position).checked = isChecked
+            );
         }
 
         @Override
         public int getItemCount() {
-            return model.data.size();
+            return model.size();
         }
 
         public static class Vholder extends RecyclerView.ViewHolder {

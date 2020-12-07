@@ -29,7 +29,7 @@ import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.BookingList;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.detailbooking.DetailData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,16 +115,16 @@ public class BookingDetails extends AppCompatActivity {
         if (service == null) {
             Log.e("booking_detail","ERROR SERVICE");
         }
-        Call<DetailData> call = service.getBookingDetail(user.getToken(),String.valueOf(BookingId));
+        Call<CallingDetail> call = service.getBookingDetail(user.getToken(),String.valueOf(BookingId));
         if (call == null) {
             Log.i("all_boking","DetailData Post Method is Bad!");
         }
-        call.enqueue(new Callback<DetailData>() {
+        call.enqueue(new Callback<CallingDetail>() {
             @Override
-            public void onResponse(Call<DetailData> call, Response<DetailData> response) {
-                DetailData respone = (DetailData) response.body();
+            public void onResponse(Call<CallingDetail> call, Response<CallingDetail> response) {
+                CallingDetail respone = (CallingDetail) response.body();
 
-                if (DetailData.TreatResponse(activity, "detail_booking", respone)) {
+                if (CallingDetail.TreatResponse(activity, "detail_booking", respone)) {
                     Log.i("detail_booking",respone.readString());
                     BookingDetailData.i = respone.data;
                     ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
@@ -150,7 +150,7 @@ public class BookingDetails extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<DetailData> call, Throwable t) {
+            public void onFailure(Call<CallingDetail> call, Throwable t) {
                 Log.e("detail_booking", "on Failure called!"+ t);
             }
         });

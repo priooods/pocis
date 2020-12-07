@@ -26,11 +26,10 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.createboking.Model_AddForm;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.createbooking.CallingList;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -55,7 +54,7 @@ public class VesselInformation extends Fragment {
     ImageView iconArrow;
     LinearLayout expanded, card;
     CheckBox no_vesel, yes_vesel;
-    Call<List<DataCalling>> call;
+    Call<List<CallingList>> call;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -208,10 +207,10 @@ public class VesselInformation extends Fragment {
             call = UserData.i.getService().getPortOrigin();
         }
 
-        call.enqueue(new Callback<List<DataCalling>>() {
+        call.enqueue(new Callback<List<CallingList>>() {
             @Override
-            public void onResponse(Call<List<DataCalling>> call, Response<List<DataCalling>> response) {
-                List<DataCalling> forms = response.body();
+            public void onResponse(Call<List<CallingList>> call, Response<List<CallingList>> response) {
+                List<CallingList> forms = response.body();
                 if (forms.size() > 0) {
                     String[] arr = new String[forms.size()];
                     if (val == true) {
@@ -245,7 +244,7 @@ public class VesselInformation extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<DataCalling>> call, Throwable t) {
+            public void onFailure(Call<List<CallingList>> call, Throwable t) {
                 Log.e(TAG, "onFailure: => " + t );
             }
         });

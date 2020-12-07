@@ -36,7 +36,7 @@ import com.kbs.pocis.adapter.createbooking.Adapter_AddForm;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CreateBok;
-import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.createbooking.CallingList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class CustomerAddForm extends Fragment {
 
     Adapter_AddForm adapter_addForm;
     RecyclerView list_costumertype;
-    public DataCalling data;
+    public CallingList data;
     String CustomerType;
 
     private static int PRIVATE_CODE = 1;
@@ -249,9 +249,9 @@ public class CustomerAddForm extends Fragment {
                 public void onResponse(Call<CreateBok> call, Response<CreateBok> response) {
                     CreateBok createBok = response.body();
                     if (createBok.TreatResponse(getContext(), "costumer_type", createBok)) {
-                        List<DataCalling> commodities = new ArrayList<>();
+                        List<CallingList> commodities = new ArrayList<>();
                         if (CustomerType != null) {
-                            for (DataCalling dataCreate : createBok.data) {
+                            for (CallingList dataCreate : createBok.data) {
                                 //Log.i("tag",dataCreate.name+"="+CustomerType);
                                 if (dataCreate.name.equals(CustomerType)) {
                                     //Log.i("tag",dataCreate.name+"="+CustomerType+"ADD");
@@ -260,7 +260,7 @@ public class CustomerAddForm extends Fragment {
                                 commodities.add(dataCreate);
                             }
                         } else {
-                            for (DataCalling dataCreate : createBok.data) {
+                            for (CallingList dataCreate : createBok.data) {
                                 commodities.add(dataCreate);
                             }
                         }

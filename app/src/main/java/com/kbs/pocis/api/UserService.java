@@ -1,11 +1,11 @@
 package com.kbs.pocis.api;
 
-import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.createbooking.CallingSelectTemp;
+import com.kbs.pocis.service.createbooking.CallingShowTemp;
 import com.kbs.pocis.service.createbooking.CreateBok;
-import com.kbs.pocis.service.createbooking.CreateTemp;
-import com.kbs.pocis.service.createbooking.DataCalling;
-import com.kbs.pocis.service.detailbooking.DetailData;
+import com.kbs.pocis.service.createbooking.CallingList;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public interface UserService {
     );
     @FormUrlEncoded
     @POST("tbooking/view")
-    Call<DetailData> getBookingDetail(
+    Call<CallingDetail> getBookingDetail(
             @Field("token") String token,
             @Field("tbooking_id") String tbooking_id
     );
@@ -66,7 +66,7 @@ public interface UserService {
     //Show_Template or Template_Header
     @FormUrlEncoded
     @POST("tbooking/template_header")
-    Call<Model_ShowTemplate> getShowTemplate(
+    Call<CallingShowTemp> getShowTemplate(
             @Field("token") String token,
             @Field("customer_type_id") int id,
             @Field("flag_related_vessel") String related,
@@ -76,19 +76,19 @@ public interface UserService {
     //Select_Template or Template_Detail
     @FormUrlEncoded
     @POST("tbooking/template_detail")
-    Call<Model_ShowTemplate> getSelectTemplate(
+    Call<CallingSelectTemp> getSelectTemplate(
             @Field("token") String token,
-            @Field("m_booking_template_header_id[]") ArrayList<Integer> id
-            );
+            @Field("m_booking_template_header_id[]") ArrayList<String> m_booking_template_header_id
+    );
 
 
     @GET("master/consignee/{name}")
-    Call<List<DataCalling>> getConsignee(
+    Call<List<CallingList>> getConsignee(
             @Path("name") String name
     );
 
     @GET("master/commodity_type/{desc}")
-    Call<List<DataCalling>> getCommodityType(
+    Call<List<CallingList>> getCommodityType(
             @Path("desc") String desc
     );
 
@@ -99,12 +99,11 @@ public interface UserService {
     );
 
     @GET("master/port_cigadings/{name}")
-    Call<List<DataCalling>> getPortDischarge(
+    Call<List<CallingList>> getPortDischarge(
             @Path("name") String name
     );
 
     @GET("master/ports")
-    Call<List<DataCalling>> getPortOrigin();
-
+    Call<List<CallingList>> getPortOrigin();
 
 }

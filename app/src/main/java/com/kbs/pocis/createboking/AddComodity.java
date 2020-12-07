@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,7 +29,7 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.createbooking.DataCalling;
+import com.kbs.pocis.service.createbooking.CallingList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public class AddComodity extends Fragment {
     ListComoodity listComoodity;
 
     ArrayList<Model_Commodity> model_commodity;
-    Call<List<DataCalling>> call;
+    Call<List<CallingList>> call;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,10 +105,10 @@ public class AddComodity extends Fragment {
         } else {
             call  = UserData.i.getService().getCommodityType(sequence);
         }
-        call.enqueue(new Callback<List<DataCalling>>() {
+        call.enqueue(new Callback<List<CallingList>>() {
             @Override
-            public void onResponse(Call<List<DataCalling>> call, Response<List<DataCalling>> response) {
-                List<DataCalling> createBok = response.body();
+            public void onResponse(Call<List<CallingList>> call, Response<List<CallingList>> response) {
+                List<CallingList> createBok = response.body();
                 if (createBok.size()>0) {
                     String[] arr = new String[createBok.size()];
                     if (status == true) {
@@ -120,12 +119,9 @@ public class AddComodity extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.model_spiner, R.id.val_spiner, arr);
                         autoCompleteTextView.setAdapter(adapter);
                         autoCompleteTextView.setThreshold(2);
-                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //TODO Getting commodity_id
-                                Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
-                            }
+                        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+                            //TODO Getting commodity_id
+                            Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     } else {
@@ -137,12 +133,9 @@ public class AddComodity extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.model_spiner, R.id.val_spiner, arr);
                         autoCompleteTextView.setAdapter(adapter);
                         autoCompleteTextView.setThreshold(2);
-                        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //TODO Getting m_custommer_id
-                                Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
-                            }
+                        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+                            //TODO Getting m_custommer_id
+                            Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     }
@@ -150,7 +143,7 @@ public class AddComodity extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<DataCalling>> call, Throwable t) {
+            public void onFailure(Call<List<CallingList>> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t );
             }
         });
