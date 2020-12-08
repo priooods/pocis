@@ -56,7 +56,7 @@ public class AddComodity extends Fragment {
     ArrayList<Model_Commodity> model_commodity;
     Call<List<CallingList>> call;
 
-    String comodity_type_id,comodity_id, customer_id;
+    CallingList consigne, commodity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,7 +125,7 @@ public class AddComodity extends Fragment {
                         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                             //TODO Getting commodity_id
                             Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
-                            customer_id = String.valueOf(createBok.get(position).id);
+                            consigne = createBok.get(position);
                         });
                         adapter.notifyDataSetChanged();
                     } else {
@@ -139,9 +139,7 @@ public class AddComodity extends Fragment {
                         autoCompleteTextView.setThreshold(2);
                         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                             //TODO Getting m_custommer_id
-                            Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
-                            comodity_id = String.valueOf(createBok.get(position).id);
-                            comodity_type_id = createBok.get(position).commodity_type_id;
+                            commodity = createBok.get(position);
                         });
                         adapter.notifyDataSetChanged();
                     }
@@ -221,11 +219,9 @@ public class AddComodity extends Fragment {
                         input_weigth.getText().toString().isEmpty() || input_package.getText().toString().isEmpty()){
                     Toasty.error(context, "Harap Lengkapi Semua From !", Toasty.LENGTH_SHORT, true).show();
                 } else {
-                    String commodity = input_comdity.getText().toString();
-                    String consigne = input_consigne.getText().toString();
                     String weight = input_weigth.getText().toString();
                     String pack = input_package.getText().toString();
-                    model_commodity.add(new Model_Commodity(pack,commodity,weight,consigne));
+                    model_commodity.add(new Model_Commodity(consigne,commodity,pack,weight));
                     SettList(model_commodity);
 
                     dialogFragment.dismiss();
@@ -260,6 +256,7 @@ public class AddComodity extends Fragment {
             public void onClick(View v) {
                 if (line_addcommodity_two.getVisibility() != View.GONE){
                     BookingData.i.commodity = model_commodity;
+                    //BookingData.i.saveComodity.add(new Model_Commodity(comodity_type_id,comodity_id,customer_id,))
                     Fragment fragment = new VesselInformation();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -290,10 +287,10 @@ public class AddComodity extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.weight.setText(model_commodities.get(position).getWeight() + " Tonage");
-            holder.consigne.setText(model_commodities.get(position).getConsigne());
-            holder.comodity.setText(model_commodities.get(position).getCommodity());
-            holder.packages.setText(model_commodities.get(position).getPackages() + " Package");
+            holder.weight.setText(model_commodities.get(position).weight + " Tonage");
+            holder.consigne.setText(model_commodities.get(position).consigne.name);
+            holder.comodity.setText(model_commodities.get(position).commodity.desc);
+            holder.packages.setText(model_commodities.get(position).packages + " Package");
 
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override

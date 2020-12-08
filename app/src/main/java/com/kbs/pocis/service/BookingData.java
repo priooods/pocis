@@ -222,6 +222,7 @@ public class BookingData {
     //data booking keempat AddComodity
     @SerializedName("commodity_booking")
     public ArrayList<Model_Commodity> commodity;
+    public ArrayList<Model_Commodity> saveComodity;
 
 
 

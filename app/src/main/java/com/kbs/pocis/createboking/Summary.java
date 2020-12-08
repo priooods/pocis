@@ -2,6 +2,8 @@ package com.kbs.pocis.createboking;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.FileUtils;
 import android.telecom.Call;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,11 +37,16 @@ import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.BookingList;
 import com.kbs.pocis.service.UserData;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -98,6 +106,7 @@ public class Summary extends Fragment {
         ListingList();
 
 
+        SendDataBooking();
         ButtonFunction();
         return view;
     }
@@ -206,16 +215,34 @@ public class Summary extends Fragment {
         VesselSchedule.put("id", data.vessel.id_voyage);
 
         HashMap<String, String> CommodityBooking = new HashMap<>();
-        CommodityBooking.put("","");
-
-        HashMap<String, List<String>> Services = new HashMap<>();
+        for (Model_Commodity com : data.commodity) {
+            CommodityBooking.put("commodity_type_id", com.commodity.commodity_type_id);
+            CommodityBooking.put("commodity_id", String.valueOf(com.commodity.id));
+            CommodityBooking.put("package", com.packages);
+            CommodityBooking.put("tonage", com.weight);
+            CommodityBooking.put("m_customer_id", String.valueOf(com.consigne.id));
+            Log.i(TAG, "SendDataBooking: tujuh => " + CommodityBooking);
+            Log.i(TAG, "SendDataBooking: comodity => " + String.valueOf(com.consigne.id));
+        }
+        Log.i(TAG, "SendDataBooking: tujuh dua => " + CommodityBooking);
+        HashMap<String, String> Services = new HashMap<>();
         ArrayList<String> service = new ArrayList<>();
         for (BookingData.BookTemplate t : BookingData.i.template){
             for(BookingData.BookTemplate.BookTempList a : t.listCheck){
-//                service.add(String.valueOf(a.id);
+                service.add(String.valueOf(a.id));
+                Services.put("m_service_code_id", String.valueOf(a.id));
+                Log.i(TAG, "SendDataBooking: dua => " + Services);
             }
         }
-        Services.put("m_service_code_id",service);
+
+        ArrayList<MultipartBody.Part> files = new ArrayList<>();
+        for (Model_UploadDocument document : BookingData.i.file){
+            RequestBody requestBody = RequestBody.create(document.getUri(),MediaType.parse("application/pdf"));
+            MultipartBody.Part.create(requestBody);
+            files.add(MultipartBody.Part.createFormData("file",document.getUsername(),requestBody));
+            Log.i(TAG, "SendDataBooking: 4 => " + requestBody);
+        }
+        Log.i(TAG, "SendDataBooking: => " + files);
 //        Call<DataCalling> call = UserData.i.getService().saveBooking(
 //                UserData.i.getToken(),
 //                Booking,
@@ -341,10 +368,10 @@ public class Summary extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.comodity.setText(comodityList.get(position).getCommodity());
-            holder.consigne.setText(comodityList.get(position).getConsigne());
-            holder.packages.setText(comodityList.get(position).getPackages() + " Package");
-            holder.weight.setText(comodityList.get(position).getWeight() + " Tonage");
+            holder.comodity.setText(comodityList.get(position).commodity.desc);
+            holder.consigne.setText(comodityList.get(position).consigne.name);
+            holder.packages.setText(comodityList.get(position).packages + " Package");
+            holder.weight.setText(comodityList.get(position).weight + " Tonage");
         }
 
         @Override

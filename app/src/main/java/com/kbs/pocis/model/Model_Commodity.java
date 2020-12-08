@@ -1,47 +1,15 @@
 package com.kbs.pocis.model;
 
+import com.kbs.pocis.service.createbooking.CallingList;
+
 public class Model_Commodity {
-    public String commodity_type_id, commodity_id,m_customer_id;
-    public String packages, commodity, weight, consigne;
+    public CallingList consigne, commodity;
+    public String weight, packages;
 
-
-
-    public Model_Commodity(String packages, String commodity, String weight, String consigne) {
+    public Model_Commodity(CallingList consigne, CallingList commodity, String packages, String weight) {
         this.packages = packages;
         this.commodity = commodity;
         this.weight = weight;
-        this.consigne = consigne;
-    }
-
-    public String getPackages() {
-        return packages;
-    }
-
-    public void setPackages(String packages) {
-        this.packages = packages;
-    }
-
-    public String getCommodity() {
-        return commodity;
-    }
-
-    public void setCommodity(String commodity) {
-        this.commodity = commodity;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getConsigne() {
-        return consigne;
-    }
-
-    public void setConsigne(String consigne) {
         this.consigne = consigne;
     }
 }
