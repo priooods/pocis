@@ -47,14 +47,15 @@ import static android.content.ContentValues.TAG;
 public class VesselInformation extends Fragment {
 
     Button next, prev;
-    TextInputEditText vesel_name,
+    TextInputEditText
             estimate_arival, estimate_departure;
-    AutoCompleteTextView  port_discharge, port_origin, voyage_number;
+    AutoCompleteTextView  port_discharge, port_origin, voyage_number,vesel_name;
     TextView tobeNominated;
     ImageView iconArrow;
     LinearLayout expanded, card;
     CheckBox no_vesel, yes_vesel;
     Call<List<CallingList>> call;
+    int idvoyage, idvessel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,6 +92,25 @@ public class VesselInformation extends Fragment {
             @Override
             public void onClick(View v) {
                 ShowDateTime(estimate_departure);
+            }
+        });
+
+        vesel_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()){
+                    GetAPIVesselName(s.toString(), vesel_name);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -168,6 +188,7 @@ public class VesselInformation extends Fragment {
         return view;
     }
 
+    //Listing data from API
     void GetApiVoyageNumber(CharSequence s, AutoCompleteTextView textView){
         Call<List<BookingDetailData>> call = UserData.i.getService().getVoyageNumber(s.toString());
         call.enqueue(new Callback<List<BookingDetailData>>() {
@@ -187,6 +208,8 @@ public class VesselInformation extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             //TODO Getting voyage_no
                             Log.i(TAG, "onItemClick voyageId: => " + detailData.get(position).voyage_no);
+                            Log.i(TAG, "onItemClick: => " + detailData.get(position).id);
+                            idvoyage = detailData.get(position).id;
                         }
                     });
                     adapter.notifyDataSetChanged();
@@ -249,6 +272,40 @@ public class VesselInformation extends Fragment {
             }
         });
     }
+
+    void GetAPIVesselName(CharSequence s, AutoCompleteTextView textView){
+            call = UserData.i.getService().getVesselId(s.toString());
+            call.enqueue(new Callback<List<CallingList>>() {
+            @Override
+            public void onResponse(Call<List<CallingList>> call, Response<List<CallingList>> response) {
+                List<CallingList> forms = response.body();
+                if (forms.size() > 0) {
+                    String[] arr = new String[forms.size()];
+                    for (int i = 0; i < arr.length; i++) {
+                        Log.i(TAG, "onResponse: list =>  " + forms.get(i).name);
+                        arr[i] = forms.get(i).name;
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, arr);
+                    textView.setAdapter(adapter);
+                    textView.setThreshold(2);
+                    textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
+                            idvessel = forms.get(position).id;
+                        }
+                    });
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CallingList>> call, Throwable t) {
+                Log.e(TAG, "onFailure: => " + t );
+            }
+        });
+    }
+
 
     void ShowDateTime(TextInputEditText texit){
         Calendar calendar = Calendar.getInstance();
@@ -333,8 +390,11 @@ public class VesselInformation extends Fragment {
                 port_origin.getText().toString(),
                 estimate_arival.getText().toString(),
                 estimate_departure.getText().toString(),
+                idvoyage,
+                idvessel,
                 voyage_number.getText().toString()
         );
+        Log.i(TAG, "onCreateView: => " + idvoyage);
     }
 
     void StatusInputMessage(){
@@ -370,6 +430,7 @@ public class VesselInformation extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "onClick: => " + idvessel);
                 StatusInputMessage();
             }
         });

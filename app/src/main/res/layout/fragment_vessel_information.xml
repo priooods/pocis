@@ -313,7 +313,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="11dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:paddingLeft="8dp"
                     android:inputType="text"

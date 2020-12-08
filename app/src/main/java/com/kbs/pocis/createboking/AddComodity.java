@@ -32,6 +32,7 @@ import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -54,6 +55,8 @@ public class AddComodity extends Fragment {
 
     ArrayList<Model_Commodity> model_commodity;
     Call<List<CallingList>> call;
+
+    String comodity_type_id,comodity_id, customer_id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,6 +125,7 @@ public class AddComodity extends Fragment {
                         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                             //TODO Getting commodity_id
                             Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
+                            customer_id = String.valueOf(createBok.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     } else {
@@ -136,6 +140,8 @@ public class AddComodity extends Fragment {
                         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                             //TODO Getting m_custommer_id
                             Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
+                            comodity_id = String.valueOf(createBok.get(position).id);
+                            comodity_type_id = createBok.get(position).commodity_type_id;
                         });
                         adapter.notifyDataSetChanged();
                     }
@@ -220,7 +226,6 @@ public class AddComodity extends Fragment {
                     String weight = input_weigth.getText().toString();
                     String pack = input_package.getText().toString();
                     model_commodity.add(new Model_Commodity(pack,commodity,weight,consigne));
-
                     SettList(model_commodity);
 
                     dialogFragment.dismiss();
@@ -289,6 +294,7 @@ public class AddComodity extends Fragment {
             holder.consigne.setText(model_commodities.get(position).getConsigne());
             holder.comodity.setText(model_commodities.get(position).getCommodity());
             holder.packages.setText(model_commodities.get(position).getPackages() + " Package");
+
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

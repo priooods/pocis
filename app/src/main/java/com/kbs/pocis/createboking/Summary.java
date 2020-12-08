@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.telecom.Call;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,10 +30,20 @@ import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.BookingList;
+import com.kbs.pocis.service.UserData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+
+import static android.content.ContentValues.TAG;
 
 public class Summary extends Fragment {
 
@@ -172,6 +183,50 @@ public class Summary extends Fragment {
             }
         });
         dialogFragment.show();
+    }
+
+    public void SendDataBooking(){
+        BookingData data = BookingData.i;
+        HashMap<String, String> Booking = new HashMap<>();
+        Booking.put("m_customer_id", String.valueOf(data.customerId));
+        Booking.put("t_map_customer_type_id", data.customerType);
+        Booking.put("customer_type_code", data.customer_code);
+        Booking.put("flag_related_vessel", data.relatedVesel);
+        Booking.put("flag_contract", data.contract);
+
+        HashMap<String, String> BookingVessel = new HashMap<>();
+        BookingVessel.put("m_vessel_id", data.vessel.vessel_name);
+        BookingVessel.put("voyage_no", data.vessel.voyage_number);
+        BookingVessel.put("estimate_arrival_date", data.vessel.estimate_departure);
+        BookingVessel.put("estimate_departure_date", data.vessel.estimate_departure);
+        BookingVessel.put("port_of_loading_id", data.vessel.port_discharge);
+        BookingVessel.put("m_port_cigading_id", data.vessel.port_origin);
+
+        HashMap<String, Integer> VesselSchedule = new HashMap<>();
+        VesselSchedule.put("id", data.vessel.id_voyage);
+
+        HashMap<String, String> CommodityBooking = new HashMap<>();
+        CommodityBooking.put("","");
+
+        HashMap<String, List<String>> Services = new HashMap<>();
+        ArrayList<String> service = new ArrayList<>();
+        for (BookingData.BookTemplate t : BookingData.i.template){
+            for(BookingData.BookTemplate.BookTempList a : t.listCheck){
+//                service.add(String.valueOf(a.id);
+            }
+        }
+        Services.put("m_service_code_id",service);
+//        Call<DataCalling> call = UserData.i.getService().saveBooking(
+//                UserData.i.getToken(),
+//                Booking,
+//                BookingVessel,
+//                VesselSchedule,
+//                CommodityBooking,
+//                Services,
+//                dataas
+//
+//        );
+//        Call<BookingDetailData> call = UserData.i.getService().saveBooking(UserData.i.getToken(),)
     }
 
     //Template Service Information TYPE

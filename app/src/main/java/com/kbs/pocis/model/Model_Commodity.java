@@ -1,8 +1,10 @@
 package com.kbs.pocis.model;
 
 public class Model_Commodity {
-
+    public String commodity_type_id, commodity_id,m_customer_id;
     public String packages, commodity, weight, consigne;
+
+
 
     public Model_Commodity(String packages, String commodity, String weight, String consigne) {
         this.packages = packages;

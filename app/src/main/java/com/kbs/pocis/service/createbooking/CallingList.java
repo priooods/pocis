@@ -13,4 +13,8 @@ public class CallingList {
     public String desc;
     @SerializedName("code")
     public String code;
+    @SerializedName("m_commodity_type_id")
+    public String commodity_type_id;
+    @SerializedName("m_commodity_type_name")
+    public String commodity_type_name;
 }

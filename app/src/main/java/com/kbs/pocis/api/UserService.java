@@ -1,6 +1,8 @@
 package com.kbs.pocis.api;
 
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.createbooking.CallingSaveBok;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
 import com.kbs.pocis.service.createbooking.CallingShowTemp;
 import com.kbs.pocis.service.createbooking.CreateBok;
@@ -10,12 +12,16 @@ import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface UserService {
@@ -87,15 +93,21 @@ public interface UserService {
             @Path("name") String name
     );
 
-    @GET("master/commodity_type/{desc}")
+    @GET("master/commodity/{name}")
     Call<List<CallingList>> getCommodityType(
-            @Path("desc") String desc
+            @Path("name") String name
     );
+
 
     @FormUrlEncoded
     @POST("master/voyage")
     Call<List<BookingDetailData>> getVoyageNumber(
             @Field("voyage_no") String voyage_no
+    );
+
+    @GET("master/vessel/{name}")
+    Call<List<CallingList>> getVesselId(
+            @Path("name") String name
     );
 
     @GET("master/port_cigadings/{name}")
@@ -105,5 +117,14 @@ public interface UserService {
 
     @GET("master/ports")
     Call<List<CallingList>> getPortOrigin();
+
+    @Multipart
+    @POST("tbooking/new")
+    Call<CallingSaveBok> saveBooking(
+            @PartMap Map<String, String> Booking,
+            @PartMap Map<String, String> BookingVessel,
+            @PartMap Map<String, String> VesselSchedule,
+            @PartMap List<Map<String, String>> CommodityBooking,
+            @PartMap List<Map<List<String>, List<String>>> Services);
 
 }

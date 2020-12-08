@@ -144,7 +144,6 @@ public class SelectTemplate extends Fragment {
         return view;
     }
 
-
     public void ListingData () {
         if (BookingData.isExist() && BookingData.i.template!=null) {
             ArrayList<String> query = new ArrayList<>();

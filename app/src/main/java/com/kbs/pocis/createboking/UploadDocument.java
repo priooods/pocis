@@ -147,7 +147,7 @@ public class UploadDocument extends Fragment {
 
                     String name = files.getName();
                     int size = (int)files.length() / 1024;
-                    model_uploadDocuments.add(new Model_UploadDocument(path, name, size));
+                    model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
 
                     //Setting Visibility Layout Upload
                     statusList(model_uploadDocuments);

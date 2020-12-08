@@ -6,10 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.model.Model_DetailsFile;
 import com.kbs.pocis.model.Model_DetailsService;
+import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookingDetailData {
     //region Singleton
@@ -50,7 +52,18 @@ public class BookingDetailData {
             "compoundbooking": null,
     */
     //for response Show Template
+    //Voyage response
+//    "id": "890",
+//            "voyage_no": "1",
+//            "est_arrival": "2017-09-29 00:00:00",
+//            "est_departure": "2017-10-02 00:00:00",
+//            "act_departure": "0000-00-00 00:00:00"
 
+
+    @SerializedName("id")
+    public int id;
+    public String voyage_no;
+    public String act_departure;
 
     @SerializedName("customer_type_code")
     public String customerType;
@@ -68,7 +81,6 @@ public class BookingDetailData {
     public String no_booking;
     public String flag_compound;
     public String status;
-    public String voyage_no;
     public String customer_code;
     public String customer_name;
     public String contract_no;
@@ -105,7 +117,17 @@ public class BookingDetailData {
 
     public ArrayList<Model_DetailsCommodity> addinfo;
 
-
+//
+//    //Response dari Template_Header
+//    public List<Model_SelectTemplate> temp_detail;
+//    public static class Temp_detail{
+//        public String id;
+//        public String m_booking_template_header_id;
+//        public String code;
+//        public String m_service_code_id;
+//        public String m_service_code_element_id;
+//        public String display_desc_detail;
+//    }
 
     //data Schedule
     /*

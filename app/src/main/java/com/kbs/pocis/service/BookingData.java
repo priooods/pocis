@@ -11,9 +11,11 @@ import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.createbooking.CallingShowTemp;
+import com.kbs.pocis.service.createbooking.ModelSave.Model_Save_Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BookingData {
     //region Singleton
@@ -226,14 +228,17 @@ public class BookingData {
     //data Vessel
     public VesselData vessel;
     public static class VesselData{
+        public int id_voyage, id_vessel;
         public String vessel_name, port_discharge, port_origin,
                 estimate_arival, estimate_departure,voyage_number;
-        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , String voyage_number ){
+        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , int id,int id_ves, String voyage_number){
             this.vessel_name = vessel_name;
             port_discharge = dis_port;
             port_origin = origin;
             estimate_arival = est_arival;
             estimate_departure = est_departure;
+            id_voyage = id;
+            id_vessel = id_ves;
             this.voyage_number = voyage_number;
         }
         public void findData(){
@@ -247,4 +252,25 @@ public class BookingData {
         bookingTime = "17:00 WIB";
         BookingList.getI().AddBookingData(this);
     }
+
+    public List<Model_Save_Services> code_service;
+    public List<Model_Save_Services> getCode_service(){
+        return this.code_service;
+    }
+    public void SelectServicesId (Model_Save_Services id_service){
+        code_service.add(id_service);
+    }
+
+//    public List<CommodityData> dataComodity;
+//    public static class CommodityData{
+//        public String packages, tonage,commodity_type_id,m_customer_id, id_comodity;
+//        public CommodityData(String type_id, String id, String pack,String tonag,String customer_id ){
+//            this.commodity_type_id = type_id;
+//            id_comodity = id;
+//            packages = pack;
+//            tonage = tonag;
+//            this.m_customer_id = customer_id;
+//
+//        }
+//    }
 }
