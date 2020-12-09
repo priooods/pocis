@@ -52,7 +52,7 @@ public class BookingDetails_Commodity extends Fragment {
             }
         }else {
             for (Model_Commodity mod : BookingData.i.commodity) {
-                model_detailsCommodities.add(new Model_DetailsCommodity(mod.commodity.desc, mod.commodity.commodity_type_id,mod.packages,mod.weight));
+                model_detailsCommodities.add(new Model_DetailsCommodity(mod.commodity.desc, mod.commodity.name,mod.packages,mod.weight));
             }
         }
         //model_detailsCommodities.add(new Model_DetailsCommodity("iron ore","non grain bulk", 2,175000000));

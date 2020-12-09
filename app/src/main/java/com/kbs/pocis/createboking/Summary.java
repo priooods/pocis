@@ -223,15 +223,14 @@ public class Summary extends Fragment {
         Log.i(TAG, "SendDataBooking: tujuh dua => " + CommodityBooking);
 
         i = 0;
-        HashMap<String, String> Services = new HashMap<>();
-        HashMap<Integer, Map<String, String>> service = new HashMap<>(data.commodity.size());
+        HashMap<Integer, Map<String, String>> service = new HashMap<>();
         for (BookingData.BookTemplate t : BookingData.i.template){
             for(BookingData.BookTemplate.BookTempList a : t.listCheck){
                 service.put(i, a.getMap());
                 i++;
-                Log.i(TAG, "SendDataBooking: dua => " + Services);
             }
         }
+        Log.i(TAG, "SendDataBooking: dua => " + service);
 
         ArrayList<MultipartBody.Part> files = new ArrayList<>();
         for (Model_UploadDocument document : BookingData.i.file){

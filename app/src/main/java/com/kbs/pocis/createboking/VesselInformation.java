@@ -82,11 +82,11 @@ public class VesselInformation extends Fragment {
 
         estimate_arival.setOnClickListener(v -> {
             ShowDateTime(estimate_arival);
-            BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
+            //BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
         });
         estimate_departure.setOnClickListener(v -> {
             ShowDateTime(estimate_departure);
-            BookingData.i.vessel.estimate_departure = estimate_departure.getText().toString();
+            //BookingData.i.vessel.estimate_departure = estimate_departure.getText().toString();
         });
 
         vesel_name.addTextChangedListener(new TextWatcher() {
@@ -145,8 +145,6 @@ public class VesselInformation extends Fragment {
                 estimate_arival.setText(bd.estimate_arival);
                 estimate_departure.setText(bd.estimate_departure);
                 voyage_number.setText(bd.voyage_number);
-            }else{
-                BookingData.i.vessel = new BookingData.VesselData();
             }
         }
         ButtonFunction();
@@ -174,7 +172,7 @@ public class VesselInformation extends Fragment {
                             Log.i(TAG, "onItemClick voyageId: => " + detailData.get(position).voyage_no);
                             Log.i(TAG, "onItemClick: => " + detailData.get(position).id);
                             idvoyage = detailData.get(position).id;
-                            BookingData.i.vessel.id_voyage = idvoyage;
+                            //BookingData.i.vessel.id_voyage = idvoyage;
                         }
                     });
                     adapter.notifyDataSetChanged();
@@ -211,7 +209,7 @@ public class VesselInformation extends Fragment {
                         textView.setThreshold(2);
                         textView.setOnItemClickListener((parent, view, position, id) -> {
                             Log.i(TAG, "onItemClick: getportDischarge = " + forms.get(position).id);
-                            BookingData.i.vessel.port_discharge = String.valueOf(forms.get(position).id);
+                            //BookingData.i.vessel.port_discharge = String.valueOf(forms.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     } else {
@@ -226,7 +224,7 @@ public class VesselInformation extends Fragment {
                             //TODO dibawah ini sample get id. bisa disesuaikan sama kebutuhan. mau id atau name dst
                             // atau kalau cuman get name/desc aja udah automatis ke save ko di singletoon yg udah dibuat kemarin - kemarin
                             Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
-                            BookingData.i.vessel.port_origin = String.valueOf(forms.get(position).id);
+                            //BookingData.i.vessel.port_origin = String.valueOf(forms.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     }
@@ -260,7 +258,7 @@ public class VesselInformation extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
                             idvessel = forms.get(position).id;
-                            BookingData.i.vessel.id_vessel = idvessel;
+                            //BookingData.i.vessel.id_vessel = idvessel;
                         }
                     });
                     adapter.notifyDataSetChanged();
@@ -348,19 +346,19 @@ public class VesselInformation extends Fragment {
         });
     }
 
-//    void UpdateData(){
-//        BookingData.i.vessel = new BookingData.VesselData(
-//                vesel_name.getText().toString(),
-//                port_discharge.getText().toString(),
-//                port_origin.getText().toString(),
-//                estimate_arival.getText().toString(),
-//                estimate_departure.getText().toString(),
-//                idvoyage,
-//                idvessel,
-//                voyage_number.getText().toString()
-//        );
-//        Log.i(TAG, "onCreateView: => " + idvoyage);
-//    }
+    void UpdateData(){
+        BookingData.i.vessel = new BookingData.VesselData(
+                vesel_name.getText().toString(),
+                port_discharge.getText().toString(),
+                port_origin.getText().toString(),
+                estimate_arival.getText().toString(),
+                estimate_departure.getText().toString(),
+                idvoyage,
+                idvessel,
+                voyage_number.getText().toString()
+        );
+        Log.i(TAG, "onCreateView: => " + idvoyage);
+    }
 //    void UpdateDate(){
 //        BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
 //    }
@@ -377,7 +375,7 @@ public class VesselInformation extends Fragment {
         } else if (port_origin.getText().length() < 2 || port_discharge.getText().length() < 2){
             pesanError("Port Discharge and Port Origin Minimun 2 Character");
         } else {
-//            UpdateData();
+            UpdateData();
             Fragment fragment = new Summary();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -390,7 +388,7 @@ public class VesselInformation extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                UpdateData();
+                UpdateData();
                 getActivity().onBackPressed();
             }
         });

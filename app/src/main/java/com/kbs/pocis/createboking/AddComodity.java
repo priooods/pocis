@@ -172,7 +172,7 @@ public class AddComodity extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()){
+                if (s.length()>=2){
                     ListingList(s.toString(),true, context, input_consigne);
                 }
             }
@@ -191,7 +191,7 @@ public class AddComodity extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()){
+                if (s.length()>=2){
                     ListingList(s.toString(), false, context, input_comdity);
                 }
             }

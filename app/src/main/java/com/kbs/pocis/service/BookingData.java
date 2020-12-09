@@ -237,21 +237,23 @@ public class BookingData {
         public int id_voyage, id_vessel;
         public String vessel_name, port_discharge, port_origin,
                 estimate_arival, estimate_departure,voyage_number;
-        public VesselData(){
-
-        }
-//        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , int id,int id_ves, String voyage_number){
-//            this.vessel_name = vessel_name;
-//            port_discharge = dis_port;
-//            port_origin = origin;
-//            estimate_arival = est_arival;
-//            estimate_departure = est_departure;
-//            id_voyage = id;
-//            id_vessel = id_ves;
-//            this.voyage_number = voyage_number;
+//        public VesselData(){
+//            vessel_name = "";
+//            port_discharge = "";
+//            port_origin = "";
+//            estimate_arival = "";
+//            estimate_departure = "";
+//            voyage_number = "";
 //        }
-        public void findData(){
-            Log.i("tag","Nothin Happen");
+        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , int id,int id_ves, String voyage_number){
+            this.vessel_name = vessel_name;
+            port_discharge = dis_port;
+            port_origin = origin;
+            estimate_arival = est_arival;
+            estimate_departure = est_departure;
+            id_voyage = id;
+            id_vessel = id_ves;
+            this.voyage_number = voyage_number;
         }
     }
 

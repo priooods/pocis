@@ -17,7 +17,7 @@ public class Model_Commodity {
     }
     public Map<String,String> getMap() {
         HashMap<String, String> map = new HashMap();
-        map.put("commodity_type_id", commodity.commodity_type_id);
+        map.put("commodity_type_id", commodity.name);
         map.put("package", packages);
         map.put("tonage", weight);
         map.put("m_customer_id", String.valueOf(consigne.id));
