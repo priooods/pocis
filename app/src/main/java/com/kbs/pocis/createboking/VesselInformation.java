@@ -47,8 +47,7 @@ import static android.content.ContentValues.TAG;
 public class VesselInformation extends Fragment {
 
     Button next, prev;
-    TextInputEditText
-            estimate_arival, estimate_departure;
+    TextInputEditText estimate_arival, estimate_departure;
     AutoCompleteTextView  port_discharge, port_origin, voyage_number,vesel_name;
     TextView tobeNominated;
     ImageView iconArrow;
@@ -81,92 +80,56 @@ public class VesselInformation extends Fragment {
         ToBeNominated();
         CheckBoxesRelatedVessel();
 
-        estimate_arival.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowDateTime(estimate_arival);
-            }
+        estimate_arival.setOnClickListener(v -> {
+            ShowDateTime(estimate_arival);
+            BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
         });
-
-        estimate_departure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowDateTime(estimate_departure);
-            }
+        estimate_departure.setOnClickListener(v -> {
+            ShowDateTime(estimate_departure);
+            BookingData.i.vessel.estimate_departure = estimate_departure.getText().toString();
         });
 
         vesel_name.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()){
+                if (s.length() >= 2){
                     GetAPIVesselName(s.toString(), vesel_name);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
         port_discharge.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()){
+                if (s.length() >= 2){
                     GetAPIPortDischarge(s, port_discharge, true);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
         port_origin.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()){
+                if (s.length()>=2){
                     GetAPIPortDischarge(s, port_origin, false);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
         voyage_number.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()){
+                if (s.length()>=2){
                     GetApiVoyageNumber(s.toString(), voyage_number);
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -182,13 +145,14 @@ public class VesselInformation extends Fragment {
                 estimate_arival.setText(bd.estimate_arival);
                 estimate_departure.setText(bd.estimate_departure);
                 voyage_number.setText(bd.voyage_number);
+            }else{
+                BookingData.i.vessel = new BookingData.VesselData();
             }
         }
         ButtonFunction();
         return view;
     }
 
-    //Listing data from API
     void GetApiVoyageNumber(CharSequence s, AutoCompleteTextView textView){
         Call<List<BookingDetailData>> call = UserData.i.getService().getVoyageNumber(s.toString());
         call.enqueue(new Callback<List<BookingDetailData>>() {
@@ -210,6 +174,7 @@ public class VesselInformation extends Fragment {
                             Log.i(TAG, "onItemClick voyageId: => " + detailData.get(position).voyage_no);
                             Log.i(TAG, "onItemClick: => " + detailData.get(position).id);
                             idvoyage = detailData.get(position).id;
+                            BookingData.i.vessel.id_voyage = idvoyage;
                         }
                     });
                     adapter.notifyDataSetChanged();
@@ -244,6 +209,10 @@ public class VesselInformation extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                         textView.setAdapter(adapter);
                         textView.setThreshold(2);
+                        textView.setOnItemClickListener((parent, view, position, id) -> {
+                            Log.i(TAG, "onItemClick: getportDischarge = " + forms.get(position).id);
+                            BookingData.i.vessel.port_discharge = String.valueOf(forms.get(position).id);
+                        });
                         adapter.notifyDataSetChanged();
                     } else {
                         for (int i = 0; i < arr.length; i++) {
@@ -253,13 +222,11 @@ public class VesselInformation extends Fragment {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                         textView.setAdapter(adapter);
                         textView.setThreshold(2);
-                        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //TODO dibawah ini sample get id. bisa disesuaikan sama kebutuhan. mau id atau name dst
-                                // atau kalau cuman get name/desc aja udah automatis ke save ko di singletoon yg udah dibuat kemarin - kemarin
-                                Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
-                            }
+                        textView.setOnItemClickListener((parent, view, position, id) -> {
+                            //TODO dibawah ini sample get id. bisa disesuaikan sama kebutuhan. mau id atau name dst
+                            // atau kalau cuman get name/desc aja udah automatis ke save ko di singletoon yg udah dibuat kemarin - kemarin
+                            Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
+                            BookingData.i.vessel.port_origin = String.valueOf(forms.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     }
@@ -293,6 +260,7 @@ public class VesselInformation extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
                             idvessel = forms.get(position).id;
+                            BookingData.i.vessel.id_vessel = idvessel;
                         }
                     });
                     adapter.notifyDataSetChanged();
@@ -316,13 +284,10 @@ public class VesselInformation extends Fragment {
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                TimePickerDialog.OnTimeSetListener setListener = new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(android.icu.util.Calendar.MINUTE, minute);
-                        texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
-                    }
+                TimePickerDialog.OnTimeSetListener setListener = (view1, hourOfDay, minute, second) -> {
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    calendar.set(android.icu.util.Calendar.MINUTE, minute);
+                    texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
                 };
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
                 timePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
@@ -383,19 +348,22 @@ public class VesselInformation extends Fragment {
         });
     }
 
-    void UpdateData(){
-        BookingData.i.vessel = new BookingData.VesselData(
-                vesel_name.getText().toString(),
-                port_discharge.getText().toString(),
-                port_origin.getText().toString(),
-                estimate_arival.getText().toString(),
-                estimate_departure.getText().toString(),
-                idvoyage,
-                idvessel,
-                voyage_number.getText().toString()
-        );
-        Log.i(TAG, "onCreateView: => " + idvoyage);
-    }
+//    void UpdateData(){
+//        BookingData.i.vessel = new BookingData.VesselData(
+//                vesel_name.getText().toString(),
+//                port_discharge.getText().toString(),
+//                port_origin.getText().toString(),
+//                estimate_arival.getText().toString(),
+//                estimate_departure.getText().toString(),
+//                idvoyage,
+//                idvessel,
+//                voyage_number.getText().toString()
+//        );
+//        Log.i(TAG, "onCreateView: => " + idvoyage);
+//    }
+//    void UpdateDate(){
+//        BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
+//    }
 
     void StatusInputMessage(){
         if (vesel_name.getText().toString().isEmpty() || port_discharge.getText().toString().isEmpty() ||
@@ -409,7 +377,7 @@ public class VesselInformation extends Fragment {
         } else if (port_origin.getText().length() < 2 || port_discharge.getText().length() < 2){
             pesanError("Port Discharge and Port Origin Minimun 2 Character");
         } else {
-            UpdateData();
+//            UpdateData();
             Fragment fragment = new Summary();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -422,7 +390,7 @@ public class VesselInformation extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdateData();
+//                UpdateData();
                 getActivity().onBackPressed();
             }
         });

@@ -14,6 +14,7 @@ import com.kbs.pocis.service.createbooking.CallingShowTemp;
 import com.kbs.pocis.service.createbooking.ModelSave.Model_Save_Services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -133,6 +134,11 @@ public class BookingData {
                 code = Code;
                 name = Name;
             }
+            public Map<String,String> getMap(){
+                HashMap<String, String> map = new HashMap<>();
+                map.put("m_service_code_id",String.valueOf(id));
+                return map;
+            }
         }
     }
     public void ShowBookUpdate(ArrayList<Model_ShowTemplate> temp) {
@@ -222,7 +228,6 @@ public class BookingData {
     //data booking keempat AddComodity
     @SerializedName("commodity_booking")
     public ArrayList<Model_Commodity> commodity;
-    public ArrayList<Model_Commodity> saveComodity;
 
 
 
@@ -232,16 +237,19 @@ public class BookingData {
         public int id_voyage, id_vessel;
         public String vessel_name, port_discharge, port_origin,
                 estimate_arival, estimate_departure,voyage_number;
-        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , int id,int id_ves, String voyage_number){
-            this.vessel_name = vessel_name;
-            port_discharge = dis_port;
-            port_origin = origin;
-            estimate_arival = est_arival;
-            estimate_departure = est_departure;
-            id_voyage = id;
-            id_vessel = id_ves;
-            this.voyage_number = voyage_number;
+        public VesselData(){
+
         }
+//        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , int id,int id_ves, String voyage_number){
+//            this.vessel_name = vessel_name;
+//            port_discharge = dis_port;
+//            port_origin = origin;
+//            estimate_arival = est_arival;
+//            estimate_departure = est_departure;
+//            id_voyage = id;
+//            id_vessel = id_ves;
+//            this.voyage_number = voyage_number;
+//        }
         public void findData(){
             Log.i("tag","Nothin Happen");
         }

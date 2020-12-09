@@ -126,8 +126,8 @@ public interface UserService {
             @PartMap Map<String, String> Booking,
             @PartMap Map<String, String> BookingVessel,
             @PartMap Map<String, String> VesselSchedule,
-            @PartMap Map<String, String> CommodityBooking,
-            @PartMap Map<String, String> Services,
+            @PartMap Map<Integer, Map<String,String>> CommodityBooking,
+            @PartMap Map<Integer, Map<String,String>> Services,
             @Part List<MultipartBody.Part> FileUpload
     );
 }

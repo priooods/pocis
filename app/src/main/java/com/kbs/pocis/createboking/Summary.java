@@ -206,7 +206,7 @@ public class Summary extends Fragment {
         HashMap<String, String> BookingVessel = new HashMap<>();
         BookingVessel.put("m_vessel_id", data.vessel.vessel_name);
         BookingVessel.put("voyage_no", data.vessel.voyage_number);
-        BookingVessel.put("estimate_arrival_date", data.vessel.estimate_departure);
+        BookingVessel.put("estimate_arrival_date", data.vessel.estimate_arival);
         BookingVessel.put("estimate_departure_date", data.vessel.estimate_departure);
         BookingVessel.put("port_of_loading_id", data.vessel.port_discharge);
         BookingVessel.put("m_port_cigading_id", data.vessel.port_origin);
@@ -214,23 +214,21 @@ public class Summary extends Fragment {
         HashMap<String, Integer> VesselSchedule = new HashMap<>();
         VesselSchedule.put("id", data.vessel.id_voyage);
 
-        HashMap<String, String> CommodityBooking = new HashMap<>();
+        int i = 0;
+        HashMap<Integer, Map<String, String>> CommodityBooking = new HashMap<>(data.commodity.size());
         for (Model_Commodity com : data.commodity) {
-            CommodityBooking.put("commodity_type_id", com.commodity.commodity_type_id);
-            CommodityBooking.put("commodity_id", String.valueOf(com.commodity.id));
-            CommodityBooking.put("package", com.packages);
-            CommodityBooking.put("tonage", com.weight);
-            CommodityBooking.put("m_customer_id", String.valueOf(com.consigne.id));
-            Log.i(TAG, "SendDataBooking: tujuh => " + CommodityBooking);
-            Log.i(TAG, "SendDataBooking: comodity => " + String.valueOf(com.consigne.id));
+            CommodityBooking.put(i,com.getMap());
+            i++;
         }
         Log.i(TAG, "SendDataBooking: tujuh dua => " + CommodityBooking);
+
+        i = 0;
         HashMap<String, String> Services = new HashMap<>();
-        ArrayList<String> service = new ArrayList<>();
+        HashMap<Integer, Map<String, String>> service = new HashMap<>(data.commodity.size());
         for (BookingData.BookTemplate t : BookingData.i.template){
             for(BookingData.BookTemplate.BookTempList a : t.listCheck){
-                service.add(String.valueOf(a.id));
-                Services.put("m_service_code_id", String.valueOf(a.id));
+                service.put(i, a.getMap());
+                i++;
                 Log.i(TAG, "SendDataBooking: dua => " + Services);
             }
         }
