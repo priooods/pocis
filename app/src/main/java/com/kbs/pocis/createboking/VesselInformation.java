@@ -54,7 +54,7 @@ public class VesselInformation extends Fragment {
     LinearLayout expanded, card;
     CheckBox no_vesel, yes_vesel;
     Call<List<CallingList>> call;
-    int idvoyage, idvessel;
+    int idvoyage, idvessel, discharge_id, origin_id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +80,27 @@ public class VesselInformation extends Fragment {
         ToBeNominated();
         CheckBoxesRelatedVessel();
 
+        if (BookingData.isExist()){
+            BookingData.VesselData bd = BookingData.i.vessel;
+            Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
+            if (bd !=null) {
+                vesel_name.setText(bd.vessel_name);
+                port_discharge.setText(bd.port_discharge);
+                discharge_id = bd.port_discharge_id;
+                port_origin.setText(bd.port_origin);
+                origin_id = bd.port_origin_id;
+                estimate_arival.setText(bd.estimate_arival);
+                estimate_departure.setText(bd.estimate_departure);
+                voyage_number.setText(bd.voyage_number);
+                idvoyage = bd.id_voyage;
+                idvessel = bd.id_vessel;
+            }
+        }else{
+            discharge_id = -1;
+            origin_id = -1;
+            idvoyage = -1;
+            idvessel = -1;
+        }
         estimate_arival.setOnClickListener(v -> {
             ShowDateTime(estimate_arival);
             //BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
@@ -136,18 +157,6 @@ public class VesselInformation extends Fragment {
         next = view.findViewById(R.id.veselinfo_nextBtn);
         prev = view.findViewById(R.id.veselinfo_prevBtn);
 
-        if (BookingData.isExist()){
-            BookingData.VesselData bd = BookingData.i.vessel;
-            Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
-            if (bd !=null) {
-                vesel_name.setText(bd.vessel_name);
-                port_discharge.setText(bd.port_discharge);
-                port_origin.setText(bd.port_origin);
-                estimate_arival.setText(bd.estimate_arival);
-                estimate_departure.setText(bd.estimate_departure);
-                voyage_number.setText(bd.voyage_number);
-            }
-        }
         ButtonFunction();
         return view;
     }
@@ -209,6 +218,7 @@ public class VesselInformation extends Fragment {
                         textView.setAdapter(adapter);
                         textView.setThreshold(2);
                         textView.setOnItemClickListener((parent, view, position, id) -> {
+                            discharge_id = forms.get(position).id;
                             Log.i(TAG, "onItemClick: getportDischarge = " + forms.get(position).id);
                             //BookingData.i.vessel.port_discharge = String.valueOf(forms.get(position).id);
                         });
@@ -222,8 +232,7 @@ public class VesselInformation extends Fragment {
                         textView.setAdapter(adapter);
                         textView.setThreshold(2);
                         textView.setOnItemClickListener((parent, view, position, id) -> {
-                            //TODO dibawah ini sample get id. bisa disesuaikan sama kebutuhan. mau id atau name dst
-                            // atau kalau cuman get name/desc aja udah automatis ke save ko di singletoon yg udah dibuat kemarin - kemarin
+                            origin_id = forms.get(position).id;
                             Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
                             //BookingData.i.vessel.port_origin = String.valueOf(forms.get(position).id);
                         });
@@ -351,7 +360,9 @@ public class VesselInformation extends Fragment {
         BookingData.i.vessel = new BookingData.VesselData(
                 vesel_name.getText().toString(),
                 port_discharge.getText().toString(),
+                discharge_id,
                 port_origin.getText().toString(),
+                origin_id,
                 estimate_arival.getText().toString(),
                 estimate_departure.getText().toString(),
                 idvoyage,
@@ -370,11 +381,14 @@ public class VesselInformation extends Fragment {
                 estimate_arival.getText().toString().isEmpty() ||
                 estimate_departure.getText().toString().isEmpty()){
             Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
-        }
-        if (vesel_name.getText().length() < 4 ){
-            pesanError("Vessel Name, Loading Ship, Discharge Ship Minimun 4 Character");
-        } else if (port_origin.getText().length() < 2 || port_discharge.getText().length() < 2){
-            pesanError("Port Discharge and Port Origin Minimun 2 Character");
+        }else
+        if (idvessel <= 0){
+            pesanError("please check Vessel Name correctly!");
+        }else
+        if (idvoyage <= 0){
+            pesanError("please check Voyage Number correctly!");
+        } else if (origin_id <= 0 || discharge_id <= 0){
+            pesanError("please check Port Discharge or Port Origin correctly!");
         } else {
             UpdateData();
             Fragment fragment = new Summary();

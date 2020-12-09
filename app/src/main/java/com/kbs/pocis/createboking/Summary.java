@@ -2,8 +2,6 @@ package com.kbs.pocis.createboking;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,40 +17,28 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.kbs.pocis.R;
-import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.model.Model_Commodity;
-import com.kbs.pocis.model.createboking.Model_SelectTemplate;
-import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
-import com.kbs.pocis.service.BookingList;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.createbooking.CallingList;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -186,116 +172,75 @@ public class Summary extends Fragment {
         btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //BookingData.i.Upload();
-                SendDataBooking();
-//                dialogFragment.dismiss();
-//                Fragment fragment = new Finish();
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frameCreate, fragment);
-//                fragmentTransaction.commit();
+                BookingData.i.Upload();
+                dialogFragment.dismiss();
+                Fragment fragment = new Finish();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameCreate, fragment);
+                fragmentTransaction.commit();
             }
         });
         dialogFragment.show();
     }
-
+    public RequestBody data_form(String req) {
+        return RequestBody.create(req, MediaType.parse("multipart/form-data"));
+    }
     public void SendDataBooking(){
         BookingData data = BookingData.i;
-//        CallingList list
+        //ArrayList<Map<String,String>> Booking = new ArrayList<>();
+        Map<String, String> Booking = new HashMap<>();
+        Booking.put("Booking[m_customer_id]", String.valueOf(data.customerId));
+        Booking.put("Booking[t_map_customer_type_id]", String.valueOf(data.customerId));
+        Booking.put("Booking[customer_type_code]", data.customerType);
+        Booking.put("Booking[flag_related_vessel]", data.relatedVesel);
+        Booking.put("Booking[flag_contract]", data.contract);
 
+        Booking.put("BookingVessel[m_vessel_id]", String.valueOf(data.vessel.id_vessel));
+        Booking.put("BookingVessel[voyage_no]", String.valueOf(data.vessel.id_voyage));
+        Booking.put("BookingVessel[estimate_arrival_date]", data.vessel.estimate_arival);
+        Booking.put("BookingVessel[estimate_departure_date]", data.vessel.estimate_departure);
+        Booking.put("BookingVessel[port_of_loading_id]", String.valueOf(data.vessel.port_discharge_id));
+        Booking.put("BookingVessel[m_port_cigading_id]", String.valueOf(data.vessel.port_origin_id));
 
-//        ArrayList<HashMap<String, String>> DataBooking = new ArrayList<>();
-        HashMap<String, String> Booking = new HashMap<>();
-//        Booking.put("flag_related_vessel", data.relatedVesel);
-//        Booking.put("t_map_customer_type_id", data.customerId);
-//        Booking.put("customer_type_code", data.customerType);
-//        Booking.put("m_customer_id", "55");
-//        Booking.put("flag_contract", data.contract);
-        //DataBooking.add(Booking);
-
-        Log.i(TAG, "SendDataBooking: Booking => " + Booking);
-
-        ArrayList<HashMap<String, String>> DataVesel = new ArrayList<>();
-        HashMap<String, String> BookingVessel = new HashMap<>();
-//        BookingVessel.put("m_vessel_id", data.vessel.vessel_name);
-//        BookingVessel.put("voyage_no", data.vessel.voyage_number);
-//        BookingVessel.put("estimate_arrival_date", data.vessel.estimate_arival);
-//        BookingVessel.put("estimate_departure_date", data.vessel.estimate_departure);
-//        BookingVessel.put("port_of_loading_id", data.vessel.port_discharge);
-//        BookingVessel.put("m_port_cigading_id", data.vessel.port_origin);
-        DataVesel.add(BookingVessel);
-
-        Log.i(TAG, "SendDataBooking: " + DataVesel);
-
-
-        ArrayList<HashMap<String, String>> DataVeselSchedule = new ArrayList<>();
-//        HashMap<String, String> VesselSchedule = new HashMap<>();
-//        VesselSchedule.put("id", String.valueOf(data.vessel.id_voyage));
-//        DataVeselSchedule.add(VesselSchedule);
-
-        Log.i(TAG, "SendDataBooking: " + DataVeselSchedule);
+        Booking.put("VesselSchedule[id]", String.valueOf(data.vessel.id_voyage));
 
         int i = 0;
-        ArrayList<HashMap<Integer, ArrayList<Map<String, String>>>> comodity = new ArrayList<>();
-//        HashMap<Integer, ArrayList<Map<String, String>>> CommodityBooking = new HashMap<>(data.commodity.size());
-//        ArrayList<Map<String, String>> anak1 = new ArrayList<>();
-//        for (Model_Commodity com : data.commodity) {
-//            anak1.add(com.getMap());
-//            CommodityBooking.put(i,anak1);
-//            i++;
-//        }
-//        comodity.add(CommodityBooking);
-        Log.i(TAG, "SendDataBooking: " + comodity);
-
-
+        HashMap<Integer, Map<String, String>> CommodityBooking = new HashMap<>(data.commodity.size());
+        for (Model_Commodity com : data.commodity) {
+            com.getMap(Booking,i);
+            i++;
+        }
 
         i = 0;
-//        ArrayList<HashMap<Integer, ArrayList<Map<String,String>>>> Services = new ArrayList<>();
-        HashMap<Integer, ArrayList<Map<String,String>>> service = new HashMap<>();
-//        ArrayList<Map<String,String>> anak = new ArrayList<>();
-//
-//        for (BookingData.BookTemplate t : BookingData.i.template){
-//            for(BookingData.BookTemplate.BookTempList a : t.listCheck){
-//                anak.add(a.getMap());
-//                service.put(i, anak);
-//                i++;
-//            }
-//        }
-//        Services.add(service);
-        Log.i(TAG, "SendDataBooking: " + service);
+        HashMap<Integer, Map<String, String>> service = new HashMap<>();
+        for (BookingData.BookTemplate t : BookingData.i.template){
+            for(BookingData.BookTemplate.BookTempList a : t.listCheck){
+                a.getMap(Booking,i);
+                i++;
+            }
+        }
+        Log.i(TAG, "SendDataBooking: "+ Booking);
 
+        i = 0;
+        Map<String, MultipartBody.Part> DataDocument = new HashMap<>();
+        for (Model_UploadDocument document : BookingData.i.file){
+            RequestBody requestBody = RequestBody.create(document.getUri(),MediaType.parse("application/pdf"));
+            MultipartBody.Part.create(requestBody);
+            DataDocument.put("BookingDocument[file_name]["+i+"]", MultipartBody.Part.createFormData("file",document.getUsername(),requestBody));
+            i++;
+        }
+        Log.i(TAG, "SendDataFile: " + DataDocument);
 
-
-        int a = 0;
-        ArrayList<HashMap<String, ArrayList<HashMap<Integer, MultipartBody.Part>>>> DataDocument = new ArrayList<>();
-//        HashMap<String, ArrayList<HashMap<Integer, MultipartBody.Part>>> file_name = new HashMap<>();
-//        ArrayList<HashMap<Integer, MultipartBody.Part>> anakdocument = new ArrayList<>();
-//        HashMap<Integer, MultipartBody.Part> dt = new HashMap<>();
-//        for (Model_UploadDocument document : BookingData.i.file){
-//            RequestBody requestBody = RequestBody.create(document.getUri(),MediaType.parse("application/pdf"));
-//            MultipartBody.Part.create(requestBody);
-//            dt.put(a, MultipartBody.Part.createFormData("file",document.getUsername(),requestBody));
-//            a++;
-//        }
-//        anakdocument.add(dt);
-//        file_name.put("file_name", anakdocument);
-//        DataDocument.add(file_name);
-        Log.i(TAG, "SendDataBooking: " + DataDocument);
-
-        Call<CallingSaveBok> call = UserData.i.getService().saveBooking(
-                UserData.i.getToken()
-//                Booking
-//                DataVesel,
-//                DataVeselSchedule,
-//                comodity,
-//                service,
-//                DataDocument
-                );
+        retrofit2.Call<CallingSaveBok> call = UserData.i.getService().saveBooking(
+                UserData.i.getToken(),
+                Booking,
+                DataDocument
+        );
         call.enqueue(new Callback<CallingSaveBok>() {
             @Override
-            public void onResponse(Call<CallingSaveBok> call, Response<CallingSaveBok> response) {
+            public void onResponse(retrofit2.Call<CallingSaveBok> call, Response<CallingSaveBok> response) {
                 CallingSaveBok data = response.body();
-//                Log.i(TAG, "onResponse: => " + data.desc);
                 if (Calling.TreatResponse(getContext(),"create_booking",data)) {
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
@@ -305,7 +250,6 @@ public class Summary extends Fragment {
             @Override
             public void onFailure(Call<CallingSaveBok> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t);
-//                Log.i(TAG, "onFailure: => " + call.toString());
             }
         });
     }

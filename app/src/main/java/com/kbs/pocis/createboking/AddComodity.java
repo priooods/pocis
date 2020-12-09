@@ -222,6 +222,7 @@ public class AddComodity extends Fragment {
                     String weight = input_weigth.getText().toString();
                     String pack = input_package.getText().toString();
                     model_commodity.add(new Model_Commodity(consigne,commodity,pack,weight));
+                    Log.i("commodity_add", commodity.name+" "+pack+" "+weight+" "+String.valueOf(consigne.id));
                     SettList(model_commodity);
 
                     dialogFragment.dismiss();

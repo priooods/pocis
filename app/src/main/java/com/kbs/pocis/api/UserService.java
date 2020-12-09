@@ -127,11 +127,7 @@ public interface UserService {
     @POST("tbooking/new")
     Call<CallingSaveBok> saveBooking(
             @Query("token") String token
-//            @Part("Booking[]") HashMap<String, String> Booking
-//            @Query("BookingVessel[]") ArrayList<HashMap<String, String>> BookingVessel,
-//            @Query("VesselSchedule[]") ArrayList<HashMap<String, String>> VesselSchedule,
-//            @Query("CommodityBooking[]") ArrayList<HashMap<Integer, ArrayList<Map<String, String>>>> CommodityBooking,
-//            @Query("Services[]") HashMap<Integer, ArrayList<Map<String,String>>> Services,
-//            @Part("BookingDocument[]") ArrayList<HashMap<String, ArrayList<HashMap<Integer, MultipartBody.Part>>>> FileUpload
+            ,@PartMap Map<String, String> Booking
+            ,@PartMap Map<String, MultipartBody.Part> File
     );
 }

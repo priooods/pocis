@@ -15,12 +15,11 @@ public class Model_Commodity {
         this.weight = weight;
         this.consigne = consigne;
     }
-    public Map<String,String> getMap() {
-        HashMap<String, String> map = new HashMap();
-        map.put("commodity_type_id", commodity.name);
-        map.put("package", packages);
-        map.put("tonage", weight);
-        map.put("m_customer_id", String.valueOf(consigne.id));
-        return map;
+    public void getMap(Map<String,String> map, int i) {
+        map.put("CommodityBooking[" + i + "][commodity_type_id]", commodity.name);
+        map.put("CommodityBooking[" + i + "][commodity_id]", String.valueOf(commodity.id));
+        map.put("CommodityBooking[" + i + "][package]", packages);
+        map.put("CommodityBooking[" + i + "][tonage]", weight);
+        map.put("CommodityBooking[" + i + "][m_customer_id]", String.valueOf(consigne.id));
     }
 }

@@ -99,7 +99,7 @@ public class BookingData {
     }
     //data booking kedua ShowTemplate - SelectTemplate
     public ArrayList<BookTemplate> template;
-    public class BookTemplate{
+    public static class BookTemplate{
         public int id;
         public String code;
         public String name;
@@ -134,10 +134,8 @@ public class BookingData {
                 code = Code;
                 name = Name;
             }
-            public Map<String,String> getMap(){
-                HashMap<String, String> map = new HashMap<>();
-                map.put("m_service_code_id",String.valueOf(id));
-                return map;
+            public void getMap(Map<String,String> map, int i){
+                map.put("Services["+i+"][m_service_code_id]",String.valueOf(id));
             }
         }
     }
@@ -234,7 +232,7 @@ public class BookingData {
     //data Vessel
     public VesselData vessel;
     public static class VesselData{
-        public int id_voyage, id_vessel;
+        public int id_voyage, id_vessel,port_origin_id,port_discharge_id;
         public String vessel_name, port_discharge, port_origin,
                 estimate_arival, estimate_departure,voyage_number;
 //        public VesselData(){
@@ -245,14 +243,16 @@ public class BookingData {
 //            estimate_departure = "";
 //            voyage_number = "";
 //        }
-        public VesselData(String vessel_name, String dis_port, String origin, String est_arival, String est_departure , int id,int id_ves, String voyage_number){
+        public VesselData(String vessel_name, String dis_port, int dis_port_id, String origin, int origin_id, String est_arival, String est_departure , int id_voy,int id_vess, String voyage_number){
             this.vessel_name = vessel_name;
             port_discharge = dis_port;
+            port_discharge_id = dis_port_id;
             port_origin = origin;
+            port_origin_id = origin_id;
             estimate_arival = est_arival;
             estimate_departure = est_departure;
-            id_voyage = id;
-            id_vessel = id_ves;
+            id_voyage = id_voy;
+            id_vessel = id_vess;
             this.voyage_number = voyage_number;
         }
     }
