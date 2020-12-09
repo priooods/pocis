@@ -85,7 +85,7 @@ public class AddComodity extends Fragment {
                 AddCommodityNya(getContext());
             }
         });
-
+//        model_commodity.add(new Model_Commodity())
         if (BookingData.isExist()){
             if (BookingData.i.commodity != null){
                 // Already Opened

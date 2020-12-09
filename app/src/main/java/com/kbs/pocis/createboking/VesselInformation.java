@@ -138,6 +138,7 @@ public class VesselInformation extends Fragment {
 
         if (BookingData.isExist()){
             BookingData.VesselData bd = BookingData.i.vessel;
+            Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
             if (bd !=null) {
                 vesel_name.setText(bd.vessel_name);
                 port_discharge.setText(bd.port_discharge);

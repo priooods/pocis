@@ -61,7 +61,7 @@ public class BookingData {
     //endregion
     @SerializedName("customer_type_code")
     public String customerType;
-    public int customerId;
+    public String customerId;
     public String booking_date;
     @SerializedName("flag_related_flag")
     public String relatedVesel;
@@ -91,8 +91,8 @@ public class BookingData {
     public String compoundbooking;
     public String voyage_number;
 
-    public void setCustumer(int id, String customer, String related, String contract){
-        customerId = id;
+    public void setCustumer(String id, String customer, String related, String contract){
+        this.customerId = id;
         customerType = customer;
         relatedVesel = related;
         this.contract = contract;

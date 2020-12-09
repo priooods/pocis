@@ -290,14 +290,14 @@ public class CustomerAddForm extends Fragment {
             public void onClick(View v) {
                 if (data!=null) {
                     BookingData.i.setCustumer(
-                            data.id,
+                            String.valueOf(data.id),
                             data.name,
                             value_relatedVesel.getText().toString(),
                             value_contract.getText().toString()
                     );
                     Log.i(TAG, "onClick: " + BookingData.i.customerType);
                     Fragment fragment = new ShowTemplate();
-
+                    Log.i(TAG, "onClick: => " + BookingData.i.customerId);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);

@@ -72,7 +72,7 @@ public class ShowTemplate extends Fragment {
     }
 
     void ShowListTemplate(){
-        Call<CallingShowTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),BookingData.i.customerId, BookingData.i.relatedVesel, BookingData.i.contract);
+        Call<CallingShowTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),Integer.valueOf(BookingData.i.customerId), BookingData.i.relatedVesel, BookingData.i.contract);
         call.enqueue(new Callback<CallingShowTemp>() {
             @Override
             public void onResponse(Call<CallingShowTemp> call, Response<CallingShowTemp> response) {

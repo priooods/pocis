@@ -37,7 +37,7 @@
 
                 <LinearLayout
                     android:layout_alignParentStart="true"
-                    android:layout_width="170dp"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -67,7 +67,7 @@
 
                 <LinearLayout
                     android:layout_alignParentEnd="true"
-                    android:layout_width="170dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 

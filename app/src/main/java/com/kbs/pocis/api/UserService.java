@@ -2,6 +2,7 @@ package com.kbs.pocis.api;
 
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
 import com.kbs.pocis.service.createbooking.CallingShowTemp;
@@ -11,6 +12,7 @@ import com.kbs.pocis.service.detailbooking.CallingDetail;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserService {
 
@@ -123,11 +126,12 @@ public interface UserService {
     @Multipart
     @POST("tbooking/new")
     Call<CallingSaveBok> saveBooking(
-            @PartMap Map<String, String> Booking,
-            @PartMap Map<String, String> BookingVessel,
-            @PartMap Map<String, String> VesselSchedule,
-            @PartMap Map<Integer, Map<String,String>> CommodityBooking,
-            @PartMap Map<Integer, Map<String,String>> Services,
-            @Part List<MultipartBody.Part> FileUpload
+            @Query("token") String token
+//            @Part("Booking[]") HashMap<String, String> Booking
+//            @Query("BookingVessel[]") ArrayList<HashMap<String, String>> BookingVessel,
+//            @Query("VesselSchedule[]") ArrayList<HashMap<String, String>> VesselSchedule,
+//            @Query("CommodityBooking[]") ArrayList<HashMap<Integer, ArrayList<Map<String, String>>>> CommodityBooking,
+//            @Query("Services[]") HashMap<Integer, ArrayList<Map<String,String>>> Services,
+//            @Part("BookingDocument[]") ArrayList<HashMap<String, ArrayList<HashMap<Integer, MultipartBody.Part>>>> FileUpload
     );
 }
