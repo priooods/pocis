@@ -235,14 +235,14 @@ public class BookingData {
         public int id_voyage, id_vessel,port_origin_id,port_discharge_id;
         public String vessel_name, port_discharge, port_origin,
                 estimate_arival, estimate_departure,voyage_number;
-//        public VesselData(){
-//            vessel_name = "";
-//            port_discharge = "";
-//            port_origin = "";
-//            estimate_arival = "";
-//            estimate_departure = "";
-//            voyage_number = "";
-//        }
+        public VesselData(){
+            vessel_name = "";
+            port_discharge = "";
+            port_origin = "";
+            estimate_arival = "";
+            estimate_departure = "";
+            voyage_number = "";
+        }
         public VesselData(String vessel_name, String dis_port, int dis_port_id, String origin, int origin_id, String est_arival, String est_departure , int id_voy,int id_vess, String voyage_number){
             this.vessel_name = vessel_name;
             port_discharge = dis_port;
@@ -259,9 +259,9 @@ public class BookingData {
 
     public void Upload(){
         i = null;
-        bookingDate = "23 November 2020";
-        bookingTime = "17:00 WIB";
-        BookingList.getI().AddBookingData(this);
+//        bookingDate = "23 November 2020";
+//        bookingTime = "17:00 WIB";
+//        BookingList.getI().AddBookingData(this);
     }
 
     public List<Model_Save_Services> code_service;

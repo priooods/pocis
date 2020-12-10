@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 import static android.app.Activity.RESULT_OK;
+import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
 
 public class UploadDocument extends Fragment {
 
@@ -144,6 +146,7 @@ public class UploadDocument extends Fragment {
 
                     String name = files.getName();
                     int size = (int)files.length() / 1024;
+                    Log.i(TAG, "onActivityResult: " + files);
                     model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
 
                     //Setting Visibility Layout Upload

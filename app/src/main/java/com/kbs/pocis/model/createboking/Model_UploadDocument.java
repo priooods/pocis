@@ -4,6 +4,11 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.io.File;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class Model_UploadDocument {
 
@@ -17,6 +22,11 @@ public class Model_UploadDocument {
         this.username = username;
         this.size = size;
     }
+
+    public void getFiles(Map<String, String> map, int i) {
+
+    }
+
 
     public int getSize() {
         return size;

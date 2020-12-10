@@ -1,7 +1,12 @@
 package com.kbs.pocis.createboking;
 
 import android.app.Dialog;
+import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +16,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.os.FileUtils;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,11 +39,13 @@ import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -172,23 +182,21 @@ public class Summary extends Fragment {
         btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookingData.i.Upload();
+//                BookingData.i.Upload();
+                SendDataBooking();
                 dialogFragment.dismiss();
-                Fragment fragment = new Finish();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameCreate, fragment);
-                fragmentTransaction.commit();
             }
         });
         dialogFragment.show();
     }
-    public RequestBody data_form(String req) {
+
+    public RequestBody data_form(File req) {
         return RequestBody.create(req, MediaType.parse("multipart/form-data"));
     }
+
     public void SendDataBooking(){
         BookingData data = BookingData.i;
-        //ArrayList<Map<String,String>> Booking = new ArrayList<>();
+
         Map<String, String> Booking = new HashMap<>();
         Booking.put("Booking[m_customer_id]", String.valueOf(data.customerId));
         Booking.put("Booking[t_map_customer_type_id]", String.valueOf(data.customerId));
@@ -206,14 +214,12 @@ public class Summary extends Fragment {
         Booking.put("VesselSchedule[id]", String.valueOf(data.vessel.id_voyage));
 
         int i = 0;
-        HashMap<Integer, Map<String, String>> CommodityBooking = new HashMap<>(data.commodity.size());
         for (Model_Commodity com : data.commodity) {
             com.getMap(Booking,i);
             i++;
         }
 
         i = 0;
-        HashMap<Integer, Map<String, String>> service = new HashMap<>();
         for (BookingData.BookTemplate t : BookingData.i.template){
             for(BookingData.BookTemplate.BookTempList a : t.listCheck){
                 a.getMap(Booking,i);
@@ -223,20 +229,17 @@ public class Summary extends Fragment {
         Log.i(TAG, "SendDataBooking: "+ Booking);
 
         i = 0;
-        Map<String, MultipartBody.Part> DataDocument = new HashMap<>();
+        MultipartBody.Part[] fileToUpload = new MultipartBody.Part[BookingData.i.file.size()];
         for (Model_UploadDocument document : BookingData.i.file){
-            RequestBody requestBody = RequestBody.create(document.uri, MediaType.parse("application/pdf"));
-            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", document.uri.getName(), requestBody);
-
-            DataDocument.put("BookingDocument[file_name]["+i+"]", fileToUpload);
+            fileToUpload[i] = MultipartBody.Part.createFormData("BookingDocument[file_name]["+i+"]", document.uri.getPath(), data_form(document.uri));
+            Log.i(TAG, "SendDataBooking: => " + document.uri);
             i++;
         }
-        Log.i(TAG, "SendDataFile: " + DataDocument);
 
+        Log.i(TAG, "SendDataBooking: => " + fileToUpload);
         retrofit2.Call<CallingSaveBok> call = UserData.i.getService().saveBooking(
                 UserData.i.getToken(),
-                Booking,
-                DataDocument
+                Booking, fileToUpload
         );
         call.enqueue(new Callback<CallingSaveBok>() {
             @Override
@@ -245,6 +248,15 @@ public class Summary extends Fragment {
                 if (Calling.TreatResponse(getContext(),"create_booking",data)) {
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
+
+                    Toasty.success(getContext(),data.desc + " nomer_boking " + detailData.no_booking, Toasty.LENGTH_LONG, true).show();
+                    Fragment fragment = new Finish();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frameCreate, fragment);
+                    fragmentTransaction.commit();
+                }else{
+                    Toasty.error(getContext(), "Booking Failure, Please add only one File", Toasty.LENGTH_LONG, true).show();
                 }
             }
 
@@ -434,5 +446,6 @@ public class Summary extends Fragment {
             }
         }
     }
+
 
 }

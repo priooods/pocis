@@ -11,6 +11,7 @@ import com.kbs.pocis.service.createbooking.CallingList;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -128,6 +130,6 @@ public interface UserService {
     Call<CallingSaveBok> saveBooking(
             @Query("token") String token
             ,@PartMap Map<String, String> Booking
-            ,@Part("UploadedFile") Map<String, MultipartBody.Part> File
+            ,@Part MultipartBody.Part... document
     );
 }

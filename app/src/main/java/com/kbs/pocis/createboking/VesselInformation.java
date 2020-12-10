@@ -54,7 +54,9 @@ public class VesselInformation extends Fragment {
     LinearLayout expanded, card;
     CheckBox no_vesel, yes_vesel;
     Call<List<CallingList>> call;
+    Call<List<BookingDetailData>> callist;
     int idvoyage, idvessel, discharge_id, origin_id;
+    boolean load_vessel = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,27 +82,27 @@ public class VesselInformation extends Fragment {
         ToBeNominated();
         CheckBoxesRelatedVessel();
 
-        if (BookingData.isExist()){
+        if (BookingData.isExist() && BookingData.i.vessel!=null){
             BookingData.VesselData bd = BookingData.i.vessel;
+            vesel_name.setText(bd.vessel_name);
+            port_discharge.setText(bd.port_discharge);
+            discharge_id = bd.port_discharge_id;
+            port_origin.setText(bd.port_origin);
+            origin_id = bd.port_origin_id;
+            estimate_arival.setText(bd.estimate_arival);
+            estimate_departure.setText(bd.estimate_departure);
+            voyage_number.setText(bd.voyage_number);
+            idvoyage = bd.id_voyage;
+            idvessel = bd.id_vessel;
             Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
-            if (bd !=null) {
-                vesel_name.setText(bd.vessel_name);
-                port_discharge.setText(bd.port_discharge);
-                discharge_id = bd.port_discharge_id;
-                port_origin.setText(bd.port_origin);
-                origin_id = bd.port_origin_id;
-                estimate_arival.setText(bd.estimate_arival);
-                estimate_departure.setText(bd.estimate_departure);
-                voyage_number.setText(bd.voyage_number);
-                idvoyage = bd.id_voyage;
-                idvessel = bd.id_vessel;
-            }
         }else{
+            BookingData.i.vessel = new BookingData.VesselData();
             discharge_id = -1;
             origin_id = -1;
             idvoyage = -1;
             idvessel = -1;
         }
+        load_vessel = true;
         estimate_arival.setOnClickListener(v -> {
             ShowDateTime(estimate_arival);
             //BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
@@ -115,7 +117,7 @@ public class VesselInformation extends Fragment {
             @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 2){
+                if (s.length() >= 2 && load_vessel){
                     GetAPIVesselName(s.toString(), vesel_name);
                 }
             }
@@ -126,7 +128,7 @@ public class VesselInformation extends Fragment {
             @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 2){
+                if (s.length() >= 2 && load_vessel){
                     GetAPIPortDischarge(s, port_discharge, true);
                 }
             }
@@ -137,19 +139,23 @@ public class VesselInformation extends Fragment {
             @Override public void afterTextChanged(Editable s) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()>=2){
+                if (s.length()>=2 && load_vessel){
                     GetAPIPortDischarge(s, port_origin, false);
                 }
             }
         });
 
         voyage_number.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                load_vessel = false;
+            }
+            @Override public void afterTextChanged(Editable s) {
+            }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()>=2){
-                    GetApiVoyageNumber(s.toString(), voyage_number);
+                load_vessel = true;
+                if (s.length()>=2 && load_vessel){
+                    GetApiVoyageNumber(s.toString(), voyage_number, load_vessel);
                 }
             }
         });
@@ -161,9 +167,11 @@ public class VesselInformation extends Fragment {
         return view;
     }
 
-    void GetApiVoyageNumber(CharSequence s, AutoCompleteTextView textView){
-        Call<List<BookingDetailData>> call = UserData.i.getService().getVoyageNumber(s.toString());
-        call.enqueue(new Callback<List<BookingDetailData>>() {
+    void GetApiVoyageNumber(CharSequence s, AutoCompleteTextView textView, boolean st){
+        if (st == true){
+            callist = UserData.i.getService().getVoyageNumber(s.toString());
+        }
+        callist.enqueue(new Callback<List<BookingDetailData>>() {
             @Override
             public void onResponse(Call<List<BookingDetailData>> call, Response<List<BookingDetailData>> response) {
                 List<BookingDetailData> detailData = response.body();
@@ -186,6 +194,8 @@ public class VesselInformation extends Fragment {
                         }
                     });
                     adapter.notifyDataSetChanged();
+                } else {
+                    Log.i(TAG, "onResponse: => " + " Not Running API");
                 }
             }
 
