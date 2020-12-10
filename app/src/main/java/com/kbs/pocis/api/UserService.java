@@ -128,6 +128,6 @@ public interface UserService {
     Call<CallingSaveBok> saveBooking(
             @Query("token") String token
             ,@PartMap Map<String, String> Booking
-            ,@PartMap Map<String, MultipartBody.Part> File
+            ,@Part("UploadedFile") Map<String, MultipartBody.Part> File
     );
 }

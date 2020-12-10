@@ -225,9 +225,10 @@ public class Summary extends Fragment {
         i = 0;
         Map<String, MultipartBody.Part> DataDocument = new HashMap<>();
         for (Model_UploadDocument document : BookingData.i.file){
-            RequestBody requestBody = RequestBody.create(document.getUri(),MediaType.parse("application/pdf"));
-            MultipartBody.Part.create(requestBody);
-            DataDocument.put("BookingDocument[file_name]["+i+"]", MultipartBody.Part.createFormData("file",document.getUsername(),requestBody));
+            RequestBody requestBody = RequestBody.create(document.uri, MediaType.parse("application/pdf"));
+            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", document.uri.getName(), requestBody);
+
+            DataDocument.put("BookingDocument[file_name]["+i+"]", fileToUpload);
             i++;
         }
         Log.i(TAG, "SendDataFile: " + DataDocument);

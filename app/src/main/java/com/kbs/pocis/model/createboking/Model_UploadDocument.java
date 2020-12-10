@@ -7,9 +7,9 @@ import java.io.File;
 
 public class Model_UploadDocument {
 
-    File uri;
-    String username;
-    int size;
+    public File uri;
+    public String username;
+    public int size;
 
     public Model_UploadDocument(File uri, String username, int size) {
         this.uri = uri;
