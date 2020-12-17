@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="11dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="15dp"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="parent"
         android:text="Showing all Project Approved list. Tap to see details."
@@ -45,7 +45,6 @@
         android:layout_below="@+id/q"
         android:layout_marginTop="15dp"
         android:id="@+id/list_project_approved"/>
-
 
 
 </RelativeLayout>

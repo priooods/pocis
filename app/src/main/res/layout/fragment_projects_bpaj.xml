@@ -21,19 +21,30 @@
             android:layout_height="35dp"
             android:src="@drawable/icon_search"
             android:layout_alignParentRight="true"
-            android:id="@+id/btn_search_project_bpaj"/>
+            android:id="@+id/btn_search_bpaj"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:gravity="center"
+        android:layout_below="@id/a"
+        android:layout_marginTop="20dp"
+        android:id="@+id/q"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sedang Menunggu Design FIX, Update kembali setelah Design FIX"
-        android:textColor="@color/colorRed"
-        android:fontFamily="@font/montserrat_bold"
-        android:textSize="13dp"
-        android:layout_centerInParent="true"/>
+        android:textSize="11dp"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Showing all BAPJ Approval list."
+        android:fontFamily="@font/montserrat_bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/q"
+        android:layout_marginTop="15dp"
+        android:id="@+id/list_project_bpaj"/>
+
 
 </RelativeLayout>

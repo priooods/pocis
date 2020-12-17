@@ -6,11 +6,66 @@
     <string name="booking">booking</string>
     <string name="cancelled">cancelled</string>
     <string name="approved">approved</string>
+    <string name="size"> Kb</string>
 
+    <string name="prepared">PREPARED</string>
+    <string name="open">OPEN</string>
+<!--    <string name="cancelled">cancelled</string>-->
+<!--    <string name="approved">approved</string>-->
+
+    <!-- MyProject Title sub Title  -->
+    <string name="project_aprov_detail">Approval Details</string>
+    <string name="project_list_detail">List Details</string>
+    <string name="project_bpaj_detail">BPAJ Details</string>
+    <string name="invoice_detail">Invoice Details</string>
+    <string name="porfoma_detail">Proforma Details</string>
+    <string name="project_aprov">MyProjects - Project Approval</string>
+    <string name="project_list">MyProjects - Project List</string>
+    <string name="project_bpaj">MyProjects - BPAJ</string>
+    <string name="invoice_sub">Invoice/Proforma - Invoice</string>
+    <string name="porforma_sub">Invoice/Proforma - Profoma</string>
     <!-- Ini untuk key pada setiap form value di Create Booking -->
+
     <string name="customertype">customertype</string>
     <string name="contract">contract</string>
     <string name="relatedvessel">relatedvessel</string>
     <string name="_1_of_9">1 of 9</string>
     <string name="showing_5_of_443_results">Showing 5 of 443 results</string>
+
+    <!-- Ini untuk title dari value data item pada list recycler di applikasi -->
+    <string name="customername">Customer Name</string>
+    <string name="vesselname">Vessel Name</string>
+    <string name="ppjno">PPJ No.</string>
+    <string name="temp_proj">Temp Project No</string>
+    <string name="schedule">Schedule Code</string>
+    <string name="consigne">Consignee Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="related_vesel">Related Vessel</string>
+    <string name="flag">Flag Compound</string>
+    <string name="voyage">Voyage</string>
+    <string name="payment_type">Payment Type</string>
+    <string name="tonage">Tonage</string>
+    <string name="date_isue">Date Issued</string>
+    <string name="bilpay_no">Bill Payment Number</string>
+    <string name="va_number">VA Number</string>
+    <string name="invoice_type">Invoice Type</string>
+    <string name="pay">Payment</string>
+    <string name="due_date">Due Date</string>
+    <string name="invoice_no">Invoice No</string>
+    <string name="bilpay_reff">Bill Payment Reff No</string>
+    <string name="project_no">Project No</string>
+    <string name="cancel_stat">Cancel Status</string>
+    <string name="book_stat">Booking Status</string>
+    <string name="booking_no">Booking No</string>
+    <!-- Title untuk total harga mata uang -->
+    <string name="dp_in_idr">Total Amount DP in IDR</string>
+    <string name="in_idr">Total Amount in IDR</string>
+    <string name="net_in_idr">Total Net Amount in IDR</string>
+    <string name="free_ppn">Free PPn</string>
+    <string name="pph">PPh IDR</string>
+    <string name="pph_idr">PPh In IDR</string>
+    <string name="paid_by_dp">Amount Paid by DP</string>
+    <string name="paid_by_invoice">Amount Paid by Invoice</string>
+
 </resources>

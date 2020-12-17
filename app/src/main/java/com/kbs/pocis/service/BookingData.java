@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.createboking.ShowTemplate;
 import com.kbs.pocis.model.Model_Commodity;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
@@ -284,4 +285,20 @@ public class BookingData {
 //
 //        }
 //    }
+
+    public Approved approved;
+    public static class Approved{
+        public int id;
+        public String booking_no, status, ppj_nomer, vessel_name, cosigne_name, temp_proj_no, schedule_code;
+        public Approved(int id, String bokno,String stat,String ppj,String vesnam,String consigne,String temp,String codes){
+            this.id = id;
+            this.booking_no = bokno;
+            this.status = stat;
+            this.ppj_nomer = ppj;
+            this.vessel_name = vesnam;
+            this.cosigne_name = consigne;
+            this.temp_proj_no = temp;
+            this.schedule_code = codes;
+        }
+    }
 }

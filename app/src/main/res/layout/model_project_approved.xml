@@ -68,6 +68,7 @@
                     android:id="@+id/ln1">
 
                     <TextView
+                        android:id="@+id/title_project_1"
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorGrey"
                         android:text="Customer Name"
@@ -101,6 +102,7 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/title_project_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="9dp"
@@ -133,6 +135,7 @@
                     android:id="@+id/ln3">
 
                     <TextView
+                        android:id="@+id/title_project_3"
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorGrey"
                         android:text="Vessel Name"
@@ -151,6 +154,110 @@
                         android:textSize="10dp"
                         android:text="BG. LKH 3883"
                         android:fontFamily="@font/montserrat_bold"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/ln4"
+                    app:layout_constraintTop_toBottomOf="@id/ln2"
+                    app:layout_constraintStart_toEndOf="@id/ln1"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/title_project_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="9dp"
+                        android:textColor="@color/colorGrey"
+                        android:textStyle="italic"
+                        android:text="Vessel Name"/>
+
+                    <TextView
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextbooking"
+                        android:text="PT. KRAKATAU POSCO"
+                        android:textSize="10dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:id="@+id/model_invoice_vesselname"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/ln3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/ln5">
+
+                    <TextView
+                        android:id="@+id/title_project_5"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorGrey"
+                        android:text="Status Cancel"
+                        android:textSize="9dp"
+                        android:textStyle="italic"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/model_invoice_statuscancel"
+                        android:textColor="@color/colorTextbooking"
+                        android:textAllCaps="true"
+                        android:textSize="10dp"
+                        android:text="BG. LKH 3883"
+                        android:fontFamily="@font/montserrat_bold"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/ln6"
+                    app:layout_constraintTop_toBottomOf="@id/ln4"
+                    app:layout_constraintStart_toEndOf="@id/ln1"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/title_project_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="9dp"
+                        android:textColor="@color/colorGrey"
+                        android:textStyle="italic"
+                        android:text="Payment Type"/>
+
+                    <TextView
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextbooking"
+                        android:text="PT. KRAKATAU POSCO"
+                        android:textSize="10dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:id="@+id/model_invoice_paymentType"/>
 
 
                 </LinearLayout>

@@ -10,21 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
-import com.kbs.pocis.filter.Filter_MyProject;
+import com.kbs.pocis.myproject.Project_List_Dasar;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
-import com.kbs.pocis.myproject.Projects_Open;
+import com.kbs.pocis.myproject.Projects_List;
 
 public class MyProject_Dasar extends AppCompatActivity {
 
-    ImageView icon_back, icon_search;
+    ImageView icon_back;
     BottomNavigationView bottombar_myprojects;
-    TextView title, formPage;
+    TextView title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,14 +48,6 @@ public class MyProject_Dasar extends AppCompatActivity {
             }
         });
 
-//        icon_search = findViewById(R.id.btn_search_myproject);
-//        icon_search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DialogFragment fragment = new Filter_MyProject();
-//                fragment.show(getSupportFragmentManager(),"Filter My project");
-//            }
-//        });
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
         title = findViewById(R.id.titile);
         bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
@@ -72,10 +63,10 @@ public class MyProject_Dasar extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.project_aprove:
                             selectFragment = new Projects_Approved();
-                            title.setText("Projects Approved");
+                            title.setText("Projects Approval");
                             break;
                         case R.id.project_open:
-                            selectFragment = new Projects_Open();
+                            selectFragment = new Project_List_Dasar();
                             title.setText("Projects Lists");
                             break;
                         case R.id.bpaj_aprove:

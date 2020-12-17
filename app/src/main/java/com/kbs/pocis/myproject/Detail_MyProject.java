@@ -1,0 +1,183 @@
+package com.kbs.pocis.myproject;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+import com.kbs.pocis.R;
+import com.kbs.pocis.adapter.ViewpagerDefault;
+import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.myproject.detail.Documents;
+import com.kbs.pocis.myproject.detail.Informations;
+import com.kbs.pocis.myproject.detail.Services;
+
+public class Detail_MyProject extends AppCompatActivity {
+
+    LinearLayout ln_3,ln_4;
+
+    //textview lainnya
+    TextView booking_No, status, titlePage, subtile, title_top1,title_top2,title_sub3,title_sub4,
+            title_sub1,title_sub2, item_sub1, item_sub2,item_sub3, item_sub4;
+
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    ImageView btn_back;
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.myproject_detail);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        }
+        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+        tabLayout = findViewById(R.id.project_details_tablayout);
+        viewPager = findViewById(R.id.project_details_viewpager);
+        btn_back = findViewById(R.id.project_details_btn_back);
+        ln_3 = findViewById(R.id.ln_sub3);
+        ln_4 = findViewById(R.id.ln_sub4);
+
+        //public TextView
+        title_top1 = findViewById(R.id.title_top1);
+        title_top2 = findViewById(R.id.title_top2);
+        title_sub1 = findViewById(R.id.title_sub1);
+        title_sub2 = findViewById(R.id.title_sub2);
+        title_sub3 = findViewById(R.id.title_sub3);
+        title_sub4 = findViewById(R.id.title_sub4);
+        item_sub1 = findViewById(R.id.item_sub1);
+        item_sub2 = findViewById(R.id.item_sub2);
+        item_sub3 = findViewById(R.id.item_sub3);
+        item_sub4 = findViewById(R.id.item_sub4);
+        titlePage = findViewById(R.id.title_detail);
+        subtile = findViewById(R.id.forPage);
+        status = findViewById(R.id.item_top2);
+        booking_No = findViewById(R.id.item_top1);
+
+        if (Model_Project.isExist()){
+            Model_Project data = Model_Project.mp;
+            switch (Model_Project.Code){
+                case 0:
+                    titlePage.setText(R.string.project_aprov_detail);
+                    subtile.setText(R.string.project_aprov);
+                    booking_No.setText(data.booking_no);
+                    status.setText(data.status);
+                    item_sub1.setText(data.temp_proj_no);
+                    item_sub2.setText(data.schedule_code);
+
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    break;
+                case 1:
+                    titlePage.setText(R.string.project_list_detail);
+                    subtile.setText(R.string.project_list);
+                    title_top1.setText(R.string.temp_proj);
+                    booking_No.setText(data.temp_proj_no);
+                    status.setText(data.status);
+                    title_sub1.setText(R.string.date_isue);
+                    title_sub2.setText(R.string.ppjno);
+                    item_sub1.setText(data.date_issue);
+                    item_sub2.setText(data.ppj_nomer);
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    break;
+                case 2:
+                    booking_No.setText(data.booking_no);
+                    status.setText(data.status);
+                    item_sub1.setText(data.temp_proj_no);
+                    item_sub2.setText(data.schedule_code);
+                    titlePage.setText(R.string.project_bpaj_detail);
+                    subtile.setText(R.string.project_bpaj);
+                    viewpagerDefault.Addfragment(new Informations(),"Document");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    viewpagerDefault.Addfragment(new Services(1),"Vessel Report");
+                    break;
+                case 3:
+                    titlePage.setText(R.string.invoice_detail);
+                    subtile.setText(R.string.invoice_sub);
+                    title_top1.setText(R.string.invoice_no);
+                    status.setText(data.status);
+                    booking_No.setText(data.invoice_no);
+
+                    ln_3.setVisibility(View.VISIBLE);
+                    ln_4.setVisibility(View.VISIBLE);
+                    title_sub1.setText(R.string.invoice_type);
+                    title_sub2.setText(R.string.due_date);
+                    title_sub3.setText(R.string.pay);
+                    title_sub4.setText(R.string.bilpay_reff);
+
+                    item_sub1.setText(data.invoice_type);
+                    item_sub2.setText(data.due_date);
+                    item_sub3.setText(data.invoice_payment);
+                    item_sub4.setText(data.bill_payment);
+
+
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    viewpagerDefault.Addfragment(new Documents(),"Document");
+                    break;
+                case 4:
+                    titlePage.setText(R.string.porfoma_detail);
+                    subtile.setText(R.string.porforma_sub);
+                    status.setText(data.status);
+                    booking_No.setText(data.invoice_no);
+
+                    ln_4.setVisibility(View.VISIBLE);
+                    title_sub1.setText(R.string.payment_type);
+                    title_sub2.setText(R.string.va_number);
+                    title_sub4.setText(R.string.bilpay_reff);
+
+                    item_sub1.setText(data.payment_type);
+                    item_sub2.setText(data.va_number);
+                    item_sub4.setText(data.bill_payment);
+
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    viewpagerDefault.Addfragment(new Documents(),"Document");
+                    break;
+            }
+
+        }
+
+        switch (status.getText().toString()){
+            case "PREPARED":
+                status.setTextColor(getResources().getColor(R.color.colorPrimary));
+                break;
+            case "CLOSED":
+                status.setTextColor(getResources().getColor(R.color.colorGrey));
+                break;
+            case "UNPAID":
+                status.setTextColor(getResources().getColor(R.color.colorRed));
+                break;
+            case "DRAFT":
+                status.setTextColor(getResources().getColor(R.color.colorVerified));
+                break;
+        }
+
+
+        viewPager.setAdapter(viewpagerDefault);
+        tabLayout.setupWithViewPager(viewPager);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+}

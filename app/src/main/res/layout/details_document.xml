@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="12dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:id="@+id/title"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="12dp"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimaryDark"
+        android:ellipsize="end"
+        android:text="List of services related to project"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title"
+        android:layout_marginTop="15dp"
+        android:id="@+id/list_document"/>
+
+
+</RelativeLayout>

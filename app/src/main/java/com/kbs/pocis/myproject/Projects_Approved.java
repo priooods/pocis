@@ -3,32 +3,39 @@ package com.kbs.pocis.myproject;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.HomePage;
-import com.kbs.pocis.adapter.myprojects.Adapter_Project_Approved;
-import com.kbs.pocis.adapter.myprojects.Adapter_Project_List;
-import com.kbs.pocis.model.myprojects.Model_Project_Open;
+import com.kbs.pocis.adapter.Adapter_Project;
+import com.kbs.pocis.model.Model_Project;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class Projects_Approved extends Fragment {
 
     RecyclerView recyclerView;
-    List<Model_Project_Open> model_project_opens;
+    ArrayList<Model_Project> approvedList;
     ImageView search_icon;
 
     @Override
@@ -46,17 +53,31 @@ public class Projects_Approved extends Fragment {
             }
         });
         recyclerView = view.findViewById(R.id.list_project_approved);
-        model_project_opens = new ArrayList<>();
-        model_project_opens.add(new Model_Project_Open("P0019-2020-00027","PREPARED","PT Krakatau Steel","Not Available Yet","Not Available Yet","PPJ/P0019-288/01","H9JY01002"));
-        model_project_opens.add(new Model_Project_Open("P0019-2020-00027","OPEN","PT Krakatau Steel","PPJ-2020/15550","MV. BBC Congo","PPJ/P0019-288/04","H9JY01002"));
+        approvedList = new ArrayList<>();
 
-        Adapter_Project_Approved adapter_project_list = new Adapter_Project_Approved(getContext(), model_project_opens);
+        approvedList.add(new Model_Project("P0019-2020-00027","PREPARED","PPJ/P0019-288/01","H9JY01002","PPJ-2020/15550",
+                "16 September 2020 13:02","20 September 2020 13:02","Not Available Yet","5 September 2020 11:52","No","Full Payment","No",
+                "39,977.600","1145D","0216055983811","8923716055987308","Subdit Operasi Kepelabuhanan (Operasi Internal)","IDR 14,200","MV. BBC Congo",
+                "02518/BAPJ-JPL/III/2020",1,"BUA01-000295","PPJ-2020/01495","PT Krakatau Steel","YES","Total Payment","19 March 2020 00:00","Bill Payment",
+                "YES","2020-11-27","Quay/Dermaga"));
+        approvedList.add(new Model_Project("P0019-2020-00028","OPEN","PPJ/P0019-288/02","H9JY01002","PPJ-2020/15550",
+                "16 September 2020 13:02","20 September 2020 13:02","Not Available Yet","5 September 2020 11:52","No","Full Payment","No",
+                "39,977.600","1145D","0216055983811","8923716055987308","Subdit Operasi Kepelabuhanan (Operasi Internal)","IDR 14,200","MV. BBC Congo",
+                "02518/BAPJ-JPL/III/2020",1,"BUA01-000295","PPJ-2020/01495","PT Krakatau Steel","YES","Total Payment","19 March 2020 00:00","Bill Payment",
+                "YES","2020-11-27","Quay/Dermaga"));
+        approvedList.add(new Model_Project("P0019-2020-00029","PREPARED","PPJ/P0019-288/03","H9JY01002","PPJ-2020/15550",
+                "16 September 2020 13:02","20 September 2020 13:02","Not Available Yet","5 September 2020 11:52","No","Full Payment","No",
+                "39,977.600","1145D","0216055983811","8923716055987308","Subdit Operasi Kepelabuhanan (Operasi Internal)","IDR 14,200","MV. BBC Congo",
+                "02518/BAPJ-JPL/III/2020",1,"BUA01-000295","PPJ-2020/01495","PT Krakatau Steel","YES","Total Payment","19 March 2020 00:00","Bill Payment",
+                "YES","2020-11-27","Quay/Dermaga"));
+
+        Adapter_Project adapter_project_list = new Adapter_Project(getContext(), approvedList, 0);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter_project_list);
+        adapter_project_list.notifyDataSetChanged();
 
         return view;
-
     }
 
     public void OpenFilter(Context context){

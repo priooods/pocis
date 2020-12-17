@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollIndicators="none"
+    android:paddingBottom="15dp"
+    android:background="@color/colorWhite"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:paddingBottom="8dp"
+        android:paddingHorizontal="15dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="12dp"
+            android:text="Project Information"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/a"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/b"
+            app:layout_constraintTop_toBottomOf="@id/a"
+            android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="6dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:background="#F9F9F9"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/aa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln1">
+
+                        <TextView
+                            android:id="@+id/title1"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Consigne Name"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/item1"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="P0019-063"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/ln2"
+                        app:layout_constraintStart_toEndOf="@id/ln1"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:id="@+id/title2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Start Date"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="16 September 2020 13:02"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/item2"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln3">
+
+                        <TextView
+                            android:id="@+id/title3"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Vessel Name"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/item3"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="SEAMS001"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln1"
+                        android:id="@+id/ln4"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/title4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="End Date"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="20 September 2020 13:02"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/item4"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln5">
+
+                        <TextView
+                            android:id="@+id/title5"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Tonage"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/item5"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="39,977.600"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln4"
+                        android:id="@+id/ln6"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/title6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Consignee Name"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="PT Krakatau Steel"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/item6"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln7">
+
+                        <TextView
+                            android:id="@+id/title7"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Related Vessel"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/item7"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="No"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln6"
+                        android:id="@+id/ln8"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/title8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Vessel Name"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="MV. Sea Master"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/item8"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln7"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/ln9">
+
+                        <TextView
+                            android:id="@+id/title9"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Flag Compound"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/item9"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="No"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/ln8"
+                        android:id="@+id/ln10"
+                        app:layout_constraintStart_toStartOf="@id/ln2"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/title10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Voyage No"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="1145D"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/item10"/>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    app:layout_constraintTop_toBottomOf="@id/aa"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorGrey"
+                    android:id="@+id/bb"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cc"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/bb"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/bl1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Bill Payment Number"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_project_bilpayment"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="0216055983811"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/bl2"
+                        app:layout_constraintStart_toEndOf="@id/bl1"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="@color/colorGrey"
+                            android:textStyle="italic"
+                            android:text="Number"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextbooking"
+                            android:text="8923716055987308"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:id="@+id/detail_project_number"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/bl1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/bl3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGrey"
+                            android:text="Payment Type"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_project_paymenttype"
+                            android:textColor="@color/colorTextbooking"
+                            android:textSize="11dp"
+                            android:text="Full Payment"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    app:layout_constraintTop_toBottomOf="@id/cc"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorGrey"
+                    android:id="@+id/dd"/>
+
+                <LinearLayout
+                    android:id="@+id/ee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/dd"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGrey"
+                        android:text="Department Group"
+                        android:fontFamily="@font/montserrat_reguler"
+                        android:textSize="10dp"/>
+
+                    <TextView
+                        android:id="@+id/depart_group"
+                        android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="Subdit Operasi Kepelabuhanan (Operasi Internal)"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="11dp"/>
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

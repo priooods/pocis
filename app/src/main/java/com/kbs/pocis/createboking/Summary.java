@@ -198,7 +198,7 @@ public class Summary extends Fragment {
         BookingData data = BookingData.i;
 
         Map<String, String> Booking = new HashMap<>();
-        Booking.put("Booking[m_customer_id]", String.valueOf(data.customerId));
+        Booking.put("Booking[m_customer_id]", "55");
         Booking.put("Booking[t_map_customer_type_id]", String.valueOf(data.customerId));
         Booking.put("Booking[customer_type_code]", data.customerType);
         Booking.put("Booking[flag_related_vessel]", data.relatedVesel);
@@ -249,14 +249,14 @@ public class Summary extends Fragment {
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
 
-                    Toasty.success(getContext(),data.desc + " nomer_boking " + detailData.no_booking, Toasty.LENGTH_LONG, true).show();
+                    Toasty.success(getContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date, Toasty.LENGTH_LONG, true).show();
                     Fragment fragment = new Finish();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.frameCreate, fragment);
                     fragmentTransaction.commit();
                 }else{
-                    Toasty.error(getContext(), "Booking Failure, Please add only one File", Toasty.LENGTH_LONG, true).show();
+                    Toasty.error(getContext(), "Booking Failure, Maximum size file 1 Mb", Toasty.LENGTH_LONG, true).show();
                 }
             }
 

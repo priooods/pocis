@@ -95,6 +95,11 @@ public class VesselInformation extends Fragment {
             idvoyage = bd.id_voyage;
             idvessel = bd.id_vessel;
             Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
+
+//            switch(BookingData.i.customerType){
+//                case "AGENT":
+//                    break;
+//            }
         }else{
             BookingData.i.vessel = new BookingData.VesselData();
             discharge_id = -1;

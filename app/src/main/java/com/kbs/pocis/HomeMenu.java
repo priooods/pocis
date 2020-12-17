@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
+import com.kbs.pocis.activity.Invoice;
 import com.kbs.pocis.activity.MyProject_Dasar;
 import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.item.Popup_Profile;
@@ -23,7 +24,7 @@ import com.kbs.pocis.service.UserData;
 
 public class HomeMenu extends Fragment {
 
-    ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject;
+    ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject, menu_invoice;
     Toast backToast;
     public long doubleBackTime;
 
@@ -56,6 +57,14 @@ public class HomeMenu extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), MyProject_Dasar.class));
+            }
+        });
+
+        menu_invoice = view.findViewById(R.id.menu_invoice_perfom);
+        menu_invoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Invoice.class));
             }
         });
 
