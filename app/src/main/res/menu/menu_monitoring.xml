@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/unload"
+        android:icon="@drawable/icon_project_approved"
+        android:title="Loading/Unloading"/>
+    <item android:id="@+id/vesel"
+        android:icon="@drawable/icon_bpaj_myproject" android:title="Vessel Schedule"/>
+</menu>

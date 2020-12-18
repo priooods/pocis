@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_margin="10dp"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon_back"
+        android:id="@+id/btn_back_contact"/>
+
+    <TextView
+        android:layout_below="@id/btn_back_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="30dp"
+        android:id="@+id/a"
+        android:layout_marginStart="15dp"
+        android:text="Contact Us"/>
+
+    <TextView
+        android:id="@+id/b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorGrey"
+        android:fontFamily="@font/montserrat_bold"
+        android:layout_below="@+id/a"
+        android:text="Have a question? Feel free to contact us"
+        android:layout_marginStart="15dp"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/b"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ln1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/office"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Jl. May. Jend. S. Parman Km 13 Cigading, Tegalratu, Kec. Ciwandan Kota Cilegon Banten 42445"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="11dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@id/ln1"
+                android:layout_marginTop="13dp"
+                android:id="@+id/ln2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/phone"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="(0254) 311121"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@id/ln2"
+                android:layout_marginTop="13dp"
+                android:id="@+id/ln3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/print"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="(0254) 311178, 311182"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@id/ln3"
+                android:layout_marginTop="13dp"
+                android:id="@+id/ln4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mail"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="mail@ptkbs.co.id"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@id/ln4"
+                android:layout_marginTop="13dp"
+                android:id="@+id/ln5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="View on Google Maps"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

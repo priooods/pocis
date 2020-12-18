@@ -64,6 +64,7 @@ public class Documents extends Fragment {
         public void onBindViewHolder(@NonNull RecyclerPDF.vHolder holder, int position) {
             holder.nama.setText(modelUploadDocuments.get(position).getUsername());
             holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize() + R.string.size));
+            holder.line.setVisibility(View.GONE);
             holder.deletefile.setVisibility(View.GONE);
 
         }
@@ -76,10 +77,11 @@ public class Documents extends Fragment {
         public static class vHolder extends RecyclerView.ViewHolder{
 
             TextView nama, deletefile, sizefile;
+            View line;
 
             public vHolder(@NonNull View itemView) {
                 super(itemView);
-
+                line = itemView.findViewById(R.id.ln);
                 nama = itemView.findViewById(R.id.model_uploadpdf_name);
                 deletefile = itemView.findViewById(R.id.delete_files);
                 sizefile = itemView.findViewById(R.id.model_uploadpdf_size);

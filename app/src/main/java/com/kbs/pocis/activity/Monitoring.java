@@ -2,7 +2,6 @@ package com.kbs.pocis.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,18 +16,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.invoice.Frag_Invoice;
 import com.kbs.pocis.invoice.Performa;
-import com.kbs.pocis.myproject.Projects_Approved;
-import com.kbs.pocis.myproject.Projects_Bpaj;
+import com.kbs.pocis.monitoring.Unloading;
+import com.kbs.pocis.monitoring.Vessel_Schedule;
 
-public class Invoice extends AppCompatActivity {
+public class Monitoring extends AppCompatActivity {
 
     ImageView icon_back;
-    BottomNavigationView bottombar_myprojects;
+    BottomNavigationView bottombar_monitoring;
     TextView title;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.invoice);
+        setContentView(R.layout.monitoring_dasar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
@@ -38,7 +38,7 @@ public class Invoice extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
-        icon_back = findViewById(R.id.btn_back_invoice);
+        icon_back = findViewById(R.id.btn_back_monitoring);
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,29 +46,28 @@ public class Invoice extends AppCompatActivity {
                 finish();
             }
         });
-        bottombar_myprojects = findViewById(R.id.bottombar_invoice);
-        title = findViewById(R.id.titile);
-        bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
+        bottombar_monitoring = findViewById(R.id.bottombar_monitoring);
+        title = findViewById(R.id.title);
+        bottombar_monitoring.setOnNavigationItemSelectedListener(listener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameInvoice, new Frag_Invoice()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.framemonitoring, new Unloading()).commit();
     }
-
     private BottomNavigationView.OnNavigationItemSelectedListener listener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectFragment = null;
                     switch (item.getItemId()){
-                        case R.id.invoice:
-                            selectFragment = new Frag_Invoice();
-                            title.setText("Invoice");
+                        case R.id.unload:
+                            selectFragment = new Unloading();
+                            title.setText("Loading/Unloading");
                             break;
-                        case R.id.performa:
-                            selectFragment = new Performa();
-                            title.setText("Proforma");
+                        case R.id.vesel:
+                            selectFragment = new Vessel_Schedule();
+                            title.setText("Vessel Schedule");
                             break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frameInvoice, selectFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.framemonitoring, selectFragment).commit();
                     return true;
                 }
             };

@@ -424,9 +424,10 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="20dp"
         android:elevation="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/headset"
         app:borderWidth="0dp"
         android:backgroundTint="@color/colorPrimary"
-        app:rippleColor="@color/colorPrimary"
         android:id="@+id/floating_action"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

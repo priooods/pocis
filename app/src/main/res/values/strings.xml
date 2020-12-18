@@ -68,4 +68,13 @@
     <string name="paid_by_dp">Amount Paid by DP</string>
     <string name="paid_by_invoice">Amount Paid by Invoice</string>
 
+
+    <string name="jetty">Jetty Name</string>
+    <string name="est_betring">Est. Berthing</string>
+    <string name="est_depart">Est. Departure</string>
+    <string name="act_betring">Act. Berthing</string>
+    <string name="act_depart">Act. Departure</string>
+    <string name="est_arival">Est. Arrival</string>
+    <string name="ship_line">Shipping Line Type</string>
+
 </resources>
