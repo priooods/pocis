@@ -22,6 +22,8 @@ import com.kbs.pocis.activity.Invoice;
 import com.kbs.pocis.activity.Monitoring;
 import com.kbs.pocis.activity.MyProject_Dasar;
 import com.kbs.pocis.activity.OnlineBook;
+import com.kbs.pocis.calculator.Tarif_Calculate;
+import com.kbs.pocis.complains.Complain_Dasar;
 import com.kbs.pocis.item.Popup_Profile;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
@@ -30,7 +32,7 @@ import com.kbs.pocis.welcome.Contact_Us;
 public class HomeMenu extends Fragment {
 
     ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject, menu_invoice,
-        menu_monitoring;
+        menu_monitoring, menu_complain, menu_tarif_calculate;
     FloatingActionButton floatingActionButton;
 
     @Override
@@ -38,6 +40,8 @@ public class HomeMenu extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_menu, container, false);
         iconprofile = view.findViewById(R.id.iconprofile);
+
+
 
         menu_online_booking = view.findViewById(R.id.menu_online_booking);
         menu_online_booking.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +99,32 @@ public class HomeMenu extends Fragment {
             public void onClick(View v) {
                 Fragment fragment;
                 fragment = new Contact_Us();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        menu_complain = view.findViewById(R.id.menu_my_complaint);
+        menu_complain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment;
+                fragment = new Complain_Dasar();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        menu_tarif_calculate = view.findViewById(R.id.menu_tarif_calculate);
+        menu_tarif_calculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment;
+                fragment = new Tarif_Calculate();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);

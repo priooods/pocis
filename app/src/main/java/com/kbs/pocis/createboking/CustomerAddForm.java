@@ -133,8 +133,6 @@ public class CustomerAddForm extends Fragment {
         CallingAPI();
         NextPage();
 
-        //Permission
-        Permision();
         return view;
     }
 
@@ -315,51 +313,6 @@ public class CustomerAddForm extends Fragment {
                 }
             }
         });
-    }
-
-    //Permission Storage dari sini sampai bawah Di CustommerAddFrom
-    public void Permision(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            if (ContextCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            } else {
-                IjinStorage();
-            }
-        }
-
-    }
-
-    public void IjinStorage(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
-            new AlertDialog.Builder(getContext()).setTitle("Membutuhkan Ijin")
-                    .setMessage("Dibutuhkan ijin untuk menemukan File PDF di storage anda")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PRIVATE_CODE){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getContext(), "Ijin Berhasil Diberikan", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getContext(), "Ijin Gagal Diberikan", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
 }

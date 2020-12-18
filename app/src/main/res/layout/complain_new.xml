@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorWhite"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/a"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentLeft="true"
+            android:layout_width="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_back"
+            android:id="@+id/btn_back_newcomplain"/>
+
+        <LinearLayout
+            android:layout_centerHorizontal="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Complaints"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerHorizontal="true"
+                android:textSize="17dp"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="my complaint"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorGrey"
+                android:textSize="9dp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@id/btn_submit_complain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/a"
+        android:layout_marginTop="15dp">
+
+        <RelativeLayout
+            android:focusableInTouchMode="false"
+            android:layout_marginHorizontal="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complaint Type"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="11dp"
+                android:textColor="@color/colorGrey"/>
+
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/b"
+                android:paddingEnd="4dp"
+                android:id="@+id/c"
+                android:paddingStart="8dp"
+                android:background="@drawable/form_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textSize="13dp"
+                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:id="@+id/input_complain_type"
+                    android:inputType="text"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_below="@id/c"
+                android:layout_marginTop="10dp"
+                android:id="@+id/d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complaint Title"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="11dp"
+                android:textColor="@color/colorGrey"/>
+
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/d"
+                android:id="@+id/e"
+                android:paddingStart="8dp"
+                android:paddingEnd="4dp"
+                android:background="@drawable/form_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textSize="13dp"
+                    android:maxLines="1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:id="@+id/input_complain_title"
+                    android:inputType="text"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_below="@id/e"
+                android:layout_marginTop="10dp"
+                android:id="@+id/f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="11dp"
+                android:textColor="@color/colorGrey"/>
+
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/f"
+                android:id="@+id/g"
+                android:paddingTop="3dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="8dp"
+                android:background="@drawable/input_style"
+                android:layout_width="match_parent"
+                android:elevation="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:textSize="13dp"
+                    android:layout_width="match_parent"
+                    android:gravity="top"
+                    android:layout_height="130dp"
+                    android:background="#00000000"
+                    android:elevation="0dp"
+                    android:id="@+id/input_complain_comment"
+                    android:inputType="textMultiLine|text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_below="@id/g"
+                android:layout_marginTop="10dp"
+                android:id="@+id/ln_file"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Files"
+                    android:textColor="@color/colorGrey"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="11dp"
+                    android:id="@+id/z"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:paddingHorizontal="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
+                    android:id="@+id/list_file_complain"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <Button
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/ln_file"
+                android:background="@drawable/btn_green"
+                android:textColor="@color/colorWhite"
+                android:text="+ Add Files"
+                android:textAllCaps="false"
+                android:textSize="11dp"
+                android:id="@+id/btn_file_complain"
+                android:paddingHorizontal="35dp"/>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Complaints"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/btn_primary"
+        android:layout_marginHorizontal="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/montserrat_bold"
+        android:id="@+id/btn_submit_complain"/>
+
+</RelativeLayout>
