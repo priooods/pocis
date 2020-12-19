@@ -34,6 +34,7 @@
 
     <!-- Ini untuk title dari value data item pada list recycler di applikasi -->
     <string name="customername">Customer Name</string>
+    <string name="bpaj_no">BPAJ No</string>
     <string name="vesselname">Vessel Name</string>
     <string name="ppjno">PPJ No.</string>
     <string name="temp_proj">Temp Project No</string>

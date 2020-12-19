@@ -8,15 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:paddingHorizontal="20dp"
         android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/a"
+            android:paddingHorizontal="20dp"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:src="@drawable/logo_kbs_header"
@@ -44,7 +43,6 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_below="@id/a"
-            android:scrollbarSize="0dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -54,20 +52,22 @@
                 android:background="@color/colorWhite">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/b"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingTop="10dp"
+                    android:id="@+id/f"
+                    android:background="@drawable/btn_primary"
+                    android:layout_marginHorizontal="20dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingBottom="20dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_primary">
+                    android:layout_marginTop="17dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="11dp"
+                        app:layout_constraintStart_toStartOf="parent"
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/colorWhite"
                         android:ellipsize="end"
@@ -75,170 +75,164 @@
                         app:layout_constraintTop_toTopOf="parent"
                         android:id="@+id/text_ucapan"/>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        app:layout_constraintTop_toBottomOf="@id/text_ucapan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/lma"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="17dp"
-                        app:layout_constraintTop_toBottomOf="@id/text_ucapan">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:id="@+id/lma"
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
+                        <ImageView
+                            android:padding="12dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:scaleType="centerInside"
+                            android:background="@drawable/circle_bg"
+                            android:src="@drawable/create_book"
+                            android:id="@+id/menu_create_booking"/>
+
+                        <TextView
+                            android:layout_marginTop="6dp"
+                            android:layout_gravity="center"
                             android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:padding="12dp"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:scaleType="centerInside"
-                                android:background="@drawable/circle_bg"
-                                android:src="@drawable/create_book"
-                                android:id="@+id/menu_create_booking"/>
-
-                            <TextView
-                                android:layout_marginTop="6dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:ellipsize="end"
-                                android:layout_height="wrap_content"
-                                android:text="Create Booking"
-                                android:textColor="@color/colorWhite"
-                                android:textSize="11dp"
-                                android:fontFamily="@font/montserrat_bold"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lmb"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/lma"
-                            app:layout_constraintEnd_toStartOf="@id/lmc"
-                            android:layout_width="60dp"
+                            android:layout_width="match_parent"
+                            android:ellipsize="end"
                             android:layout_height="wrap_content"
+                            android:text="Create Booking"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lmb"
+                        app:layout_constraintTop_toBottomOf="@id/text_ucapan"
+                        app:layout_constraintStart_toEndOf="@id/lma"
+                        app:layout_constraintEnd_toStartOf="@id/lmc"
+                        android:layout_width="60dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:padding="12dp"
+                            android:scaleType="centerInside"
+                            android:layout_height="50dp"
+                            android:background="@drawable/circle_bg"
+                            android:src="@drawable/open_project"
+                            android:id="@+id/menu_open_project"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:layout_marginTop="6dp"
+                            android:layout_gravity="center"
                             android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:padding="12dp"
-                                android:scaleType="centerInside"
-                                android:layout_height="50dp"
-                                android:background="@drawable/circle_bg"
-                                android:src="@drawable/open_project"
-                                android:id="@+id/menu_open_project"/>
-
-                            <TextView
-                                android:ellipsize="end"
-                                android:layout_marginTop="6dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Open Project"
-                                android:textColor="@color/colorWhite"
-                                android:textSize="12dp"
-                                android:fontFamily="@font/montserrat_bold"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            app:layout_constraintStart_toEndOf="@id/lmb"
-                            android:id="@+id/lmc"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/lmd"
-                            android:layout_width="60dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="Open Project"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        app:layout_constraintStart_toEndOf="@id/lmb"
+                        android:id="@+id/lmc"
+                        app:layout_constraintTop_toBottomOf="@id/text_ucapan"
+                        app:layout_constraintEnd_toStartOf="@id/lmd"
+                        android:layout_width="60dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/circle_bg"
+                            android:src="@drawable/unload_progres"
+                            android:padding="11dp"
+                            android:scaleType="centerInside"
+                            android:id="@+id/menu_Onload_Progres"/>
+
+                        <TextView
+                            android:ellipsize="end"
+                            android:layout_marginTop="6dp"
+                            android:layout_gravity="center"
                             android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:background="@drawable/circle_bg"
-                                android:src="@drawable/unload_progres"
-                                android:padding="11dp"
-                                android:scaleType="centerInside"
-                                android:id="@+id/menu_Onload_Progres"/>
-
-                            <TextView
-                                android:ellipsize="end"
-                                android:layout_marginTop="6dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Onload Progress"
-                                android:textColor="@color/colorWhite"
-                                android:textSize="11dp"
-                                android:fontFamily="@font/montserrat_bold"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:id="@+id/lmd"
-                            android:gravity="center"
-                            android:layout_width="60dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:text="Onload Progress"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"/>
 
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="13dp"
-                                android:scaleType="centerInside"
-                                android:background="@drawable/circle_bg"
-                                android:src="@drawable/progres_book"
-                                android:id="@+id/menu_progres_booking"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        app:layout_constraintTop_toBottomOf="@id/text_ucapan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/lmd"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:padding="13dp"
+                            android:scaleType="centerInside"
+                            android:background="@drawable/circle_bg"
+                            android:src="@drawable/progres_book"
+                            android:id="@+id/menu_progres_booking"/>
 
 
-                            <TextView
-                                android:ellipsize="end"
-                                android:layout_marginTop="6dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Progress Booking"
-                                android:textColor="@color/colorWhite"
-                                android:textSize="11dp"
-                                android:fontFamily="@font/montserrat_bold"/>
+                        <TextView
+                            android:ellipsize="end"
+                            android:layout_marginTop="6dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Progress Booking"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="11dp"
+                            android:fontFamily="@font/montserrat_bold"/>
 
-                        </LinearLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:layout_below="@id/b"
-                    android:id="@+id/c"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13dp"
-                    android:textColor="@color/colorGrey"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="Main Menu"
-                    app:layout_constraintTop_toBottomOf="@id/b"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"/>
-
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_below="@id/c"
+                    android:layout_below="@id/f"
+                    android:id="@+id/d"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/c"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:textColor="@color/colorGrey"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Main Menu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"/>
 
                     <LinearLayout
                         android:id="@+id/c1"
@@ -246,7 +240,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/c"
+                        android:layout_marginTop="20dp"
                         app:layout_constraintStart_toStartOf="parent">
 
                         <ImageView
@@ -272,7 +267,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/c"
+                        android:layout_marginTop="20dp"
                         app:layout_constraintStart_toEndOf="@id/c1"
                         app:layout_constraintEnd_toStartOf="@id/c3">
 
@@ -301,7 +297,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/c"
+                        android:layout_marginTop="20dp"
                         app:layout_constraintEnd_toEndOf="parent">
 
                         <ImageView
@@ -411,6 +408,92 @@
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@id/d"
+                    android:id="@+id/l1"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#070707"
+                        android:textSize="12dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Customers News"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:paddingLeft="20dp"
+                        android:nestedScrollingEnabled="true"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/list_news1"
+                        android:layout_marginTop="15dp"/>
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11dp"
+                        android:text="Show All News ..."
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/show_all1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/l2"
+                    android:paddingBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:descendantFocusability="blocksDescendants"
+                    android:layout_below="@id/l1"
+                    app:layout_constraintTop_toBottomOf="@id/l1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#070707"
+                        android:textSize="12dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Customers Rewards"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/list_news2"
+                        android:nestedScrollingEnabled="true"
+                        android:paddingLeft="15dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11dp"
+                        android:text="Show All Rewards..."
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/show_all2"/>
+
+                </LinearLayout>
 
             </RelativeLayout>
 

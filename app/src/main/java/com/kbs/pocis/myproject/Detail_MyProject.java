@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ public class Detail_MyProject extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     ImageView btn_back;
+    RelativeLayout ln_sub0;
 
 
     @Override
@@ -51,6 +53,7 @@ public class Detail_MyProject extends AppCompatActivity {
         btn_back = findViewById(R.id.project_details_btn_back);
         ln_3 = findViewById(R.id.ln_sub3);
         ln_4 = findViewById(R.id.ln_sub4);
+        ln_sub0 = findViewById(R.id.ln_sub0);
 
         //public TextView
         title_top1 = findViewById(R.id.title_top1);
@@ -96,15 +99,58 @@ public class Detail_MyProject extends AppCompatActivity {
                     viewpagerDefault.Addfragment(new Services(0),"Service");
                     break;
                 case 2:
+                    titlePage.setText(R.string.project_bpaj_detail);
+                    subtile.setText(R.string.project_bpaj);
+                    title_top1.setText(R.string.booking_no);
                     booking_No.setText(data.booking_no);
                     status.setText(data.status);
                     item_sub1.setText(data.temp_proj_no);
                     item_sub2.setText(data.schedule_code);
-                    titlePage.setText(R.string.project_bpaj_detail);
-                    subtile.setText(R.string.project_bpaj);
+
+                    viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                        }
+
+                        @Override
+                        public void onPageSelected(int position) {
+                            Log.i("tag", "onPageSelected: " + position);
+                            switch (position){
+                                case 0:
+                                    title_top1.setText(R.string.booking_no);
+                                    booking_No.setText(data.booking_no);
+                                    status.setText(data.status);
+                                    item_sub1.setText(data.temp_proj_no);
+                                    item_sub2.setText(data.schedule_code);
+
+                                    status.setTextSize(12);
+                                    ln_sub0.setVisibility(View.VISIBLE);
+                                    status.setTextColor(getResources().getColor(R.color.colorVerified));
+                                    break;
+                                case 1:
+                                case 2:
+                                    title_top1.setText(R.string.bpaj_no);
+                                    title_top2.setText(R.string.date_isue);
+                                    booking_No.setText(data.bpaj_no);
+                                    status.setText(data.date_issue);
+
+                                    ln_sub0.setVisibility(View.GONE);
+                                    status.setTextSize(10);
+                                    status.setTextColor(getResources().getColor(R.color.colorGrey));
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
+
+                        }
+                    });
+
                     viewpagerDefault.Addfragment(new Informations(),"Document");
                     viewpagerDefault.Addfragment(new Services(0),"Service");
                     viewpagerDefault.Addfragment(new Services(1),"Vessel Report");
+
                     break;
                 case 3:
                     titlePage.setText(R.string.invoice_detail);
@@ -171,6 +217,7 @@ public class Detail_MyProject extends AppCompatActivity {
 
         viewPager.setAdapter(viewpagerDefault);
         tabLayout.setupWithViewPager(viewPager);
+
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override

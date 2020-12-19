@@ -132,6 +132,17 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:textSize="11dp"
+                    android:text="Forgot Password ?"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:layout_gravity="end"
+                    android:id="@+id/forgot_password"/>
+
             </LinearLayout>
 
             <Button

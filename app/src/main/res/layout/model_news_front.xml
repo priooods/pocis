@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="215dp"
+    android:id="@+id/godetail_front"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="200dp"
+        android:layout_height="120dp"
+        android:id="@+id/c"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="6dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:background="@color/colorGrey"
+            android:id="@+id/image_news"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_below="@id/c"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/c"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/title_news"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="#090909"
+        android:textSize="10dp"
+        android:text="Loren Ipsum bla bla bla bla bla"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+
+</RelativeLayout>
