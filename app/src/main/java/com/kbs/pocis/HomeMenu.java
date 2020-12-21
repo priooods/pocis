@@ -43,15 +43,16 @@ import java.util.List;
 public class HomeMenu extends Fragment {
 
     ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject, menu_invoice,
-        menu_monitoring, menu_complain, menu_tarif_calculate;
+        menu_monitoring, menu_complain, menu_tarif_calculate, menu_Onload_Progres,menu_open_project;
     FloatingActionButton floatingActionButton;
     RecyclerView news1,news2;
-    TextView showall1,showall2;
+    TextView showall1,showall2,text_ucapan;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_menu, container, false);
+        text_ucapan = view.findViewById(R.id.text_ucapan);
         iconprofile = view.findViewById(R.id.iconprofile);
         news1 = view.findViewById(R.id.list_news1);
         news2 = view.findViewById(R.id.list_news2);
@@ -89,7 +90,19 @@ public class HomeMenu extends Fragment {
         menu_myproject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MyProject_Dasar.class));
+                Intent intent = new Intent(getActivity(), MyProject_Dasar.class);
+                intent.putExtra("id", 0);
+                startActivity(intent);
+            }
+        });
+
+        menu_open_project = view.findViewById(R.id.menu_open_project);
+        menu_open_project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyProject_Dasar.class);
+                intent.putExtra("id", 1);
+                startActivity(intent);
             }
         });
 
@@ -147,6 +160,17 @@ public class HomeMenu extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        menu_Onload_Progres = view.findViewById(R.id.menu_Onload_Progres);
+        menu_Onload_Progres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Monitoring.class));
+            }
+        });
+
+        UserData userData = UserData.i;
+        text_ucapan.setText("Good Morning "+ userData.username +"! Here's the quick menu");
 
         listNewt();
         listReward();

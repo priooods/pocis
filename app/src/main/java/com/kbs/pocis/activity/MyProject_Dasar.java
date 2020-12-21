@@ -25,6 +25,8 @@ public class MyProject_Dasar extends AppCompatActivity {
     BottomNavigationView bottombar_myprojects;
     TextView title;
 
+    int type;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,7 @@ public class MyProject_Dasar extends AppCompatActivity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
-
+        type = getIntent().getIntExtra("id",0);
         icon_back = findViewById(R.id.btn_back_myproject);
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +52,14 @@ public class MyProject_Dasar extends AppCompatActivity {
 
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
         title = findViewById(R.id.titile);
-        bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Projects_Approved()).commit();
+        if (type == 1){
+            bottombar_myprojects.getMenu().getItem(type).setChecked(true);
+            bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Project_List_Dasar()).commit();
+        } else {
+            bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Projects_Approved()).commit();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener =

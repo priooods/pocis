@@ -67,6 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="11dp"
+                        android:maxLines="1"
                         app:layout_constraintStart_toStartOf="parent"
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/colorWhite"
@@ -494,6 +495,22 @@
                         android:id="@+id/show_all2"/>
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/l2"
+                    android:layout_marginTop="25dp"
+                    android:id="@+id/ttx"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="11dp"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:text="@string/copyright"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="15dp"/>
 
             </RelativeLayout>
 

@@ -182,14 +182,17 @@ public class Detail_MyProject extends AppCompatActivity {
                     status.setText(data.status);
                     booking_No.setText(data.invoice_no);
 
+                    ln_3.setVisibility(View.VISIBLE);
                     ln_4.setVisibility(View.VISIBLE);
-                    title_sub1.setText(R.string.payment_type);
-                    title_sub2.setText(R.string.va_number);
-                    title_sub4.setText(R.string.bilpay_reff);
+                    title_sub1.setText(R.string.va_number);
+                    title_sub2.setText(R.string.payment_type);
+                    title_sub3.setText(R.string.bilpay_reff);
+                    title_sub4.setText(R.string.book_stat);
 
-                    item_sub1.setText(data.payment_type);
-                    item_sub2.setText(data.va_number);
-                    item_sub4.setText(data.bill_payment);
+                    item_sub1.setText(data.va_number);
+                    item_sub2.setText(data.payment_type);
+                    item_sub3.setText(data.bill_payment);
+                    item_sub4.setText(data.booking_status);
 
                     viewpagerDefault.Addfragment(new Informations(),"Information");
                     viewpagerDefault.Addfragment(new Services(0),"Service");

@@ -7,6 +7,6 @@
     <item android:id="@+id/project_open" android:icon="@drawable/icon_open_myproject"
         android:title="Projects Lists"/>
     <item android:id="@+id/bpaj_aprove"
-        android:icon="@drawable/icon_bpaj_myproject" android:title="BPAJ Approval"/>
+        android:icon="@drawable/icon_bpaj_myproject" android:title="BAPJ Approval"/>
 
 </menu>

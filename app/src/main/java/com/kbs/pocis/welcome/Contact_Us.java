@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +25,20 @@ public class Contact_Us extends Fragment implements OnMapReadyCallback {
     GoogleMap map;
     MapView mapView;
     View view;
+    ImageView btn_back_contact;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.contact_us,container,false);
 
+        btn_back_contact = view.findViewById(R.id.btn_back_contact);
+        btn_back_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
         mapView = view.findViewById(R.id.map);
         if (mapView != null){

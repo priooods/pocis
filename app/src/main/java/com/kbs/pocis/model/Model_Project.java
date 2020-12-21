@@ -21,6 +21,7 @@ public class Model_Project {
     public int id;
     public String invoice_no, project_no, cust_name, invoice_cancel, invoice_type, due_date, invoice_payment,booking_status;
 
+    //Ini untuk Handle Ketika Server Perusahaan DOWN
     public Model_Project(String booking_no, String status, String temp_proj_no, String schedule_code, String consig_name, String start_date, String end_date, String ppj_nomer,
                          String date_issue, String related_vesel, String payment_type, String flag_compound, String tonage, String voyage, String bill_payment, String va_number, String depart_group,
                          String exhange_rate, String vesel_name, String bpaj_no, int id, String invoice_no, String project_no,
