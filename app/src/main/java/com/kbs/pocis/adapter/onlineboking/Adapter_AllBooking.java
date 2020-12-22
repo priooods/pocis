@@ -128,12 +128,6 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             }
         });
 
-//        holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                GoDetails(position);
-//            }
-//        });
 
         holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
             @Override

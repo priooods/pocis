@@ -54,17 +54,17 @@ public class Login extends AppCompatActivity {
         username = findViewById(R.id.input_username_login);
         password = findViewById(R.id.input_password_login);
         Button btn_login = findViewById(R.id.btn_login);
-//        {
-//            user = new UserData("BIG", "BIG");
-//            callInterface = user.getService();
-//            if (callInterface == null) {
-//                pesan("Failed to Connect! Please Enable Internet");
-//                return;
-//            } else {
-//                Log.i("login", "Success to Connect!");
-//            }
-//            loginRetrofit2Api();
-//        }
+        {
+            user = new UserData("BIG", "BIG");
+            callInterface = user.getService();
+            if (callInterface == null) {
+                pesan("Failed to Connect! Please Enable Internet");
+                return;
+            } else {
+                Log.i("login", "Success to Connect!");
+            }
+            loginRetrofit2Api();
+        }
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +93,7 @@ public class Login extends AppCompatActivity {
                 if (CallingData.TreatResponse(Login.this, "login", respone)) {
                     pesanSuccess("Welcome " + user.username);
                     user.setToken(respone.data.token);
+                    user.setCustId(respone.data.cust_id);
                     UserData.i = user;
                     startActivity(new Intent(Login.this, HomePage.class));
                     finish();

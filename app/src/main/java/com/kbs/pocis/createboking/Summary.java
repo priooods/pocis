@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -61,6 +62,8 @@ public class Summary extends Fragment {
     TextView customer_type, related, contract, veselname, discharge,
             port, arival, departure, loading;
 
+    ProgressBar progressBar;
+
     RecyclerView list_serviceInfo, list_comodityInfo, list_Document;
     ArrayList<Model_Commodity> summaryComodities ;
     ArrayList<Model_UploadDocument> uploadDocuments;
@@ -74,7 +77,7 @@ public class Summary extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
-
+        progressBar = view.findViewById(R.id.progress);
         next = view.findViewById(R.id.summary_nextBtn);
         prev = view.findViewById(R.id.summary_prevBtn);
 
@@ -182,7 +185,7 @@ public class Summary extends Fragment {
         btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                BookingData.i.Upload();
+                progressBar.setVisibility(View.VISIBLE);
                 SendDataBooking();
                 dialogFragment.dismiss();
             }
@@ -198,14 +201,18 @@ public class Summary extends Fragment {
         BookingData data = BookingData.i;
 
         Map<String, String> Booking = new HashMap<>();
-        Booking.put("Booking[m_customer_id]", "55");
+        Booking.put("Booking[m_customer_id]", UserData.i.getCustID());
         Booking.put("Booking[t_map_customer_type_id]", String.valueOf(data.customerId));
         Booking.put("Booking[customer_type_code]", data.customerType);
         Booking.put("Booking[flag_related_vessel]", data.relatedVesel);
         Booking.put("Booking[flag_contract]", data.contract);
 
+        if (data.customerType.equals("GENERAL")){
+            Booking.put("BookingVessel[voyage_no]", String.valueOf(data.vessel.voyage_number));
+        }
+
         Booking.put("BookingVessel[m_vessel_id]", String.valueOf(data.vessel.id_vessel));
-        Booking.put("BookingVessel[voyage_no]", String.valueOf(data.vessel.id_voyage));
+        Booking.put("BookingVessel[discharge_or_loading]", String.valueOf(data.vessel.discharge_loading));
         Booking.put("BookingVessel[estimate_arrival_date]", data.vessel.estimate_arival);
         Booking.put("BookingVessel[estimate_departure_date]", data.vessel.estimate_departure);
         Booking.put("BookingVessel[port_of_loading_id]", String.valueOf(data.vessel.port_discharge_id));
@@ -249,7 +256,7 @@ public class Summary extends Fragment {
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
 
-                    Toasty.success(getContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date, Toasty.LENGTH_LONG, true).show();
+                    Toasty.success(getContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date + "\n voyageno : " + detailData.voyage_no, Toasty.LENGTH_LONG, true).show();
                     Fragment fragment = new Finish();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

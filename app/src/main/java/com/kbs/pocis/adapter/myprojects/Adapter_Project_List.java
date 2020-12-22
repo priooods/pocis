@@ -38,7 +38,7 @@ public class Adapter_Project_List extends RecyclerView.Adapter<Adapter_Project_L
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
         holder.date.setText(model_project_s.get(position).date_issue);
-        holder.name_vesel.setText(model_project_s.get(position).vesel_name);
+        holder.name_vesel.setText(model_project_s.get(position).vessel_name);
         holder.temp_proj.setText(model_project_s.get(position).temp_proj_no);
         holder.name_consigne.setText(model_project_s.get(position).consig_name);
         holder.start_date.setText(model_project_s.get(position).start_date);

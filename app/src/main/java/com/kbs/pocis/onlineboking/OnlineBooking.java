@@ -1,6 +1,5 @@
 package com.kbs.pocis.onlineboking;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,8 +17,7 @@ import android.widget.ImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
-import com.kbs.pocis.filter.FIlter_Service;
-import com.kbs.pocis.filter.Filter_OnlineBooking;
+import com.kbs.pocis.filter.Dialog_Filter;
 
 public class OnlineBooking extends Fragment {
 
@@ -82,8 +80,8 @@ public class OnlineBooking extends Fragment {
         icon_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new Filter_OnlineBooking(select_booking);
-                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
+                fragment = new Dialog_Filter(false,select_booking);
+//                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
                 fragment.show(getChildFragmentManager(), "filter_online");
             }
         });

@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -169,8 +170,10 @@ public class HomeMenu extends Fragment {
             }
         });
 
-        UserData userData = UserData.i;
-        text_ucapan.setText("Good Morning "+ userData.username +"! Here's the quick menu");
+        if (UserData.isExists()){
+            UserData userData = UserData.i;
+            text_ucapan.setText("Good Morning "+ userData.username +"! Here's the quick menu");
+        }
 
         listNewt();
         listReward();

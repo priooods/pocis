@@ -49,10 +49,11 @@ public class VesselInformation extends Fragment {
     Button next, prev;
     TextInputEditText estimate_arival, estimate_departure;
     AutoCompleteTextView  port_discharge, port_origin, voyage_number,vesel_name;
-    TextView tobeNominated;
+    TextView dischargeLoading;
+    String disload_value = "D";
     ImageView iconArrow;
-    LinearLayout expanded, card;
-    CheckBox no_vesel, yes_vesel;
+    LinearLayout expanded, card, line_voyageNumber;
+    CheckBox dis_check, load_check;
     Call<List<CallingList>> call;
     Call<List<BookingDetailData>> callist;
     int idvoyage, idvessel, discharge_id, origin_id;
@@ -71,18 +72,26 @@ public class VesselInformation extends Fragment {
         estimate_departure = view.findViewById(R.id.input_departure_vesselinfo);
         voyage_number = view.findViewById(R.id.input_voyagenumber_vesselinfo);
 
-
-        //Expanded for To Be Nominated Box
-        tobeNominated = view.findViewById(R.id.veselinfo_relatedvesel_value);
+        //Line voyage
+        line_voyageNumber = view.findViewById(R.id.z);
+        //Expanded for Discharge or Loading
+        dischargeLoading = view.findViewById(R.id.veselinfo_disload_value);
         iconArrow = view.findViewById(R.id.vesel_relatedvesel_icon);
         expanded = view.findViewById(R.id.veselinfo_expand_relatedvesel);
         card = view.findViewById(R.id.a);
-        yes_vesel = view.findViewById(R.id.check_yes_vesel_relatedvesel);
-        no_vesel = view.findViewById(R.id.check_no_vessel_relatedvesel);
-        ToBeNominated();
-        CheckBoxesRelatedVessel();
+        dis_check = view.findViewById(R.id.check_discharge_veselinfo);
+        load_check = view.findViewById(R.id.check_loading_veselinfo);
+        DisorLoad();
+        CheckBoxesDisLoad();
 
-        if (BookingData.isExist() && BookingData.i.vessel!=null){
+        BookingData data = BookingData.i;
+        if (data.customerType.equals("GENERAL")){
+            line_voyageNumber.setVisibility(View.GONE);
+            idvoyage = 0;
+            voyage_number.setText(null);
+        }
+
+         if (BookingData.isExist() && BookingData.i.vessel!=null){
             BookingData.VesselData bd = BookingData.i.vessel;
             vesel_name.setText(bd.vessel_name);
             port_discharge.setText(bd.port_discharge);
@@ -95,11 +104,6 @@ public class VesselInformation extends Fragment {
             idvoyage = bd.id_voyage;
             idvessel = bd.id_vessel;
             Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
-
-//            switch(BookingData.i.customerType){
-//                case "AGENT":
-//                    break;
-//            }
         }else{
             BookingData.i.vessel = new BookingData.VesselData();
             discharge_id = -1;
@@ -107,6 +111,8 @@ public class VesselInformation extends Fragment {
             idvoyage = -1;
             idvessel = -1;
         }
+
+
         load_vessel = true;
         estimate_arival.setOnClickListener(v -> {
             ShowDateTime(estimate_arival);
@@ -172,46 +178,46 @@ public class VesselInformation extends Fragment {
         return view;
     }
 
-    void GetApiVoyageNumber(CharSequence s, AutoCompleteTextView textView, boolean st){
-        if (st == true){
+    private void GetApiVoyageNumber(CharSequence s, AutoCompleteTextView textView, boolean st){
+        if (st == true) {
             callist = UserData.i.getService().getVoyageNumber(s.toString());
-        }
-        callist.enqueue(new Callback<List<BookingDetailData>>() {
-            @Override
-            public void onResponse(Call<List<BookingDetailData>> call, Response<List<BookingDetailData>> response) {
-                List<BookingDetailData> detailData = response.body();
-                if (detailData.size() > 0){
-                    String[] tr = new String[detailData.size()];
-                    for (int i=0; i < tr.length; i++){
-                        tr[i] = detailData.get(i).voyage_no;
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, tr);
-                    textView.setAdapter(adapter);
-                    textView.setThreshold(2);
-                    textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //TODO Getting voyage_no
-                            Log.i(TAG, "onItemClick voyageId: => " + detailData.get(position).voyage_no);
-                            Log.i(TAG, "onItemClick: => " + detailData.get(position).id);
-                            idvoyage = detailData.get(position).id;
-                            //BookingData.i.vessel.id_voyage = idvoyage;
+            callist.enqueue(new Callback<List<BookingDetailData>>() {
+                @Override
+                public void onResponse(Call<List<BookingDetailData>> call, Response<List<BookingDetailData>> response) {
+                    List<BookingDetailData> detailData = response.body();
+                    if (detailData.size() > 0) {
+                        String[] tr = new String[detailData.size()];
+                        for (int i = 0; i < tr.length; i++) {
+                            tr[i] = detailData.get(i).voyage_no;
                         }
-                    });
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Log.i(TAG, "onResponse: => " + " Not Running API");
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.model_spiner, R.id.val_spiner, tr);
+                        textView.setAdapter(adapter);
+                        textView.setThreshold(2);
+                        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //TODO Getting voyage_no
+                                Log.i(TAG, "onItemClick voyageId: => " + detailData.get(position).voyage_no);
+                                Log.i(TAG, "onItemClick: => " + detailData.get(position).id);
+                                idvoyage = detailData.get(position).id;
+                                //BookingData.i.vessel.id_voyage = idvoyage;
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.i(TAG, "onResponse: => " + " Not Running API");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<BookingDetailData>> call, Throwable t) {
-                Log.e(TAG, "onFailure: => " + t );
-            }
-        });
+                @Override
+                public void onFailure(Call<List<BookingDetailData>> call, Throwable t) {
+                    Log.e(TAG, "onFailure: => " + t);
+                }
+            });
+        }
     }
 
-    void GetAPIPortDischarge(CharSequence s, AutoCompleteTextView textView, boolean val){
+    private void GetAPIPortDischarge(CharSequence s, AutoCompleteTextView textView, boolean val){
         if (val == true){
             call = UserData.i.getService().getPortDischarge(s.toString());
         } else {
@@ -263,7 +269,7 @@ public class VesselInformation extends Fragment {
         });
     }
 
-    void GetAPIVesselName(CharSequence s, AutoCompleteTextView textView){
+    private void GetAPIVesselName(CharSequence s, AutoCompleteTextView textView){
             call = UserData.i.getService().getVesselId(s.toString());
             call.enqueue(new Callback<List<CallingList>>() {
             @Override
@@ -297,8 +303,7 @@ public class VesselInformation extends Fragment {
         });
     }
 
-
-    void ShowDateTime(TextInputEditText texit){
+    private void ShowDateTime(TextInputEditText texit){
         Calendar calendar = Calendar.getInstance();
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
             @Override
@@ -326,7 +331,7 @@ public class VesselInformation extends Fragment {
         datePickerDialog.show(getChildFragmentManager(),"DateDialog");
     }
 
-    void ToBeNominated(){
+    private void DisorLoad(){
         iconArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -343,29 +348,33 @@ public class VesselInformation extends Fragment {
         });
     }
 
-    void CheckBoxesRelatedVessel(){
-        no_vesel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private void CheckBoxesDisLoad(){
+        dis_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    tobeNominated.setText("No");
-                    yes_vesel.setChecked(false);
+                    dischargeLoading.setText("Discharge");
+                    disload_value = "D";
+                    load_check.setChecked(false);
                 } else {
-                    tobeNominated.setText("Yes");
-                    yes_vesel.setChecked(true);
+                    dischargeLoading.setText("Loading");
+                    disload_value = "L";
+                    load_check.setChecked(true);
                 }
             }
         });
 
-        yes_vesel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        load_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    tobeNominated.setText("Yes");
-                    no_vesel.setChecked(false);
+                    dischargeLoading.setText("Loading");
+                    disload_value = "L";
+                    dis_check.setChecked(false);
                 } else {
-                    tobeNominated.setText("No");
-                    no_vesel.setChecked(true);
+                    dischargeLoading.setText("Discharge");
+                    disload_value = "D";
+                    dis_check.setChecked(true);
                 }
             }
         });
@@ -382,35 +391,49 @@ public class VesselInformation extends Fragment {
                 estimate_departure.getText().toString(),
                 idvoyage,
                 idvessel,
-                voyage_number.getText().toString()
+                voyage_number.getText().toString(),
+                disload_value
         );
         Log.i(TAG, "onCreateView: => " + idvoyage);
+        Log.i(TAG, "onCreateView: => " + disload_value);
     }
-//    void UpdateDate(){
-//        BookingData.i.vessel.estimate_arival = estimate_arival.getText().toString();
-//    }
 
-    void StatusInputMessage(){
-        if (vesel_name.getText().toString().isEmpty() || port_discharge.getText().toString().isEmpty() ||
-                port_origin.getText().toString().isEmpty() ||
-                estimate_arival.getText().toString().isEmpty() ||
-                estimate_departure.getText().toString().isEmpty()){
-            Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
-        }else
-        if (idvessel <= 0){
-            pesanError("please check Vessel Name correctly!");
-        }else
-        if (idvoyage <= 0){
-            pesanError("please check Voyage Number correctly!");
-        } else if (origin_id <= 0 || discharge_id <= 0){
-            pesanError("please check Port Discharge or Port Origin correctly!");
+    private void StatusInputMessage(){
+        BookingData data = BookingData.i;
+        if (data.customerType.equals("AGENT")){
+            if ( estimate_arival.getText().toString().isEmpty() ||
+                    estimate_departure.getText().toString().isEmpty()) {
+                Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
+            } else if (idvessel <= 0) {
+                pesanError("please check Vessel Name correctly!");
+            } else if (idvoyage <= 0) {
+                pesanError("please check Voyage Number correctly!");
+            } else if (origin_id <= 0 || discharge_id <= 0) {
+                pesanError("please check Port Discharge or Port Origin correctly!");
+            } else {
+                UpdateData();
+                Fragment fragment = new Summary();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         } else {
-            UpdateData();
-            Fragment fragment = new Summary();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-            fragmentTransaction.commit();
+            if ( estimate_arival.getText().toString().isEmpty() ||
+                    estimate_departure.getText().toString().isEmpty()) {
+                Toasty.error(getContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
+            } else if (idvessel <= 0) {
+                pesanError("please check Vessel Name correctly!");
+            } else if (origin_id <= 0 || discharge_id <= 0) {
+                pesanError("please check Port Discharge or Port Origin correctly!");
+            } else {
+                UpdateData();
+                Fragment fragment = new Summary();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }
         }
     }
 
@@ -432,7 +455,7 @@ public class VesselInformation extends Fragment {
         });
     }
 
-    void pesanError(String pesan){
+    private void pesanError(String pesan){
         Toasty.error(getContext(), pesan, Toasty.LENGTH_SHORT, true).show();
     }
 }

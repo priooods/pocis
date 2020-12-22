@@ -181,10 +181,46 @@
                 android:id="@+id/tt"/>
 
             <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/a"
-                android:layout_marginTop="20dp"
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/b"
+                android:padding="10dp"
+                android:background="@drawable/forminput_transparent"
                 app:layout_constraintTop_toBottomOf="@id/tt"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:paddingLeft="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vessel Name"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="#C5C5C5"
+                    android:hint="Enter Vessel Name (min. 4 chars)"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_veselname_vesselinfo"
+                    android:background="@color/float_transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/a"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/b"
                 android:padding="10dp"
                 android:background="@drawable/card_border"
                 android:layout_width="match_parent"
@@ -192,14 +228,16 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:paddingLeft="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimaryDarkLow"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="To Be Nominated"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:text="Discharge or Loading"
                     android:textSize="10dp"/>
 
                 <RelativeLayout
+                    android:paddingLeft="8dp"
                     android:id="@+id/customerAdd_relative2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -211,9 +249,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
                         android:textColor="@color/colorPrimaryDark"
-                        android:text="No"
+                        android:text="Discharge"
                         android:fontFamily="@font/montserrat_bold"
-                        android:id="@+id/veselinfo_relatedvesel_value"/>
+                        android:id="@+id/veselinfo_disload_value"/>
 
                     <ImageView
                         android:id="@+id/vesel_relatedvesel_icon"
@@ -250,13 +288,14 @@
                             android:fontFamily="@font/montserrat_bold"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="11dp"
-                            android:text="Yes"/>
+                            android:text="Discharge"/>
 
                         <CheckBox
+                            android:checked="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:id="@+id/check_yes_vesel_relatedvesel"/>
+                            android:id="@+id/check_discharge_veselinfo"/>
 
                     </RelativeLayout>
 
@@ -271,64 +310,17 @@
                             android:fontFamily="@font/montserrat_bold"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="11dp"
-                            android:text="No"/>
+                            android:text="Loading"/>
 
                         <CheckBox
-                            android:checked="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:id="@+id/check_no_vessel_relatedvesel"/>
+                            android:id="@+id/check_loading_veselinfo"/>
 
                     </RelativeLayout>
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <View
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                app:layout_constraintTop_toBottomOf="@id/a"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorGrey"
-                android:id="@+id/x"/>
-
-            <LinearLayout
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/b"
-                android:padding="10dp"
-                android:background="@drawable/forminput_transparent"
-                app:layout_constraintTop_toBottomOf="@id/x"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:paddingLeft="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vessel Name"
-                    android:fontFamily="@font/montserrat_reguler"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="11dp"/>
-
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:paddingLeft="8dp"
-                    android:inputType="text"
-                    android:imeOptions="actionNext"
-                    android:textSize="12dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textColorHint="#C5C5C5"
-                    android:hint="Enter Vessel Name (min. 4 chars)"
-                    android:layout_height="match_parent"
-                    android:id="@+id/input_veselname_vesselinfo"
-                    android:background="@color/float_transparent"/>
 
             </LinearLayout>
 
@@ -340,7 +332,7 @@
                 android:id="@+id/z"
                 android:padding="10dp"
                 android:background="@drawable/forminput_transparent"
-                app:layout_constraintTop_toBottomOf="@id/b"
+                app:layout_constraintTop_toBottomOf="@id/a"
                 android:layout_marginTop="10dp">
 
                 <TextView

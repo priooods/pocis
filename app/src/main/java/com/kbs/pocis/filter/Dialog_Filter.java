@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +18,13 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.onlineboking.AllBookings;
 import com.kbs.pocis.service.UserData;
 
-public class Filter_OnlineBooking extends DialogFragment {
+public class Dialog_Filter extends DialogFragment {
 
-    TextInputEditText input_vesel, input_nomerBook;
+    TextInputEditText input_vesel, input_nomerBook, nomer_project;
     Button button_back, button_next;
-    private static int REQUEST_CODE = 123;
-    AllBookings online_booking;
+    public LinearLayout line_project;
+    FilterFragment filterFragment;
+    boolean is_three;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,8 +32,9 @@ public class Filter_OnlineBooking extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
     }
 
-    public Filter_OnlineBooking(AllBookings online_booking){
-        this.online_booking = online_booking;
+    public Dialog_Filter(boolean three, FilterFragment online_booking){
+        this.filterFragment = online_booking;
+        is_three = three;
     }
 
     @Nullable
@@ -39,10 +42,15 @@ public class Filter_OnlineBooking extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = getLayoutInflater().inflate(R.layout.dialog_filters, container, false);
 
+        line_project = view.findViewById(R.id.line_projectno);
         input_nomerBook = view.findViewById(R.id.filter_nomerbooking);
+        nomer_project = view.findViewById(R.id.filter_nomerproject);
         input_vesel = view.findViewById(R.id.filter_veselname);
         button_back = view.findViewById(R.id.btn_cancelbooking);
         button_next = view.findViewById(R.id.btn_filterbooking);
+        if (is_three){
+            line_project.setVisibility(View.VISIBLE);
+        }
         if (UserData.isExists()) {
             if (UserData.i.filter!=null) {
                 input_nomerBook.setText(UserData.i.filter.nomor);
@@ -61,12 +69,12 @@ public class Filter_OnlineBooking extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (UserData.isExists()){
-                    UserData.i.updateFilter(input_nomerBook.getText().toString().toUpperCase(),input_vesel.getText().toString().toUpperCase());
+                    UserData.i.updateFilter(nomer_project.getText().toString(),input_nomerBook.getText().toString().toUpperCase(),input_vesel.getText().toString().toUpperCase());
                 }
-                if (online_booking != null) {
-                    online_booking.filter = UserData.i.filter;
-                    online_booking.pmanager = null;
-                    online_booking.GenerateLists();
+                if (filterFragment != null) {
+                    filterFragment.filter = UserData.i.filter;
+                    filterFragment.pmanager = null;
+                    filterFragment.GenerateLists();
                 }
                 dismiss();
             }

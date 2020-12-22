@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.model.onlineboking.Model_Bookings;
 import com.kbs.pocis.myproject.Detail_MyProject;
 import com.kbs.pocis.service.BookingData;
 
@@ -25,16 +28,18 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
-public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolder> {
+public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolder> implements Filterable {
 
     Context context;
     List<Model_Project> model_project;
+    List<Model_Project> search;
     int value;
 
     public Adapter_Project(Context context, List<Model_Project> model_project, int value) {
         this.context = context;
         this.model_project = model_project;
         this.value = value;
+        this.search = model_project;
     }
 
     @NonNull
@@ -59,7 +64,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_3.setText(R.string.vesselname);
 
                     holder.number.setText(model_project.get(position).booking_no);
-                    holder.item3.setText(model_project.get(position).vesel_name);
+                    holder.item3.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).consig_name);
                     holder.item2.setText(model_project.get(position).ppj_nomer);
                     holder.status.setText(model_project.get(position).status);
@@ -96,7 +101,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.item3.setText(model_project.get(position).schedule_code);
                     holder.item4.setText(model_project.get(position).consig_name);
                     holder.item5.setText(model_project.get(position).tonage);
-                    holder.item6.setText(model_project.get(position).vesel_name);
+                    holder.item6.setText(model_project.get(position).vessel_name);
                     holder.item7.setText(model_project.get(position).bill_payment);
                     holder.item8.setText(model_project.get(position).va_number);
                     holder.gotoo.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +126,9 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_5.setText(R.string.voyage);
 
                     holder.number.setText(model_project.get(position).bpaj_no);
-                    holder.item4.setText(model_project.get(position).vesel_name);
+                    holder.item4.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).booking_no);
-                    holder.item2.setText(model_project.get(position).cust_name);
+                    holder.item2.setText(model_project.get(position).customer_name);
                     holder.item3.setText(model_project.get(position).ppj_nomer);
                     holder.item5.setText(model_project.get(position).voyage);
                     holder.status.setText(model_project.get(position).status);
@@ -148,12 +153,12 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_4.setText(R.string.vesselname);
                     holder.title_5.setText(R.string.cancel_stat);
                     holder.number.setText(model_project.get(position).invoice_no);
-                    holder.item4.setText(model_project.get(position).vesel_name);
+                    holder.item4.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).project_no);
-                    holder.item2.setText(model_project.get(position).cust_name);
+                    holder.item2.setText(model_project.get(position).customer_name);
                     holder.item3.setText(model_project.get(position).booking_no);
-                    holder.item5.setText(model_project.get(position).invoice_cancel);
-                    holder.status.setText(model_project.get(position).status);
+                    holder.item5.setText(model_project.get(position).status_cancel);
+                    holder.status.setText(model_project.get(position).status_payment);
                     holder.gotoo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -175,9 +180,9 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_5.setText(R.string.book_stat);
                     holder.title_6.setText(R.string.payment_type);
                     holder.number.setText(model_project.get(position).booking_no);
-                    holder.item4.setText(model_project.get(position).vesel_name);
+                    holder.item4.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).temp_proj_no);
-                    holder.item2.setText(model_project.get(position).cust_name);
+                    holder.item2.setText(model_project.get(position).customer_name);
                     holder.item3.setText(model_project.get(position).invoice_cancel);
                     holder.item5.setText(model_project.get(position).booking_status);
                     holder.item6.setText(model_project.get(position).payment_type);
@@ -215,6 +220,40 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
     @Override
     public int getItemCount() {
         return model_project.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String value = constraint.toString();
+                if (value.isEmpty()){
+                    model_project = search;
+                } else {
+                    List<Model_Project> projects = new ArrayList<>();
+                    for (Model_Project model_project : projects){
+                        if (model_project.booking_no.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.vessel_name.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.project_no.toLowerCase().contains(value.toLowerCase())){
+                            projects.add(model_project);
+                        }
+                    }
+
+                    model_project = projects;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = model_project;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                model_project = (List<Model_Project>)results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class vHolder extends RecyclerView.ViewHolder{

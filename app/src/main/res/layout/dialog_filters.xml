@@ -22,6 +22,7 @@
             android:src="@drawable/icon_filters"/>
 
         <TextView
+            android:id="@+id/title_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Filter Booking"
@@ -49,6 +50,43 @@
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/line_projectno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textSize="12dp"
+                android:textColor="#464646"
+                android:layout_marginTop="13dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Project No."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:paddingHorizontal="5dp"
+                android:id="@+id/lp"
+                android:background="@drawable/forminput_transparent"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="12dp"
+                    android:background="@color/float_transparent"
+                    android:inputType="text"
+                    android:id="@+id/filter_nomerproject"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <TextView
             android:textSize="12dp"

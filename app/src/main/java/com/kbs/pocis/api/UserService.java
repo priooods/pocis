@@ -3,6 +3,7 @@ package com.kbs.pocis.api;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
 import com.kbs.pocis.service.createbooking.CallingShowTemp;
@@ -131,5 +132,11 @@ public interface UserService {
             @Query("token") String token
             ,@PartMap Map<String, String> Booking
             ,@Part MultipartBody.Part... document
+    );
+
+    @FormUrlEncoded
+    @POST("invoice/listInvoice")
+    Call<PublicList> getListInvoice(
+            @Field("token") String token
     );
 }

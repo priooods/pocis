@@ -5,13 +5,14 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class PageManager {
-    final int page_capacity = 5;
+    final int page_capacity;
     ArrayList<Page> pages;
     Page current;
     boolean loaded;
     int total, pack,page_last;
 
-    public PageManager() {
+    public PageManager(int max) {
+        page_capacity = max;
         if (pages != null)
             pages.clear();
         else

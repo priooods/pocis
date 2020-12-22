@@ -90,7 +90,7 @@ public class Informations extends Fragment {
 
                 item1.setText(data.consig_name);
                 item2.setText(data.start_date);
-                item3.setText(data.vesel_name);
+                item3.setText(data.vessel_name);
                 item4.setText(data.end_date);
                 item5.setText(data.related_vesel);
                 item6.setText(data.payment_type);
@@ -109,7 +109,7 @@ public class Informations extends Fragment {
                 item5.setText(data.tonage);
                 item6.setText(data.consig_name);
                 item7.setText(data.related_vesel);
-                item8.setText(data.vesel_name);
+                item8.setText(data.vessel_name);
                 item9.setText(data.flag_compound);
                 item10.setText(data.voyage);
 
@@ -133,9 +133,9 @@ public class Informations extends Fragment {
                 ln10.setVisibility(View.GONE);
 
                 item1.setText(data.project_no);
-                item2.setText(data.cust_name);
+                item2.setText(data.customer_name);
                 item3.setText(data.booking_no);
-                item4.setText(data.vesel_name);
+                item4.setText(data.vessel_name);
                 item5.setText(data.voyage);
 
                 ln_middle.setVisibility(View.GONE);
@@ -156,9 +156,9 @@ public class Informations extends Fragment {
                 ln10.setVisibility(View.GONE);
 
                 item1.setText(data.temp_proj_no);
-                item2.setText(data.cust_name);
+                item2.setText(data.customer_name);
                 item3.setText(data.tonage);
-                item4.setText(data.vesel_name);
+                item4.setText(data.vessel_name);
                 item5.setText(data.voyage);
                 item6.setText(data.related_vesel);
                 item7.setText(data.start_date);

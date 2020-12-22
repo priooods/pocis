@@ -140,6 +140,7 @@ public class BookingData {
             }
         }
     }
+
     public void ShowBookUpdate(ArrayList<Model_ShowTemplate> temp) {
         //region Just Count Total Active Model_ShowTemplate
         int Count = 0;
@@ -181,10 +182,7 @@ public class BookingData {
             }
         }
     }
-//        public boolean SelectBookUpdate(ArrayList<Model_ShowTemplate> temp){
-//            ShowBookUpdate(temp);
-//            return true;
-//        }
+
     public boolean SelectBookUpdate(ArrayList<Model_ShowTemplate> temp){
         if (template.size() != temp.size())
             return false;
@@ -201,41 +199,17 @@ public class BookingData {
     //data booking ketiga UploadDocument
     public ArrayList<Model_UploadDocument> file;
 
-    /*
-        "commoditybooking": [
-            {
-                "id": 31013,
-                "t_booking_id": "36538",
-                "m_commodity_name_id": "3",
-                "m_commodity_type_id": "4",
-                "tonage": "950.000",
-                "packaging": "1",
-                "commoditycode": {
-                    "id": 3,
-                    "code": "SOBM",
-                    "desc": "SOYBEAN MEAL",
-                    "m_commodity_type_name": "-",
-                    "type": null
-                },
-                "commoditytype": {
-                    "id": 4,
-                    "desc": "GRAIN BULK"
-                }
-            }
-        ]
-        */
+
     //data booking keempat AddComodity
     @SerializedName("commodity_booking")
     public ArrayList<Model_Commodity> commodity;
-
-
 
     //data Vessel
     public VesselData vessel;
     public static class VesselData{
         public int id_voyage, id_vessel,port_origin_id,port_discharge_id;
         public String vessel_name, port_discharge, port_origin,
-                estimate_arival, estimate_departure,voyage_number;
+                estimate_arival, estimate_departure,voyage_number, discharge_loading;
         public VesselData(){
             vessel_name = "";
             port_discharge = "";
@@ -244,7 +218,7 @@ public class BookingData {
             estimate_departure = "";
             voyage_number = "";
         }
-        public VesselData(String vessel_name, String dis_port, int dis_port_id, String origin, int origin_id, String est_arival, String est_departure , int id_voy,int id_vess, String voyage_number){
+        public VesselData(String vessel_name, String dis_port, int dis_port_id, String origin, int origin_id, String est_arival, String est_departure , int id_voy,int id_vess, String voyage_number, String disload){
             this.vessel_name = vessel_name;
             port_discharge = dis_port;
             port_discharge_id = dis_port_id;
@@ -254,6 +228,7 @@ public class BookingData {
             estimate_departure = est_departure;
             id_voyage = id_voy;
             id_vessel = id_vess;
+            discharge_loading = disload;
             this.voyage_number = voyage_number;
         }
     }

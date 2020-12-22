@@ -22,43 +22,6 @@ public class BookingDetailData {
         }
         return true;
     }
-    // data booking pertama CustomerAddForm
-    //region DB
-    /*
-            v "id": 36538,
-            v "no_booking": "B0001-2020-00010",
-            v "customer_type_code": "AGENT",
-            v "booking_date": "2020-10-21 10:30:45",
-            v "flag_related_vessel": "Yes",
-            v "flag_contract": "No",
-            "flag_compound": null,
-            "status": "RM",
-            "customerbooking": [],
-            "formatted_booking_date": "21 October 2020",
-            "formatted_booking_time": "10:30",
-            "voyage_no": null,
-            "customer_code": "B0001",
-            "customer_name": "BUANA INDAH GEMACA PT.",
-            "contract_no": "-",
-            "book_status": "REJECTED BY MARKETING",
-            "project_status": "-",
-            "project_no": "-",
-            "vessel_name": "MV. NORD PEAK",
-            "no_dp": "-",
-            "no_reff": "-",
-            "no_invoice": "-",
-            "est_arrival": "2020-10-22 00:00:00",
-            "est_berthing": null,
-            "compoundbooking": null,
-    */
-    //for response Show Template
-    //Voyage response
-//    "id": "890",
-//            "voyage_no": "1",
-//            "est_arrival": "2017-09-29 00:00:00",
-//            "est_departure": "2017-10-02 00:00:00",
-//            "act_departure": "0000-00-00 00:00:00"
-
 
     @SerializedName("id")
     public int id;
@@ -80,6 +43,7 @@ public class BookingDetailData {
     public String id_booking;
     public String no_booking;
     public String flag_compound;
+    public String discharge_or_loading;
     public String status;
     public String customer_code;
     public String customer_name;
@@ -93,6 +57,8 @@ public class BookingDetailData {
     public String no_invoice;
     public String est_arrival;
     public String est_berthing;
+
+
     public Compound compoundbooking;
     public class Compound {
         public int id;
@@ -117,33 +83,6 @@ public class BookingDetailData {
 
     public ArrayList<Model_DetailsCommodity> addinfo;
 
-//
-//    //Response dari Template_Header
-//    public List<Model_SelectTemplate> temp_detail;
-//    public static class Temp_detail{
-//        public String id;
-//        public String m_booking_template_header_id;
-//        public String code;
-//        public String m_service_code_id;
-//        public String m_service_code_element_id;
-//        public String display_desc_detail;
-//    }
-
-    //data Schedule
-    /*
-            "id": 17490,
-            "m_vessel_id": "5044",
-            "voy_no_in": "16225D",
-            "voy_no_out": null,
-            "origin_port_id": "141",
-            "est_arrival": "2020-10-22 00:00:00",
-            "est_departure": "2020-10-22 00:00:00",
-            "remark": "",
-            "m_jetty_cigading_id": "44",
-            "vessel_name": "MV. NORD PEAK",
-            "origin_port": "CWNID - Port Of Ciwandan",
-            "cigading_port": "Cwd - CIWANDAN PORT"
-    */
     @SerializedName("schedule")
     public ScheduleData vessel;
     public static class ScheduleData{
@@ -197,30 +136,4 @@ public class BookingDetailData {
         }
         return "ERROR!";
     }
-    /*
-        "id": 5124,
-        "t_booking_id": "19676",
-        "description": "SUPPLY AIR VIA HYDRANT (KAPAL LN) TB. KIM HOCK TUG 3",
-        "tariff": "7.000",
-        "currency": "USD",
-        "unit_code": "M3",
-        "created": "2019-05-05 22:44:24",
-        "created_by": "1169",
-        "modified": "2019-05-05 22:44:24",
-        "modified_by": null,
-        "unit_code1": null,
-        "unit_code2": null,
-        "quantity": null,
-        "quantity1": "30.000",
-        "quantity2": null,
-        "unit": {
-        "id": 23,
-                "code": "M3",
-                "desc": "CUBIC METER",
-                "created": "2016-09-29 10:11:50",
-                "created_by": "27",
-                "modified": "2016-09-29 10:29:33",
-                "modified_by": "27"
-    }
-    */
 }

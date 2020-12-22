@@ -1,11 +1,12 @@
 package com.kbs.pocis.model;
 
+import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.service.Calling;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model_Project {
+public class Model_Project extends Calling {
 
     public static Model_Project mp;
     public static int Code;
@@ -16,10 +17,40 @@ public class Model_Project {
         return true;
     }
 
-    public String booking_no, status, temp_proj_no, schedule_code, consig_name, start_date, end_date, ppj_nomer, date_issue,bi_date,location,
-        related_vesel, payment_type, flag_compound, tonage, voyage, bill_payment, va_number,depart_group, exhange_rate,vesel_name,bpaj_no;
+    public String m_customer_id;
+    public String t_billing_invoice_id;
+    public String invoice_no;
+    public String booking_no;
+    public String project_no;
+    public String customer_name;
+    public String vessel_name;
+    public String status_payment;
+    public String status_cancel;
+    public String dokumen_tanda_tangan_invoice;
+    public String dokumen_tanda_terima;
+    public String dokumen_faktur_pajak;
+    public String dokumen_kwitans;
+    public String voyage_no;
+    public String payment_type;
+    public String invoice_type;
+    public String bill_payment_reff_no;
+    public String va_reff_no;
+    public String free_ppn;
+    public String ppn_in_idr;
+    public String pph_in_idr;
+    public String amount_paid_by_dp;
+    public String amount_paid_by_invoice;
+    public String total_net_amount_in_idr;
+    public String flag_compound;
+    public String due_date;
+
+
+
+    ///ini untuk defaul. nnti diupdate
+    public String  status, temp_proj_no, schedule_code, consig_name, start_date, end_date, ppj_nomer, date_issue,bi_date,location,
+        related_vesel, tonage, voyage, bill_payment, va_number,depart_group, exhange_rate ,bpaj_no;
     public int id;
-    public String invoice_no, project_no, cust_name, invoice_cancel, invoice_type, due_date, invoice_payment,booking_status;
+    public String invoice_cancel, invoice_payment,booking_status;
 
     //Ini untuk Handle Ketika Server Perusahaan DOWN
     public Model_Project(String booking_no, String status, String temp_proj_no, String schedule_code, String consig_name, String start_date, String end_date, String ppj_nomer,
@@ -45,12 +76,12 @@ public class Model_Project {
         this.va_number = va_number;
         this.depart_group = depart_group;
         this.exhange_rate = exhange_rate;
-        this.vesel_name = vesel_name;
+        this.vessel_name = vesel_name;
         this.bpaj_no = bpaj_no;
         this.id = id;
         this.invoice_no = invoice_no;
         this.project_no = project_no;
-        this.cust_name = cust_name;
+        this.customer_name = cust_name;
         this.invoice_cancel = invoice_cancel;
         this.invoice_type = invoice_type;
         this.due_date = due_date;
@@ -59,5 +90,35 @@ public class Model_Project {
         this.bi_date = bi_date;
         this.location = location;
     }
+
+
+//    "m_customer_id": "55",
+//            "t_billing_invoice_id": "22058",
+//            "invoice_no": "BUA01-000295",
+//            "booking_no": "B0001-2020-00002",
+//            "project_no": "PPJ-2020/01497",
+//            "customer_name": "BUANA INDAH GEMACA PT.",
+//            "vessel_name": "MV. BELLINA COLOSSUS",
+//            "status_payment": "Unpaid",
+//            "status_cancel": "YES",
+//            "dokumen_tanda_tangan_invoice": null,
+//            "dokumen_tanda_terima": null,
+//            "dokumen_faktur_pajak": null,
+//            "dokumen_kwitans": null,
+//            "voyage_no": "1076L",
+//            "payment_type": "Bill Payment",
+//            "invoice_type": "Total Payment",
+//            "bill_payment_reff_no": "0215833907235",
+//            "va_reff_no": "8923715833907235",
+//            "free_ppn": "0",
+//            "ppn_in_idr": "14823884",
+//            "pph_in_idr": "0",
+//            "amount_paid_by_dp": "0.00",
+//            "amount_paid_by_invoice": "0",
+//            "total_net_amount_in_idr": "163062725",
+//            "flag_compound": "No",
+//            "due_date": "2020-03-19 00:00:00"
+
+
 }
 
