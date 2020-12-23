@@ -226,7 +226,7 @@ public class AllBookings extends FilterFragment {
                                 load = false;
                                 layout_ada.setVisibility(View.VISIBLE);
                                 progressBar.setVisibility(View.GONE);
-                                ShowAdapter();
+                                FinishFilter();
                             } else {
                                 GenerateFilter(page + 1, 0);
                             }

@@ -6,7 +6,7 @@ import com.kbs.pocis.service.Calling;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model_Project extends Calling {
+public class Model_Project {
 
     public static Model_Project mp;
     public static int Code;

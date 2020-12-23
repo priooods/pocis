@@ -13,6 +13,7 @@ import com.kbs.pocis.onlineboking.Filters;
 import com.kbs.pocis.onlineboking.PageManager;
 import com.kbs.pocis.service.UserData;
 
+///Override GenerateFilter, ShowAdapter, Model_CheckorClear & LoadingBar
 public class FilterFragment extends Fragment {
     public Filters filter;
     protected int page_last = 0 , page_current = 0;

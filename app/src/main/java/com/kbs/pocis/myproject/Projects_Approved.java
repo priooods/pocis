@@ -160,7 +160,7 @@ public class Projects_Approved extends FilterFragment {
                     if (Calling.TreatResponse(getContext(), "approved", respone)) {
                         if (!filtering) {
                             assert respone != null;
-                            model_project_s.addAll(Arrays.asList(respone.data.model));
+                            model_project_s = respone.data.model;
                             page_current = respone.data.current_page;
                             page_last = respone.data.last_page;
                             total_item = respone.data.total;
@@ -169,12 +169,12 @@ public class Projects_Approved extends FilterFragment {
                             if (pmanager.loaded) {
 //                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
                                 assert respone != null;
-                                Model_Project[] data = respone.data.model;
-                                for (int i = list; i < data.length; i++) {
-                                    if (filter.checkFilter(data[i])) {
+                                List<Model_Project> data = respone.data.model;
+                                for (int i = list; i < data.size(); i++) {
+                                    if (filter.checkFilter(data.get(i))) {
                                         if (model_project_s.size() < pmanager.page_capacity) {
-                                            model_project_s.add(data[i]);
-                                            Log.i("booking_load", data[i].status_payment);
+                                            model_project_s.add(data.get(i));
+                                            Log.i("booking_load", data.get(i).status_payment);
                                         } else {
                                             page_last = pmanager.page_last;
                                             total_item = pmanager.total;

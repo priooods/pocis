@@ -81,7 +81,7 @@ public class UploadDocument extends Fragment {
         statusList(model_uploadDocuments);
         ButtonAddFile();
         ButtonFunction();
-
+        OpenManager();
         return view;
     }
 

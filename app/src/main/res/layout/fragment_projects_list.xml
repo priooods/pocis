@@ -9,20 +9,20 @@
 
     <TextView
         android:layout_marginTop="12dp"
-        android:id="@+id/title"
+        android:id="@+id/title_project"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="11dp"
         android:layout_marginHorizontal="15dp"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Showing all Projects Open list. Tap to see details"
+        android:text="@string/showing_all_projects_open_list_tap_to_see_details"
         android:fontFamily="@font/montserrat_bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/title_project"
         android:layout_marginTop="15dp"
         android:id="@+id/list_project_open"/>
 
