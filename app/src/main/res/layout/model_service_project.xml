@@ -23,19 +23,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/a">
+                android:id="@+id/ln0">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Service Name"
+                    android:id="@+id/title0"
+                    android:visibility="gone"
                     android:textStyle="italic"
                     android:fontFamily="@font/montserrat_reguler"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="10dp"/>
 
                 <TextView
-                    android:id="@+id/project_service_name"
+                    android:id="@+id/item0"
                     android:layout_marginTop="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,137 +50,253 @@
 
             </LinearLayout>
 
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/a"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/project_service_tarif"
-                app:layout_constraintBottom_toBottomOf="@id/project_service_tarif"
-                android:layout_width="wrap_content"
-                android:id="@+id/b"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tariff"
-                android:textStyle="italic"
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="10dp"/>
-
-            <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/project_service_parameter1"
-                app:layout_constraintBottom_toBottomOf="@id/project_service_parameter1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Parameter 1"
-                android:textStyle="italic"
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="10dp"/>
-
-            <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/project_service_parameter2"
-                app:layout_constraintBottom_toBottomOf="@id/project_service_parameter2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Parameter 2"
-                android:textStyle="italic"
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="10dp"/>
-
-            <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/project_service_amountIDR"
-                app:layout_constraintBottom_toBottomOf="@id/project_service_amountIDR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Amount in IDR"
-                android:textStyle="italic"
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="10dp"/>
-
-            <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/project_service_DPinIdr"
-                app:layout_constraintBottom_toBottomOf="@id/project_service_DPinIdr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Amount DP in IDR"
-                android:textStyle="italic"
-                android:fontFamily="@font/montserrat_reguler"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="10dp"/>
-
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/a"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ln0"
                 android:layout_marginTop="12dp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:id="@+id/project_service_tarif"
-                android:fontFamily="@font/montserrat_bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="11dp"/>
+                android:id="@+id/ln1">
 
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/project_service_tarif"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="12dp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:id="@+id/project_service_parameter1"
-                android:fontFamily="@font/montserrat_bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="11dp"/>
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item1"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title1"
+                    android:layout_height="wrap_content"
+                    android:text="Tariff"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
 
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/project_service_parameter1"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="12dp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:id="@+id/project_service_parameter2"
-                android:fontFamily="@font/montserrat_bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="11dp"/>
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item1"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
 
-            <TextView
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/project_service_parameter2"
-                android:layout_marginTop="12dp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:id="@+id/project_service_amountIDR"
-                android:fontFamily="@font/montserrat_bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="11dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/project_service_amountIDR"
-                android:layout_marginTop="12dp"
-                android:layout_width="150dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:id="@+id/project_service_DPinIdr"
-                android:fontFamily="@font/montserrat_bold"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="11dp"/>
+                app:layout_constraintTop_toBottomOf="@id/ln1"
+                android:layout_marginTop="12dp"
+                android:id="@+id/ln2">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item2"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title2"
+                    android:layout_height="wrap_content"
+                    android:text="Parameter 1"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item2"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ln2"
+                android:layout_marginTop="12dp"
+                android:id="@+id/ln3">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item3"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title3"
+                    android:layout_height="wrap_content"
+                    android:text="Parameter 2"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item3"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ln3"
+                android:layout_marginTop="12dp"
+                android:id="@+id/ln4">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item4"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title4"
+                    android:layout_height="wrap_content"
+                    android:text="Amount in IDR"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item4"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ln4"
+                android:layout_marginTop="12dp"
+                android:id="@+id/ln5">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item5"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title5"
+                    android:layout_height="wrap_content"
+                    android:text="Tariff"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item5"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ln5"
+                android:layout_marginTop="12dp"
+                android:id="@+id/ln6">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item6"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title6"
+                    android:layout_height="wrap_content"
+                    android:text="Tariff"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item6"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ln6"
+                android:layout_marginTop="12dp"
+                android:id="@+id/ln7">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/item7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/item7"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/title7"
+                    android:layout_height="wrap_content"
+                    android:text="Tariff"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:id="@+id/item7"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="11dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

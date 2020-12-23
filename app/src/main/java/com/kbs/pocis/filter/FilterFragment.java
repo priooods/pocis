@@ -21,6 +21,7 @@ public class FilterFragment extends Fragment {
     public int max_list;
 
     protected void GenerateFilter(int page, int list){
+        LoadingBar(true);
         Log.e("filter","FilterFragment.GenerateFilter not override well!");
     }
     protected void ShowAdapter(){
@@ -30,6 +31,7 @@ public class FilterFragment extends Fragment {
         Log.e("filter","FilterFragment.Model_CheckorClear not override well!");
     }
     protected void LoadingBar(boolean start){}
+
     protected void GenerateLists() {
         LoadingBar(true);
         //TODO START LOADING
@@ -51,6 +53,7 @@ public class FilterFragment extends Fragment {
         filtering = false;
         GenerateFilter(page_current, 0);
     }
+
     protected void FinishFilter() {
         //TODO SELESAI LOADING
         LoadingBar(false);

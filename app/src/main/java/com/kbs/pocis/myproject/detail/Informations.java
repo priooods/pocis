@@ -70,7 +70,9 @@ public class Informations extends Fragment {
         va_number = view.findViewById(R.id.detail_project_number);
         depart_group = view.findViewById(R.id.depart_group);
 
-        KenalanSamaType();
+        if (Model_Project.isExist()){
+            KenalanSamaType();
+        }
 
         return view;
     }
@@ -113,9 +115,9 @@ public class Informations extends Fragment {
                 item9.setText(data.flag_compound);
                 item10.setText(data.voyage);
 
+                billpayment.setText(data.bill_payment);
                 ln_middle.setVisibility(View.VISIBLE);
                 line_1.setVisibility(View.VISIBLE);
-                billpayment.setText(data.bill_payment);
                 payment_type.setText(data.payment_type);
                 va_number.setText(data.va_number);
                 depart_group.setText(data.depart_group);
@@ -136,7 +138,7 @@ public class Informations extends Fragment {
                 item2.setText(data.customer_name);
                 item3.setText(data.booking_no);
                 item4.setText(data.vessel_name);
-                item5.setText(data.voyage);
+                item5.setText(data.voyage_no);
 
                 ln_middle.setVisibility(View.GONE);
                 line_1.setVisibility(View.GONE);
@@ -153,18 +155,19 @@ public class Informations extends Fragment {
                 title7.setText(R.string.start_date);
                 title8.setText(R.string.flag);
                 title9.setText(R.string.end_date);
-                ln10.setVisibility(View.GONE);
+                title10.setText(R.string.cancel_stat);
 
-                item1.setText(data.temp_proj_no);
+                item1.setText(data.temp_project_no);
                 item2.setText(data.customer_name);
-                item3.setText(data.tonage);
+                item3.setText(data.tonnage);
                 item4.setText(data.vessel_name);
-                item5.setText(data.voyage);
-                item6.setText(data.related_vesel);
+                item5.setText(data.voyage_no);
+                item6.setText(data.related_vessel);
                 item7.setText(data.start_date);
                 item8.setText(data.flag_compound);
                 item9.setText(data.end_date);
-                depart_group.setText(data.depart_group);
+                item10.setText(data.status_cancel);
+                depart_group.setText(data.department_group);
                 break;
         }
     }

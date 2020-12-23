@@ -1,14 +1,10 @@
 package com.kbs.pocis.myproject;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,97 +12,250 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.Adapter_Project;
+import com.kbs.pocis.filter.Dialog_Filter;
+import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.PublicList.PublicList;
+import com.kbs.pocis.service.UserData;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-import static android.content.ContentValues.TAG;
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class Projects_Approved extends Fragment {
+public class Projects_Approved extends FilterFragment {
 
     RecyclerView recyclerView;
-    ArrayList<Model_Project> approvedList;
+    List<Model_Project> model_project_s;
+    DialogFragment fragment;
+    ProgressBar progressBar;
+    RelativeLayout layout_kosong;
+    NestedScrollView nested;
+    TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
+            index_list_invoice, all_index_invoice;
     ImageView search_icon;
+    int total_item = 0;
 
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_projects_approved, container, false);
+        View view = inflater.inflate(R.layout.fragment_invoice, container, false);
+        model_project_s = new ArrayList<>();
+        nested = view.findViewById(R.id.nested);
+        title_progress = view.findViewById(R.id.title_progress);
+        progressBar = view.findViewById(R.id.progress);
+        search_icon = view.findViewById(R.id.btn_search_invoice);
+        layout_kosong = view.findViewById(R.id.lay_invoice_kosong);
+        kanan = view.findViewById(R.id.kanan);
+        progressBar = view.findViewById(R.id.progress);
+        kiri = view.findViewById(R.id.kiri);
+        kanan_banget = view.findViewById(R.id.kanan_banget);
+        kiri_banget = view.findViewById(R.id.kiri_banget);
+        index_list_invoice = view.findViewById(R.id.index_list_invoice);
+        all_index_invoice = view.findViewById(R.id.all_index_invoice);
+        recyclerView = view.findViewById(R.id.list_invoice);
 
-
-        search_icon = view.findViewById(R.id.btn_search_project_approve);
-        search_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenFilter(getContext());
-            }
+        search_icon.setOnClickListener(v -> {
+            fragment = new Dialog_Filter(true, Projects_Approved.this);
+            fragment.show(getChildFragmentManager(), "filter_online");
         });
-        recyclerView = view.findViewById(R.id.list_project_approved);
-        approvedList = new ArrayList<>();
 
-        approvedList.add(new Model_Project("P0019-2020-00027","PREPARED","PPJ/P0019-288/01","H9JY01002","PPJ-2020/15550",
-                "16 September 2020 13:02","20 September 2020 13:02","Not Available Yet","5 September 2020 11:52","No","Full Payment","No",
-                "39,977.600","1145D","0216055983811","8923716055987308","Subdit Operasi Kepelabuhanan (Operasi Internal)","IDR 14,200","MV. BBC Congo",
-                "02518/BAPJ-JPL/III/2020",1,"BUA01-000295","PPJ-2020/01495","PT Krakatau Steel","YES","Total Payment","19 March 2020 00:00","Bill Payment",
-                "YES","2020-11-27","Quay/Dermaga"));
-        approvedList.add(new Model_Project("P0019-2020-00028","OPEN","PPJ/P0019-288/02","H9JY01002","PPJ-2020/15550",
-                "16 September 2020 13:02","20 September 2020 13:02","Not Available Yet","5 September 2020 11:52","No","Full Payment","No",
-                "39,977.600","1145D","0216055983811","8923716055987308","Subdit Operasi Kepelabuhanan (Operasi Internal)","IDR 14,200","MV. BBC Congo",
-                "02518/BAPJ-JPL/III/2020",1,"BUA01-000295","PPJ-2020/01495","PT Krakatau Steel","YES","Total Payment","19 March 2020 00:00","Bill Payment",
-                "YES","2020-11-27","Quay/Dermaga"));
-        approvedList.add(new Model_Project("P0019-2020-00029","PREPARED","PPJ/P0019-288/03","H9JY01002","PPJ-2020/15550",
-                "16 September 2020 13:02","20 September 2020 13:02","Not Available Yet","5 September 2020 11:52","No","Full Payment","No",
-                "39,977.600","1145D","0216055983811","8923716055987308","Subdit Operasi Kepelabuhanan (Operasi Internal)","IDR 14,200","MV. BBC Congo",
-                "02518/BAPJ-JPL/III/2020",1,"BUA01-000295","PPJ-2020/01495","PT Krakatau Steel","YES","Total Payment","19 March 2020 00:00","Bill Payment",
-                "YES","2020-11-27","Quay/Dermaga"));
-
-        Adapter_Project adapter_project_list = new Adapter_Project(getContext(), approvedList, 0);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter_project_list);
-        adapter_project_list.notifyDataSetChanged();
+        filter = null;
+        max_list = 5;
+        GenerateLists();
+        Ganti();
 
         return view;
     }
 
-    public void OpenFilter(Context context){
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_filters_myproject, null);
-        Dialog dialog = new Dialog(context);
-        dialog.setCancelable(true);
-        dialog.setContentView(view);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_nomerBook = view.findViewById(R.id.filter_project_nomerbooking);
-        TextInputEditText input_vesel = view.findViewById(R.id.filter_project_veselname);
-        TextInputEditText input_nomerProject = view.findViewById(R.id.filter_project_nomerproject);
-        Button button_back = view.findViewById(R.id.btn_filter_cancel_project);
-        Button button_next = view.findViewById(R.id.btn_filter_go_project);
+    public void Ganti() {
+        kanan.setOnClickListener(view -> ChangePage(page_current + 1));
+        kanan_banget.setOnClickListener(view -> ChangePage(page_last));
+        kiri_banget.setOnClickListener(view -> ChangePage(1));
+        kiri.setOnClickListener(view -> ChangePage(page_current - 1));
+    }
 
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+    void ChangePage(int target_page) {
+        if (Ready) {
+            page_current = target_page;
+            GenerateLists();
+            Ready = false;
+        } else {
+            Log.w("all_booking", "Aggresive Touch/Command!");
+        }
+    }
+
+    @Override
+    protected void LoadingBar(boolean stat){
+        if (stat){
+            progressBar.setVisibility(View.VISIBLE);
+            title_progress.setVisibility(View.VISIBLE);
+            nested.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            title_progress.setVisibility(View.GONE);
+            nested.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void ShowAdapter() {
+        if (model_project_s != null && model_project_s.size() > 0) {
+            SetVisibility(kiri, page_current > 1);
+            SetVisibility(kiri_banget, page_current > 2);
+            SetVisibility(kanan, page_current < page_last);
+            SetVisibility(kanan_banget, page_current + 1 < page_last);
+
+            String of = page_current + "  Of  " + page_last;
+            String show = "Showing " + (model_project_s.size()) + " of " + total_item + " results";
+            index_list_invoice.setText(of);
+            all_index_invoice.setText(show);
+
+            Adapter_Project adapter_project_list = new Adapter_Project(getContext(), model_project_s, 0);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter_project_list);
+        } else {
+            nested.setVisibility(View.GONE);
+            layout_kosong.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void Model_CheckorClear() {
+        if (model_project_s == null)
+            model_project_s = new ArrayList<>();
+        else
+            model_project_s.clear();
+    }
+
+    @Override
+    protected void GenerateFilter(int page, int list){
+        Log.i("frag_aproved", "Call Invoice page = " + page);
+        if (UserData.isExists()) {
+            Call<PublicList> call = UserData.i.getService().getListApproved(UserData.i.getToken(), String.valueOf(page));
+            call.enqueue(new Callback<PublicList>() {
+                @Override
+                public void onResponse(@NotNull Call<PublicList> call, @NotNull Response<PublicList> response) {
+                    PublicList respone = response.body();
+                    if (Calling.TreatResponse(getContext(), "approved", respone)) {
+                        if (!filtering) {
+                            assert respone != null;
+                            model_project_s.addAll(Arrays.asList(respone.data.model));
+                            page_current = respone.data.current_page;
+                            page_last = respone.data.last_page;
+                            total_item = respone.data.total;
+                            FinishFilter();
+                        } else {
+                            if (pmanager.loaded) {
+//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
+                                assert respone != null;
+                                Model_Project[] data = respone.data.model;
+                                for (int i = list; i < data.length; i++) {
+                                    if (filter.checkFilter(data[i])) {
+                                        if (model_project_s.size() < pmanager.page_capacity) {
+                                            model_project_s.add(data[i]);
+                                            Log.i("booking_load", data[i].status_payment);
+                                        } else {
+                                            page_last = pmanager.page_last;
+                                            total_item = pmanager.total;
+                                            load = false;
+                                            FinishFilter();
+                                            return;
+                                        }
+                                    }
+                                }
+                                if (page < respone.data.last_page) {
+                                    GenerateFilter(page + 1, 0);
+                                } else {
+                                    page_last = pmanager.page_last;
+                                    total_item = pmanager.total;
+                                    load = false;
+                                    FinishFilter();
+                                }
+                            } else {
+//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page+" load = "+load);
+                                int i = 0;
+                                assert respone != null;
+                                for (Model_Project data : respone.data.model) {
+                                    if (filter.checkFilter(data)) {
+                                        if (pmanager.addPack(page, i) && load) {
+                                            model_project_s.add(data);
+                                            Log.i("booking_load", data.status_payment);
+                                        } else {
+                                            load = false;
+                                        }
+                                    }
+                                    i++;
+                                }
+                                if (page == respone.data.last_page) {
+                                    if (pmanager.pack > 0) {
+                                        pmanager.finalPack(page, i - 1);
+                                    }
+                                    pmanager.finishLoad();
+                                    page_last = pmanager.page_last;
+                                    total_item = pmanager.total;
+                                    load = false;
+                                    nested.setVisibility(View.VISIBLE);
+                                    progressBar.setVisibility(View.GONE);
+                                    title_progress.setVisibility(View.GONE);
+                                    ShowAdapter();
+                                } else {
+                                    GenerateFilter(page + 1, 0);
+                                }
+                            }
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(4500, 0);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } finally {
+                            GenerateFilter(page, 0);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<PublicList> call, @NotNull Throwable t) {
+                    if (!(t instanceof SocketTimeoutException)) {
+                        Ready = true;
+                        Log.e("frag_approved", "on Failure called!" + t);
+                    }
+                    Toasty.error(requireContext(),"Connection Server Error, Please Try Again", Toasty.LENGTH_SHORT, true).show();
+
+                }
+            });
+            try {
+                Thread.sleep(100, 0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
+        }
+    }
 
 
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+    private void SetVisibility(android.widget.TextView comp, boolean condition){
+        comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);
+        comp.setEnabled(condition);
     }
 }

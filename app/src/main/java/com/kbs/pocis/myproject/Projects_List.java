@@ -18,11 +18,12 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.Adapter_Project;
+import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.model.Model_Project;
 
 import java.util.ArrayList;
 
-public class Projects_List extends Fragment {
+public class Projects_List extends FilterFragment {
 
     RecyclerView recyclerView;
     TextView title;
@@ -37,7 +38,7 @@ public class Projects_List extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_projects_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_invoice, container, false);
 
         title = view.findViewById(R.id.title);
         recyclerView = view.findViewById(R.id.list_project_open);

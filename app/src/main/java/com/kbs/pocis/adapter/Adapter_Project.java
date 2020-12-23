@@ -63,11 +63,11 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_2.setText(R.string.ppjno);
                     holder.title_3.setText(R.string.vesselname);
 
-                    holder.number.setText(model_project.get(position).booking_no);
+                    holder.number.setText(model_project.get(position).no_booking);
                     holder.item3.setText(model_project.get(position).vessel_name);
-                    holder.item1.setText(model_project.get(position).consig_name);
-                    holder.item2.setText(model_project.get(position).ppj_nomer);
-                    holder.status.setText(model_project.get(position).status);
+                    holder.item1.setText(model_project.get(position).customer_name);
+                    holder.item2.setText(model_project.get(position).ppj_no);
+                    holder.status.setText(model_project.get(position).status_project);
                     holder.gotoo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -181,12 +181,12 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_6.setText(R.string.payment_type);
                     holder.number.setText(model_project.get(position).booking_no);
                     holder.item4.setText(model_project.get(position).vessel_name);
-                    holder.item1.setText(model_project.get(position).temp_proj_no);
+                    holder.item1.setText(model_project.get(position).temp_project_no);
                     holder.item2.setText(model_project.get(position).customer_name);
-                    holder.item3.setText(model_project.get(position).invoice_cancel);
-                    holder.item5.setText(model_project.get(position).booking_status);
-                    holder.item6.setText(model_project.get(position).payment_type);
-                    holder.status.setText(model_project.get(position).status);
+                    holder.item3.setText(model_project.get(position).status_cancel);
+                    holder.item5.setText(model_project.get(position).status_booking);
+                    holder.item6.setText(model_project.get(position).tipe_pembayaran);
+                    holder.status.setText(model_project.get(position).status_payment);
                     holder.gotoo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -207,7 +207,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                 case "CLOSED":
                     holder.status.setTextColor(Color.parseColor("#7B7B7B"));
                     break;
-                case "UNPAID":
+                case "Unpaid":
                     holder.status.setTextColor(Color.parseColor("#D41111"));
                     break;
                 case "DRAFT":

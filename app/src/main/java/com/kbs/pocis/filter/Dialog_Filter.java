@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.kbs.pocis.service.UserData;
 public class Dialog_Filter extends DialogFragment {
 
     TextInputEditText input_vesel, input_nomerBook, nomer_project;
+    TextView title;
     Button button_back, button_next;
     public LinearLayout line_project;
     FilterFragment filterFragment;
@@ -43,14 +45,18 @@ public class Dialog_Filter extends DialogFragment {
         View view  = getLayoutInflater().inflate(R.layout.dialog_filters, container, false);
 
         line_project = view.findViewById(R.id.line_projectno);
+        title = view.findViewById(R.id.title_filter);
         input_nomerBook = view.findViewById(R.id.filter_nomerbooking);
         nomer_project = view.findViewById(R.id.filter_nomerproject);
         input_vesel = view.findViewById(R.id.filter_veselname);
         button_back = view.findViewById(R.id.btn_cancelbooking);
         button_next = view.findViewById(R.id.btn_filterbooking);
+
         if (is_three){
             line_project.setVisibility(View.VISIBLE);
+            title.setText("Filter Projects");
         }
+
         if (UserData.isExists()) {
             if (UserData.i.filter!=null) {
                 input_nomerBook.setText(UserData.i.filter.nomor);

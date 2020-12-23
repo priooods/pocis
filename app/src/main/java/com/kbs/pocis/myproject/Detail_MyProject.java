@@ -11,23 +11,39 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
+import com.kbs.pocis.adapter.myprojects.Adapter_Project_Service;
 import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.myproject.detail.Documents;
 import com.kbs.pocis.myproject.detail.Informations;
 import com.kbs.pocis.myproject.detail.Services;
+import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Detail_MyProject extends AppCompatActivity {
 
-    LinearLayout ln_3,ln_4;
+    LinearLayout ln_3,ln_4,ln_5;
 
     //textview lainnya
-    TextView booking_No, status, titlePage, subtile, title_top1,title_top2,title_sub3,title_sub4,
-            title_sub1,title_sub2, item_sub1, item_sub2,item_sub3, item_sub4;
+    TextView booking_No, status, titlePage, subtile, title_top1,title_top2,title_sub3,title_sub4,title_sub5,
+            title_sub1,title_sub2, item_sub1, item_sub2,item_sub3, item_sub4,item_sub5;
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -53,6 +69,7 @@ public class Detail_MyProject extends AppCompatActivity {
         btn_back = findViewById(R.id.project_details_btn_back);
         ln_3 = findViewById(R.id.ln_sub3);
         ln_4 = findViewById(R.id.ln_sub4);
+        ln_5 = findViewById(R.id.ln_sub5);
         ln_sub0 = findViewById(R.id.ln_sub0);
 
         //public TextView
@@ -62,10 +79,12 @@ public class Detail_MyProject extends AppCompatActivity {
         title_sub2 = findViewById(R.id.title_sub2);
         title_sub3 = findViewById(R.id.title_sub3);
         title_sub4 = findViewById(R.id.title_sub4);
+        title_sub5 = findViewById(R.id.title_sub5);
         item_sub1 = findViewById(R.id.item_sub1);
         item_sub2 = findViewById(R.id.item_sub2);
         item_sub3 = findViewById(R.id.item_sub3);
         item_sub4 = findViewById(R.id.item_sub4);
+        item_sub5 = findViewById(R.id.item_sub5);
         titlePage = findViewById(R.id.title_detail);
         subtile = findViewById(R.id.forPage);
         status = findViewById(R.id.item_top2);
@@ -156,20 +175,23 @@ public class Detail_MyProject extends AppCompatActivity {
                     titlePage.setText(R.string.invoice_detail);
                     subtile.setText(R.string.invoice_sub);
                     title_top1.setText(R.string.invoice_no);
-                    status.setText(data.status);
+                    status.setText(data.status_payment);
                     booking_No.setText(data.invoice_no);
 
                     ln_3.setVisibility(View.VISIBLE);
                     ln_4.setVisibility(View.VISIBLE);
-                    title_sub1.setText(R.string.invoice_type);
-                    title_sub2.setText(R.string.due_date);
-                    title_sub3.setText(R.string.pay);
-                    title_sub4.setText(R.string.bilpay_reff);
+                    ln_5.setVisibility(View.VISIBLE);
+                    title_sub1.setText(R.string.due_date);
+                    title_sub2.setText(R.string.invoice_type);
+                    title_sub3.setText(R.string.va_number);
+                    title_sub4.setText(R.string.payment_type);
+                    title_sub5.setText(R.string.bilpay_reff);
 
-                    item_sub1.setText(data.invoice_type);
-                    item_sub2.setText(data.due_date);
-                    item_sub3.setText(data.invoice_payment);
-                    item_sub4.setText(data.bill_payment);
+                    item_sub2.setText(data.invoice_type);
+                    item_sub1.setText(data.due_date);
+                    item_sub4.setText(data.payment_type);
+                    item_sub3.setText(data.va_reff_no);
+                    item_sub5.setText(data.bill_payment_reff_no);
 
 
                     viewpagerDefault.Addfragment(new Informations(),"Information");
@@ -179,8 +201,8 @@ public class Detail_MyProject extends AppCompatActivity {
                 case 4:
                     titlePage.setText(R.string.porfoma_detail);
                     subtile.setText(R.string.porforma_sub);
-                    status.setText(data.status);
-                    booking_No.setText(data.invoice_no);
+                    status.setText(data.status_payment);
+                    booking_No.setText(data.booking_no);
 
                     ln_3.setVisibility(View.VISIBLE);
                     ln_4.setVisibility(View.VISIBLE);
@@ -189,17 +211,16 @@ public class Detail_MyProject extends AppCompatActivity {
                     title_sub3.setText(R.string.bilpay_reff);
                     title_sub4.setText(R.string.book_stat);
 
-                    item_sub1.setText(data.va_number);
-                    item_sub2.setText(data.payment_type);
-                    item_sub3.setText(data.bill_payment);
-                    item_sub4.setText(data.booking_status);
+                    item_sub1.setText(data.va_reff_no);
+                    item_sub2.setText(data.tipe_pembayaran);
+                    item_sub3.setText(data.bill_payment_reff_no);
+                    item_sub4.setText(data.status_booking);
 
                     viewpagerDefault.Addfragment(new Informations(),"Information");
                     viewpagerDefault.Addfragment(new Services(0),"Service");
                     viewpagerDefault.Addfragment(new Documents(),"Document");
                     break;
             }
-
         }
 
         switch (status.getText().toString()){
@@ -209,14 +230,13 @@ public class Detail_MyProject extends AppCompatActivity {
             case "CLOSED":
                 status.setTextColor(getResources().getColor(R.color.colorGrey));
                 break;
-            case "UNPAID":
+            case "Unpaid":
                 status.setTextColor(getResources().getColor(R.color.colorRed));
                 break;
             case "DRAFT":
                 status.setTextColor(getResources().getColor(R.color.colorVerified));
                 break;
         }
-
 
         viewPager.setAdapter(viewpagerDefault);
         tabLayout.setupWithViewPager(viewPager);

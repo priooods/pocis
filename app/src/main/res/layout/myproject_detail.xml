@@ -268,6 +268,40 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/ln_sub3"
+                android:id="@+id/ln_sub5"
+                android:layout_alignParentLeft="true"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_sub5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="9dp"
+                    android:textStyle="italic"
+                    android:text="Temp Project No."
+                    android:fontFamily="@font/montserrat_reguler"
+                    android:textColor="@color/colorGrey"/>
+
+                <TextView
+                    android:id="@+id/item_sub5"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="PPJ/P0019-288/01"/>
+
+            </LinearLayout>
+
         </RelativeLayout>
 
     </RelativeLayout>

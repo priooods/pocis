@@ -5,11 +5,13 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class PageManager {
-    final int page_capacity;
+    public final int page_capacity;
     ArrayList<Page> pages;
     Page current;
-    boolean loaded;
-    int total, pack,page_last;
+    public boolean loaded;
+    public int total;
+    public int pack;
+    public int page_last;
 
     public PageManager(int max) {
         page_capacity = max;

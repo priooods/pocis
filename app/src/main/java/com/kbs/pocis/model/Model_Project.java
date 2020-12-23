@@ -11,11 +11,27 @@ public class Model_Project extends Calling {
     public static Model_Project mp;
     public static int Code;
     public static boolean isExist(){
-        if (Model_Project.mp == null){
-            return false;
-        }
-        return true;
+        return Model_Project.mp != null;
     }
+
+//    "Service": [
+//    {
+//        "t_billing_invoice_id": "22058",
+//            "service_name": "F023 - JASA PANDU NON CGD",
+//            "tariff": "USD 1595.560",
+//            "parameter_1": "1.000 LS",
+//            "parameter_2": "- ",
+//            "amount_in_idr": "24994607"
+//    },
+//    {
+//        "t_billing_invoice_id": "22058",
+//            "service_name": "F024 - JASA TUNDA NON CGD",
+//            "tariff": "USD 8813.740",
+//            "parameter_1": "1.000 LS",
+//            "parameter_2": "- ",
+//            "amount_in_idr": "138068118"
+//    }
+
 
     public String m_customer_id;
     public String t_billing_invoice_id;
@@ -43,16 +59,49 @@ public class Model_Project extends Calling {
     public String total_net_amount_in_idr;
     public String flag_compound;
     public String due_date;
+    public String service_name;
+    public String tariff;
+    public String parameter_1;
+    public String parameter_2;
+    public String amount_in_idr;
 
+    public String t_project_header_id;
+    public String temp_project_no;
+    public String tipe_pembayaran;
+    public String status_booking;
+    public String tonnage;
+    public String related_vessel;
+    public String start_date;
+    public String end_date;
+    public String department_group;
+    public String total;
+    public String total_dp;
+    public String document_ppj;
+    public String document_proforma_invoice;
+
+    public String no_booking;
+    public String ppj_no;
+    public String status_project;
+    public String t_booking_id;
+
+
+    public String status_booking_code;
+    public String schedule_code;
+    public String status_project_code;
+    public String exchange_rate;
+    public String bi_date;
+    public String bill_paymemt_number;
+    public String va_number;
+    public String date_project_issued;
 
 
     ///ini untuk defaul. nnti diupdate
-    public String  status, temp_proj_no, schedule_code, consig_name, start_date, end_date, ppj_nomer, date_issue,bi_date,location,
-        related_vesel, tonage, voyage, bill_payment, va_number,depart_group, exhange_rate ,bpaj_no;
+    public String  status, temp_proj_no, consig_name,  ppj_nomer, date_issue, location,
+        related_vesel, tonage, voyage, bill_payment, depart_group, exhange_rate ,bpaj_no;
     public int id;
     public String invoice_cancel, invoice_payment,booking_status;
 
-    //Ini untuk Handle Ketika Server Perusahaan DOWN
+//    Ini untuk Handle Ketika Server Perusahaan DOWN
     public Model_Project(String booking_no, String status, String temp_proj_no, String schedule_code, String consig_name, String start_date, String end_date, String ppj_nomer,
                          String date_issue, String related_vesel, String payment_type, String flag_compound, String tonage, String voyage, String bill_payment, String va_number, String depart_group,
                          String exhange_rate, String vesel_name, String bpaj_no, int id, String invoice_no, String project_no,

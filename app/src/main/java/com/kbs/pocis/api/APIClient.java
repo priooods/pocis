@@ -3,9 +3,11 @@ import android.os.Build;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.ConnectionSpec;
 //import okhttp3.OkHttpClient;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -24,12 +26,15 @@ public class APIClient {
                 tlsSpecs = Arrays.asList(ConnectionSpec.COMPATIBLE_TLS);
             }
 
-//            OkHttpClient client = new OkHttpClient.Builder()
+            OkHttpClient client = new OkHttpClient.Builder()
 //                    .connectionSpecs(tlsSpecs)
-//                    .build();
+                    .readTimeout(100,TimeUnit.SECONDS)
+                    .connectTimeout(100,TimeUnit.SECONDS)
+                    .build();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

@@ -26,6 +26,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -124,8 +125,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintTop_toTopOf="@id/ln1"
-                        app:layout_constraintBottom_toBottomOf="@id/ln1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:id="@+id/ln2">
 
@@ -189,6 +190,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_below="@id/ln_top"
                     android:layout_marginTop="14dp"
+                    android:layout_marginBottom="80dp"
+                    android:id="@+id/ln_list_area"
                     android:paddingHorizontal="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -206,7 +209,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:nestedScrollingEnabled="false"
+                        android:nestedScrollingEnabled="true"
                         app:layout_constraintTop_toBottomOf="@id/a"
                         android:layout_marginTop="10dp"
                         android:id="@+id/recycle_service_project"/>
@@ -548,7 +551,7 @@
                         android:id="@+id/title_bot7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="PPh in IDR"
+                        android:text="PPn in IDR"
                         android:textSize="10dp"
                         android:textColor="@color/colorWhite"
                         android:fontFamily="@font/montserrat_reguler"/>

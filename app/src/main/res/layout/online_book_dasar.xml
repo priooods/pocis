@@ -81,6 +81,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
+        android:background="@color/float_transparent"
         android:layout_alignParentBottom="true"
         android:layout_height="100dp">
 

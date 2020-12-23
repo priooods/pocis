@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.onlineboking.Frag_Invoice;
-import com.kbs.pocis.invoice.Performa;
+import com.kbs.pocis.onlineboking.Performa;
 
 public class Invoice extends AppCompatActivity {
 
@@ -36,12 +36,9 @@ public class Invoice extends AppCompatActivity {
         }
 
         icon_back = findViewById(R.id.btn_back_invoice);
-        icon_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                finish();
-            }
+        icon_back.setOnClickListener(v -> {
+            onBackPressed();
+            finish();
         });
         bottombar_myprojects = findViewById(R.id.bottombar_invoice);
         title = findViewById(R.id.titile);
@@ -65,6 +62,7 @@ public class Invoice extends AppCompatActivity {
                             title.setText("Proforma");
                             break;
                     }
+                    assert selectFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameInvoice, selectFragment).commit();
                     return true;
                 }

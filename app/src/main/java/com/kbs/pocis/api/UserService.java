@@ -137,6 +137,44 @@ public interface UserService {
     @FormUrlEncoded
     @POST("invoice/listInvoice")
     Call<PublicList> getListInvoice(
-            @Field("token") String token
+            @Field("token") String token,
+            @Field("page") String page
+    );
+
+    @FormUrlEncoded
+    @POST("proforma/listProforma")
+    Call<PublicList> getListProforma(
+            @Field("token") String token,
+            @Field("page") String page
+    );
+
+    @FormUrlEncoded
+    @POST("my-projects/listProjectsApproval")
+    Call<PublicList> getListApproved(
+            @Field("token") String token,
+            @Field("page") String page
+    );
+
+    @FormUrlEncoded
+    @POST("invoice/detailInvoice")
+    Call<CallingDetail> getDetailInvoice(
+            @Field("token") String token,
+            @Field("t_billing_invoice_id") String t_billing_invoice_id,
+            @Field("flag_compound") String flag_compound
+    );
+    @FormUrlEncoded
+    @POST("proforma/detailProforma")
+    Call<CallingDetail> getDetailProforma(
+            @Field("token") String token,
+            @Field("t_project_header_id") String t_project_header_id,
+            @Field("flag_compound") String flag_compound
+    );
+
+    @FormUrlEncoded
+    @POST("my-projects/detailProjectsApproval")
+    Call<CallingDetail> getDetailApproval(
+            @Field("token") String token,
+            @Field("t_booking_id") String t_booking_id,
+            @Field("t_project_header_id") String t_project_header_id
     );
 }

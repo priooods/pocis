@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.model.Model_DetailsFile;
 import com.kbs.pocis.model.Model_DetailsService;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 
@@ -105,6 +106,8 @@ public class BookingDetailData {
             this.cigading_port = cigading_port;
         }
     }
+
+    public ArrayList<Model_Project> Service;
 
     public String readString() {
         if (customerType!=null) {
