@@ -1,6 +1,7 @@
 package com.kbs.pocis.adapter.myprojects;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.kbs.pocis.model.Model_Project;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Project_Service.vHolder> {
 
@@ -40,13 +43,40 @@ public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Projec
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
         switch (type){
+            case 0: //for approval
+                holder.title0.setVisibility(View.VISIBLE);
+                holder.ln5.setVisibility(View.VISIBLE);
+                holder.item0.setText(model_project_services.get(position).service_name);
+                holder.item1.setText(model_project_services.get(position).tariff);
+                holder.item2.setText(model_project_services.get(position).parameter_1);
+                holder.item3.setText(model_project_services.get(position).parameter_2);
+                holder.item4.setText(model_project_services.get(position).total);
+                holder.item5.setText(model_project_services.get(position).total_dp);
+
+                if (model_project_services.get(position).total != null ||
+                        model_project_services.get(position).total_dp != null){
+                    Log.i(TAG, "onBindViewHolder: => " + position);
+                    setFormatIDR(model_project_services.get(position).total,holder.item4);
+                    setFormatIDR(model_project_services.get(position).total_dp,holder.item5);
+                }
+
+                break;
+            case 2: //for BAPJ Service
+                holder.ln1.setVisibility(View.GONE);
+                holder.item0.setText(model_project_services.get(position).service_name);
+                holder.item2.setText(model_project_services.get(position).parameter_1);
+                holder.item3.setText(model_project_services.get(position).parameter_2);
+                holder.ln4.setVisibility(View.GONE);
+                break;
             case 3:// for invoice
                 holder.item0.setText(model_project_services.get(position).service_name);
                 holder.item1.setText(model_project_services.get(position).tariff);
                 holder.item2.setText(model_project_services.get(position).parameter_1);
                 holder.item3.setText(model_project_services.get(position).parameter_2);
                 holder.item4.setText(model_project_services.get(position).amount_in_idr);
-                setFormatIDR(model_project_services.get(position).amount_in_idr,holder.item4);
+                if (model_project_services.get(position).amount_in_idr != null) {
+                    setFormatIDR(model_project_services.get(position).amount_in_idr, holder.item4);
+                }
                 break;
             case 4:// for proforma
                 holder.item0.setText(model_project_services.get(position).service_name);
@@ -54,7 +84,9 @@ public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Projec
                 holder.item2.setText(model_project_services.get(position).parameter_1);
                 holder.item3.setText(model_project_services.get(position).parameter_2);
                 holder.item4.setText(model_project_services.get(position).total);
-                setFormatIDR(model_project_services.get(position).total,holder.item4);
+                if (model_project_services.get(position).total != null) {
+                    setFormatIDR(model_project_services.get(position).total, holder.item4);
+                }
                 break;
         }
 

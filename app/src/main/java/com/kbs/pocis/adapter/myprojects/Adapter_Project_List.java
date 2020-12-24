@@ -37,17 +37,17 @@ public class Adapter_Project_List extends RecyclerView.Adapter<Adapter_Project_L
 
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
-        holder.date.setText(model_project_s.get(position).date_issue);
+//        holder.date.setText(model_project_s.get(position).date_issue);
         holder.name_vesel.setText(model_project_s.get(position).vessel_name);
-        holder.temp_proj.setText(model_project_s.get(position).temp_proj_no);
-        holder.name_consigne.setText(model_project_s.get(position).consig_name);
+        holder.temp_proj.setText(model_project_s.get(position).temp_project_no);
+//        holder.name_consigne.setText(model_project_s.get(position).consig_name);
         holder.start_date.setText(model_project_s.get(position).start_date);
-        holder.tonage.setText(model_project_s.get(position).tonage);
+        holder.tonage.setText(model_project_s.get(position).tonnage);
         holder.code_schedule.setText(model_project_s.get(position).schedule_code);
         holder.no_booking.setText(model_project_s.get(position).booking_no);
-        holder.id_project_status.setText(model_project_s.get(position).status);
-        holder.ppj_project_open.setText(model_project_s.get(position).ppj_nomer);
-        holder.myproject_billpayment.setText(model_project_s.get(position).bill_payment);
+//        holder.id_project_status.setText(model_project_s.get(position).status);
+//        holder.ppj_project_open.setText(model_project_s.get(position).ppj_nomer);
+//        holder.myproject_billpayment.setText(model_project_s.get(position).bill_payment);
         holder.myproject_vaNumber.setText(model_project_s.get(position).va_number);
         holder.layout_project_open.setOnClickListener(new View.OnClickListener() {
             @Override

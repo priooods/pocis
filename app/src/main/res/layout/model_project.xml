@@ -296,6 +296,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextbooking"
                         android:text="CNEE"
+                        android:maxLines="1"
                         android:textSize="10dp"
                         android:textAllCaps="true"
                         android:fontFamily="@font/montserrat_bold"

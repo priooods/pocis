@@ -11,14 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
-import com.kbs.pocis.adapter.myprojects.Adapter_Project_Service;
 import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.myproject.detail.Documents;
 import com.kbs.pocis.myproject.detail.Informations;
@@ -30,8 +27,7 @@ import com.kbs.pocis.service.detailbooking.CallingDetail;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Field;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +35,7 @@ import retrofit2.Response;
 
 public class Detail_MyProject extends AppCompatActivity {
 
-    LinearLayout ln_3,ln_4,ln_5;
+    LinearLayout ln_3,ln_4,ln_5, ln_2;
 
     //textview lainnya
     TextView booking_No, status, titlePage, subtile, title_top1,title_top2,title_sub3,title_sub4,title_sub5,
@@ -67,6 +63,7 @@ public class Detail_MyProject extends AppCompatActivity {
         tabLayout = findViewById(R.id.project_details_tablayout);
         viewPager = findViewById(R.id.project_details_viewpager);
         btn_back = findViewById(R.id.project_details_btn_back);
+        ln_2 = findViewById(R.id.ln_sub2);
         ln_3 = findViewById(R.id.ln_sub3);
         ln_4 = findViewById(R.id.ln_sub4);
         ln_5 = findViewById(R.id.ln_sub5);
@@ -96,11 +93,11 @@ public class Detail_MyProject extends AppCompatActivity {
                 case 0:
                     titlePage.setText(R.string.project_aprov_detail);
                     subtile.setText(R.string.project_aprov);
-                    booking_No.setText(data.booking_no);
-                    status.setText(data.status);
-                    item_sub1.setText(data.temp_proj_no);
-                    item_sub2.setText(data.schedule_code);
-
+                    booking_No.setText(data.no_booking);
+                    status.setText(data.status_project);
+                    item_sub1.setText(data.temp_project_no);
+                    CallingDetailApproval();
+                    Log.i("detail", "onCreate: approval => " + data.temp_project_no);
                     viewpagerDefault.Addfragment(new Informations(),"Information");
                     viewpagerDefault.Addfragment(new Services(0),"Service");
                     break;
@@ -108,55 +105,33 @@ public class Detail_MyProject extends AppCompatActivity {
                     titlePage.setText(R.string.project_list_detail);
                     subtile.setText(R.string.project_list);
                     title_top1.setText(R.string.temp_proj);
-                    booking_No.setText(data.temp_proj_no);
-                    status.setText(data.status);
+                    booking_No.setText(data.temp_project_no);
+                    status.setText(data.status_project);
                     title_sub1.setText(R.string.date_isue);
                     title_sub2.setText(R.string.ppjno);
-                    item_sub1.setText(data.date_issue);
-                    item_sub2.setText(data.ppj_nomer);
+                    item_sub1.setText(data.date_project_issued);
+                    item_sub2.setText(data.ppj_no);
                     viewpagerDefault.Addfragment(new Informations(),"Information");
                     viewpagerDefault.Addfragment(new Services(0),"Service");
-                    break;
-                case 2:
-                    titlePage.setText(R.string.project_bpaj_detail);
-                    subtile.setText(R.string.project_bpaj);
-                    title_top1.setText(R.string.booking_no);
-                    booking_No.setText(data.booking_no);
-                    status.setText(data.status);
-                    item_sub1.setText(data.temp_proj_no);
-                    item_sub2.setText(data.schedule_code);
-
                     viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
                         }
 
                         @Override
                         public void onPageSelected(int position) {
-                            Log.i("tag", "onPageSelected: " + position);
-                            switch (position){
-                                case 0:
-                                    title_top1.setText(R.string.booking_no);
-                                    booking_No.setText(data.booking_no);
-                                    status.setText(data.status);
-                                    item_sub1.setText(data.temp_proj_no);
-                                    item_sub2.setText(data.schedule_code);
-
-                                    status.setTextSize(12);
-                                    ln_sub0.setVisibility(View.VISIBLE);
-                                    status.setTextColor(getResources().getColor(R.color.colorVerified));
-                                    break;
-                                case 1:
-                                case 2:
-                                    title_top1.setText(R.string.bpaj_no);
-                                    title_top2.setText(R.string.date_isue);
-                                    booking_No.setText(data.bpaj_no);
-                                    status.setText(data.date_issue);
-
-                                    ln_sub0.setVisibility(View.GONE);
-                                    status.setTextSize(10);
-                                    status.setTextColor(getResources().getColor(R.color.colorGrey));
-                                    break;
+                            if (position == 0){
+                                status.setText(data.status_project);
+                                if (status.getText().toString().equals("OPEN")){
+                                    status.setTextColor(getResources().getColor(R.color.colorGreen));
+                                }
+                                ln_2.setVisibility(View.VISIBLE);
+                            } else if (position == 1){
+                                title_top2.setText(R.string.date_isue);
+                                status.setText(data.date_project_issued);
+                                status.setTextColor(getResources().getColor(R.color.colorGrey));
+                                ln_2.setVisibility(View.GONE);
                             }
                         }
 
@@ -165,11 +140,28 @@ public class Detail_MyProject extends AppCompatActivity {
 
                         }
                     });
+                    break;
+                case 2:
+                    ln_3.setVisibility(View.VISIBLE);
+                    titlePage.setText(R.string.project_bpaj_detail);
+                    subtile.setText(R.string.project_bpaj);
+                    title_top1.setText(R.string.Project_Report_No);
+                    title_top2.setText(R.string.BAPJ_Status);
+                    booking_No.setText(data.booking_no);
+                    status.setText(data.status_bapj);
 
-                    viewpagerDefault.Addfragment(new Informations(),"Document");
+                    title_sub3.setText(R.string.date_isue);
+
+                    item_sub1.setText(data.temp_project_no);
+                    item_sub2.setText(data.schedule_code);
+                    item_sub3.setText(data.date_issued);
+
+                    tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                    tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
                     viewpagerDefault.Addfragment(new Services(0),"Service");
                     viewpagerDefault.Addfragment(new Services(1),"Vessel Report");
-
+                    viewpagerDefault.Addfragment(new Documents(),"Document");
                     break;
                 case 3:
                     titlePage.setText(R.string.invoice_detail);
@@ -236,18 +228,40 @@ public class Detail_MyProject extends AppCompatActivity {
             case "DRAFT":
                 status.setTextColor(getResources().getColor(R.color.colorVerified));
                 break;
+            case "ON APPROVAL":
+                status.setTextColor(getResources().getColor(R.color.colorGreen));
+                break;
         }
 
         viewPager.setAdapter(viewpagerDefault);
         tabLayout.setupWithViewPager(viewPager);
 
 
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        btn_back.setOnClickListener(v -> onBackPressed());
     }
+
+    public void CallingDetailApproval(){
+        if (UserData.isExists()) {
+            Model_Project data = Model_Project.mp;
+            Call<CallingDetail> call = UserData.i.getService().getDetailApproval(UserData.i.getToken(),data.t_booking_id,data.t_project_header_id);
+            call.enqueue(new Callback<CallingDetail>() {
+                @Override
+                public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                    CallingDetail callingDetail = response.body();
+                    if (Calling.TreatResponse(Detail_MyProject.this,"tag", callingDetail)) {
+                        assert callingDetail != null;
+                        item_sub2.setText(callingDetail.data.Information.schedule_code);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                    Log.e("frag_approved", "on Failure called!" + t);
+                }
+            });
+        }
+    }
+
+
 
 }

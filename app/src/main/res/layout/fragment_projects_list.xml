@@ -16,7 +16,6 @@
         android:layout_marginHorizontal="15dp"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/showing_all_projects_open_list_tap_to_see_details"
         android:fontFamily="@font/montserrat_bold"/>
 
     <androidx.recyclerview.widget.RecyclerView

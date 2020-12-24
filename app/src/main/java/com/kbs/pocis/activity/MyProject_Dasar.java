@@ -78,7 +78,7 @@ public class MyProject_Dasar extends AppCompatActivity {
                             break;
                         case R.id.bpaj_aprove:
                             selectFragment = new Projects_Bpaj();
-                            title.setText("BPAJ Approval");
+                            title.setText("BAPJ Approval");
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, selectFragment).commit();

@@ -49,9 +49,10 @@ public class Projects_Approved extends FilterFragment {
     RelativeLayout layout_kosong;
     NestedScrollView nested;
     TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
-            index_list_invoice, all_index_invoice;
+            index_list_invoice, all_index_invoice, titles;
     ImageView search_icon;
     int total_item = 0;
+    String title = "Showing all Approval list. Tap to see details.";
 
     @NonNull
     @Override
@@ -60,6 +61,8 @@ public class Projects_Approved extends FilterFragment {
         View view = inflater.inflate(R.layout.fragment_invoice, container, false);
         model_project_s = new ArrayList<>();
         nested = view.findViewById(R.id.nested);
+        titles = view.findViewById(R.id.q);
+        titles.setText(title);
         title_progress = view.findViewById(R.id.title_progress);
         progressBar = view.findViewById(R.id.progress);
         search_icon = view.findViewById(R.id.btn_search_invoice);
@@ -174,7 +177,7 @@ public class Projects_Approved extends FilterFragment {
                                     if (filter.checkFilter(data.get(i))) {
                                         if (model_project_s.size() < pmanager.page_capacity) {
                                             model_project_s.add(data.get(i));
-                                            Log.i("booking_load", data.get(i).status_payment);
+                                            Log.i("booking_load", data.get(i).vessel_name);
                                         } else {
                                             page_last = pmanager.page_last;
                                             total_item = pmanager.total;
@@ -200,7 +203,7 @@ public class Projects_Approved extends FilterFragment {
                                     if (filter.checkFilter(data)) {
                                         if (pmanager.addPack(page, i) && load) {
                                             model_project_s.add(data);
-                                            Log.i("booking_load", data.status_payment);
+                                            Log.i("booking_load", data.vessel_name);
                                         } else {
                                             load = false;
                                         }

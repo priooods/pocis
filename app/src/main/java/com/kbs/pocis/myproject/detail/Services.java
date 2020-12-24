@@ -44,7 +44,7 @@ public class Services extends Fragment {
 
     ConstraintLayout ln_list,ln_bpaj,ln_performa, ln_top, ln_list_area;
     View bottom;
-    LinearLayout ln1;
+    LinearLayout ln1, progress;
     BottomSheetBehavior bottomSheetBehavior;
     List<Model_Project> model_project_services;
     RecyclerView recyclerView;
@@ -59,6 +59,7 @@ public class Services extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.details_services, container,false);
 
+        progress = view.findViewById(R.id.progress);
         ln1 = view.findViewById(R.id.ln1);
         ln_top = view.findViewById(R.id.ln_top);
         ln_list_area = view.findViewById(R.id.ln_list_area);
@@ -124,29 +125,31 @@ public class Services extends Fragment {
         Model_Project data = Model_Project.mp;
         switch (Model_Project.Code){
             case 0: //for aprove
-                item2.setText(data.start_date);
-                item3.setText(data.exhange_rate);
-                item4.setText(data.end_date);
-                item5.setText(data.bi_date);
+                progress.setVisibility(View.VISIBLE);
+                CallingDetailApproval();
+                customMargin(ln_list_area, 0,10,0,15);
                 break;
             case 1: //for list
+                progress.setVisibility(View.VISIBLE);
                 ln_list.setVisibility(View.VISIBLE);
+                item_list1.setText(data.total);
+                item_list2.setText(data.total_dp);
                 item2.setText(data.start_date);
-                item3.setText(data.exhange_rate);
+                item3.setText(data.exchange_rate);
                 item4.setText(data.end_date);
                 item5.setText(data.bi_date);
-//                item_list1.setText();
-//                item_list2.setText();
+                customMargin(ln_list_area, 0,20,0,15);
+                setFormatIDR(data.total, item_list1);
+                setFormatIDR(data.total_dp, item_list2);
+                CallingServiceList();
                 break;
             case 2: //for bapj
-                ln1.setVisibility(View.VISIBLE);
-                item1.setText(data.location);
                 item2.setText(data.start_date);
-                item3.setText(data.exhange_rate);
+                item3.setText(data.exchange_rate);
                 item4.setText(data.end_date);
                 item5.setText(data.bi_date);
-                ln_bpaj.setVisibility(View.VISIBLE);
-//                item_bpaj1.setText();
+                Log.i(TAG, "GlobalByCode: => " + data.t_project_report_header_id);
+                CallServiceBAPJ(data.t_project_report_header_id);
                 break;
             case 3: // for invoice
                 ln_top.setVisibility(View.GONE);
@@ -170,8 +173,70 @@ public class Services extends Fragment {
                 setFormatIDR(data.total, performa1);
                 setFormatIDR(data.total_dp, performa2);
                 CallingServiceProforma();
-                customMargin(ln_list_area, 0,0,0,15);
+                customMargin(ln_list_area, 0,10,0,15);
                 break;
+        }
+    }
+
+    public void CallServiceBAPJ(String report_header){
+        Log.i(TAG, "CallServiceBAPJ: => " + "kepanggil");
+        if (UserData.isExists()) {
+            Call<CallingDetail> call = UserData.i.getService().getDetailBAPJ(UserData.i.getToken(),report_header);
+            call.enqueue(new Callback<CallingDetail>() {
+                @Override
+                public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                    CallingDetail callingDetail = response.body();
+                    if (Calling.TreatResponse(getContext(),"tag", callingDetail)) {
+                        if (callingDetail != null){
+                            progress.setVisibility(View.GONE);
+                            model_project_services.addAll(callingDetail.data.Service);
+                            Log.i("bapj_service", "onResponse: => " + model_project_services.size());
+                            Adapter_Project_Service adapter_project_service = new Adapter_Project_Service(getContext(), model_project_services,2);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(adapter_project_service);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                    Log.e("frag_bapj", "on Failure called!" + t);
+                }
+            });
+        }
+    }
+
+    public void CallingDetailApproval(){
+        if (UserData.isExists()) {
+            Model_Project data = Model_Project.mp;
+            Call<CallingDetail> call = UserData.i.getService().getDetailApproval(UserData.i.getToken(),data.t_booking_id,data.t_project_header_id);
+            call.enqueue(new Callback<CallingDetail>() {
+                @Override
+                public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                    CallingDetail callingDetail = response.body();
+                    if (Calling.TreatResponse(getContext(),"tag", callingDetail)) {
+                        if (callingDetail != null){
+                            progress.setVisibility(View.GONE);
+                            item2.setText(callingDetail.data.Information.start_date);
+                            item3.setText(callingDetail.data.Information.exchange_rate);
+                            item4.setText(callingDetail.data.Information.end_date);
+                            item5.setText(callingDetail.data.Information.bi_date);
+                            model_project_services.addAll(callingDetail.data.Service);
+                            Log.i("service", "onResponse: => " + model_project_services.size());
+                            Adapter_Project_Service adapter_project_service = new Adapter_Project_Service(getContext(), model_project_services,0);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(adapter_project_service);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                    Log.e("frag_approved", "on Failure called!" + t);
+                }
+            });
         }
     }
 
@@ -225,6 +290,35 @@ public class Services extends Fragment {
                 Log.e("frag_service", "on Failure called!" + t);
             }
         });
+    }
+
+    public void CallingServiceList(){
+        if (UserData.isExists()) {
+            Model_Project data = Model_Project.mp;
+            Call<CallingDetail> call = UserData.i.getService().getDetailList(UserData.i.getToken(),data.t_booking_id,data.t_project_header_id);
+            call.enqueue(new Callback<CallingDetail>() {
+                @Override
+                public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                    CallingDetail callingDetail = response.body();
+                    if (Calling.TreatResponse(getContext(),"tag", callingDetail)) {
+                        if (callingDetail != null){
+                            progress.setVisibility(View.GONE);
+                            model_project_services.addAll(callingDetail.data.Service);
+                            Log.i("list", "onResponse: => " + model_project_services.size());
+                            Adapter_Project_Service adapter_project_service = new Adapter_Project_Service(getContext(), model_project_services,0);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(adapter_project_service);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                    Log.e("frag_approved", "on Failure called!" + t);
+                }
+            });
+        }
     }
 
     public void setFormatIDR(String value, TextView textView){

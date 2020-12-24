@@ -1,4 +1,4 @@
-package com.kbs.pocis.onlineboking;
+package com.kbs.pocis.invoice;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Frag_Invoice extends FilterFragment {
+public class Performa extends FilterFragment {
 
     RecyclerView recyclerView;
     List<Model_Project> model_project_s;
@@ -44,42 +44,44 @@ public class Frag_Invoice extends FilterFragment {
     ProgressBar progressBar;
     RelativeLayout layout_kosong;
     NestedScrollView nested;
-    TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
-            index_list_invoice, all_index_invoice;
+    TextView kanan, kiri, kanan_banget, kiri_banget, title_progress,
+            index_list_proforma, all_index_proforma;
     ImageView search_icon;
     int total_item = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_invoice, container, false);
-        model_project_s = new ArrayList<>();
-        nested = view.findViewById(R.id.nested);
+        View view = inflater.inflate(R.layout.fragment_performa, container, false);
+
         title_progress = view.findViewById(R.id.title_progress);
+        nested = view.findViewById(R.id.nested);
         progressBar = view.findViewById(R.id.progress);
-        search_icon = view.findViewById(R.id.btn_search_invoice);
-        layout_kosong = view.findViewById(R.id.lay_invoice_kosong);
+        layout_kosong = view.findViewById(R.id.lay_proforma_kosong);
         kanan = view.findViewById(R.id.kanan);
         progressBar = view.findViewById(R.id.progress);
         kiri = view.findViewById(R.id.kiri);
         kanan_banget = view.findViewById(R.id.kanan_banget);
         kiri_banget = view.findViewById(R.id.kiri_banget);
-        index_list_invoice = view.findViewById(R.id.index_list_invoice);
-        all_index_invoice = view.findViewById(R.id.all_index_invoice);
-        recyclerView = view.findViewById(R.id.list_invoice);
-
+        index_list_proforma = view.findViewById(R.id.index_list_proforma);
+        all_index_proforma = view.findViewById(R.id.all_index_proforma);
+        search_icon = view.findViewById(R.id.btn_search_performa);
         search_icon.setOnClickListener(v -> {
-            fragment = new Dialog_Filter(true,Frag_Invoice.this);
+            fragment = new Dialog_Filter(true,Performa.this);
             fragment.show(getChildFragmentManager(), "filter_online");
         });
+        recyclerView = view.findViewById(R.id.list_proforma);
+        model_project_s = new ArrayList<>();
 
         filter = null;
         max_list = 5;
         GenerateLists();
         Ganti();
 
+
         return view;
     }
+
 
     public void Ganti() {
         kanan.setOnClickListener(view -> ChangePage(page_current + 1));
@@ -105,8 +107,8 @@ public class Frag_Invoice extends FilterFragment {
             title_progress.setVisibility(View.VISIBLE);
             nested.setVisibility(View.GONE);
         } else {
-            progressBar.setVisibility(View.GONE);
             title_progress.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             nested.setVisibility(View.VISIBLE);
         }
     }
@@ -121,10 +123,10 @@ public class Frag_Invoice extends FilterFragment {
 
             String of = page_current + "  Of  " + page_last;
             String show = "Showing " + (model_project_s.size()) + " of " + total_item + " results";
-            index_list_invoice.setText(of);
-            all_index_invoice.setText(show);
+            index_list_proforma.setText(of);
+            all_index_proforma.setText(show);
 
-            Adapter_Project adapter_project_list = new Adapter_Project(getContext(), model_project_s, 3);
+            Adapter_Project adapter_project_list = new Adapter_Project(getContext(), model_project_s, 4);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_project_list);
@@ -144,14 +146,14 @@ public class Frag_Invoice extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list){
-        Log.i("frag_invoice", "Call Invoice page = " + page);
+        Log.i("frag_performa", "Call Performa page = " + page);
         if (UserData.isExists()) {
-            Call<PublicList> call = UserData.i.getService().getListInvoice(UserData.i.getToken(), String.valueOf(page));
+            Call<PublicList> call = UserData.i.getService().getListProforma(UserData.i.getToken(), String.valueOf(page));
             call.enqueue(new Callback<PublicList>() {
                 @Override
                 public void onResponse(@NotNull Call<PublicList> call, @NotNull Response<PublicList> response) {
                     PublicList respone = response.body();
-                    if (Calling.TreatResponse(getContext(), "invoice", respone)) {
+                    if (Calling.TreatResponse(getContext(), "performa", respone)) {
                         if (!filtering) {
                             assert respone != null;
                             model_project_s = respone.data.model;
@@ -210,8 +212,8 @@ public class Frag_Invoice extends FilterFragment {
                                     total_item = pmanager.total;
                                     load = false;
                                     nested.setVisibility(View.VISIBLE);
-                                    progressBar.setVisibility(View.GONE);
                                     title_progress.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.GONE);
                                     ShowAdapter();
                                 } else {
                                     GenerateFilter(page + 1, 0);
@@ -232,7 +234,7 @@ public class Frag_Invoice extends FilterFragment {
                 @Override
                 public void onFailure(@NotNull Call<PublicList> call, @NotNull Throwable t) {
                     Ready = true;
-                    Log.e("frag_invoice", "on Failure called!" + t);
+                    Log.e("frag_performa", "on Failure called!" + t);
                 }
             });
             try {

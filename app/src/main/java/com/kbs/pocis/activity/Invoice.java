@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
-import com.kbs.pocis.onlineboking.Frag_Invoice;
-import com.kbs.pocis.onlineboking.Performa;
+import com.kbs.pocis.invoice.Frag_Invoice;
+import com.kbs.pocis.invoice.Performa;
 
 public class Invoice extends AppCompatActivity {
 

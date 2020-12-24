@@ -1,6 +1,8 @@
 package com.kbs.pocis.api;
 
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.CallProjectList;
 import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
@@ -11,11 +13,15 @@ import com.kbs.pocis.service.createbooking.CallingList;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -142,6 +148,15 @@ public interface UserService {
             @Field("token") String token,
             @Field("page") String page
     );
+//my-projects/listProjectList
+
+    @FormUrlEncoded
+    @POST("my-projects/listProjectList")
+    Call<CallProjectList> getListProject(
+            @Field("token") String token,
+            @Field("page") String page
+    );
+
 
     @FormUrlEncoded
     @POST("my-projects/listProjectsApproval")
@@ -151,10 +166,10 @@ public interface UserService {
     );
 
     @FormUrlEncoded
-    @POST("my-projects/listProjectList")
-    Call<CallProjectList> getListProject(
-            @Field("token") String token
-            //,@Field("page") String page
+    @POST("my-projects/listBapjList")
+    Call<PublicList> getListBAPJ(
+            @Field("token") String token,
+            @Field("page") String page
     );
 
     @FormUrlEncoded
@@ -170,6 +185,21 @@ public interface UserService {
             @Field("token") String token,
             @Field("t_project_header_id") String t_project_header_id,
             @Field("flag_compound") String flag_compound
+    );
+
+    @FormUrlEncoded
+    @POST("my-projects/detailProjectList")
+    Call<CallingDetail> getDetailList(
+            @Field("token") String token,
+            @Field("t_booking_id") String t_booking_id,
+            @Field("t_project_header_id") String flag_compound
+    );
+
+    @FormUrlEncoded
+    @POST("my-projects/detailBapjList")
+    Call<CallingDetail> getDetailBAPJ(
+            @Field("token") String token,
+            @Field("t_project_report_header_id") String t_project_report_header_id
     );
 
     @FormUrlEncoded

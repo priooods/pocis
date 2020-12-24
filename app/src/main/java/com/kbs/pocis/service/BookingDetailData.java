@@ -9,6 +9,7 @@ import com.kbs.pocis.model.Model_DetailsService;
 import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
+import com.kbs.pocis.service.PublicList.PublicList;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -107,7 +108,9 @@ public class BookingDetailData {
         }
     }
 
+    public Model_Project Information;
     public ArrayList<Model_Project> Service;
+
 
     public String readString() {
         if (customerType!=null) {

@@ -62,6 +62,8 @@
     <string name="cancel_stat">Cancel Status</string>
     <string name="book_stat">Booking Status</string>
     <string name="booking_no">Booking No</string>
+    <string name="Project_Report_No">Project Report No.</string>
+    <string name="BAPJ_Status">BAPJ Status</string>
     <!-- Title untuk total harga mata uang -->
     <string name="dp_in_idr">Total Amount DP in IDR</string>
     <string name="in_idr">Total Amount in IDR</string>

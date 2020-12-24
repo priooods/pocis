@@ -141,7 +141,7 @@
             <LinearLayout
                 android:id="@+id/ln_sub1"
                 android:layout_alignParentLeft="true"
-                android:layout_width="120dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -195,8 +195,7 @@
                     android:textSize="10dp"
                     android:fontFamily="@font/montserrat_bold"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"
-                    android:text="H9JY01002"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         app:tabSelectedTextColor="@color/colorPrimaryDark"
-        app:tabTextAppearance="@style/TablayoutStyle"
+        app:tabTextAppearance="@style/TablayoutStyle2"
         app:tabMode="fixed"
         android:layout_below="@id/a"
         app:tabTextColor="@color/colorPrimaryDarkLow"

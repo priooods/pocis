@@ -67,15 +67,14 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.item3.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).customer_name);
                     holder.item2.setText(model_project.get(position).ppj_no);
+
                     holder.status.setText(model_project.get(position).status_project);
-                    holder.gotoo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, Detail_MyProject.class);
-                            Model_Project.Code = 0;
-                            Model_Project.mp = model_project.get(position);
-                            context.startActivity(intent);
-                        }
+                    holder.gotoo.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, Detail_MyProject.class);
+                        Model_Project.Code = 0;
+                        Model_Project.mp = model_project.get(position);
+                        Log.i(TAG, "onBindViewHolder: => " + model_project.get(position).temp_project_no);
+                        context.startActivity(intent);
                     });
                     break;
                 case 1: //for project List
@@ -92,26 +91,23 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_7.setText(R.string.bilpay_no);
                     holder.title_8.setText(R.string.va_number);
 
-                    holder.number.setText(model_project.get(position).temp_proj_no);
-                    holder.status.setText(model_project.get(position).status);
-                    holder.item_top1.setText(model_project.get(position).date_issue);
-                    holder.item_top2.setText(model_project.get(position).ppj_nomer);
-                    holder.item1.setText(model_project.get(position).booking_no);
+                    holder.number.setText(model_project.get(position).temp_project_no);
+                    holder.status.setText(model_project.get(position).status_project);
+                    holder.item_top1.setText(model_project.get(position).date_project_issued);
+                    holder.item_top2.setText(model_project.get(position).ppj_no);
+                    holder.item1.setText(model_project.get(position).no_booking);
                     holder.item2.setText(model_project.get(position).start_date);
                     holder.item3.setText(model_project.get(position).schedule_code);
-                    holder.item4.setText(model_project.get(position).consig_name);
-                    holder.item5.setText(model_project.get(position).tonage);
+                    holder.item4.setText(model_project.get(position).customer_name);
+                    holder.item5.setText(model_project.get(position).tonnage);
                     holder.item6.setText(model_project.get(position).vessel_name);
-                    holder.item7.setText(model_project.get(position).bill_payment);
+                    holder.item7.setText(model_project.get(position).bill_paymemt_number);
                     holder.item8.setText(model_project.get(position).va_number);
-                    holder.gotoo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, Detail_MyProject.class);
-                            Model_Project.Code = 1;
-                            Model_Project.mp = model_project.get(position);
-                            context.startActivity(intent);
-                        }
+                    holder.gotoo.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, Detail_MyProject.class);
+                        Model_Project.Code = 1;
+                        Model_Project.mp = model_project.get(position);
+                        context.startActivity(intent);
                     });
                     break;
                 case 2: //for BPAJ
@@ -125,21 +121,18 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_4.setText(R.string.vesselname);
                     holder.title_5.setText(R.string.voyage);
 
-                    holder.number.setText(model_project.get(position).bpaj_no);
+                    holder.number.setText(model_project.get(position).temp_project_no);
                     holder.item4.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).booking_no);
                     holder.item2.setText(model_project.get(position).customer_name);
-                    holder.item3.setText(model_project.get(position).ppj_nomer);
-                    holder.item5.setText(model_project.get(position).voyage);
-                    holder.status.setText(model_project.get(position).status);
-                    holder.gotoo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, Detail_MyProject.class);
-                            Model_Project.Code = 2;
-                            Model_Project.mp = model_project.get(position);
-                            context.startActivity(intent);
-                        }
+                    holder.item3.setText(model_project.get(position).ppj_no);
+                    holder.item5.setText(model_project.get(position).voyage_no);
+                    holder.status.setText(model_project.get(position).status_bapj);
+                    holder.gotoo.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, Detail_MyProject.class);
+                        Model_Project.Code = 2;
+                        Model_Project.mp = model_project.get(position);
+                        context.startActivity(intent);
                     });
                     break;
                 case 3: //for invoice
@@ -159,14 +152,11 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.item3.setText(model_project.get(position).booking_no);
                     holder.item5.setText(model_project.get(position).status_cancel);
                     holder.status.setText(model_project.get(position).status_payment);
-                    holder.gotoo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, Detail_MyProject.class);
-                            Model_Project.Code = 3;
-                            Model_Project.mp = model_project.get(position);
-                            context.startActivity(intent);
-                        }
+                    holder.gotoo.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, Detail_MyProject.class);
+                        Model_Project.Code = 3;
+                        Model_Project.mp = model_project.get(position);
+                        context.startActivity(intent);
                     });
                     break;
                 case 4: //for performa
@@ -187,14 +177,11 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.item5.setText(model_project.get(position).status_booking);
                     holder.item6.setText(model_project.get(position).tipe_pembayaran);
                     holder.status.setText(model_project.get(position).status_payment);
-                    holder.gotoo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, Detail_MyProject.class);
-                            Model_Project.Code = 4;
-                            Model_Project.mp = model_project.get(position);
-                            context.startActivity(intent);
-                        }
+                    holder.gotoo.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, Detail_MyProject.class);
+                        Model_Project.Code = 4;
+                        Model_Project.mp = model_project.get(position);
+                        context.startActivity(intent);
                     });
                     break;
 
@@ -256,7 +243,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
         };
     }
 
-    public class vHolder extends RecyclerView.ViewHolder{
+    public static class vHolder extends RecyclerView.ViewHolder{
         LinearLayout ln_top1, ln_top2,ln4,ln5,ln6,ln7,ln8;
         TextView number, status, item_top1,item_top2, item1, item3, item2, item5, item4, item6,item7,item8,
             title_top1,title_top2,title_1,title_2,title_3,title_4,title_5, title_6,title_7,title_8;
