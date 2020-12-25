@@ -49,46 +49,37 @@ public class OnlineBook extends AppCompatActivity {
         icon_tarif = findViewById(R.id.icon_tarifapprove);
         create_booking = findViewById(R.id.online_booking_create_booking);
 
-        tarif_approve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id_booking.setTextColor(getResources().getColor(R.color.colorGrey));
-                icon_booking.setImageResource(R.drawable.booking_icon_grey);
-                id_tarif.setTextColor(getResources().getColor(R.color.colorWhite));
-                icon_tarif.setImageResource(R.drawable.dollar_white);
-                Fragment fragment = new TarifApprove();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameOnline, fragment);
-                fragmentTransaction.commit();
-            }
+        tarif_approve.setOnClickListener(v -> {
+            id_booking.setTextColor(getResources().getColor(R.color.colorGrey));
+            icon_booking.setImageResource(R.drawable.booking_icon_grey);
+            id_tarif.setTextColor(getResources().getColor(R.color.colorWhite));
+            icon_tarif.setImageResource(R.drawable.dollar_white);
+            Fragment fragment = new TarifApprove();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameOnline, fragment);
+            fragmentTransaction.commit();
         });
 
-        online_booking_onlinebooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                id_booking.setTextColor(getResources().getColor(R.color.colorWhite));
-                icon_booking.setImageResource(R.drawable.booking_icon_white);
-                id_tarif.setTextColor(getResources().getColor(R.color.colorGrey));
-                icon_tarif.setImageResource(R.drawable.dollar_icon_grey);
+        online_booking_onlinebooking.setOnClickListener(v -> {
+            id_booking.setTextColor(getResources().getColor(R.color.colorWhite));
+            icon_booking.setImageResource(R.drawable.booking_icon_white);
+            id_tarif.setTextColor(getResources().getColor(R.color.colorGrey));
+            icon_tarif.setImageResource(R.drawable.dollar_icon_grey);
 
-                Fragment fragment = new OnlineBooking();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frameOnline, fragment);
-                fragmentTransaction.commit();
-            }
+            Fragment fragment = new OnlineBooking();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameOnline, fragment);
+            fragmentTransaction.commit();
         });
 
         FragmentList(new OnlineBooking());
 
-        create_booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookingData.i = null;
-                Intent intent = new Intent(OnlineBook.this, CreateBooking.class);
-                startActivity(intent);
-            }
+        create_booking.setOnClickListener(v -> {
+            BookingData.i = null;
+            Intent intent = new Intent(OnlineBook.this, CreateBooking.class);
+            startActivity(intent);
         });
     }
 

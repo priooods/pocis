@@ -17,7 +17,6 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.myproject.Project_List_Dasar;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
-import com.kbs.pocis.myproject.Projects_List;
 
 public class MyProject_Dasar extends AppCompatActivity {
 
@@ -42,12 +41,9 @@ public class MyProject_Dasar extends AppCompatActivity {
         }
         type = getIntent().getIntExtra("id",0);
         icon_back = findViewById(R.id.btn_back_myproject);
-        icon_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyProject_Dasar.this.onBackPressed();
-                finish();
-            }
+        icon_back.setOnClickListener(v -> {
+            MyProject_Dasar.this.onBackPressed();
+            finish();
         });
 
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
@@ -70,17 +66,18 @@ public class MyProject_Dasar extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.project_aprove:
                             selectFragment = new Projects_Approved();
-                            title.setText("Projects Approval");
+                            title.setText(R.string.approval);
                             break;
                         case R.id.project_open:
                             selectFragment = new Project_List_Dasar();
-                            title.setText("Projects Lists");
+                            title.setText(R.string.list);
                             break;
                         case R.id.bpaj_aprove:
                             selectFragment = new Projects_Bpaj();
-                            title.setText("BAPJ Approval");
+                            title.setText(R.string.bapj);
                             break;
                     }
+                    assert selectFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, selectFragment).commit();
                     return true;
                 }

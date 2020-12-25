@@ -1,11 +1,12 @@
 package com.kbs.pocis.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,20 +17,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Monitoring;
 import com.kbs.pocis.model.Model_Project;
-import com.kbs.pocis.myproject.Detail_MyProject;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.vHolder> {
+public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.vHolder> implements Filterable {
 
     Context context;
     List<Model_Monitoring> model_monitorings;
+    List<Model_Monitoring> search;
     int type;
 
     public Adapter_Monitoring(Context context, List<Model_Monitoring> model_monitorings, int type) {
         this.context = context;
         this.model_monitorings = model_monitorings;
         this.type = type;
+        this.search = model_monitorings;
     }
 
     @NonNull
@@ -106,7 +109,41 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
         return model_monitorings.size();
     }
 
-    public class vHolder extends RecyclerView.ViewHolder{
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String value = constraint.toString();
+                if (value.isEmpty()){
+                    model_monitorings = search;
+                } else {
+                    List<Model_Monitoring> projects = new ArrayList<>();
+                    for (Model_Monitoring model_project : projects){
+                        if (model_project.nomer.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.booking_no.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.project_no.toLowerCase().contains(value.toLowerCase())){
+                            projects.add(model_project);
+                        }
+                    }
+
+                    model_monitorings = projects;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = model_monitorings;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                model_monitorings = (List<Model_Monitoring>)results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public static class vHolder extends RecyclerView.ViewHolder{
         LinearLayout ln_top1, ln_top2,ln4,ln5,ln6,ln7,ln8;
         TextView number, number_bot, status, item_top1,item_top2, item1, item3, item2, item5, item4, item6,
                 title_top1,title_top2,title_1,title_2,title_3,title_4,title_5, title_6;

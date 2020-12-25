@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,7 @@ public class Services extends Fragment {
 
     TextView title1,title2,title3,title4,title5;
     TextView item1,item2,item3,item4,item5, item_list1,item_list2, item_bpaj1,
-            invoice1,invoice2,invoice3,invoice4,invoice5,invoice6, performa1,performa2;
+            invoice1,invoice2,invoice3,invoice4,invoice5,invoice6, performa1,performa2, server_error, title_pembuka;
 
     ConstraintLayout ln_list,ln_bpaj,ln_performa, ln_top, ln_list_area;
     View bottom;
@@ -48,6 +49,7 @@ public class Services extends Fragment {
     BottomSheetBehavior bottomSheetBehavior;
     List<Model_Project> model_project_services;
     RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     int service_type;
     public Services(int types){
@@ -60,7 +62,10 @@ public class Services extends Fragment {
         View view = inflater.inflate(R.layout.details_services, container,false);
 
         progress = view.findViewById(R.id.progress);
+        progressBar = view.findViewById(R.id.progress2);
         ln1 = view.findViewById(R.id.ln1);
+        title_pembuka = view.findViewById(R.id.a);
+        server_error = view.findViewById(R.id.title_error);
         ln_top = view.findViewById(R.id.ln_top);
         ln_list_area = view.findViewById(R.id.ln_list_area);
         item_list1 = view.findViewById(R.id.item_list1);
@@ -109,7 +114,6 @@ public class Services extends Fragment {
     }
 
     public void PrivateByType(){
-//        Model_Project data = Model_Project.mp;
         switch (service_type){
             case 0:
                 Log.i(TAG, "PrivateByType: " + service_type);
@@ -117,6 +121,13 @@ public class Services extends Fragment {
                 break;
             case 1:
                 Log.i(TAG, "PrivateByType: " + service_type);
+                ln_top.setVisibility(View.GONE);
+                title_pembuka.setVisibility(View.GONE);
+                ln_list.setVisibility(View.GONE);
+                server_error.setVisibility(View.VISIBLE);
+
+                //Masih Error jadi default masih yg diatas
+
                 break;
         }
     }
@@ -148,6 +159,8 @@ public class Services extends Fragment {
                 item3.setText(data.exchange_rate);
                 item4.setText(data.end_date);
                 item5.setText(data.bi_date);
+                progressBar.setVisibility(View.VISIBLE);
+                title_pembuka.setVisibility(View.GONE);
                 Log.i(TAG, "GlobalByCode: => " + data.t_project_report_header_id);
                 CallServiceBAPJ(data.t_project_report_header_id);
                 break;
@@ -196,6 +209,11 @@ public class Services extends Fragment {
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter_project_service);
                         }
+                    } else {
+                        title_pembuka.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        ln_list_area.setVisibility(View.GONE);
+                        server_error.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -229,6 +247,9 @@ public class Services extends Fragment {
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter_project_service);
                         }
+                    } else {
+                        ln_list_area.setVisibility(View.GONE);
+                        server_error.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -256,6 +277,9 @@ public class Services extends Fragment {
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_project_service);
+                } else {
+                    ln_list_area.setVisibility(View.GONE);
+                    server_error.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -282,6 +306,9 @@ public class Services extends Fragment {
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_project_service);
+                }else {
+                    ln_list_area.setVisibility(View.GONE);
+                    server_error.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -309,6 +336,9 @@ public class Services extends Fragment {
                             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter_project_service);
+                        }else {
+                            ln_list_area.setVisibility(View.GONE);
+                            server_error.setVisibility(View.VISIBLE);
                         }
                     }
                 }

@@ -10,6 +10,17 @@
     <string name="index_of">\u0020Of\u0020</string>
     <string name="index_showing">Showing\u0020</string>
     <string name="index_result">\u0020Result</string>
+    <string name="pass_top">Please provide your yout registered email within our system</string>
+    <string name="pass_mid">We wil send you an email with your current password</string>
+
+    <!-- Menu Navigation Title -->
+    <string name="approval">Projects Approval</string>
+    <string name="list">Projects Lists</string>
+    <string name="bapj">BAPJ Approval</string>
+    <string name="invoice">Invoice</string>
+    <string name="proforma">Proforma</string>
+    <string name="loading">Loading/Unloading</string>
+    <string name="vessel_schedule">Vessel Schedule</string>
 
     <string name="prepared">PREPARED</string>
     <string name="open">OPEN</string>

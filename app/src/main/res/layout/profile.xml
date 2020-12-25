@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/z">
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="@id/t"
+            app:layout_constraintBottom_toBottomOf="@id/t"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_back"
+            android:scaleType="fitXY"
+            android:layout_marginStart="15dp"
+            android:id="@+id/icon_back"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/t"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="User Info"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Account"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorGrey"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_editUser"
+        android:paddingHorizontal="15dp"
+        android:layout_below="@id/z"
+        android:layout_marginTop="30dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="30dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="15sp"
+                android:id="@+id/username"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorShimer"
+                app:layout_constraintTop_toBottomOf="@id/username"
+                android:layout_marginTop="8dp"
+                android:id="@+id/line"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/line"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+                android:text="User Profile Info"
+                android:textSize="12sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/a"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/c1"
+                app:layout_constraintTop_toBottomOf="@id/a"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="15dp"
+                    android:background="#f9f9f9"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="Address"
+                        android:textStyle="italic"
+                        android:fontFamily="@font/montserrat_reguler"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="9sp"
+                        android:id="@+id/aa"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        app:layout_constraintTop_toBottomOf="@id/aa"
+                        android:textSize="11sp"
+                        android:id="@+id/address"
+                        android:layout_marginTop="2dp"
+                        android:text="JL. SUNAN GUNUNG JATI NO. 1 CIGADING - CILEGON"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:fontFamily="@font/montserrat_bold"/>
+
+
+                    <LinearLayout
+                        android:id="@+id/bb"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/address"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/address"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="Phone"
+                            android:textStyle="italic"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="9sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/phone"
+                            android:layout_marginTop="2dp"
+                            android:text="089 - 18989 -238"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cc"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        app:layout_constraintTop_toTopOf="@id/bb"
+                        app:layout_constraintBottom_toBottomOf="@id/bb"
+                        android:layout_marginStart="14sp"
+                        app:layout_constraintStart_toEndOf="@id/bb">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/address"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="Email"
+                            android:textStyle="italic"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="9sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/email"
+                            android:layout_marginTop="2dp"
+                            android:text="ops_big@indosat.net.id"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dd"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/bb"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/address"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="Fax"
+                            android:textStyle="italic"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="9sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/pay"
+                            android:layout_marginTop="2dp"
+                            android:text="089 - 18989 -238"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ee"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        android:layout_marginStart="15dp"
+                        app:layout_constraintTop_toTopOf="@id/dd"
+                        app:layout_constraintBottom_toBottomOf="@id/dd"
+                        app:layout_constraintStart_toEndOf="@id/dd">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/address"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="NPWP"
+                            android:textStyle="italic"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="9sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/npwp"
+                            android:layout_marginTop="2dp"
+                            android:text="089 - 18989 -238"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/main_disabled_color"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintTop_toBottomOf="@id/dd"
+                        android:id="@+id/line2"/>
+
+                    <LinearLayout
+                        android:id="@+id/l1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/line2"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:textSize="9sp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Contact Name"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/contact_name"
+                            android:layout_marginTop="2dp"
+                            android:text="ops_big@indosat.net.id"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/l2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/l1"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:textSize="9sp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Contact E-mail"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/contact_email"
+                            android:layout_marginTop="2dp"
+                            android:text="ops_big@indosat.net.id"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/l3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/l2"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:textSize="9sp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Contact Phone"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/contact_phone"
+                            android:layout_marginTop="2dp"
+                            android:text="ops_big@indosat.net.id"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/c1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+                android:text="User System Info"
+                android:textSize="12sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/b"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/c2"
+                app:layout_constraintTop_toBottomOf="@id/b"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="15dp"
+                    android:background="#f9f9f9"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/l5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:textSize="9sp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Customer Type"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/cutomer_type"
+                            android:layout_marginTop="2dp"
+                            android:text="ops_big@indosat.net.id"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/l6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/l5"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:textSize="9sp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_reguler"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:text="Code"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@id/aa"
+                            android:textSize="11sp"
+                            android:id="@+id/code"
+                            android:layout_marginTop="2dp"
+                            android:text="ops_big@indosat.net.id"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:fontFamily="@font/montserrat_bold"/>
+
+                    </LinearLayout>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/btn_primary"
+        android:textColor="@color/colorWhite"
+        android:textAllCaps="false"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="12dp"
+        android:text="Edit User Profile"
+        android:id="@+id/btn_editUser"/>
+
+</RelativeLayout>

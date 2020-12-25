@@ -9,15 +9,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.AdapterNews;
-import com.kbs.pocis.item.Popup_Profile;
 import com.kbs.pocis.model.Model_News;
+import com.kbs.pocis.profile.Profile_Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +42,13 @@ public class News_List extends Fragment {
         view = inflater.inflate(R.layout.fragment_news, container,false);
         list_news = view.findViewById(R.id.list_allnews);
         showprofile = view.findViewById(R.id.iconprofile);
-        showprofile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment fragment = new Popup_Profile();
-                fragment.show(getChildFragmentManager(),"PopUp");
-            }
+        showprofile.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new Profile_Menu();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
         });
         title = view.findViewById(R.id.title);
 

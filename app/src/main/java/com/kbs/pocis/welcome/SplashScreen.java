@@ -5,16 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.HomePage;
-import com.kbs.pocis.service.SessionManager;
-import com.kbs.pocis.service.UserData;
 
 public class SplashScreen extends AppCompatActivity {
 
-    SessionManager sessionManager;
+//    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +24,9 @@ public class SplashScreen extends AppCompatActivity {
 
     public void Handlerr(){
         int TIMING = 2000;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(SplashScreen.this, Welcome_Screen.class));
-                SplashScreen.this.finish();
-            }
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(SplashScreen.this, Welcome_Screen.class));
+            SplashScreen.this.finish();
         }, TIMING);
     }
 

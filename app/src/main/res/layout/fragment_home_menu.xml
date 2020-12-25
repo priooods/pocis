@@ -410,9 +410,55 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
-                    android:layout_marginTop="20dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_below="@id/d"
+                    android:id="@+id/ves_line"
+                    android:layout_marginTop="25dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ves_line"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    <Button
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="Download Here"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:background="@drawable/btn_primary"
+                        android:textSize="9dp"
+                        android:textAllCaps="false"
+                        android:paddingHorizontal="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/colorWhite"
+                        android:id="@+id/go_downInfo"/>
+
+                    <TextView
+                        android:layout_width="110dp"
+                        app:layout_constraintEnd_toStartOf="@id/go_downInfo"
+                        app:layout_constraintTop_toTopOf="@id/go_downInfo"
+                        app:layout_constraintBottom_toBottomOf="@id/go_downInfo"
+                        android:layout_marginEnd="15dp"
+                        android:layout_height="wrap_content"
+                        android:text="Looking for Vessel Line-up?"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="12dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <LinearLayout
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@id/ves_line"
                     android:id="@+id/l1"
                     android:focusable="false"
                     android:focusableInTouchMode="false"

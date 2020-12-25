@@ -221,6 +221,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     List<Model_Project> projects = new ArrayList<>();
                     for (Model_Project model_project : projects){
                         if (model_project.booking_no.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.no_booking.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.vessel_name.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.project_no.toLowerCase().contains(value.toLowerCase())){
                             projects.add(model_project);

@@ -40,13 +40,10 @@ public class Welcome_Screen extends AppCompatActivity {
         viewPager.setInterval(6000);
         ViewPagerIndicator circleIndicator = findViewById(R.id.indicator);
         Button goLogin = findViewById(R.id.btn_gologin);
-        goLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Welcome_Screen.this, Login.class);
-                startActivity(intent);
-                Welcome_Screen.this.finish();
-            }
+        goLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(Welcome_Screen.this, Auth.class);
+            startActivity(intent);
+            Welcome_Screen.this.finish();
         });
         //Ini untuk nampilin viewpager di screen welcome
         pager_onboard = new Pager_Onboard(this, item);

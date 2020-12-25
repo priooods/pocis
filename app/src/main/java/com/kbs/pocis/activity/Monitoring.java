@@ -37,12 +37,9 @@ public class Monitoring extends AppCompatActivity {
         }
 
         icon_back = findViewById(R.id.btn_back_monitoring);
-        icon_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                finish();
-            }
+        icon_back.setOnClickListener(v -> {
+            onBackPressed();
+            finish();
         });
         bottombar_monitoring = findViewById(R.id.bottombar_monitoring);
         title = findViewById(R.id.title);
@@ -58,13 +55,14 @@ public class Monitoring extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.unload:
                             selectFragment = new Unloading();
-                            title.setText("Loading/Unloading");
+                            title.setText(R.string.loading);
                             break;
                         case R.id.vesel:
                             selectFragment = new Vessel_Schedule();
-                            title.setText("Vessel Schedule");
+                            title.setText(R.string.vessel_schedule);
                             break;
                     }
+                    assert selectFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.framemonitoring, selectFragment).commit();
                     return true;
                 }

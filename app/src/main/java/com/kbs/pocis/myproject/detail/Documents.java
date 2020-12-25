@@ -41,6 +41,10 @@ public class Documents extends Fragment {
         if(Model_Project.isExist()){
             Model_Project data = Model_Project.mp;
             switch (Model_Project.Code){
+                case 2:
+                    line.setVisibility(View.GONE);
+                    title.setVisibility(View.VISIBLE);
+                    break;
                 case 3:
                     if (data.dokumen_faktur_pajak == null && data.dokumen_kwitans == null && data.dokumen_tanda_tangan_invoice == null &&
                             data.dokumen_tanda_terima == null){

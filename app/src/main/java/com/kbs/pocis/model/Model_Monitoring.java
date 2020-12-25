@@ -10,7 +10,7 @@ public class Model_Monitoring {
         return true;
     }
 
-    public String status, voyage, est_bethring, est_departure,act_bethring, act_departure, jetty,
+    public String status, voyage, est_bethring, est_departure,act_bethring, act_departure, jetty, booking_no, project_no,
             name,code, ship_line,est_arival, nomer;
     public int id;
 

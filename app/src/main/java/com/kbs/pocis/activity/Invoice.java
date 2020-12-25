@@ -55,11 +55,11 @@ public class Invoice extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.invoice:
                             selectFragment = new Frag_Invoice();
-                            title.setText("Invoice");
+                            title.setText(R.string.invoice);
                             break;
                         case R.id.performa:
                             selectFragment = new Performa();
-                            title.setText("Proforma");
+                            title.setText(R.string.proforma);
                             break;
                     }
                     assert selectFragment != null;
