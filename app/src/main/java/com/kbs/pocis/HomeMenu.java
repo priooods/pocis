@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.Invoice;
-import com.kbs.pocis.activity.Monitoring;
+import com.kbs.pocis.monitoring.Monitoring;
 import com.kbs.pocis.activity.MyProject_Dasar;
 import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.adapter.AdapterNews;
@@ -26,6 +26,8 @@ import com.kbs.pocis.complains.Complain_Dasar;
 import com.kbs.pocis.model.Model_News;
 import com.kbs.pocis.news.News_List;
 import com.kbs.pocis.profile.Profile_Menu;
+import com.kbs.pocis.progressbook.Progress_Booking;
+import com.kbs.pocis.progressbook.Progress_List;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.welcome.Contact_Us;
@@ -35,7 +37,7 @@ import java.util.List;
 
 public class HomeMenu extends Fragment {
 
-    ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject, menu_invoice,
+    ImageView menu_online_booking, menu_create_booking, iconprofile, menu_myproject, menu_invoice, menu_progres_booking,
         menu_monitoring, menu_complain, menu_tarif_calculate, menu_Onload_Progres,menu_open_project;
     FloatingActionButton floatingActionButton;
     RecyclerView news1,news2;
@@ -56,8 +58,25 @@ public class HomeMenu extends Fragment {
         menu_online_booking = view.findViewById(R.id.menu_online_booking);
         menu_online_booking.setOnClickListener(v -> startActivity(new Intent(getActivity(), OnlineBook.class)));
 
+        menu_progres_booking = view.findViewById(R.id.menu_progres_booking);
+        menu_progres_booking.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new Progress_List();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
+        });
+
         menu_monitoring = view.findViewById(R.id.menu_operation_monitor);
-        menu_monitoring.setOnClickListener(v -> startActivity(new Intent(getActivity(), Monitoring.class)));
+        menu_monitoring.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new Monitoring();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         menu_create_booking = view.findViewById(R.id.menu_create_booking);
         menu_create_booking.setOnClickListener(v -> {
@@ -123,7 +142,14 @@ public class HomeMenu extends Fragment {
         });
 
         menu_Onload_Progres = view.findViewById(R.id.menu_Onload_Progres);
-        menu_Onload_Progres.setOnClickListener(v -> startActivity(new Intent(getActivity(), Monitoring.class)));
+        menu_Onload_Progres.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new Monitoring();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         if (UserData.isExists()){
             UserData userData = UserData.i;

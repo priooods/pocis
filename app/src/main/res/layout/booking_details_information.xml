@@ -27,6 +27,7 @@
             android:id="@+id/b"
             app:layout_constraintTop_toBottomOf="@id/a"
             android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_width="match_parent"
@@ -315,6 +316,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="2dp"
+            app:cardElevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="6dp">

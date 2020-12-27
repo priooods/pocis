@@ -103,5 +103,17 @@ public class Model_Project {
     public int id;
 
 
+
+    public String customer_type;
+    public String booking_date;
+
+    public Model_Project(String status,String no,String cust_name,String type, String date){
+        this.status_project = status;
+        this.no_booking = no;
+        this.customer_name = cust_name;
+        this.customer_type = type;
+        this.booking_date = date;
+    }
+
 }
 

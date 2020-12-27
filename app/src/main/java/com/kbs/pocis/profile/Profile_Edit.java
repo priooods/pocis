@@ -15,13 +15,16 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.UserData;
+
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
 public class Profile_Edit extends Fragment {
 
     View view;
-    TextInputEditText name,phone,fax,email,address,contact_name,contact_email,contact_phone;
+    TextInputEditText name,phone,fax,email,address,contact_name,contact_email,contact_phone,npwp;
     Button cancel,save;
     ImageView back;
 
@@ -31,6 +34,7 @@ public class Profile_Edit extends Fragment {
         view = inflater.inflate(R.layout.profile_editing, container, false);
 
         name = view.findViewById(R.id.name);
+        npwp = view.findViewById(R.id.npwp);
         phone = view.findViewById(R.id.phone);
         fax = view.findViewById(R.id.fax);
         email = view.findViewById(R.id.email);
@@ -42,18 +46,27 @@ public class Profile_Edit extends Fragment {
         save = view.findViewById(R.id.btn_save);
         back = view.findViewById(R.id.icon_back);
 
-        back.setOnClickListener(v->{
-            requireActivity().onBackPressed();
-        });
+        back.setOnClickListener(v->requireActivity().onBackPressed());
 
-        cancel.setOnClickListener(v->{
-            requireActivity().onBackPressed();
-        });
+        cancel.setOnClickListener(v->requireActivity().onBackPressed());
+
+        if (UserData.isExists()){
+            name.setText(UserData.i.username);
+            phone.setText(UserData.i.phone);
+            fax.setText(UserData.i.fax);
+            email.setText(UserData.i.email);
+            address.setText(UserData.i.address);
+            contact_email.setText(UserData.i.contact_email);
+            contact_phone.setText(UserData.i.contact_phone);
+            contact_name.setText(UserData.i.contact_name);
+            npwp.setText(UserData.i.npwp);
+
+        }
 
         save.setOnClickListener(v->{
-            if (name.getText().toString().isEmpty() ||phone.getText().toString().isEmpty() ||fax.getText().toString().isEmpty() ||
-                    email.getText().toString().isEmpty() ||contact_name.getText().toString().isEmpty() ||contact_email.getText().toString().isEmpty() ||
-                    address.getText().toString().isEmpty() ||contact_phone.getText().toString().isEmpty()){
+            if (Objects.requireNonNull(name.getText()).toString().isEmpty() || Objects.requireNonNull(phone.getText()).toString().isEmpty() || Objects.requireNonNull(fax.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(email.getText()).toString().isEmpty() || Objects.requireNonNull(contact_name.getText()).toString().isEmpty() || Objects.requireNonNull(contact_email.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(address.getText()).toString().isEmpty() || Objects.requireNonNull(contact_phone.getText()).toString().isEmpty()){
                 Toasty.error(requireContext(),"Please Add All Form", Toasty.LENGTH_SHORT,true).show();
             } else if (isValid(email.getText()) || isValid(contact_email.getText())){
                 Toasty.error(requireContext(),"Email or Contact Email not Valid", Toasty.LENGTH_SHORT,true).show();

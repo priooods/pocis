@@ -19,13 +19,15 @@
     <string name="bapj">BAPJ Approval</string>
     <string name="invoice">Invoice</string>
     <string name="proforma">Proforma</string>
-    <string name="loading">Loading/Unloading</string>
+    <string name="loading">Loading/Unloading Progress</string>
     <string name="vessel_schedule">Vessel Schedule</string>
 
     <string name="prepared">PREPARED</string>
     <string name="open">OPEN</string>
-<!--    <string name="cancelled">cancelled</string>-->
-<!--    <string name="approved">approved</string>-->
+    <string name="header1_vessel">Vessel Schedule Details</string>
+    <string name="header1_progress">Progress Details</string>
+    <string name="header2_vessel">Operational Monitoring - Vessel Schedule</string>
+    <string name="header2_progress">Operational Monitoring - Loading/Unloading Progress</string>
 
     <!-- MyProject Title sub Title  -->
     <string name="project_aprov_detail">Approval Details</string>
@@ -93,5 +95,33 @@
     <string name="act_depart">Act. Departure</string>
     <string name="est_arival">Est. Arrival</string>
     <string name="ship_line">Shipping Line Type</string>
+
+    <string name="name">Name</string>
+    <string name="call_sign">Call_Sign</string>
+    <string name="mMSI">MMSI Code</string>
+    <string name="gross_Tonnage">Gross Tonnage</string>
+    <string name="death_Weight">Death Weight Tonage</string>
+    <string name="vessel_type">Vessel Type</string>
+    <string name="vessel_registered">Vessel Registered  No.</string>
+    <string name="inapORT">INAPORT Code</string>
+    <string name="length_overall">Length Overall</string>
+    <string name="year">Year</string>
+    <string name="draft">Draft</string>
+    <string name="description">Description</string>
+    <string name="jetty_code">Jetty Code</string>
+    <string name="lowest_water">Lowest Water Spring</string>
+    <string name="length">Length</string>
+    <string name="route">Route</string>
+    <string name="agent_name">Agent Name</string>
+    <string name="project_status">Project Status</string>
+    <string name="discharge_loading">Discharge/Loading</string>
+
+    <string name="estimate_arrival">Estimate Arrival</string>
+    <string name="estimate_anchorage">Estimate Anchorage</string>
+    <string name="estimate_Berthing">Estimate Berthing</string>
+    <string name="estimate_Start_Work">Estimate Start Work</string>
+    <string name="estimate_End_Work">Estimate End Work</string>
+    <string name="estimate_Departure">Estimate Departure</string>
+    <string name="pilot_Off_Board">Pilot Off Board</string>
 
 </resources>

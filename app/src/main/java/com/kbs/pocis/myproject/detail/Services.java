@@ -138,7 +138,7 @@ public class Services extends Fragment {
             case 0: //for aprove
                 progress.setVisibility(View.VISIBLE);
                 CallingDetailApproval();
-                customMargin(ln_list_area, 0,10,0,15);
+                customMargin(ln_list_area, 0,20,0,20);
                 break;
             case 1: //for list
                 progress.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class Services extends Fragment {
                 item3.setText(data.exchange_rate);
                 item4.setText(data.end_date);
                 item5.setText(data.bi_date);
-                customMargin(ln_list_area, 0,20,0,15);
+                customMargin(ln_list_area, 0,20,0,20);
                 setFormatIDR(data.total, item_list1);
                 setFormatIDR(data.total_dp, item_list2);
                 CallingServiceList();
@@ -165,6 +165,7 @@ public class Services extends Fragment {
                 CallServiceBAPJ(data.t_project_report_header_id);
                 break;
             case 3: // for invoice
+                progress.setVisibility(View.VISIBLE);
                 ln_top.setVisibility(View.GONE);
                 bottom.setVisibility(View.VISIBLE);
                 invoice1.setText(data.total_net_amount_in_idr);
@@ -179,6 +180,7 @@ public class Services extends Fragment {
                 CallingServiceInvoice();
                 break;
             case 4: //for performa
+                progress.setVisibility(View.VISIBLE);
                 ln_performa.setVisibility(View.VISIBLE);
                 ln_top.setVisibility(View.GONE);
                 performa1.setText(data.total);
@@ -186,7 +188,7 @@ public class Services extends Fragment {
                 setFormatIDR(data.total, performa1);
                 setFormatIDR(data.total_dp, performa2);
                 CallingServiceProforma();
-                customMargin(ln_list_area, 0,10,0,15);
+                customMargin(ln_list_area, 0,20,0,20);
                 break;
         }
     }
@@ -248,6 +250,7 @@ public class Services extends Fragment {
                             recyclerView.setAdapter(adapter_project_service);
                         }
                     } else {
+                        progress.setVisibility(View.GONE);
                         ln_list_area.setVisibility(View.GONE);
                         server_error.setVisibility(View.VISIBLE);
                     }
@@ -270,6 +273,7 @@ public class Services extends Fragment {
                 CallingDetail detail = response.body();
                 if (Calling.TreatResponse(getContext(), "service", detail)) {
                     assert detail != null;
+                    progress.setVisibility(View.GONE);
                     Log.i("service", "onResponse: => " + detail.data.Service);
                     model_project_services.addAll(detail.data.Service);
                     Log.i("service", "onResponse: => " + model_project_services.size());
@@ -278,6 +282,7 @@ public class Services extends Fragment {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_project_service);
                 } else {
+                    progress.setVisibility(View.GONE);
                     ln_list_area.setVisibility(View.GONE);
                     server_error.setVisibility(View.VISIBLE);
                 }
@@ -299,6 +304,7 @@ public class Services extends Fragment {
                 CallingDetail detail = response.body();
                 if (Calling.TreatResponse(getContext(), "service", detail)) {
                     assert detail != null;
+                    progress.setVisibility(View.GONE);
                     Log.i("service", "onResponse: => " + detail.data.Service);
                     model_project_services.addAll(detail.data.Service);
                     Log.i("service", "onResponse: => " + model_project_services.size());
@@ -307,6 +313,7 @@ public class Services extends Fragment {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter_project_service);
                 }else {
+                    progress.setVisibility(View.GONE);
                     ln_list_area.setVisibility(View.GONE);
                     server_error.setVisibility(View.VISIBLE);
                 }
@@ -337,6 +344,7 @@ public class Services extends Fragment {
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter_project_service);
                         }else {
+                            progress.setVisibility(View.GONE);
                             ln_list_area.setVisibility(View.GONE);
                             server_error.setVisibility(View.VISIBLE);
                         }

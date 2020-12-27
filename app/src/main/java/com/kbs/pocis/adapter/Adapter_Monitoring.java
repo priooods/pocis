@@ -1,6 +1,7 @@
 package com.kbs.pocis.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Monitoring;
-import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.monitoring.Detail_Dasar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,12 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 holder.item5.setText(model_monitorings.get(position).est_departure);
                 holder.item6.setText(model_monitorings.get(position).act_departure);
                 holder.status.setText(model_monitorings.get(position).status);
+                holder.gotoo.setOnClickListener(v->{
+                    Intent intent = new Intent(context, Detail_Dasar.class);
+                    Model_Monitoring.Code = 0;
+                    Model_Monitoring.mn = model_monitorings.get(position);
+                    context.startActivity(intent);
+                });
                 break;
             case 3:
                 holder.number_bot.setVisibility(View.GONE);
@@ -90,6 +97,12 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 holder.item5.setText(model_monitorings.get(position).est_departure);
                 holder.item6.setText(model_monitorings.get(position).ship_line);
                 holder.status.setText(model_monitorings.get(position).status);
+                holder.gotoo.setOnClickListener(v->{
+                    Intent intent = new Intent(context, Detail_Dasar.class);
+                    Model_Monitoring.Code = 1;
+                    Model_Monitoring.mn = model_monitorings.get(position);
+                    context.startActivity(intent);
+                });
                 break;
         }
 

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/z">
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="@id/t"
+            app:layout_constraintBottom_toBottomOf="@id/t"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_back"
+            android:scaleType="fitXY"
+            android:layout_marginStart="15dp"
+            android:id="@+id/icon_back"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/t"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Progress Booking Details"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Progress Booking"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/colorGrey"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.xyz.step.FlowViewHorizontal
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/step_top"
+        android:layout_below="@id/z"
+        android:layout_marginTop="30dp"
+        app:h_bg_radius="5dp"
+        android:paddingHorizontal="20dp"
+        app:h_bg_width="2dp"
+        app:h_pro_color="@color/colorPrimary"
+        app:h_max_step="4"
+        app:h_pro_radius="7dp"
+        app:h_pro_width="2dp"
+        app:h_text_padding="15dp"
+        app:h_textsize="12dp"/>
+
+</RelativeLayout>

@@ -31,11 +31,15 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
-    implementation 'com.google.android.material:material:1.3.0-alpha03'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.libraries.maps:maps:3.1.0-beta'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.auto.value:auto-value-annotations:1.6.2'
+
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+    implementation 'com.xyz.step:step:1.0.4' // Step Horizontal. untuk Vertical dia dari bawah ke atas, ga cocok sama UI
+    implementation 'com.github.baoyachi:StepView:1.9' // Step Vertical. untuk Horizontal dia labelnya di bawah, ga cocok sama UI
 
     //indicator viewpager
     implementation 'it.xabaras.android:viewpagerindicator:1.0'

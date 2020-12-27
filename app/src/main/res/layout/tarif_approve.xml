@@ -55,6 +55,7 @@
     <RelativeLayout
         android:id="@+id/lay_tarifapprove_ada"
         android:layout_marginTop="30dp"
+        android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/a">

@@ -244,7 +244,7 @@
                             android:textSize="11sp"
                             android:id="@+id/pay"
                             android:layout_marginTop="2dp"
-                            android:text="089 - 18989 -238"
+                            android:text="0254-605604"
                             android:textColor="@color/colorPrimaryDark"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -282,7 +282,7 @@
                             android:textSize="11sp"
                             android:id="@+id/npwp"
                             android:layout_marginTop="2dp"
-                            android:text="089 - 18989 -238"
+                            android:text="01.717.931.8.-417.001"
                             android:textColor="@color/colorPrimaryDark"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -324,7 +324,7 @@
                             android:textSize="11sp"
                             android:id="@+id/contact_name"
                             android:layout_marginTop="2dp"
-                            android:text="ops_big@indosat.net.id"
+                            android:text="John Doe"
                             android:textColor="@color/colorPrimaryDark"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -390,7 +390,7 @@
                             android:textSize="11sp"
                             android:id="@+id/contact_phone"
                             android:layout_marginTop="2dp"
-                            android:text="ops_big@indosat.net.id"
+                            android:text="081280611500"
                             android:textColor="@color/colorPrimaryDark"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -456,7 +456,7 @@
                             android:textSize="11sp"
                             android:id="@+id/cutomer_type"
                             android:layout_marginTop="2dp"
-                            android:text="ops_big@indosat.net.id"
+                            android:text="Agent, General"
                             android:textColor="@color/colorPrimaryDark"
                             android:fontFamily="@font/montserrat_bold"/>
 
@@ -489,7 +489,7 @@
                             android:textSize="11sp"
                             android:id="@+id/code"
                             android:layout_marginTop="2dp"
-                            android:text="ops_big@indosat.net.id"
+                            android:text="B0001"
                             android:textColor="@color/colorPrimaryDark"
                             android:fontFamily="@font/montserrat_bold"/>
 

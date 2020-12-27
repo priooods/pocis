@@ -60,7 +60,7 @@ public class Adapter_Template extends RecyclerView.Adapter {
     }
 
 
-    class ItemShowTemplate extends RecyclerView.ViewHolder {
+    static class ItemShowTemplate extends RecyclerView.ViewHolder {
 
         //  komponen
         TextView textViewItemPertama;
@@ -71,7 +71,7 @@ public class Adapter_Template extends RecyclerView.Adapter {
         }
     }
 
-    class ItemSelectTemplate extends RecyclerView.ViewHolder {
+    static class ItemSelectTemplate extends RecyclerView.ViewHolder {
 
         TextView id, name;
         CheckBox checkBox;

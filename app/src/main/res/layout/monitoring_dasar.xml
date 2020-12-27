@@ -37,10 +37,10 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading/Unloading"
+                android:text="Loading/Unloading Progress"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_centerHorizontal="true"
-                android:textSize="17dp"
+                android:textSize="15dp"
                 android:fontFamily="@font/montserrat_bold"/>
 
             <TextView

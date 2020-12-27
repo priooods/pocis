@@ -20,7 +20,7 @@ import com.kbs.pocis.service.UserData;
 public class Profile extends Fragment {
 
     View view;
-    TextView phone,email,code,pay,username,npwp,contact_name,contact_email,contact_phone,cust_type;
+    TextView phone,email,code,fax,username,npwp,contact_name,contact_email,contact_phone,cust_type, address;
     Button edit_profile;
     ImageView back;
 
@@ -33,9 +33,10 @@ public class Profile extends Fragment {
         back = view.findViewById(R.id.icon_back);
 
         phone = view.findViewById(R.id.phone);
+        address = view.findViewById(R.id.address);
         email = view.findViewById(R.id.email);
         code = view.findViewById(R.id.code);
-        pay = view.findViewById(R.id.pay);
+        fax = view.findViewById(R.id.pay);
         username = view.findViewById(R.id.username);
         npwp = view.findViewById(R.id.npwp);
         contact_name = view.findViewById(R.id.contact_name);
@@ -46,7 +47,23 @@ public class Profile extends Fragment {
         back.setOnClickListener(v->{
             requireActivity().onBackPressed();
         });
+
+        if (UserData.isExists()){
+            username.setText(UserData.i.username);
+        }
+
         edit_profile.setOnClickListener(v->{
+            UserData.i.setAllUserData(
+                    username.getText().toString(),
+                    address.getText().toString(),
+                    fax.getText().toString(),
+                    email.getText().toString(),
+                    phone.getText().toString(),
+                    npwp.getText().toString(),
+                    contact_name.getText().toString(),
+                    contact_phone.getText().toString(),
+                    contact_email.getText().toString()
+                    );
             Fragment fragment;
             fragment = new Profile_Edit();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -54,10 +71,6 @@ public class Profile extends Fragment {
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
-
-        if (UserData.isExists()){
-            username.setText(UserData.i.username);
-        }
 
         return view;
     }

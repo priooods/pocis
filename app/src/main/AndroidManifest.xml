@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kbs.pocis">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -16,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="m">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api"/>
@@ -30,14 +32,14 @@
         </activity>
         <activity android:name=".welcome.Welcome_Screen" android:theme="@style/Fullscreen"/>
         <activity android:name=".welcome.Auth"/>
-        <activity android:name=".activity.HomePage"/>
-        <activity android:name=".activity.CreateBooking"/>
-        <activity android:name=".detailboking.BookingDetails"/>
-        <activity android:name=".activity.OnlineBook"/>
-        <activity android:name=".activity.MyProject_Dasar"/>
-        <activity android:name=".activity.Invoice"/>
-        <activity android:name=".myproject.Detail_MyProject"/>
-        <activity android:name=".activity.Monitoring"/>
+        <activity android:name=".activity.HomePage" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".activity.CreateBooking" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".detailboking.BookingDetails" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".activity.OnlineBook" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".activity.MyProject_Dasar" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".activity.Invoice" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".myproject.Detail_MyProject" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".monitoring.Detail_Dasar" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
     </application>
 
 </manifest>

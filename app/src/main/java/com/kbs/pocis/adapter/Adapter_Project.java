@@ -14,14 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.HomePage;
 import com.kbs.pocis.model.Model_Project;
-import com.kbs.pocis.model.onlineboking.Model_Bookings;
 import com.kbs.pocis.myproject.Detail_MyProject;
-import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.progressbook.Progress_Booking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +187,31 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                         context.startActivity(intent);
                     });
                     break;
+                case 5: // for Progress Booking
+                    holder.ln4.setVisibility(View.GONE);
+                    holder.ln5.setVisibility(View.GONE);
+                    holder.ln6.setVisibility(View.GONE);
+                    holder.ln7.setVisibility(View.GONE);
+                    holder.ln8.setVisibility(View.GONE);
+                    holder.title_1.setText(R.string.customername);
+                    holder.title_2.setText("Customer Type");
+                    holder.title_3.setText("Booking Date");
 
+                    holder.number.setText(model_project.get(position).no_booking);
+                    holder.item3.setText(model_project.get(position).customer_name);
+                    holder.item1.setText(model_project.get(position).customer_type);
+                    holder.item2.setText(model_project.get(position).booking_date);
+
+                    holder.status.setText(model_project.get(position).status_project);
+                    holder.gotoo.setOnClickListener(v -> {
+                        HomePage page = (HomePage)context;
+                        Fragment fragment = new Progress_Booking();
+                        FragmentManager fragmentManager = page.getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                        fragmentTransaction.commit();
+                    });
+                    break;
             }
 
             switch (holder.status.getText().toString()){
@@ -222,6 +249,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     for (Model_Project model_project : projects){
                         if (model_project.booking_no.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.no_booking.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.temp_project_no.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.vessel_name.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.project_no.toLowerCase().contains(value.toLowerCase())){
                             projects.add(model_project);

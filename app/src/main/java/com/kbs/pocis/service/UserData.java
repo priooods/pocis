@@ -23,6 +23,14 @@ public class UserData {
     public String username;
     public String password;
     public String m_customer_id;
+    public String fax;
+    public String address;
+    public String email;
+    public String phone;
+    public String npwp;
+    public String contact_name;
+    public String contact_email;
+    public String contact_phone;
     private String token;
     private long time;
     private UserService service;
@@ -34,6 +42,21 @@ public class UserData {
         RefreshTime();
         i = this;
     }
+
+    public void setAllUserData (String username, String address, String fax, String email, String phone, String npwp,
+                                String contact_name,String contact_phone, String contact_email){
+        this.username = username;
+        this.address = address;
+        this.fax = fax;
+        this.email = email;
+        this.phone = phone;
+        this.npwp = npwp;
+        this.contact_email = contact_email;
+        this.contact_name = contact_name;
+        this.contact_phone = contact_phone;
+    }
+
+
     public void updateFilter(String project, String no, String vessel) {
         if (!project.isEmpty() && !no.isEmpty() && !vessel.isEmpty()) {
             filter = new Filters(no,vessel) {
