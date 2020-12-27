@@ -21,14 +21,16 @@ public class PublicList extends Calling {
         public int to_page;
         public int last_page, per_page, total;
 
-        public Datas setUpFilter(Filters filter, ArrayList<Model_Project> model){
-            current_page = 1;
-            model = new ArrayList<>();
-            for (Model_Project data : model) {
+        public Datas setUpFilter(Filters filter, Datas model){
+            current_page = model.current_page;
+            ArrayList<Model_Project> output = new ArrayList<>();
+            for (Model_Project data : model.model) {
                 if (filter.checkFilter(data)) {
-                        model.add(data);
+                        output.add(data);
                 }
             }
+            model.model.clear();
+            model.model = output;
             return this;
         }
     }

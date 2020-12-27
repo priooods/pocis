@@ -16,7 +16,7 @@ import com.kbs.pocis.service.UserData;
 ///Override GenerateFilter, ShowAdapter, Model_CheckorClear & LoadingBar
 public class FilterFragment extends Fragment {
     public Filters filter;
-    protected int page_last = 0 , page_current = 0;
+    public int page_last = 0 , page_current = 1;
     public PageManager pmanager;
     protected boolean Ready,load,filtering;
     public int max_list;
@@ -33,7 +33,7 @@ public class FilterFragment extends Fragment {
     }
     protected void LoadingBar(boolean start){}
 
-    protected void GenerateLists() {
+    public void GenerateLists() {
         LoadingBar(true);
         //TODO START LOADING
         if (UserData.i == null) {
