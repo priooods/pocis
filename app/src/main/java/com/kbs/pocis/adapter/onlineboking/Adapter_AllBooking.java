@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
-import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.onlineboking.Model_Bookings;
@@ -28,6 +26,7 @@ import com.kbs.pocis.model.onlineboking.Model_Bookings;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.VHolder> implements Filterable {
 
@@ -94,51 +93,42 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             holder.garis.setBackgroundColor(Color.parseColor("#1A2CD1"));
         }
 
-        holder.dropdownMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.titikdua);
-                popupMenu.inflate(R.menu.menu_cancel_dropdown);
+        holder.dropdownMenu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(context, holder.titikdua);
+            popupMenu.inflate(R.menu.menu_cancel_dropdown);
 
-                //Ini untuk memunculkan PopUp dengan Icon yah
-                try {
-                    Method method = popupMenu.getMenu().getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
-                    method.setAccessible(true);
-                    method.invoke(popupMenu.getMenu(), true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                //ketika menu di popUp di click
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            case R.id.cancel:
-                                ShowDialogCancell(context);
-                                break;
-                            case  R.id.detail:
-                                GoDetails(position);
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
+            //Ini untuk memunculkan PopUp dengan Icon yah
+            try {
+                Method method = popupMenu.getMenu().getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+                method.setAccessible(true);
+                method.invoke(popupMenu.getMenu(), true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            //ketika menu di popUp di click
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()){
+                    case R.id.cancel:
+                        ShowDialogCancell(context);
+                        break;
+                    case  R.id.detail:
+                        GoDetails(position);
+                        break;
+                }
+                return false;
+            });
+            popupMenu.show();
         });
 
 
-        holder.tap_toDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, BookingDetails.class);
-                intent.putExtra("from", "All Bookings");
-                intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
-                intent.putExtra("status", model_bookings.get(position).getStatusBook());
-                intent.putExtra("id", model_bookings.get(position).getBookingId());
-                context.startActivity(intent);
-            }
+        holder.tap_toDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(context, BookingDetails.class);
+            intent.putExtra("from", "All Bookings");
+            intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
+            intent.putExtra("status", model_bookings.get(position).getStatusBook());
+            intent.putExtra("id", model_bookings.get(position).getBookingId());
+            context.startActivity(intent);
         });
 
     }
@@ -219,32 +209,24 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
 
     //Dialog form ketika cancelbutton click
     private static void ShowDialogCancell (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
+        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, (ViewGroup)null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(view);
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = view.findViewById(R.id.canceled_formInput);
+//        TextInputEditText input_alasan = view.findViewById(R.id.canceled_formInput);
 
         Button btn_close = view.findViewById(R.id.btn_cancelclose);
         Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                        .setTitleText("Cancell Booking Success")
-                        .setCustomImage(R.drawable.success_img)
-                        .show();
-                dialogFragment.cancel();
-            }
+        btn_close.setOnClickListener(v -> dialogFragment.cancel());
+        btn_cancelBoking.setOnClickListener(v -> {
+            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                    .setTitleText("Cancell Booking Success")
+                    .setCustomImage(R.drawable.success_img)
+                    .show();
+            dialogFragment.cancel();
         });
         dialogFragment.show();
     }

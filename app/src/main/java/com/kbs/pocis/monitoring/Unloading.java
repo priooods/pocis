@@ -24,6 +24,8 @@ public class Unloading extends FilterFragment {
     TabLayout tabLayout;
     View view;
     DialogFragment fragment;
+    Unloading_List[] alllist;
+    Unloading_List select_list;
 
     @Nullable
     @Override
@@ -32,16 +34,34 @@ public class Unloading extends FilterFragment {
 
         search_icon = view.findViewById(R.id.btn_search_unload);
         search_icon.setOnClickListener(v -> {
-            fragment = new Dialog_Filter(true, Unloading.this);
+            fragment = new Dialog_Filter(true, select_list);
             fragment.show(getChildFragmentManager(), "filter_online");
         });
 
-        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getChildFragmentManager());
+
         tabLayout = view.findViewById(R.id.monitoring_tablayout);
         viewPager = view.findViewById(R.id.monitoring_viewpager);
-        viewpagerDefault.Addfragment(new Unloading_List(0),"Berthing");
-        viewpagerDefault.Addfragment(new Unloading_List(1),"Planned");
-        viewpagerDefault.Addfragment(new Unloading_List(2),"Departure");
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                select_list = alllist[position];
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        alllist = new Unloading_List[3];
+        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getChildFragmentManager());
+        viewpagerDefault.Addfragment(select_list = alllist[0] = new Unloading_List(0),"Berthing");
+        viewpagerDefault.Addfragment(alllist[1] = new Unloading_List(1),"Planned");
+        viewpagerDefault.Addfragment(alllist[2] = new Unloading_List(2),"Departure");
 
         viewPager.setAdapter(viewpagerDefault);
         tabLayout.setupWithViewPager(viewPager);

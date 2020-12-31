@@ -1,12 +1,10 @@
 package com.kbs.pocis.createboking;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.KeyEvent;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
-import com.kbs.pocis.service.UserData;
 
 public class Finish extends Fragment {
 
@@ -41,26 +38,22 @@ public class Finish extends Fragment {
     }
 
     public void ButtonFunction(){
-        backhome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HomePage.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
+        backhome.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), HomePage.class);
+            startActivity(intent);
+            requireActivity().finish();
         });
 
-        bookagain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateBooking.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
+        bookagain.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), CreateBooking.class);
+            startActivity(intent);
+            requireActivity().finish();
         });
     }
 
 
+    //Di hidden back default biar pilih dua buttin diatas aja dan ga akan bisa double booking untuk users
+    //jangan diganti
     @Override
     public void onResume() {
         super.onResume();
@@ -69,15 +62,9 @@ public class Finish extends Fragment {
         }
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    // handle back button's click listener
-                    return true;
-                }
-                return false;
-            }
+        getView().setOnKeyListener((v, keyCode, event) -> {
+            // handle back button's click listener
+            return event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK;
         });
     }
 

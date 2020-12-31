@@ -1,7 +1,6 @@
 package com.kbs.pocis.myproject.detail;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Project;
-import com.kbs.pocis.service.BookingDetailData;
-import com.kbs.pocis.service.Calling;
-import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.detailbooking.CallingDetail;
-
-import org.jetbrains.annotations.NotNull;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Informations extends Fragment {
-
 
     //title change
     TextView title1,title2,title3,title4,title5,title6,title7,title8,title9,title10,
@@ -88,14 +76,12 @@ public class Informations extends Fragment {
         va_number = view.findViewById(R.id.detail_project_number);
         depart_group = view.findViewById(R.id.depart_group);
 
-        if (Model_Project.isExist()){
-            KenalanSamaType();
-        }
+        MyProject();
 
         return view;
     }
 
-    public void KenalanSamaType(){
+    public void MyProject(){
         Model_Project data = Model_Project.mp;
         switch (Model_Project.Code){
             case 0: //for approval
@@ -108,11 +94,19 @@ public class Informations extends Fragment {
                 title9.setText(R.string.voyage);
                 ln10.setVisibility(View.GONE);
 
-                progressBar.setVisibility(View.VISIBLE);
-                cardView.setVisibility(View.GONE);
-                CallingDetailApproval();
+                item1.setText(data.customer_name);
+                item2.setText(data.start_date);
+                item3.setText(data.vessel_name);
+                item4.setText(data.vessel_name);
+                item5.setText(data.related_vessel);
+                item6.setText(data.payment_type);
+                item7.setText(data.flag_compound);
+                item8.setText(data.tonnage);
+                item9.setText(data.voyage_no);
+                depart_group.setText(data.department_group);
                 break;
             case 2: //for bpaj
+                title1.setText(R.string.customername);
                 title3.setText(R.string.vesselname);
                 title5.setText(R.string.related_vesel);
                 title6.setText(R.string.payment_type);
@@ -200,40 +194,6 @@ public class Informations extends Fragment {
                 item10.setText(data.status_cancel);
                 depart_group.setText(data.department_group);
                 break;
-        }
-    }
-
-    public void CallingDetailApproval(){
-        if (UserData.isExists()) {
-            Model_Project data = Model_Project.mp;
-            Call<CallingDetail> call = UserData.i.getService().getDetailApproval(UserData.i.getToken(),data.t_booking_id,data.t_project_header_id);
-            call.enqueue(new Callback<CallingDetail>() {
-                @Override
-                public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
-                    CallingDetail callingDetail = response.body();
-                    if (Calling.TreatResponse(getContext(),"tag", callingDetail)) {
-                        if (callingDetail != null){
-                            progressBar.setVisibility(View.GONE);
-                            cardView.setVisibility(View.VISIBLE);
-                            item1.setText(callingDetail.data.Information.customer_name);
-                            item2.setText(callingDetail.data.Information.start_date);
-                            item3.setText(callingDetail.data.Information.vessel_name);
-                            item4.setText(callingDetail.data.Information.end_date);
-                            item5.setText(callingDetail.data.Information.related_vessel);
-                            item6.setText(callingDetail.data.Information.payment_type);
-                            item7.setText(callingDetail.data.Information.flag_compound);
-                            item8.setText(callingDetail.data.Information.tonnage);
-                            item9.setText(callingDetail.data.Information.voyage_no);
-                            depart_group.setText(callingDetail.data.Information.department_group);
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
-                    Log.e("frag_approved", "on Failure called!" + t);
-                }
-            });
         }
     }
 }

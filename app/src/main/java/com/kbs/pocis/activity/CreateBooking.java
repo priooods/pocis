@@ -2,7 +2,6 @@ package com.kbs.pocis.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -28,12 +27,13 @@ public class CreateBooking extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_booking);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            if (View.SYSTEM_UI_FLAG_DARK_STATUS_BAR)
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+            getWindow().setDecorFitsSystemWindows(false);
+//            getWindow().set
+            getWindow().getDecorView().setSystemUiVisibility(0);//  set status text dark
         }
 
         frameCreate = findViewById(R.id.frameCreate);
@@ -52,6 +52,7 @@ public class CreateBooking extends AppCompatActivity {
     public void FragmentList(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.replace(R.id.frameCreate, fragment,"framentTujuan").commit();
     }
 }

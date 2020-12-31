@@ -1,14 +1,7 @@
 package com.kbs.pocis.filter;
 
 import android.util.Log;
-import android.view.View;
-
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
-import com.kbs.pocis.model.onlineboking.Model_Bookings;
 import com.kbs.pocis.onlineboking.Filters;
 import com.kbs.pocis.onlineboking.PageManager;
 import com.kbs.pocis.service.UserData;

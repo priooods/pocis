@@ -24,6 +24,8 @@ import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.service.UserData;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +56,7 @@ public class TarifApprove extends Fragment {
         View view = inflater.inflate(R.layout.tarif_approve, container,false);
 
         btn_back = view.findViewById(R.id.btn_back_tarif_approve);
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        btn_back.setOnClickListener(v -> requireActivity().onBackPressed());
 
         kanan = view.findViewById(R.id.kanan_tarifapprove);
         kiri = view.findViewById(R.id.kiri_tarifapprove);
@@ -96,30 +93,10 @@ public class TarifApprove extends Fragment {
     }
 
     void ganti(){
-        kanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChangePage(page_current + 1);
-            }
-        });
-        kanan_banget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChangePage(page_last);
-            }
-        });
-        kiri_banget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChangePage(1);
-            }
-        });
-        kiri.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChangePage(page_current-1);
-            }
-        });
+        kanan.setOnClickListener(view -> ChangePage(page_current + 1));
+        kanan_banget.setOnClickListener(view -> ChangePage(page_last));
+        kiri_banget.setOnClickListener(view -> ChangePage(1));
+        kiri.setOnClickListener(view -> ChangePage(page_current-1));
     }
 
     /// Fungsi untuk membuat list
@@ -130,18 +107,20 @@ public class TarifApprove extends Fragment {
         if (service == null) {
             Log.e("tarif_aprrove","ERROR SERVICE");
         }
+        assert service != null;
         Call<CallingData> call = service.getTariffAprove(user.getToken(),String.valueOf(page_current));
         if (call == null) {
             Log.i("tarif_aprrove","CallingData Post Method is Bad!");
         }
+        assert call != null;
         call.enqueue(new Callback<CallingData>() {
             @Override
-            public void onResponse(Call<CallingData> call, Response<CallingData> response) {
+            public void onResponse(@NotNull Call<CallingData> call, @NotNull Response<CallingData> response) {
                 Ready = true;
                 CallingData respone = (CallingData) response.body();
+                assert respone != null;
                 if (CallingData.TreatResponse(getContext(), "tarif_aprrove", respone)) {
                     List<Model_TariffAprove> list = new ArrayList<>();
-
                     for (CallingData.Booking datas : respone.data.book) {
                         list.add(datas.getTariff());
                     }
@@ -161,10 +140,12 @@ public class TarifApprove extends Fragment {
                     SetVisibility(kanan_banget, page_current+1<page_last);
 
                     //endregion
-                    index_list_allboking.setText(page_current + " of " + page_last);
-                    all_index_allboking.setText("Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results");
+                    String idx = page_current + " of " + page_last;
+                    String al = "Showing "+ (respone.data.to_page - respone.data.from_page + 1) + " of " + respone.data.total + " results";
+                    index_list_allboking.setText(idx);
+                    all_index_allboking.setText(al);
 
-                    if (model_tariffAproveList !=null ? model_tariffAproveList.size()>0 : false) {
+                    if (model_tariffAproveList != null && model_tariffAproveList.size() > 0) {
                         layout_ada.setVisibility(View.VISIBLE);
                         layout_kosong.setVisibility(View.GONE);
                         adapter_tarifApproved = new Adapter_TarifApproved(getContext(), model_tariffAproveList);
@@ -185,7 +166,7 @@ public class TarifApprove extends Fragment {
                 all_index_allboking.setVisibility(View.INVISIBLE);
             }
             @Override
-            public void onFailure(Call<CallingData> call, Throwable t) {
+            public void onFailure(@NotNull Call<CallingData> call, @NotNull Throwable t) {
                 Ready = true;
                 Log.e("tarif_aprrove", "on Failure called!"+ t);
             }
@@ -195,5 +176,5 @@ public class TarifApprove extends Fragment {
     private void SetVisibility(android.widget.TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);
         comp.setEnabled(condition);
-    };
+    }
 }

@@ -1,28 +1,21 @@
 package com.kbs.pocis.complains;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.filter.Dialog_Filter;
 import com.kbs.pocis.filter.FilterFragment;
-import com.kbs.pocis.monitoring.Unloading_List;
-import com.kbs.pocis.myproject.Projects_Bpaj;
 
 public class Complain extends FilterFragment {
 

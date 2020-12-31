@@ -34,7 +34,8 @@ public class Adapter_DetailsService extends RecyclerView.Adapter<Adapter_Details
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
         holder.include.setText(model_bookings.get(position).getName());
-        holder.price.setText("IDR " + model_bookings.get(position).getPrice());
+        String pr = "IDR " + model_bookings.get(position).getPrice();
+        holder.price.setText(pr);
     }
 
     @Override

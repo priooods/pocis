@@ -30,6 +30,9 @@ public class Calling {
         if (error.equals("0")) {
             Log.i(tag, "Success : " + tag + " : " + desc);
             return true;
+        } else if(error.equals("UNDER DEVELOPMENT")){
+            Log.i(tag, "Success : " + tag + " : " + desc);
+            return true;
         } else {
             Toasty.error(context, desc, Toast.LENGTH_SHORT, true).show();
             Log.e(tag, "Failed : \n Error " + error + " : " + desc);

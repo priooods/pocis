@@ -23,7 +23,7 @@ public class OnlineBooking extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    private static int REQUEST_CODE = 123;
+//    private static int REQUEST_CODE = 123;
     ImageView icon_back, icon_search;
     ViewpagerDefault adapter;
     DialogFragment fragment;
@@ -68,22 +68,16 @@ public class OnlineBooking extends Fragment {
 
 
         //Icon Arrow Back Click
-        icon_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-                getActivity().finish();
-            }
+        icon_back.setOnClickListener(v -> {
+            requireActivity().onBackPressed();
+            requireActivity().finish();
         });
 
         //Icon Search Pada Online Booking CLick
-        icon_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment = new Dialog_Filter(false,select_booking);
+        icon_search.setOnClickListener(v -> {
+            fragment = new Dialog_Filter(false,select_booking);
 //                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
-                fragment.show(getChildFragmentManager(), "filter_online");
-            }
+            fragment.show(getChildFragmentManager(), "filter_online");
         });
 
         return view;

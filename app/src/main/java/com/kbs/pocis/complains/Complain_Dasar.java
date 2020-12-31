@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -28,23 +27,16 @@ public class Complain_Dasar extends Fragment {
 
         new_complain = view.findViewById(R.id.new_complain);
         icon_back = view.findViewById(R.id.btn_back_complain);
-        icon_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        icon_back.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        new_complain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment;
-                fragment = new New_Complain();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
-            }
+        new_complain.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new New_Complain();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
         FragmentList(new Complain());
@@ -55,7 +47,7 @@ public class Complain_Dasar extends Fragment {
     public void FragmentList(Fragment fragment){
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.framecomplain, fragment,"framentcomplain")
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.replace(R.id.framecomplain, fragment,"framentcomplain").commit();
     }
 }

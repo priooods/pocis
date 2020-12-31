@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.Adapter_Calculate;
-import com.kbs.pocis.adapter.Adapter_Complain;
 import com.kbs.pocis.model.Model_Complain;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -29,6 +28,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -75,20 +75,11 @@ public class Calculates extends Fragment {
         model_complains = new ArrayList<>();
 
         backk = view.findViewById(R.id.btn_back_tarif_detail);
-        backk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        backk.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        input_berthing.setOnClickListener(v-> {
-            ShowDateTime(input_berthing);
-        });
+        input_berthing.setOnClickListener(v-> ShowDateTime(input_berthing));
 
-        input_departure.setOnClickListener(v-> {
-            ShowDateTime(input_departure);
-        });
+        input_departure.setOnClickListener(v-> ShowDateTime(input_departure));
 
 
         kenalanSamaType();
@@ -109,6 +100,7 @@ public class Calculates extends Fragment {
 
     void listShip(){
         model_complains = new ArrayList<>();
+        //default sesuai figma, update kalau API udah ada ( sesuai field API )
         model_complains.add(new Model_Complain("Jasa Pandu","Jasa PFS","1 LS","600,000,000","12,842,280.00","4,500.00"));
         model_complains.add(new Model_Complain("Jasa Tunda","Jasa Dermaga","1 LS","107,300,000","24,993,500.00","13,300.00"));
         model_complains.add(new Model_Complain("Jasa Tambat","Jasa Ship Unloader","1 LS","2,100,000,000","12,000,000.00","10,800.00"));
@@ -119,55 +111,44 @@ public class Calculates extends Fragment {
     }
 
     public void tableGood(){
-        if (input_total_tonage.getText().toString().isEmpty()){
-            Toasty.error(getContext(),"Please Add Tonage Value", Toasty.LENGTH_LONG,true).show();
+        if (Objects.requireNonNull(input_total_tonage.getText()).toString().isEmpty()){
+            Toasty.error(requireContext(),"Please Add Tonage Value", Toasty.LENGTH_LONG,true).show();
         } else {
             show_table.setVisibility(View.VISIBLE);
             listGoods();
             total1.setVisibility(View.GONE);
-            total2.setText("2,807,300,000");
+            total2.setText("2,807,300,000"); //default sesuai figma, update kalau API udah ada ( sesuai field API )
         }
     }
 
     public void tableShip(){
-        if (input_cross.getText().toString().isEmpty() || input_departure.getText().toString().isEmpty()
-                || input_berthing.getText().toString().isEmpty()){
-            Toasty.error(getContext(),"Please Add All Value", Toasty.LENGTH_LONG,true).show();
+        if (Objects.requireNonNull(input_cross.getText()).toString().isEmpty() || Objects.requireNonNull(input_departure.getText()).toString().isEmpty()
+                || Objects.requireNonNull(input_berthing.getText()).toString().isEmpty()){
+            Toasty.error(requireContext(),"Please Add All Value", Toasty.LENGTH_LONG,true).show();
         } else {
             cons.setVisibility(View.GONE);
             show_table.setVisibility(View.VISIBLE);
             listShip();
-            total1.setText("49,835,780.00");
-            total2.setText("28,600.00");
+            total1.setText("49,835,780.00"); //default sesuai figma, update kalau API udah ada ( sesuai field API )
+            total2.setText("28,600.00"); //default sesuai figma, update kalau API udah ada ( sesuai field API )
         }
     }
 
     public void kenalanSamaType(){
         switch (status){
             case 0:
-                title.setText("Good Services");
-                calculate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tableGood();
-                        if (model_complains.size() > 0){
-                            ln_btn.setVisibility(View.VISIBLE);
-                            calculate.setVisibility(View.GONE);
-                            clear.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    show_table.setVisibility(View.GONE);
-                                    input_total_tonage.setText("");
-                                }
-                            });
+                title.setText(R.string.good_Services);
+                calculate.setOnClickListener(v -> {
+                    tableGood();
+                    if (model_complains.size() > 0){
+                        ln_btn.setVisibility(View.VISIBLE);
+                        calculate.setVisibility(View.GONE);
+                        clear.setOnClickListener(v1 -> {
+                            show_table.setVisibility(View.GONE);
+                            input_total_tonage.setText("");
+                        });
 
-                            cal2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    tableGood();
-                                }
-                            });
-                        }
+                        cal2.setOnClickListener(v12 -> tableGood());
                     }
                 });
 
@@ -176,31 +157,20 @@ public class Calculates extends Fragment {
             case 1:
                 form_good.setVisibility(View.GONE);
                 form_ship.setVisibility(View.VISIBLE);
-                title.setText("Ship Services");
-                calculate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tableShip();
-                        if (model_complains.size() > 0){
-                            ln_btn.setVisibility(View.VISIBLE);
-                            calculate.setVisibility(View.GONE);
-                            clear.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    show_table.setVisibility(View.GONE);
-                                    input_berthing.setText("");
-                                    input_departure.setText("");
-                                    input_cross.setText("");
-                                }
-                            });
+                title.setText(R.string.ship_Services);
+                calculate.setOnClickListener(v -> {
+                    tableShip();
+                    if (model_complains.size() > 0){
+                        ln_btn.setVisibility(View.VISIBLE);
+                        calculate.setVisibility(View.GONE);
+                        clear.setOnClickListener(v13 -> {
+                            show_table.setVisibility(View.GONE);
+                            input_berthing.setText("");
+                            input_departure.setText("");
+                            input_cross.setText("");
+                        });
 
-                            cal2.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    tableShip();
-                                }
-                            });
-                        }
+                        cal2.setOnClickListener(v14 -> tableShip());
                     }
                 });
                 break;
@@ -209,22 +179,19 @@ public class Calculates extends Fragment {
 
     void ShowDateTime(TextInputEditText texit){
         Calendar calendar = Calendar.getInstance();
-        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                TimePickerDialog.OnTimeSetListener setListener = (view1, hourOfDay, minute, second) -> {
-                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                    calendar.set(android.icu.util.Calendar.MINUTE, minute);
-                    texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
-                };
-                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
-                timePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
-                timePickerDialog.show(getChildFragmentManager(), "TimePicker");
-            }
+            TimePickerDialog.OnTimeSetListener setListener = (view1, hourOfDay, minute, second) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
+            };
+            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+            timePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
+            timePickerDialog.show(getChildFragmentManager(), "TimePicker");
         };
 
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));

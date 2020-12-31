@@ -9,6 +9,7 @@ import com.kbs.pocis.model.Model_DetailsService;
 import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
+import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.PublicList.PublicList;
 
 import java.lang.reflect.Field;
@@ -62,13 +63,13 @@ public class BookingDetailData {
 
 
     public Compound compoundbooking;
-    public class Compound {
+    public static class Compound {
         public int id;
         public String t_booking_id,description,tariff,currency,unit_code,crated,created_by,modified,modified_by;
         public String unit_code1,unit_code2,quantity,quantity1,quantity2,Unit;
         public Unit unit;
     }
-    public class Unit{
+    public static class Unit{
         public int id;
         public String code,desc,created,created_by,modified,modified_by;
     }
@@ -82,8 +83,6 @@ public class BookingDetailData {
     //data booking keempat AddComodity
     @SerializedName("commoditybooking")
     public ArrayList<Model_DetailsCommodity> commodity;
-
-    public ArrayList<Model_DetailsCommodity> addinfo;
 
     @SerializedName("schedule")
     public ScheduleData vessel;
@@ -107,9 +106,35 @@ public class BookingDetailData {
             this.cigading_port = cigading_port;
         }
     }
-
+//InformationAndDocument
     public Model_Project Information;
-    public ArrayList<Model_Project> Service;
+    public List<Model_Project> InformationAndDocument;
+    public List<Model_Project> Service;
+    public List<Model_Project> VesselReport;
+    public List<List<Model_Project>> Piloting;
+    public List<Model_Project> Documents;
+
+    //Ini untuk User Profile
+    public String name;
+    public String m_city_id;
+    public String address;
+    public String phone;
+    public String fax;
+    public String email;
+    public String npwp;
+    public String contact_email;
+    public String contact_hp;
+    public String message;
+    public String code;
+    public String contact;
+    public List<Type> types;
+    public static class Type{
+        public String name;
+    }
+
+
+    public String reason_code;
+    public String reason_desc;
 
 
     public String readString() {

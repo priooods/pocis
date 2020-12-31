@@ -27,7 +27,7 @@ public class HomePage extends AppCompatActivity {
 
     FragmentContainerView framehomepage;
 
-    private static int PRIVATE_CODE = 1;
+    public static int PRIVATE_CODE = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,7 @@ public class HomePage extends AppCompatActivity {
         FragmentList(new HomeMenu());
     }
 
+    //Ini bisa dikatifin. double click baru Close APP. kalau click sekali muncul notif ( backToast )
 //    @Override
 //    public void onBackPressed() {
 //        if (doubleBackTime + 2000 > System.currentTimeMillis()){
@@ -63,9 +64,13 @@ public class HomePage extends AppCompatActivity {
     public void FragmentList(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.replace(R.id.framehomepage, fragment,"framentTujuan")
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                .commit(); // setTrans itu untuk efeek transisi Fade
     }
+
+
+    //Dibawah Ini Untuk Minta Permmisions Storage di Applikasi. Biar bisa access File Manager
 
     public void Permision(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){

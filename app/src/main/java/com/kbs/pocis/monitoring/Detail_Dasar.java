@@ -30,6 +30,7 @@ public class Detail_Dasar extends AppCompatActivity {
     TabLayout tabLayout;
     RelativeLayout ln_vessel, ln_progress;
     TextView header1,header2,item_vesel1,item_vesel2, title2;
+    TextView item_progres_code,item_info1,item_info2,item_info3,item_info4,item_info5,item_info6;
     List<Model_Monitoring> model_monitorings;
     Adapter_Monitoring_Detail adapter_truck,adapter_contact,adapter_operational,adapter_summary;
     LinearLayoutManager manager_contact, manager_truck,manager_operational,manager_summary;
@@ -55,6 +56,13 @@ public class Detail_Dasar extends AppCompatActivity {
 
         icon_back = findViewById(R.id.btn_back);
         icon_back.setOnClickListener(v-> onBackPressed());
+        item_progres_code = findViewById(R.id.item_p1);
+        item_info1 = findViewById(R.id.item_info1);
+        item_info2 = findViewById(R.id.item_info2);
+        item_info3 = findViewById(R.id.item_info3);
+        item_info4 = findViewById(R.id.item_info4);
+        item_info5 = findViewById(R.id.item_info5);
+        item_info6 = findViewById(R.id.item_info6);
 
         //Progress item
         ln_progress = findViewById(R.id.ln_progress);
@@ -81,8 +89,6 @@ public class Detail_Dasar extends AppCompatActivity {
         list_stowage = findViewById(R.id.list_stowage);
         list_sumary = findViewById(R.id.list_sumary);
 
-        clickExpand();
-
         // forr Vessel
         title2 = findViewById(R.id.title_top2);
         tabLayout = findViewById(R.id.tab_vessel);
@@ -101,9 +107,16 @@ public class Detail_Dasar extends AppCompatActivity {
                     ln_progress.setVisibility(View.VISIBLE);
                     header1.setText(R.string.header1_progress);
                     header2.setText(R.string.header2_progress);
-                    item_vesel1.setText(data.name);
+                    item_vesel1.setText(data.vessel_name);
                     title2.setText(R.string.project_status);
-                    item_vesel2.setText(data.status);
+                    item_vesel2.setText(data.plan_status);
+                    item_progres_code.setText(data.schedule_code);
+                    item_info1.setText(data.voyage_no);
+                    item_info2.setText(data.jetty_name);
+                    item_info3.setText(data.est_berthing);
+                    item_info4.setText(data.act_berthing);
+                    item_info5.setText(data.est_departure);
+                    item_info6.setText(data.act_departure);
                     statusColor();
                     ListExpand();
                     listStowage();
@@ -123,6 +136,7 @@ public class Detail_Dasar extends AppCompatActivity {
                     break;
             }
         }
+        clickExpand();
 
     }
 
@@ -163,10 +177,10 @@ public class Detail_Dasar extends AppCompatActivity {
 
     private void statusColor(){
         switch (item_vesel2.getText().toString()){
-            case "PLANNED":
+            case "Planned":
                 item_vesel2.setTextColor(getResources().getColor(R.color.colorGreen));
                 break;
-            case "NOT PLANNED":
+            case "Not Planned":
                 item_vesel2.setTextColor(getResources().getColor(R.color.colorRed));
                 break;
         }

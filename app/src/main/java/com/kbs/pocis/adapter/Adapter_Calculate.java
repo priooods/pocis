@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.Model_Complain;
 
 import java.util.List;

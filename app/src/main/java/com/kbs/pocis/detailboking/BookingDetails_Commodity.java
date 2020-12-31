@@ -24,7 +24,6 @@ import com.kbs.pocis.service.BookingDetailData;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 
 public class BookingDetails_Commodity extends Fragment {
 
@@ -46,9 +45,7 @@ public class BookingDetails_Commodity extends Fragment {
         //Log.i("Tag","DetailCommodity = id = "+ BookingData.i.vessel.vessel_name);
         if (BookingDetailData.i!=null) {
             if (BookingDetailData.i.commodity!=null) {
-                for (Model_DetailsCommodity mod : BookingDetailData.i.commodity) {
-                    model_detailsCommodities.add(mod);
-                }
+                model_detailsCommodities.addAll(BookingDetailData.i.commodity);
             }
         }else {
             for (Model_Commodity mod : BookingData.i.commodity) {

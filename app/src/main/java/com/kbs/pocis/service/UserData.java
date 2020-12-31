@@ -1,11 +1,10 @@
 package com.kbs.pocis.service;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.kbs.pocis.api.APIClient;
 import com.kbs.pocis.api.UserService;
+import com.kbs.pocis.model.Model_Monitoring;
 import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.onlineboking.Filters;
 import com.kbs.pocis.service.onlinebooking.CallingData;
@@ -23,14 +22,6 @@ public class UserData {
     public String username;
     public String password;
     public String m_customer_id;
-    public String fax;
-    public String address;
-    public String email;
-    public String phone;
-    public String npwp;
-    public String contact_name;
-    public String contact_email;
-    public String contact_phone;
     private String token;
     private long time;
     private UserService service;
@@ -43,19 +34,6 @@ public class UserData {
         i = this;
     }
 
-    public void setAllUserData (String username, String address, String fax, String email, String phone, String npwp,
-                                String contact_name,String contact_phone, String contact_email){
-        this.username = username;
-        this.address = address;
-        this.fax = fax;
-        this.email = email;
-        this.phone = phone;
-        this.npwp = npwp;
-        this.contact_email = contact_email;
-        this.contact_name = contact_name;
-        this.contact_phone = contact_phone;
-    }
-
 
     public void updateFilter(String project, String no, String vessel) {
         if (!project.isEmpty() && !no.isEmpty() && !vessel.isEmpty()) {
@@ -63,6 +41,11 @@ public class UserData {
                 @Override
                 public boolean checkFilter(Model_Project data) {
                     return  data.project_no!=null && data.project_no.contains(project) && data.booking_no!=null && data.vessel_name != null && data.booking_no.contains(no) && data.vessel_name.contains(vessel);
+                }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return  data.voyage_no!=null && data.voyage_no.contains(project) && data.schedule_code!=null && data.vessel_name != null && data.schedule_code.contains(no) && data.vessel_name.contains(vessel);
                 }
             };
         }else
@@ -72,6 +55,11 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return  data.project_no!=null && data.project_no.contains(project) && data.booking_no!=null && data.booking_no.contains(no);
                 }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return  data.voyage_no!=null && data.voyage_no.contains(project) && data.schedule_code!=null && data.schedule_code.contains(no);
+                }
             };
         }else
         if (!project.isEmpty() && !vessel.isEmpty()) {
@@ -79,6 +67,11 @@ public class UserData {
                 @Override
                 public boolean checkFilter(Model_Project data) {
                     return  data.project_no!=null && data.project_no.contains(project) && data.vessel_name != null && data.vessel_name.contains(vessel);
+                }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return  data.voyage_no!=null && data.voyage_no.contains(project) && data.vessel_name != null && data.vessel_name.contains(vessel);
                 }
             };
         }else
@@ -92,6 +85,11 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return data.booking_no!=null && data.vessel_name != null && data.booking_no.contains(no) && data.vessel_name.contains(vessel);
                 }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return data.schedule_code!=null && data.vessel_name != null && data.schedule_code.contains(no) && data.vessel_name.contains(vessel);
+                }
             };
         } else if (!no.isEmpty()) {
             filter = new Filters(no,vessel) {
@@ -102,6 +100,11 @@ public class UserData {
                 @Override
                 public boolean checkFilter(Model_Project data) {
                     return data.booking_no!=null && data.booking_no.contains(no);
+                }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return data.schedule_code!=null && data.schedule_code.contains(no);
                 }
             };
         } else if (!vessel.isEmpty()) {
@@ -114,6 +117,11 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return data.vessel_name != null && data.vessel_name.contains(vessel);
                 }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return data.vessel_name != null && data.vessel_name.contains(vessel);
+                }
             };
         } else
         if (!project.isEmpty()) {
@@ -121,6 +129,11 @@ public class UserData {
                 @Override
                 public boolean checkFilter(Model_Project data) {
                     return  data.project_no!=null && data.project_no.contains(project);
+                }
+
+                @Override
+                public boolean checkFilter(Model_Monitoring data) {
+                    return  data.voyage_no!=null && data.voyage_no.contains(project);
                 }
             };
         }else{

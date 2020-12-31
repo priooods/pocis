@@ -5,9 +5,6 @@ public class Item_onboard {
     String top, mid, bot;
     int img;
 
-    public Item_onboard() {
-    }
-
     public Item_onboard(String top, String mid, String bot, int img) {
         this.top = top;
         this.mid = mid;
@@ -27,23 +24,11 @@ public class Item_onboard {
         return mid;
     }
 
-    public void setMid(String mid) {
-        this.mid = mid;
-    }
-
     public String getBot() {
         return bot;
     }
 
-    public void setBot(String bot) {
-        this.bot = bot;
-    }
-
     public int getImg() {
         return img;
-    }
-
-    public void setImg(int img) {
-        this.img = img;
     }
 }

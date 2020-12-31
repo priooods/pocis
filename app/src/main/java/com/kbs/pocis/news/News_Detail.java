@@ -36,21 +36,16 @@ public class News_Detail extends Fragment {
         image_news = view.findViewById(R.id.image_news);
         news_desc = view.findViewById(R.id.news_desc);
         title_news = view.findViewById(R.id.title_news);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        back.setOnClickListener(v -> requireActivity().onBackPressed());
 
         switch (typed){
             case 0:
             case 2:
-                formPage.setText("Custumers News");
+                formPage.setText(R.string.custumers_News);
                 break;
             case 1:
             case 3:
-                formPage.setText("Rewards News");
+                formPage.setText(R.string.rewards_News);
                 break;
         }
 

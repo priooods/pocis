@@ -28,37 +28,28 @@ public class Tarif_Calculate extends Fragment {
         menu_good = view.findViewById(R.id.good_menu);
         menu_ship = view.findViewById(R.id.ship_menu);
         backk = view.findViewById(R.id.btn_back_tarif);
-        backk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
+        backk.setOnClickListener(v -> requireActivity().onBackPressed());
+
+
+
+        menu_good.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new Calculates(0);
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
-
-
-        menu_good.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment;
-                fragment = new Calculates(0);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        menu_ship.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment;
-                fragment = new Calculates(1);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
-            }
+        menu_ship.setOnClickListener(v -> {
+            Fragment fragment;
+            fragment = new Calculates(1);
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
 

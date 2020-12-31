@@ -24,7 +24,10 @@
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:src="@drawable/icon_back"
-                android:id="@+id/btn_back_detail_booking"/>
+                android:id="@+id/btn_back_detail_booking"
+                android:contentDescription="@string/icon_back">
+
+            </ImageView>
 
             <LinearLayout
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,8 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="Booking Details"
                     android:textColor="@color/colorPrimaryDark"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="17dp"
+                    android:textSize="17sp"
                     android:fontFamily="@font/montserrat_bold"/>
 
                 <LinearLayout
@@ -56,7 +58,7 @@
                         android:text="Online Booking - "
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/colorGrey"
-                        android:textSize="9dp"/>
+                        android:textSize="9sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -64,7 +66,7 @@
                         android:id="@+id/booking_details_Textfrompage"
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/colorGrey"
-                        android:textSize="9dp"/>
+                        android:textSize="9sp"/>
 
                 </LinearLayout>
 
@@ -228,7 +230,6 @@
             android:src="@drawable/notfound"
             android:scaleType="fitXY"/>
 
-
         <TextView
             android:layout_below="@id/ww"
             android:layout_width="match_parent"
@@ -237,11 +238,10 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/colorAccent"
             android:fontFamily="@font/montserrat_bold"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_marginTop="20dp"
-            android:text="Oops... There is something happened in our server"
+            android:text="@string/error"
             android:gravity="center"/>
-
 
     </RelativeLayout>
 

@@ -1,6 +1,7 @@
 package com.kbs.pocis.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.Calling;
 
 import java.util.ArrayList;
@@ -10,27 +11,15 @@ public class Model_Project {
 
     public static Model_Project mp;
     public static int Code;
+    public static List<Model_Project> Service;
+    public static List<Model_Project> VesselReport;
+    public static List<List<Model_Project>> Piloting;
+    public static List<Model_Project> Documents;
+    public static List<Model_Project> InformationAndDocument;
+
     public static boolean isExist(){
         return Model_Project.mp != null;
     }
-
-//    "Service": [
-//    {
-//        "t_billing_invoice_id": "22058",
-//            "service_name": "F023 - JASA PANDU NON CGD",
-//            "tariff": "USD 1595.560",
-//            "parameter_1": "1.000 LS",
-//            "parameter_2": "- ",
-//            "amount_in_idr": "24994607"
-//    },
-//    {
-//        "t_billing_invoice_id": "22058",
-//            "service_name": "F024 - JASA TUNDA NON CGD",
-//            "tariff": "USD 8813.740",
-//            "parameter_1": "1.000 LS",
-//            "parameter_2": "- ",
-//            "amount_in_idr": "138068118"
-//    }
 
 
     public String m_customer_id;
@@ -78,11 +67,30 @@ public class Model_Project {
     public String total_dp;
     public String document_ppj;
     public String document_proforma_invoice;
-
+    public String t_vessel_schedule_id;
     public String no_booking;
     public String ppj_no;
     public String status_project;
     public String t_booking_id;
+
+    public String act_arrival;
+    public String act_anchorage;
+    public String act_berthing;
+    public String act_start_work;
+    public String act_end_work;
+    public String act_departure;
+
+
+    public String pilotage_job_type;
+    public String pilot_on_board;
+    public String pilot_off_board;
+    public String pilot_name;
+    public String start_towing;
+    public String tugboat_pilot;
+    public String stop_towing;
+    public String tugboat_towage;
+    public String file_name;
+    public String file_link;
 
 
     public String status_booking_code;
@@ -114,6 +122,17 @@ public class Model_Project {
         this.customer_type = type;
         this.booking_date = date;
     }
+
+    public Model_Project(String filename){
+        this.dokumen_faktur_pajak = filename;
+    }
+
+
+//    "service_name": "F024 - JASA TUNDA NON CGD",
+////            "tariff": "USD 8813.740",
+////            "parameter_1": "1.000 LS",
+////            "parameter_2": "- ",
+////            "amount_in_idr": "138068118"
 
 }
 

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,11 +41,15 @@ import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
@@ -137,20 +142,10 @@ public class Summary extends Fragment {
     }
 
     public void ButtonFunction(){
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        prev.setOnClickListener(v -> requireActivity().onBackPressed());
 
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowDialogCancell(getContext());
-            }
-        });
+        next.setOnClickListener(v -> ShowDialogCancell(getContext()));
     }
 
     public void ShowDialogCancell (final Context context){
@@ -158,37 +153,29 @@ public class Summary extends Fragment {
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(view);
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         TextInputLayout input_alasan = view.findViewById(R.id.onp);
         input_alasan.setVisibility(View.GONE);
         TextView title = view.findViewById(R.id.tl);
         ImageView bg = view.findViewById(R.id.bc);
         bg.setImageResource(R.drawable.crb);
-        title.setText("Are you sure want to create booking based on your provided information?");
+        title.setText(R.string.titledialog);
         title.setGravity(Gravity.CENTER);
 
         Button btn_close = view.findViewById(R.id.btn_cancelclose);
-        btn_close.setText("No");
+        btn_close.setText(R.string.no);
         btn_close.setAllCaps(false);
         Button btn_go = view.findViewById(R.id.btn_cancelbookinggo);
-        btn_go.setText("Yes");
+        btn_go.setText(R.string.yes);
         btn_go.setBackground(getResources().getDrawable(R.drawable.btn_green));
         btn_go.setAllCaps(false);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                SendDataBooking();
-                dialogFragment.dismiss();
-            }
+        btn_close.setOnClickListener(v -> dialogFragment.cancel());
+        btn_go.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            SendDataBooking();
+            dialogFragment.dismiss();
         });
         dialogFragment.show();
     }
@@ -243,32 +230,34 @@ public class Summary extends Fragment {
             i++;
         }
 
-        Log.i(TAG, "SendDataBooking: => " + fileToUpload);
+        Log.i(TAG, "SendDataBooking: => " + Arrays.toString(fileToUpload));
         retrofit2.Call<CallingSaveBok> call = UserData.i.getService().saveBooking(
                 UserData.i.getToken(),
                 Booking, fileToUpload
         );
         call.enqueue(new Callback<CallingSaveBok>() {
             @Override
-            public void onResponse(retrofit2.Call<CallingSaveBok> call, Response<CallingSaveBok> response) {
+            public void onResponse(@NotNull retrofit2.Call<CallingSaveBok> call, @NotNull Response<CallingSaveBok> response) {
                 CallingSaveBok data = response.body();
                 if (Calling.TreatResponse(getContext(),"create_booking",data)) {
+                    assert data != null;
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
 
-                    Toasty.success(getContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date + "\n voyageno : " + detailData.voyage_no, Toasty.LENGTH_LONG, true).show();
+                    Toasty.success(requireContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date + "\n voyageno : " + detailData.voyage_no, Toasty.LENGTH_LONG, true).show();
                     Fragment fragment = new Finish();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     fragmentTransaction.replace(R.id.frameCreate, fragment);
                     fragmentTransaction.commit();
                 }else{
-                    Toasty.error(getContext(), "Booking Failure, Maximum size file 1 Mb", Toasty.LENGTH_LONG, true).show();
+                    Toasty.error(requireContext(), "Booking Failure, Maximum size file 1 Mb", Toasty.LENGTH_LONG, true).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<CallingSaveBok> call, Throwable t) {
+            public void onFailure(@NotNull Call<CallingSaveBok> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t);
             }
         });

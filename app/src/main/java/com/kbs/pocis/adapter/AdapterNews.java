@@ -1,6 +1,5 @@
 package com.kbs.pocis.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_News;
 import com.kbs.pocis.news.News_Detail;
-import com.kbs.pocis.news.News_List;
 
 import java.util.List;
 
@@ -64,59 +61,47 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
 
         switch (type){
             case 0:
-                holder.frontgpdetail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Model_News.mn = model_news.get(position);
-                        Fragment fragment;
-                        fragment = new News_Detail(0);
-                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
+                holder.frontgpdetail.setOnClickListener(v -> {
+                    Model_News.mn = model_news.get(position);
+                    Fragment fragment;
+                    fragment = new News_Detail(0);
+                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
                 });
                 break;
             case 1:
-                holder.frontgpdetail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Model_News.mn = model_news.get(position);
-                        Fragment fragment;
-                        fragment = new News_Detail(1);
-                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
+                holder.frontgpdetail.setOnClickListener(v -> {
+                    Model_News.mn = model_news.get(position);
+                    Fragment fragment;
+                    fragment = new News_Detail(1);
+                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
                 });
                 break;
             case 2:
-                holder.backgodetail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Model_News.mn = model_news.get(position);
-                        Fragment fragment;
-                        fragment = new News_Detail(2);
-                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
+                holder.backgodetail.setOnClickListener(v -> {
+                    Model_News.mn = model_news.get(position);
+                    Fragment fragment;
+                    fragment = new News_Detail(2);
+                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
                 });
                 break;
             case 3:
-                holder.backgodetail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Model_News.mn = model_news.get(position);
-                        Fragment fragment;
-                        fragment = new News_Detail(3);
-                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
+                holder.backgodetail.setOnClickListener(v -> {
+                    Model_News.mn = model_news.get(position);
+                    Fragment fragment;
+                    fragment = new News_Detail(3);
+                    FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
                 });
                 break;
         }

@@ -20,21 +20,8 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.Adapter_Project;
 import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.model.Model_Project;
-import com.kbs.pocis.service.Calling;
-import com.kbs.pocis.service.PublicList.CallProjectList;
 import com.kbs.pocis.service.PublicList.PublicList;
-import com.kbs.pocis.service.UserData;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.List;
-
-import es.dmoral.toasty.Toasty;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Projects_List extends FilterFragment {
     RecyclerView recyclerView;

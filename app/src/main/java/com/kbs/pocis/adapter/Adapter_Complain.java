@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Complain;
-import com.kbs.pocis.model.Model_Project;
 
 import java.util.List;
 
@@ -44,17 +43,15 @@ public class Adapter_Complain extends RecyclerView.Adapter<Adapter_Complain.vHol
         holder.ln6.setVisibility(View.GONE);
         holder.ln7.setVisibility(View.GONE);
         holder.ln8.setVisibility(View.GONE);
-        holder.title1.setText("Complaint Date");
-        holder.title2.setText("Person In Charge");
+        holder.title1.setText(R.string.complaint_Date);
+        holder.title2.setText(R.string.person_In_Charge);
         holder.item1.setText(model_complains.get(position).dates);
         holder.item2.setText(model_complains.get(position).person);
         holder.number.setText(model_complains.get(position).title);
         holder.status.setText(model_complains.get(position).status);
 
-        switch (holder.status.getText().toString()){
-            case "CLOSED":
-                holder.status.setTextColor(Color.parseColor("#7d7d7d"));
-                break;
+        if ("CLOSED".equals(holder.status.getText().toString())) {
+            holder.status.setTextColor(Color.parseColor("#7d7d7d"));
         }
 
     }

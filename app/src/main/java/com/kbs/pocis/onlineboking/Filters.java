@@ -1,6 +1,8 @@
 package com.kbs.pocis.onlineboking;
 
+import com.kbs.pocis.model.Model_Monitoring;
 import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.service.PublicList.Loading_Unloading;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
 public class Filters {
@@ -11,8 +13,12 @@ public class Filters {
     public boolean checkFilter(Model_Project data){
         return true;
     }
+    public boolean checkFilter(Model_Monitoring data){
+        return true;
+    }
     public Filters(String nomor, String vessel){
         this.nomor = nomor;
         this.vessel = vessel;
     }
+
 }

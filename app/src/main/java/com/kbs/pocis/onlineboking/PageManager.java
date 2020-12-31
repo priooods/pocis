@@ -23,7 +23,7 @@ public class PageManager {
         pack = 0;
     }
 
-    public class Page {
+    public static class Page {
         int page_to, list_to;
 
         public Page(int page_to, int list_to) {

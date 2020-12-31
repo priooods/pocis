@@ -55,11 +55,11 @@ public class News_List extends Fragment {
 
         switch (typed){
             case 0:
-                title.setText("custumers news");
+                title.setText(R.string.custumers_News);
                 listcustomer();
                 break;
             case 1:
-                title.setText("rewards news");
+                title.setText(R.string.rewards_News);
                 listRewards();
                 break;
         }

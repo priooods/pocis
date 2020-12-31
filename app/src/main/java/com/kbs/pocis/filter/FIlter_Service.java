@@ -1,7 +1,5 @@
 package com.kbs.pocis.filter;
 
-import com.kbs.pocis.service.BookingData;
-
 public class FIlter_Service {
 
     public static FIlter_Service filter;

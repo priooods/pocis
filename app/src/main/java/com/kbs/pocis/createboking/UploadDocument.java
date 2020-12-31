@@ -81,48 +81,33 @@ public class UploadDocument extends Fragment {
         statusList(model_uploadDocuments);
         ButtonAddFile();
         ButtonFunction();
-        OpenManager();
+//        OpenManager();
         return view;
     }
 
     public void ButtonAddFile(){
-        addfile_one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenManager();
-            }
-        });
+        addfile_one.setOnClickListener(v -> OpenManager());
 
-        addfile_two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenManager();
-            }
-        });
+        addfile_two.setOnClickListener(v -> OpenManager());
     }
 
     public void ButtonFunction(){
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookingData.i.file = model_uploadDocuments;
-                getActivity().onBackPressed();
-            }
+        prev.setOnClickListener(v -> {
+            BookingData.i.file = model_uploadDocuments;
+            requireActivity().onBackPressed();
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (line_two.getVisibility() != View.GONE){
-                    BookingData.i.file = model_uploadDocuments;
-                    Fragment fragment = new AddComodity();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                    fragmentTransaction.commit();
-                } else {
-                    Toasty.error(getContext(), "Please Add Your File", Toasty.LENGTH_SHORT, true).show();
-                }
+        next.setOnClickListener(v -> {
+            if (line_two.getVisibility() != View.GONE){
+                BookingData.i.file = model_uploadDocuments;
+                Fragment fragment = new AddComodity();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            } else {
+                Toasty.error(requireContext(), "Please Add Your File", Toasty.LENGTH_SHORT, true).show();
             }
         });
     }
@@ -135,29 +120,29 @@ public class UploadDocument extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode){
-            case 10:
-                if (resultCode == RESULT_OK){
-                    Uri path = data.getData();
-                    files = FileUtils.getFile(getContext(), path);
+        if (requestCode == 10) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                Uri path = data.getData();
+                files = FileUtils.getFile(getContext(), path);
 
-                    //TODO files itu udah automatis dalam format Files document.
-                    // jadi bisa langsung ke set(Files);
+                //TODO files itu udah automatis dalam format Files document.
+                // jadi bisa langsung ke set(Files);
 
-                    String name = files.getName();
-                    int size = (int)files.length() / 1024;
-                    Log.i(TAG, "onActivityResult: " + files);
-                    model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
+                assert files != null;
+                String name = files.getName();
+                int size = (int) files.length() / 1024;
+                Log.i(TAG, "onActivityResult: " + files);
+                model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
 
-                    //Setting Visibility Layout Upload
-                    statusList(model_uploadDocuments);
-                }
-                break;
+                //Setting Visibility Layout Upload
+                statusList(model_uploadDocuments);
+            }
         }
     }
 
     void statusList(ArrayList<Model_UploadDocument> document){
-        if (document != null? document.size()>0 : false){
+        if (document != null && document.size() > 0){
             line_two.setVisibility(View.VISIBLE);
             line_one.setVisibility(View.GONE);
             recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);

@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,6 +27,8 @@ import com.kbs.pocis.progressbook.Progress_Booking;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 import static android.content.ContentValues.TAG;
 
@@ -194,8 +195,8 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.ln7.setVisibility(View.GONE);
                     holder.ln8.setVisibility(View.GONE);
                     holder.title_1.setText(R.string.customername);
-                    holder.title_2.setText("Customer Type");
-                    holder.title_3.setText("Booking Date");
+                    holder.title_2.setText(R.string.customer_Type_Big);
+                    holder.title_3.setText(R.string.booking_date);
 
                     holder.number.setText(model_project.get(position).no_booking);
                     holder.item3.setText(model_project.get(position).customer_name);
@@ -266,8 +267,18 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                model_project = (List<Model_Project>)results.values;
-                notifyDataSetChanged();
+                if (results.count > 0){
+                    List<?> res = (List<?>)results.values;
+                    for (Object object : res){
+                        if (object instanceof Model_Project){
+                            model_project.add((Model_Project)object);
+                        }
+                    }
+//                    model_project = (List<Model_Project>)results.values;
+                    notifyDataSetChanged();
+                } else {
+                    Toasty.info(context, "Item Not Found !", Toasty.LENGTH_SHORT, true).show();
+                }
             }
         };
     }

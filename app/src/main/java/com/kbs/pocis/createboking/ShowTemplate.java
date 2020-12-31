@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +25,8 @@ import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingShowTemp;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -65,22 +66,23 @@ public class ShowTemplate extends Fragment {
             if (model != null){
                 BookingData.i.ShowBookUpdate(model);
             }
-            getActivity().onBackPressed();
+            requireActivity().onBackPressed();
         });
 
         return view;
     }
 
     void ShowListTemplate(){
-        Call<CallingShowTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),Integer.valueOf(BookingData.i.customerId), BookingData.i.relatedVesel, BookingData.i.contract);
+        Call<CallingShowTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),Integer.parseInt(BookingData.i.customerId), BookingData.i.relatedVesel, BookingData.i.contract);
         call.enqueue(new Callback<CallingShowTemp>() {
             @Override
-            public void onResponse(Call<CallingShowTemp> call, Response<CallingShowTemp> response) {
+            public void onResponse(@NotNull Call<CallingShowTemp> call, @NotNull Response<CallingShowTemp> response) {
                 CallingShowTemp data = response.body();
-                if (data.TreatResponse(getContext(),"tag", data)){
+                if (CallingShowTemp.TreatResponse(getContext(),"tag", data)){
+                    assert data != null;
                     model = data.data;
                     if (model == null){
-                         Toasty.error(getContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
+                         Toasty.error(requireContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
                     } else {
                         //TODO SELESAI SHOW_TEMPLATE
                         int i = 0;
@@ -99,6 +101,7 @@ public class ShowTemplate extends Fragment {
                             }
                         }else{
                             // Error Back to CustomerAddForm
+                            requireActivity().onBackPressed();
                         }
 
                         adapter = new ListTemplate(getContext(), model);
@@ -110,7 +113,7 @@ public class ShowTemplate extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<CallingShowTemp> call, Throwable t) {
+            public void onFailure(@NotNull Call<CallingShowTemp> call, @NotNull Throwable t) {
                 Log.i(TAG, "onFailure: => " + t );
             }
         });
@@ -121,12 +124,13 @@ public class ShowTemplate extends Fragment {
             BookingData.i.ShowBookUpdate(model);
             Log.i("TAG", "lis: " + model);
             Fragment fragment = new SelectTemplate();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         } else {
-            Toasty.error(getContext(), "Please Selecting Template Type", Toast.LENGTH_SHORT, true).show();
+            Toasty.error(requireContext(), "Please Selecting Template Type", Toast.LENGTH_SHORT, true).show();
         }
     }
 

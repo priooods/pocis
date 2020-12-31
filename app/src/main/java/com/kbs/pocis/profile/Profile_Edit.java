@@ -1,7 +1,7 @@
 package com.kbs.pocis.profile;
 
 import android.os.Bundle;
-import android.util.Patterns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,19 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.UserData;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class Profile_Edit extends Fragment {
 
@@ -50,35 +58,61 @@ public class Profile_Edit extends Fragment {
 
         cancel.setOnClickListener(v->requireActivity().onBackPressed());
 
-        if (UserData.isExists()){
-            name.setText(UserData.i.username);
-            phone.setText(UserData.i.phone);
-            fax.setText(UserData.i.fax);
-            email.setText(UserData.i.email);
-            address.setText(UserData.i.address);
-            contact_email.setText(UserData.i.contact_email);
-            contact_phone.setText(UserData.i.contact_phone);
-            contact_name.setText(UserData.i.contact_name);
-            npwp.setText(UserData.i.npwp);
-
-        }
+        name.setText(BookingDetailData.i.name);
+        phone.setText(BookingDetailData.i.phone);
+        fax.setText(BookingDetailData.i.fax);
+        email.setText(BookingDetailData.i.email);
+        address.setText(BookingDetailData.i.address);
+        contact_email.setText(BookingDetailData.i.contact_email);
+        contact_phone.setText(BookingDetailData.i.contact_hp);
+        contact_name.setText(BookingDetailData.i.contact);
+        npwp.setText(BookingDetailData.i.npwp);
 
         save.setOnClickListener(v->{
             if (Objects.requireNonNull(name.getText()).toString().isEmpty() || Objects.requireNonNull(phone.getText()).toString().isEmpty() || Objects.requireNonNull(fax.getText()).toString().isEmpty() ||
                     Objects.requireNonNull(email.getText()).toString().isEmpty() || Objects.requireNonNull(contact_name.getText()).toString().isEmpty() || Objects.requireNonNull(contact_email.getText()).toString().isEmpty() ||
                     Objects.requireNonNull(address.getText()).toString().isEmpty() || Objects.requireNonNull(contact_phone.getText()).toString().isEmpty()){
                 Toasty.error(requireContext(),"Please Add All Form", Toasty.LENGTH_SHORT,true).show();
-            } else if (isValid(email.getText()) || isValid(contact_email.getText())){
-                Toasty.error(requireContext(),"Email or Contact Email not Valid", Toasty.LENGTH_SHORT,true).show();
             } else {
-                Toast.makeText(requireContext(),"Eksekusi ke Server", Toast.LENGTH_SHORT).show();
+                UpdateProfile();
             }
         });
 
         return view;
     }
 
-    public static boolean isValid(CharSequence target){
-        return !Patterns.EMAIL_ADDRESS.matcher(target).matches();
+
+    private void UpdateProfile(){
+        Call<BookingDetailData> call = UserData.i.getService().changeProfile(
+                Integer.parseInt(BookingDetailData.i.m_city_id),
+                BookingDetailData.i.name,
+                BookingDetailData.i.address,
+                BookingDetailData.i.phone,
+                BookingDetailData.i.email,
+                BookingDetailData.i.npwp,
+                BookingDetailData.i.fax,
+                BookingDetailData.i.contact,
+                BookingDetailData.i.contact_email,
+                BookingDetailData.i.contact_hp,
+                UserData.i.getToken()
+        );
+        call.enqueue(new Callback<BookingDetailData>() {
+            @Override
+            public void onResponse(@NotNull Call<BookingDetailData> call, @NotNull Response<BookingDetailData> response) {
+                BookingDetailData data = response.body();
+                assert data != null;
+                if (data.message != null){
+                    Toasty.success(requireContext(), data.message, Toast.LENGTH_SHORT,true).show();
+                    requireActivity().onBackPressed();
+                } else {
+                    Toasty.error(requireContext(),"Failure Update Profile", Toasty.LENGTH_SHORT, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BookingDetailData> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
     }
 }

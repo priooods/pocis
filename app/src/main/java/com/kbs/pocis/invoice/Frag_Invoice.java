@@ -29,7 +29,6 @@ import com.kbs.pocis.service.UserData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,7 +59,6 @@ public class Frag_Invoice extends FilterFragment {
         search_icon = view.findViewById(R.id.btn_search_invoice);
         layout_kosong = view.findViewById(R.id.lay_invoice_kosong);
         kanan = view.findViewById(R.id.kanan);
-        progressBar = view.findViewById(R.id.progress);
         kiri = view.findViewById(R.id.kiri);
         kanan_banget = view.findViewById(R.id.kanan_banget);
         kiri_banget = view.findViewById(R.id.kiri_banget);

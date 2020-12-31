@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,17 +48,14 @@ public class Adapter_AddForm extends RecyclerView.Adapter<Adapter_AddForm.VHolde
             holder.checkBox.setChecked(true);
             lastchecked = holder.checkBox;
         }
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    ChangeChecked(holder.checkBox);
-                    data.data = model_addForms.get(position);
-                    name.setText(data.data.name);
-                    Log.i(TAG, "onBindViewHolder11: = " + data.data.name + " id = " + data.data.id);
-                }else{
-                    data.data = null;
-                }
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                ChangeChecked(holder.checkBox);
+                data.data = model_addForms.get(position);
+                name.setText(data.data.name);
+                Log.i(TAG, "onBindViewHolder11: = " + data.data.name + " id = " + data.data.id);
+            }else{
+                data.data = null;
             }
         });
     }

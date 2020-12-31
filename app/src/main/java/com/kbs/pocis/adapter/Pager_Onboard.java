@@ -29,7 +29,7 @@ public class Pager_Onboard extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.model_onboard, null);
+        View view = layoutInflater.inflate(R.layout.model_onboard, (ViewGroup)null);
 
         ImageView imageView = view.findViewById(R.id.model_img_onboard);
         TextView top = view.findViewById(R.id.onboard_top);

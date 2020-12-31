@@ -1,9 +1,9 @@
 package com.kbs.pocis.api;
 
-import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.CallProjectList;
+import com.kbs.pocis.service.PublicList.Loading_Unloading;
 import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
@@ -13,15 +13,11 @@ import com.kbs.pocis.service.createbooking.CallingList;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -47,6 +43,37 @@ public interface UserService {
     Call<CallingData> getLogoutUser(
             @Field("token") String token
     );
+
+    @FormUrlEncoded
+    @POST("auth/info")
+    Call<CallingDetail> getUserInfo(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("profile")
+    Call<BookingDetailData> changeProfile(
+            @Field("m_city_id") int m_city_id,
+            @Field("name") String name,
+            @Field("address") String address,
+            @Field("phone") String phone,
+            @Field("email") String email,
+            @Field("npwp") String npwp,
+            @Field("fax") String fax,
+            @Field("contact") String contact,
+            @Field("contact_email") String contact_email,
+            @Field("contact_hp") String contact_hp,
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("auth/changepass")
+    Call<Calling> updatePassword(
+            @Field("password") String password,
+            @Field("c_password") String c_password,
+            @Field("token") String token
+    );
+
     @FormUrlEncoded
     @POST("tbooking/all")
     Call<CallingData> getAllBooking(
@@ -106,7 +133,6 @@ public interface UserService {
     Call<List<CallingList>> getCommodityType(
             @Path("name") String name
     );
-
 
     @FormUrlEncoded
     @POST("master/voyage")
@@ -199,7 +225,8 @@ public interface UserService {
     @POST("my-projects/detailBapjList")
     Call<CallingDetail> getDetailBAPJ(
             @Field("token") String token,
-            @Field("t_project_report_header_id") String t_project_report_header_id
+            @Field("t_project_report_header_id") String t_project_report_header_id,
+            @Field("t_vessel_schedule_id") String t_vessel_schedule_id
     );
 
     @FormUrlEncoded
@@ -208,5 +235,16 @@ public interface UserService {
             @Field("token") String token,
             @Field("t_booking_id") String t_booking_id,
             @Field("t_project_header_id") String t_project_header_id
+    );
+
+    @GET("master/complain-reason/")
+    Call<List<BookingDetailData>> getMyComplaintType();
+
+    //operational-monitoring/loadUnloadProgress
+    @FormUrlEncoded
+    @POST("operational-monitoring/loadUnloadProgress")
+    Call<Loading_Unloading> getUnloading(
+            @Field("token") String token,
+            @Field("progress_tab") String progress_tab
     );
 }

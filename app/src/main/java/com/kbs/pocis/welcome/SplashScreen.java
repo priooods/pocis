@@ -17,6 +17,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
 
+        //Splash Screen di set 2 Second
         Handlerr();
 
     }

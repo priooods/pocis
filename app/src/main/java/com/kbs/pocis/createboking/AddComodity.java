@@ -31,9 +31,11 @@ import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingList;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -57,6 +59,7 @@ public class AddComodity extends Fragment {
     Call<List<CallingList>> call;
 
     CallingList consigne, commodity;
+    int idConsigne, idCommodity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,19 +75,9 @@ public class AddComodity extends Fragment {
         addcommodity_two = view.findViewById(R.id.add_commodity_btnUploadtwo);
         addcommodity_one = view.findViewById(R.id.add_commodity_btnUpload);
 
-        addcommodity_one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddCommodityNya(getContext());
-            }
-        });
+        addcommodity_one.setOnClickListener(v -> AddCommodityNya(getContext()));
 
-        addcommodity_two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddCommodityNya(getContext());
-            }
-        });
+        addcommodity_two.setOnClickListener(v -> AddCommodityNya(getContext()));
 //        model_commodity.add(new Model_Commodity())
         if (BookingData.isExist()){
             if (BookingData.i.commodity != null){
@@ -103,18 +96,19 @@ public class AddComodity extends Fragment {
     }
 
     void ListingList(String sequence, boolean status, Context context, AutoCompleteTextView autoCompleteTextView){
-        if (status == true) {
+        if (status) {
            call  = UserData.i.getService().getConsignee(sequence);
         } else {
             call  = UserData.i.getService().getCommodityType(sequence);
         }
         call.enqueue(new Callback<List<CallingList>>() {
             @Override
-            public void onResponse(Call<List<CallingList>> call, Response<List<CallingList>> response) {
+            public void onResponse(@NotNull Call<List<CallingList>> call, @NotNull Response<List<CallingList>> response) {
                 List<CallingList> createBok = response.body();
+                assert createBok != null;
                 if (createBok.size()>0) {
                     String[] arr = new String[createBok.size()];
-                    if (status == true) {
+                    if (status) {
                         for (int i = 0; i < arr.length; i++) {
                             Log.i(TAG, "onResponse: list =>  " + createBok.get(i).name);
                             arr[i] = createBok.get(i).name;
@@ -125,6 +119,7 @@ public class AddComodity extends Fragment {
                         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                             //TODO Getting commodity_id
                             Log.i(TAG, "onItemClick in consigne: => " + createBok.get(position).id);
+                            idConsigne = createBok.get(position).id;
                             consigne = createBok.get(position);
                         });
                         adapter.notifyDataSetChanged();
@@ -139,6 +134,7 @@ public class AddComodity extends Fragment {
                         autoCompleteTextView.setThreshold(2);
                         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
                             //TODO Getting m_custommer_id
+                            idCommodity = createBok.get(position).id;
                             commodity = createBok.get(position);
                         });
                         adapter.notifyDataSetChanged();
@@ -147,7 +143,7 @@ public class AddComodity extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<CallingList>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<CallingList>> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t );
             }
         });
@@ -158,7 +154,7 @@ public class AddComodity extends Fragment {
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(view);
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         input_weigth = view.findViewById(R.id.input_weight_commodity);
         input_package = view.findViewById(R.id.input_packages_commodity);
@@ -174,6 +170,8 @@ public class AddComodity extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length()>=2){
                     ListingList(s.toString(),true, context, input_consigne);
+                } else {
+                    idConsigne = 0;
                 }
             }
 
@@ -193,6 +191,8 @@ public class AddComodity extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length()>=2){
                     ListingList(s.toString(), false, context, input_comdity);
+                } else {
+                    idCommodity = 0;
                 }
             }
 
@@ -206,34 +206,30 @@ public class AddComodity extends Fragment {
         Button btn_close = view.findViewById(R.id.cancel_form_comodity);
         Button btn_go = view.findViewById(R.id.add_form_comodity);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (input_comdity.getText().toString().isEmpty() || input_consigne.getText().toString().isEmpty() ||
-                        input_weigth.getText().toString().isEmpty() || input_package.getText().toString().isEmpty()){
-                    Toasty.error(context, "Harap Lengkapi Semua From !", Toasty.LENGTH_SHORT, true).show();
-                } else {
-                    String weight = input_weigth.getText().toString();
-                    String pack = input_package.getText().toString();
-                    model_commodity.add(new Model_Commodity(consigne,commodity,pack,weight));
-                    Log.i("commodity_add", commodity.name+" "+pack+" "+weight+" "+String.valueOf(consigne.id));
-                    SettList(model_commodity);
+        btn_close.setOnClickListener(v -> dialogFragment.cancel());
+        btn_go.setOnClickListener(v -> {
+            if (input_comdity.getText().toString().isEmpty() || input_consigne.getText().toString().isEmpty() ||
+                    Objects.requireNonNull(input_weigth.getText()).toString().isEmpty() || Objects.requireNonNull(input_package.getText()).toString().isEmpty()){
+                Toasty.error(context, "Harap Lengkapi Semua From !", Toasty.LENGTH_SHORT, true).show();
+            } else if (idCommodity == 0){
+                Toasty.error(requireContext(),"Commodity Type not Valid !" , Toasty.LENGTH_SHORT, true).show();
+            } else if (idConsigne == 0) {
+                Toasty.error(requireContext(),"Consignee Type not Valid !" , Toasty.LENGTH_SHORT, true).show();
+            } else {
+                String weight = input_weigth.getText().toString();
+                String pack = input_package.getText().toString();
+                model_commodity.add(new Model_Commodity(consigne,commodity,pack,weight));
+                Log.i("commodity_add", commodity.name+" "+pack+" "+weight+" "+ consigne.id);
+                SettList(model_commodity);
 
-                    dialogFragment.dismiss();
-                }
+                dialogFragment.dismiss();
             }
         });
         dialogFragment.show();
     }
 
     public void SettList(ArrayList<Model_Commodity> commodity){
-        if (commodity == null? false : commodity.size()>0){
+        if (commodity != null && commodity.size() > 0){
             line_addcommodity_two.setVisibility(View.VISIBLE);
             line_addcommodity_one.setVisibility(View.GONE);
             listComoodity = new ListComoodity(getContext(), commodity);
@@ -244,28 +240,23 @@ public class AddComodity extends Fragment {
     }
 
     public void ButtonFunction(){
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookingData.i.commodity = model_commodity;
-                getActivity().onBackPressed();
-            }
+        prev.setOnClickListener(v -> {
+            BookingData.i.commodity = model_commodity;
+            requireActivity().onBackPressed();
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (line_addcommodity_two.getVisibility() != View.GONE){
-                    BookingData.i.commodity = model_commodity;
-                    //BookingData.i.saveComodity.add(new Model_Commodity(comodity_type_id,comodity_id,customer_id,))
-                    Fragment fragment = new VesselInformation();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                    fragmentTransaction.commit();
-                } else {
-                    Toasty.error(getContext(), "Please Add Your Commodity", Toasty.LENGTH_SHORT, true).show();
-                }
+        next.setOnClickListener(v -> {
+            if (line_addcommodity_two.getVisibility() != View.GONE){
+                BookingData.i.commodity = model_commodity;
+                //BookingData.i.saveComodity.add(new Model_Commodity(comodity_type_id,comodity_id,customer_id,))
+                Fragment fragment = new VesselInformation();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            } else {
+                Toasty.error(requireContext(), "Please Add Your Commodity", Toasty.LENGTH_SHORT, true).show();
             }
         });
     }
@@ -293,16 +284,13 @@ public class AddComodity extends Fragment {
             holder.comodity.setText(model_commodities.get(position).commodity.desc);
             holder.packages.setText(model_commodities.get(position).packages + " Package");
 
-            holder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    model_commodities.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemChanged(position, model_commodities.size());
-                    if (model_commodities.size() == 0){
-                        line_addcommodity_one.setVisibility(View.VISIBLE);
-                        line_addcommodity_two.setVisibility(View.GONE);
-                    }
+            holder.delete.setOnClickListener(v -> {
+                model_commodities.remove(position);
+                notifyItemRemoved(position);
+                notifyItemChanged(position, model_commodities.size());
+                if (model_commodities.size() == 0){
+                    line_addcommodity_one.setVisibility(View.VISIBLE);
+                    line_addcommodity_two.setVisibility(View.GONE);
                 }
             });
 

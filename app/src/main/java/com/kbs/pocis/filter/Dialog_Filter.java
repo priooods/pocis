@@ -19,6 +19,8 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.onlineboking.AllBookings;
 import com.kbs.pocis.service.UserData;
 
+import java.util.Objects;
+
 public class Dialog_Filter extends DialogFragment {
 
     TextInputEditText input_vesel, input_nomerBook, nomer_project;
@@ -63,27 +65,19 @@ public class Dialog_Filter extends DialogFragment {
                 input_vesel.setText(UserData.i.filter.vessel);
             }
         }
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        button_back.setOnClickListener(v -> dismiss());
 
 
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (UserData.isExists()){
-                    UserData.i.updateFilter(nomer_project.getText().toString(),input_nomerBook.getText().toString().toUpperCase(),input_vesel.getText().toString().toUpperCase());
-                }
-                if (filterFragment != null) {
-                    filterFragment.filter = UserData.i.filter;
-                    filterFragment.pmanager = null;
-                    filterFragment.GenerateLists();
-                }
-                dismiss();
+        button_next.setOnClickListener(v -> {
+            if (UserData.isExists()){
+                UserData.i.updateFilter(Objects.requireNonNull(nomer_project.getText()).toString(), Objects.requireNonNull(input_nomerBook.getText()).toString().toUpperCase(),input_vesel.getText().toString().toUpperCase());
             }
+            if (filterFragment != null) {
+                filterFragment.filter = UserData.i.filter;
+                filterFragment.pmanager = null;
+                filterFragment.GenerateLists();
+            }
+            dismiss();
         });
 
         return view;

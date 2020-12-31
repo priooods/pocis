@@ -26,7 +26,6 @@ import com.kbs.pocis.complains.Complain_Dasar;
 import com.kbs.pocis.model.Model_News;
 import com.kbs.pocis.news.News_List;
 import com.kbs.pocis.profile.Profile_Menu;
-import com.kbs.pocis.progressbook.Progress_Booking;
 import com.kbs.pocis.progressbook.Progress_List;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
@@ -55,6 +54,7 @@ public class HomeMenu extends Fragment {
         showall2 = view.findViewById(R.id.show_all2);
 
 
+
         menu_online_booking = view.findViewById(R.id.menu_online_booking);
         menu_online_booking.setOnClickListener(v -> startActivity(new Intent(getActivity(), OnlineBook.class)));
 
@@ -64,6 +64,7 @@ public class HomeMenu extends Fragment {
             fragment = new Progress_List();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -74,6 +75,7 @@ public class HomeMenu extends Fragment {
             fragment = new Monitoring();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -107,16 +109,19 @@ public class HomeMenu extends Fragment {
             fragment = new Profile_Menu();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
 
+        //Go Contact Us
         floatingActionButton = view.findViewById(R.id.floating_action);
         floatingActionButton.setOnClickListener(v -> {
             Fragment fragment;
             fragment = new Contact_Us();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -127,6 +132,7 @@ public class HomeMenu extends Fragment {
             fragment = new Complain_Dasar();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -137,6 +143,7 @@ public class HomeMenu extends Fragment {
             fragment = new Tarif_Calculate();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -147,6 +154,7 @@ public class HomeMenu extends Fragment {
             fragment = new Monitoring();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -169,6 +177,7 @@ public class HomeMenu extends Fragment {
             fragment = new News_List(0);
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
@@ -190,6 +199,7 @@ public class HomeMenu extends Fragment {
             fragment = new News_List(1);
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });

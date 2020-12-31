@@ -21,7 +21,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.api.UserService;
@@ -30,6 +29,10 @@ import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.BookingList;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,12 +95,7 @@ public class BookingDetails extends AppCompatActivity {
         statusBooking.setText(status);
 
 
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookingDetails.super.onBackPressed();
-            }
-        });
+        btn_back.setOnClickListener(v -> this.onBackPressed());
 
         //Kondisi untuk mensetting color text pada status yang berbeda
         KondisiStatus(status, statusBooking,this);
@@ -115,15 +113,17 @@ public class BookingDetails extends AppCompatActivity {
         if (service == null) {
             Log.e("booking_detail","ERROR SERVICE");
         }
+        assert service != null;
         Call<CallingDetail> call = service.getBookingDetail(user.getToken(),String.valueOf(BookingId));
         if (call == null) {
             Log.i("all_boking","DetailData Post Method is Bad!");
         }
+        assert call != null;
         call.enqueue(new Callback<CallingDetail>() {
             @Override
-            public void onResponse(Call<CallingDetail> call, Response<CallingDetail> response) {
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
                 CallingDetail respone = (CallingDetail) response.body();
-
+                assert respone != null;
                 if (CallingDetail.TreatResponse(activity, "detail_booking", respone)) {
                     Log.i("detail_booking",respone.readString());
                     BookingDetailData.i = respone.data;
@@ -133,24 +133,26 @@ public class BookingDetails extends AppCompatActivity {
                     viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
                     viewPager.setAdapter(viewpagerDefault);
                     tabLayout.setupWithViewPager(viewPager);
-                    return;
-                } else if (Integer.parseInt(BookingId)-1<BookingList.getI().data_list.size()){
-                    Log.e("detail_booking", "Failed on API : \n Error " + (respone!=null?respone.error:"NULL?") + " : " + (respone!=null?respone.desc:"NULL?"));
-                    Log.i("detail_booking","Show Detail by offline id="+BookingId);
-                    BookingData.i = BookingList.getI().data_list.get(Integer.parseInt(BookingId)-1);
-                    ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
-                    viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
-                    viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
-                    viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
-                    viewPager.setAdapter(viewpagerDefault);
-                    tabLayout.setupWithViewPager(viewPager);
-                }
-                else {
-                    layout_kosong.setVisibility(View.VISIBLE);
+                } else {
+                    assert BookingId != null;
+                    if (Integer.parseInt(BookingId)-1<BookingList.getI().data_list.size()){
+                        Log.e("detail_booking", "Failed on API : \n Error " + respone.error + " : " + respone.desc);
+                        Log.i("detail_booking","Show Detail by offline id="+BookingId);
+                        BookingData.i = BookingList.getI().data_list.get(Integer.parseInt(BookingId)-1);
+                        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                        viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
+                        viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
+                        viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
+                        viewPager.setAdapter(viewpagerDefault);
+                        tabLayout.setupWithViewPager(viewPager);
+                    }
+                    else {
+                        layout_kosong.setVisibility(View.VISIBLE);
+                    }
                 }
             }
             @Override
-            public void onFailure(Call<CallingDetail> call, Throwable t) {
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
                 Log.e("detail_booking", "on Failure called!"+ t);
             }
         });
@@ -158,14 +160,19 @@ public class BookingDetails extends AppCompatActivity {
 
     //Status booking dari setiap list nya disini setting nya
     private void KondisiStatus (String statused, TextView textView, Activity activity){
-        if (statused.equals("APPROVED")){
-            textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
-        } else if (statused.equals("CANCELED")){
-            textView.setTextColor(activity.getResources().getColor(R.color.colorRed));
-        } else if (statused.equals("BOOKING")){
-            textView.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
-        } else {
-            textView.setTextColor(activity.getResources().getColor(R.color.colorVerified));
+        switch (statused){
+            case "APPROVED":
+                textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
+                break;
+            case "CANCELED":
+                textView.setTextColor(activity.getResources().getColor(R.color.colorRed));
+                break;
+            case "BOOKING":
+                textView.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+                break;
+            case "VERIFIED":
+                textView.setTextColor(activity.getResources().getColor(R.color.colorVerified));
+                break;
         }
     }
 
@@ -176,31 +183,16 @@ public class BookingDetails extends AppCompatActivity {
         if (statused.equals("BOOKING")){
             layout.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.VISIBLE);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ShowDialogCancell(context);
-                }
-            });
+            cancel.setOnClickListener(v -> ShowDialogCancell(context));
         } else if (statused.equals("VERIFIED")){
             layout.setVisibility(View.VISIBLE);
             reject.setVisibility(View.VISIBLE);
             approve.setVisibility(View.VISIBLE);
             layoutverif.setVisibility(View.VISIBLE);
 
-            reject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ShowDialogReject(context);
-                }
-            });
+            reject.setOnClickListener(v -> ShowDialogReject(context));
 
-            approve.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ShowDialogApprove(context);
-                }
-            });
+            approve.setOnClickListener(v -> ShowDialogApprove(context));
         }
     }
 
@@ -210,28 +202,20 @@ public class BookingDetails extends AppCompatActivity {
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(v);
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = v.findViewById(R.id.canceled_formInput);
+//        TextInputEditText input_alasan = v.findViewById(R.id.canceled_formInput);
 
         Button btn_close = v.findViewById(R.id.btn_cancelclose);
         Button btn_cancelBoking = v.findViewById(R.id.btn_cancelbookinggo);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                        .setTitleText("Cancell Booking Success")
-                        .setCustomImage(R.drawable.success_img)
-                        .show();
-                dialogFragment.cancel();
-            }
+        btn_close.setOnClickListener(v1 -> dialogFragment.cancel());
+        btn_cancelBoking.setOnClickListener(v12 -> {
+            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                    .setTitleText("Cancell Booking Success")
+                    .setCustomImage(R.drawable.success_img)
+                    .show();
+            dialogFragment.cancel();
         });
         dialogFragment.show();
     }
@@ -242,28 +226,20 @@ public class BookingDetails extends AppCompatActivity {
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(view);
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
+//        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
 
         Button btn_close = view.findViewById(R.id.btn_approveclose);
         Button btn_approve = view.findViewById(R.id.btn_approvetarif);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_approve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                        .setTitleText("Approve Tariff Success")
-                        .setCustomImage(R.drawable.success_img)
-                        .show();
-                dialogFragment.cancel();
-            }
+        btn_close.setOnClickListener(v -> dialogFragment.cancel());
+        btn_approve.setOnClickListener(v -> {
+            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                    .setTitleText("Approve Tariff Success")
+                    .setCustomImage(R.drawable.success_img)
+                    .show();
+            dialogFragment.cancel();
         });
         dialogFragment.show();
     }
@@ -274,29 +250,21 @@ public class BookingDetails extends AppCompatActivity {
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(view);
-        dialogFragment.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
+//        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
 
         Button btn_close = view.findViewById(R.id.btn_rejectclose);
         Button btn_rejectTerif = view.findViewById(R.id.btn_rejecttarif);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogFragment.cancel();
-            }
-        });
-        btn_rejectTerif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                        .setTitleText("Reject Tariff Success")
-                        .setCustomImage(R.drawable.success_img)
-                        .showCancelButton(false)
-                        .show();
-                dialogFragment.cancel();
-            }
+        btn_close.setOnClickListener(v -> dialogFragment.cancel());
+        btn_rejectTerif.setOnClickListener(v -> {
+            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                    .setTitleText("Reject Tariff Success")
+                    .setCustomImage(R.drawable.success_img)
+                    .showCancelButton(false)
+                    .show();
+            dialogFragment.cancel();
         });
         dialogFragment.show();
     }

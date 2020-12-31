@@ -15,13 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
@@ -31,17 +28,15 @@ import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class SelectTemplate extends Fragment {
 
@@ -50,7 +45,7 @@ public class SelectTemplate extends Fragment {
     Button prev, next;
     RecyclerView recyclerView_FeePas;
     ListingFeePas listingFeePas;
-    ArrayList<Model_SelectTemplate> templatesAnak;
+//    ArrayList<Model_SelectTemplate> templatesAnak;
     ArrayList<Model_ShowTemplate> model;
     ArrayList<SelectTemplate.AdapterTemplateAnak.VHolder> button = new ArrayList<>();
 
@@ -61,33 +56,6 @@ public class SelectTemplate extends Fragment {
         boxesCheckAll = view.findViewById(R.id.e);
         checkAll = view.findViewById(R.id.select_template_checkAll);
 
-//        model.add(new Model_ShowTemplate("F003", "Fee Pas Masuk Kendaraan", null,
-//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-//                    new Model_SelectTemplate("f003-001","Pas Masuk Kendaraan L300/Sejenisnya"),
-//                    new Model_SelectTemplate("f003-002","Pas Masuk Kendaraan Colt Diesel/Sejenisnya"),
-//                    new Model_SelectTemplate("f003-003","Pas Masuk Kendaraan Tronton/Sejenisnya"),
-//                    new Model_SelectTemplate("f003-004","Pas Masuk Kendaraan Tronton/Sejenisnya"),
-//                    new Model_SelectTemplate("f003-005","Fee Supply BBM Via Darat")
-//                ))
-//        ));
-//        model.add(new Model_ShowTemplate("G004", "Get Access Card", null,
-//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-//                        new Model_SelectTemplate("g004-g001","Get Access Card")
-//                ))
-//        ));
-//        model.add(new Model_ShowTemplate("j043", "Jasa Angukatan Kereta Api KS (PASURUAN)",null,
-//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-//                        new Model_SelectTemplate("j043-j042","Jasa Angukatan Kereta Api KS 0"),
-//                        new Model_SelectTemplate("j045-j048","Jasa Angukatan Kereta Api KS 1")
-//                ))
-//        ));
-//        model.add(new Model_ShowTemplate("t008", "Train", null,
-//                new ArrayList<Model_SelectTemplate>(Arrays.asList(
-//                        new Model_SelectTemplate("t043-j042","Train Test 0"),
-//                        new Model_SelectTemplate("t045-j048","Train Test 1"),
-//                        new Model_SelectTemplate("t045-j048","Train Test 2")
-//                ))
-//        ));
 //region Filtering Checked
 //        int i = 0;
 //        if (BookingData.isExist()){
@@ -133,12 +101,9 @@ public class SelectTemplate extends Fragment {
 
         FunctionButton();
         ListingData();
-        checkAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                for(AdapterTemplateAnak.VHolder b : button){
-                    b.checkBox.setChecked(isChecked);
-                }
+        checkAll.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            for(AdapterTemplateAnak.VHolder b : button){
+                b.checkBox.setChecked(isChecked);
             }
         });
         return view;
@@ -154,11 +119,12 @@ public class SelectTemplate extends Fragment {
             Call<CallingSelectTemp> call = UserData.i.getService().getSelectTemplate(UserData.i.getToken(), query);
             call.enqueue(new Callback<CallingSelectTemp>() {
                 @Override
-                public void onResponse(Call<CallingSelectTemp> call, Response<CallingSelectTemp> response) {
+                public void onResponse(@NotNull Call<CallingSelectTemp> call, @NotNull Response<CallingSelectTemp> response) {
                     if (Calling.TreatResponse(getContext(), "tag", response.body())) {
+                        assert response.body() != null;
                         CallingSelectTemp.SelTemp data = response.body().data;
                         if (data == null || data.list == null) {
-                            Toasty.error(getContext(), "List Kosong", Toasty.LENGTH_SHORT, true).show();
+                            Toasty.error(requireContext(), "List Kosong", Toasty.LENGTH_SHORT, true).show();
                         } else {
                             //Log.i("model_select", "length request = " + data.list.size());
                             List<BookingData.BookTemplate.BookTempList> listcheck = null;
@@ -168,7 +134,7 @@ public class SelectTemplate extends Fragment {
                             for (BookingData.BookTemplate st : BookingData.i.template) {
                                 model.add(st.getModel());
                             }
-                            int f = 0;
+                            int f;
                             for (Model_SelectTemplate mod : data.list) {
                                 int header_id = Integer.parseInt(mod.header_id);
                                 if (temp == null || temp.id != header_id) {
@@ -219,7 +185,7 @@ public class SelectTemplate extends Fragment {
 
 
                 @Override
-                public void onFailure(Call<CallingSelectTemp> call, Throwable t) {
+                public void onFailure(@NotNull Call<CallingSelectTemp> call, @NotNull Throwable t) {
                     Log.i(UploadDocument.FileUtils.TAG, "onFailure: => " + t);
                 }
             });
@@ -227,19 +193,11 @@ public class SelectTemplate extends Fragment {
     }
 
     public void FunctionButton(){
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookingData.i.SelectBookUpdate(model);
-                getActivity().onBackPressed();
-            }
+        prev.setOnClickListener(v -> {
+            BookingData.i.SelectBookUpdate(model);
+            requireActivity().onBackPressed();
         });
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoToUpload();
-            }
-        });
+        next.setOnClickListener(v -> GoToUpload());
     }
 
     public void GoToUpload(){
@@ -251,18 +209,19 @@ public class SelectTemplate extends Fragment {
             }
             BookingData.i.SelectBookUpdate(model);
             Fragment fragment = new UploadDocument();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         }else{
-            Toasty.error(getContext(), "Anda harus memilih template dahulu", Toasty.LENGTH_SHORT,true).show();
+            Toasty.error(requireContext(), "Please Add Template !", Toasty.LENGTH_SHORT,true).show();
         }
     }
 
     //Melihat status dari subType Template apakah tidak ada yg true di Type Template
     boolean isOneChecked(){
-        boolean checked = false;
+        boolean checked;
         for (Model_ShowTemplate mod : model) {
             checked = false;
             for (Model_SelectTemplate sel : mod.list) {
@@ -352,12 +311,9 @@ public class SelectTemplate extends Fragment {
             holder.id.setText(selectTemplates.get(position).code);
             holder.checkBox.setChecked(selectTemplates.get(position).checked);
             button.add(holder);
-            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    holder.checkBox.setChecked(isChecked);
-                    selectTemplates.get(position).checked = isChecked;
-                }
+            holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                holder.checkBox.setChecked(isChecked);
+                selectTemplates.get(position).checked = isChecked;
             });
 
         }

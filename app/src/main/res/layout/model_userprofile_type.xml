@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:id="@+id/l5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="120dp"
+            android:textSize="9sp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_reguler"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Customer Type"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/aa"
+            android:textSize="11sp"
+            android:id="@+id/cutomer_type"
+            android:layout_marginTop="2dp"
+            android:text="Agent, General"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/montserrat_bold"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

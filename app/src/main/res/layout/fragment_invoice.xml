@@ -192,6 +192,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_width="200dp"
+            android:id="@+id/title_nodata"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/colorPrimaryDark"

@@ -22,6 +22,8 @@ import com.kbs.pocis.monitoring.Detail_Dasar;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.vHolder> implements Filterable {
 
     Context context;
@@ -54,8 +56,6 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
         holder.number_bot.setVisibility(View.VISIBLE);
         switch (type){
             case 0:
-            case 1:
-            case 2:
                 holder.title_1.setText(R.string.voyage);
                 holder.title_2.setText(R.string.jetty);
                 holder.title_3.setText(R.string.est_betring);
@@ -63,15 +63,15 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 holder.title_5.setText(R.string.est_depart);
                 holder.title_6.setText(R.string.act_depart);
 
-                holder.number.setText(model_monitorings.get(position).name);
-                holder.number_bot.setText(model_monitorings.get(position).code);
-                holder.item3.setText(model_monitorings.get(position).est_bethring);
-                holder.item1.setText(model_monitorings.get(position).voyage);
-                holder.item2.setText(model_monitorings.get(position).jetty);
-                holder.item4.setText(model_monitorings.get(position).act_bethring);
+                holder.number.setText(model_monitorings.get(position).vessel_name);
+                holder.number_bot.setText(model_monitorings.get(position).schedule_code);
+                holder.item3.setText(model_monitorings.get(position).est_berthing);
+                holder.item1.setText(model_monitorings.get(position).voyage_no);
+                holder.item2.setText(model_monitorings.get(position).jetty_name);
+                holder.item4.setText(model_monitorings.get(position).act_berthing);
                 holder.item5.setText(model_monitorings.get(position).est_departure);
                 holder.item6.setText(model_monitorings.get(position).act_departure);
-                holder.status.setText(model_monitorings.get(position).status);
+                holder.status.setText(model_monitorings.get(position).plan_status);
                 holder.gotoo.setOnClickListener(v->{
                     Intent intent = new Intent(context, Detail_Dasar.class);
                     Model_Monitoring.Code = 0;
@@ -90,7 +90,7 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
 
 
                 holder.number.setText(model_monitorings.get(position).name);
-                holder.item3.setText(model_monitorings.get(position).est_bethring);
+                holder.item3.setText(model_monitorings.get(position).est_berthing);
                 holder.item1.setText(model_monitorings.get(position).est_arival);
                 holder.item2.setText(model_monitorings.get(position).jetty);
                 holder.item4.setText(model_monitorings.get(position).voyage);
@@ -108,10 +108,10 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
 
 
         switch (holder.status.getText().toString()){
-            case "PLANNED":
+            case "Planned":
                 holder.status.setTextColor(Color.parseColor("#4BA459"));
                 break;
-            case "NOT PLANNED":
+            case "Not Planned":
                 holder.status.setTextColor(Color.parseColor("#D41111"));
                 break;
         }
@@ -133,9 +133,9 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 } else {
                     List<Model_Monitoring> projects = new ArrayList<>();
                     for (Model_Monitoring model_project : projects){
-                        if (model_project.nomer.toLowerCase().contains(value.toLowerCase()) ||
-                                model_project.booking_no.toLowerCase().contains(value.toLowerCase()) ||
-                                model_project.project_no.toLowerCase().contains(value.toLowerCase())){
+                        if (model_project.vessel_name.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.voyage_no.toLowerCase().contains(value.toLowerCase()) ||
+                                model_project.jetty_name.toLowerCase().contains(value.toLowerCase())){
                             projects.add(model_project);
                         }
                     }
@@ -150,8 +150,19 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                model_monitorings = (List<Model_Monitoring>)results.values;
-                notifyDataSetChanged();
+//                model_monitorings = (List<Model_Monitoring>)results.values;
+//                notifyDataSetChanged();
+                if (results.count > 0){
+                    List<?> res = (List<?>)results.values;
+                    for (Object object : res){
+                        if (object instanceof Model_Monitoring){
+                            model_monitorings.add((Model_Monitoring) object);
+                        }
+                    }
+                    notifyDataSetChanged();
+                } else {
+                    Toasty.info(context, "Item Not Found !", Toasty.LENGTH_SHORT, true).show();
+                }
             }
         };
     }

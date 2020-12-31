@@ -1,17 +1,8 @@
 package com.kbs.pocis.createboking;
 
-import android.Manifest;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,26 +17,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.createbooking.Adapter_AddForm;
-import com.kbs.pocis.model.Model_Commodity;
-import com.kbs.pocis.model.createboking.Model_SelectTemplate;
-import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.createbooking.CallingSaveBok;
 import com.kbs.pocis.service.createbooking.CreateBok;
 import com.kbs.pocis.service.createbooking.CallingList;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -69,7 +56,6 @@ public class CustomerAddForm extends Fragment {
     public CallingList data;
     String CustomerType;
 
-    private static int PRIVATE_CODE = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,105 +124,84 @@ public class CustomerAddForm extends Fragment {
 
     //function untuk setting expand
     public void ExpandedLayouts(){
-        icon_vesel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expanded_vesel.getVisibility() == View.GONE){
-                    TransitionManager.beginDelayedTransition(card_vesel, new AutoTransition());
-                    expanded_vesel.setVisibility(View.VISIBLE);
-                    icon_vesel.setImageResource(R.drawable.icon_top);
-                } else {
-                    TransitionManager.beginDelayedTransition(card_vesel, new AutoTransition());
-                    expanded_vesel.setVisibility(View.GONE);
-                    icon_vesel.setImageResource(R.drawable.icon_botom);
-                }
+        icon_vesel.setOnClickListener(v -> {
+            if (expanded_vesel.getVisibility() == View.GONE){
+                TransitionManager.beginDelayedTransition(card_vesel, new AutoTransition());
+                expanded_vesel.setVisibility(View.VISIBLE);
+                icon_vesel.setImageResource(R.drawable.icon_top);
+            } else {
+                TransitionManager.beginDelayedTransition(card_vesel, new AutoTransition());
+                expanded_vesel.setVisibility(View.GONE);
+                icon_vesel.setImageResource(R.drawable.icon_botom);
             }
         });
 
-        icon_contract.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expanded_contract.getVisibility() == View.GONE){
-                    TransitionManager.beginDelayedTransition(card_contract, new AutoTransition());
-                    expanded_contract.setVisibility(View.VISIBLE);
-                    icon_contract.setImageResource(R.drawable.icon_top);
-                } else {
-                    TransitionManager.beginDelayedTransition(card_contract, new AutoTransition());
-                    expanded_contract.setVisibility(View.GONE);
-                    icon_contract.setImageResource(R.drawable.icon_botom);
-                }
+        icon_contract.setOnClickListener(v -> {
+            if (expanded_contract.getVisibility() == View.GONE){
+                TransitionManager.beginDelayedTransition(card_contract, new AutoTransition());
+                expanded_contract.setVisibility(View.VISIBLE);
+                icon_contract.setImageResource(R.drawable.icon_top);
+            } else {
+                TransitionManager.beginDelayedTransition(card_contract, new AutoTransition());
+                expanded_contract.setVisibility(View.GONE);
+                icon_contract.setImageResource(R.drawable.icon_botom);
             }
         });
 
-        icon_type.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expanded_type.getVisibility() == View.GONE){
-                    TransitionManager.beginDelayedTransition(card_type, new AutoTransition());
-                    expanded_type.setVisibility(View.VISIBLE);
-                    icon_type.setImageResource(R.drawable.icon_top);
-                } else {
-                    TransitionManager.beginDelayedTransition(card_type, new AutoTransition());
-                    expanded_type.setVisibility(View.GONE);
-                    icon_type.setImageResource(R.drawable.icon_botom);
-                }
+        icon_type.setOnClickListener(v -> {
+            if (expanded_type.getVisibility() == View.GONE){
+                TransitionManager.beginDelayedTransition(card_type, new AutoTransition());
+                expanded_type.setVisibility(View.VISIBLE);
+                icon_type.setImageResource(R.drawable.icon_top);
+            } else {
+                TransitionManager.beginDelayedTransition(card_type, new AutoTransition());
+                expanded_type.setVisibility(View.GONE);
+                icon_type.setImageResource(R.drawable.icon_botom);
             }
         });
     }
 
     //function untuk CheckBox
     public void CheckBoxesRelatedVessel(){
-        no_vesel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    value_relatedVesel.setText("N");
-                    yes_vesel.setChecked(false);
-                } else {
-                    value_relatedVesel.setText("Y");
-                    yes_vesel.setChecked(true);
-                }
+        no_vesel.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                value_relatedVesel.setText("N");
+                yes_vesel.setChecked(false);
+            } else {
+                value_relatedVesel.setText("Y");
+                yes_vesel.setChecked(true);
             }
         });
 
-        yes_vesel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    value_relatedVesel.setText("Y");
-                    no_vesel.setChecked(false);
-                } else {
-                    value_relatedVesel.setText("N");
-                    no_vesel.setChecked(true);
-                }
+        yes_vesel.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                value_relatedVesel.setText("Y");
+                no_vesel.setChecked(false);
+            } else {
+                value_relatedVesel.setText("N");
+                no_vesel.setChecked(true);
             }
         });
     }
 
     public void CheckBoxesContract(){
-        no_contract.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    value_contract.setText("N");
-                    yes_contract.setChecked(false);
-                } else {
-                    value_contract.setText("Y");
-                    yes_contract.setChecked(true);
-                }
+        no_contract.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                value_contract.setText("N");
+                yes_contract.setChecked(false);
+            } else {
+                value_contract.setText("Y");
+                yes_contract.setChecked(true);
             }
         });
 
-        yes_contract.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    value_contract.setText("Y");
-                    no_contract.setChecked(false);
-                } else {
-                    value_contract.setText("N");
-                    no_contract.setChecked(true);
-                }
+        yes_contract.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                value_contract.setText("Y");
+                no_contract.setChecked(false);
+            } else {
+                value_contract.setText("N");
+                no_contract.setChecked(true);
             }
         });
     }
@@ -251,10 +216,11 @@ public class CustomerAddForm extends Fragment {
         } else {
             call.enqueue(new Callback<CreateBok>() {
                 @Override
-                public void onResponse(Call<CreateBok> call, Response<CreateBok> response) {
+                public void onResponse(@NotNull Call<CreateBok> call, @NotNull Response<CreateBok> response) {
                     CreateBok createBok = response.body();
-                    if (createBok.TreatResponse(getContext(), "costumer_type", createBok)) {
+                    if (Calling.TreatResponse(getContext(), "costumer_type", createBok)) {
                         List<CallingList> commodities = new ArrayList<>();
+                        assert createBok != null;
                         if (CustomerType != null) {
                             for (CallingList dataCreate : createBok.data) {
                                 //Log.i("tag",dataCreate.name+"="+CustomerType);
@@ -265,22 +231,22 @@ public class CustomerAddForm extends Fragment {
                                 commodities.add(dataCreate);
                             }
                         } else {
-                            for (CallingList dataCreate : createBok.data) {
-                                commodities.add(dataCreate);
-                            }
+                            Collections.addAll(commodities, createBok.data);
                         }
+
                         if (data == null)
                             data = createBok.data[0];
-                        value_customerType.setText(data.name);
-                        adapter_addForm = new Adapter_AddForm(getContext(), commodities, value_customerType, CustomerAddForm.this);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                        list_costumertype.setLayoutManager(layoutManager);
-                        list_costumertype.setAdapter(adapter_addForm);
+                            value_customerType.setText(data.name);
+                            adapter_addForm = new Adapter_AddForm(getContext(), commodities, value_customerType, CustomerAddForm.this);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            list_costumertype.setLayoutManager(layoutManager);
+                            list_costumertype.setAdapter(adapter_addForm);
+
                     }
                 }
 
                 @Override
-                public void onFailure(Call<CreateBok> call, Throwable t) {
+                public void onFailure(@NotNull Call<CreateBok> call, @NotNull Throwable t) {
                     Log.e(TAG, "onFailure: = " + t);
                 }
             });
@@ -290,27 +256,25 @@ public class CustomerAddForm extends Fragment {
 
     //function untuk NextPage
     public void NextPage(){
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (data!=null) {
-                    BookingData.i.setCustumer(
-                            String.valueOf(data.id),
-                            data.name,
-                            value_relatedVesel.getText().toString(),
-                            value_contract.getText().toString()
-                    );
-                    Log.i(TAG, "onClick: " + BookingData.i.customerType);
-                    Fragment fragment = new ShowTemplate();
-                    Log.i(TAG, "onClick: => " + BookingData.i.customerId);
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                    fragmentTransaction.commit();
-                }else{
-                    //pesan harap isi customer type
-                    Toasty.error(getContext(), "Please Check All Booking Information", Toasty.LENGTH_SHORT, true).show();
-                }
+        nextButton.setOnClickListener(v -> {
+            if (data!=null) {
+                BookingData.i.setCustumer(
+                        String.valueOf(data.id),
+                        data.name,
+                        value_relatedVesel.getText().toString(),
+                        value_contract.getText().toString()
+                );
+                Log.i(TAG, "onClick: " + BookingData.i.customerType);
+                Fragment fragment = new ShowTemplate();
+                Log.i(TAG, "onClick: => " + BookingData.i.customerId);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }else{
+                //pesan harap isi customer type
+                Toasty.error(requireContext(), "Please Check All Booking Information", Toasty.LENGTH_SHORT, true).show();
             }
         });
     }

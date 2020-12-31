@@ -27,7 +27,6 @@ public class Model_UploadDocument {
 
     }
 
-
     public int getSize() {
         return size;
     }

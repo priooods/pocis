@@ -19,6 +19,7 @@ public class Auth extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
 
+        //Ini biar support untuk semua versi Android dari kitkat sampai terbaru
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark

@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_DetailsCommodity;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class Adapter_DetailCommodity extends RecyclerView.Adapter<Adapter_DetailCommodity.VHolder> {
 

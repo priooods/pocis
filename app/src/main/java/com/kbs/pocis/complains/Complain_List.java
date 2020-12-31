@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.Adapter_Complain;
-import com.kbs.pocis.adapter.Adapter_Monitoring;
 import com.kbs.pocis.model.Model_Complain;
 
 import java.util.ArrayList;

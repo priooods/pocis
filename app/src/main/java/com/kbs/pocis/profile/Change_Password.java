@@ -1,15 +1,13 @@
 package com.kbs.pocis.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +15,21 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.welcome.Auth;
+import com.kbs.pocis.welcome.Welcome_Screen;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class Change_Password extends Fragment {
 
@@ -36,7 +45,7 @@ public class Change_Password extends Fragment {
 
         password = view.findViewById(R.id.password);
         icon_back = view.findViewById(R.id.icon_back);
-        confirm_password = view.findViewById(R.id.confirm_password);;
+        confirm_password = view.findViewById(R.id.confirm_password);
 
         cancel = view.findViewById(R.id.btn_cancel);
         save = view.findViewById(R.id.btn_save);
@@ -48,16 +57,39 @@ public class Change_Password extends Fragment {
             requireActivity().onBackPressed();
         });
         save.setOnClickListener(v->{
-            if (Objects.requireNonNull(password.getText()).toString().isEmpty() || Objects.requireNonNull(confirm_password.getText()).toString().isEmpty()){
-                Toasty.error(requireContext(), "Please Add Password & Confirm password", Toasty.LENGTH_SHORT,true).show();
-            } else if (!confirm_password.getText().toString().equals(password.getText().toString())){
-                Toasty.error(requireContext(), "Confirm Password Not Valid, Please Check !", Toasty.LENGTH_SHORT,true).show();
-            } else {
-                Toast.makeText(requireContext(),"Eksekusi ke Server", Toast.LENGTH_SHORT).show();
+            if (Objects.requireNonNull(password.getText()).toString().isEmpty() || Objects.requireNonNull(confirm_password.getText()).toString().isEmpty()) {
+                Toasty.error(requireContext(), "Please Add Password & Confirm password", Toasty.LENGTH_SHORT, true).show();
+            }else {
+                changePassword();
             }
         });
 
 
         return view;
+    }
+
+    private void changePassword(){
+        Call<Calling> call = UserData.i.getService().updatePassword(Objects.requireNonNull(password.getText()).toString(),
+                Objects.requireNonNull(confirm_password.getText()).toString(), UserData.i.getToken());
+        call.enqueue(new Callback<Calling>() {
+            @Override
+            public void onResponse(@NotNull Call<Calling> call, @NotNull Response<Calling> response) {
+                Calling data = response.body();
+                assert data != null;
+                if (data.error.equals("0")){
+                    Toasty.success(requireContext(),data.desc, Toasty.LENGTH_SHORT, true).show();
+                    Intent intent = new Intent(requireActivity(), Auth.class);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } else {
+                    Toasty.error(requireContext(),data.desc, Toasty.LENGTH_SHORT, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Calling> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
     }
 }

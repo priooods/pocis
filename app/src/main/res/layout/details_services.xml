@@ -239,6 +239,59 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:id="@+id/ln_report"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Schedule Report"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="12sp"
+                        android:layout_marginStart="15dp"
+                        android:id="@+id/e"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="true"
+                        android:id="@+id/list_shedule_report"
+                        app:layout_constraintTop_toBottomOf="@id/e"
+                        android:layout_marginTop="10dp"
+                        android:paddingHorizontal="15dp"/>
+
+                    <TextView
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/list_shedule_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Piloting"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="12sp"
+                        android:layout_marginStart="15dp"
+                        android:id="@+id/f"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="true"
+                        android:id="@+id/list_piloting"
+                        app:layout_constraintTop_toBottomOf="@id/f"
+                        android:layout_marginTop="10dp"
+                        android:paddingHorizontal="15dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </RelativeLayout>
 
@@ -455,15 +508,30 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@color/colorWhite"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:visibility="gone"
         app:behavior_peekHeight="70dp"
-        app:behavior_hideable="true"
+        app:behavior_hideable="false"
         android:paddingTop="5dp"
         android:paddingHorizontal="14dp"
         android:paddingBottom="10dp"
@@ -685,22 +753,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/progress"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:visibility="gone"
-        android:background="@color/colorWhite"
-        android:layout_height="match_parent">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </LinearLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

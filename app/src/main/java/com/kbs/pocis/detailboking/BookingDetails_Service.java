@@ -16,16 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.detailboking.Adapter_DetailsService;
-import com.kbs.pocis.model.Model_Commodity;
-import com.kbs.pocis.model.Model_DetailsCommodity;
 import com.kbs.pocis.model.Model_DetailsService;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class BookingDetails_Service extends Fragment {
 
@@ -47,9 +43,7 @@ public class BookingDetails_Service extends Fragment {
         //Log.i("Tag","DetailService = id = "+ BookingData.i.vessel.vessel_name);
         if (BookingDetailData.i != null) {
             if (BookingDetailData.i.template != null) {
-                for (Model_DetailsService mod : BookingDetailData.i.template) {
-                    model_detailsServices.add(mod);
-                }
+                model_detailsServices.addAll(BookingDetailData.i.template);
             }
         } else if (BookingData.i != null) {
             for (BookingData.BookTemplate mod : BookingData.i.template) {

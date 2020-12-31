@@ -1,6 +1,5 @@
 package com.kbs.pocis.item;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.HomePage;
 
 public class Dialog_Cancel extends DialogFragment {
@@ -44,26 +42,19 @@ public class Dialog_Cancel extends DialogFragment {
         btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
         input_alasan.setVisibility(View.GONE);
         bg.setImageResource(R.drawable.show_cancel);
-        title.setText("Are you sure want to quit create booking?");
-        btn_close.setText("Close");
+        title.setText(R.string.dialogcreate);
+        btn_close.setText(R.string.close);
         btn_close.setAllCaps(false);
-        btn_cancelBoking.setText("Yes");
+        btn_cancelBoking.setText(R.string.yes);
         btn_cancelBoking.setAllCaps(false);
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-        btn_cancelBoking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //UserData user = (UserData) getIntent().getParcelableExtra("user");
-                Intent intent = new Intent(getContext(), HomePage.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
+        btn_close.setOnClickListener(v -> dismiss());
+        btn_cancelBoking.setOnClickListener(v -> {
+            //UserData user = (UserData) getIntent().getParcelableExtra("user");
+            Intent intent = new Intent(getContext(), HomePage.class);
+            requireActivity().overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
+            startActivity(intent);
+            requireActivity().finish();
         });
 
 

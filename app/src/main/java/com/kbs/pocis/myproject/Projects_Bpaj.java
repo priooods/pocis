@@ -27,12 +27,8 @@ import com.kbs.pocis.service.UserData;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
