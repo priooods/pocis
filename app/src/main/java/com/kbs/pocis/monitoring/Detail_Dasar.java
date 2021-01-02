@@ -1,45 +1,74 @@
 package com.kbs.pocis.monitoring;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.adapter.detailMonitoring.Adapter_Monitoring_Detail;
-import com.kbs.pocis.model.Model_Monitoring;
+import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Detail_Dasar extends AppCompatActivity {
 
     ViewPager viewPager;
     TabLayout tabLayout;
-    RelativeLayout ln_vessel, ln_progress;
-    TextView header1,header2,item_vesel1,item_vesel2, title2;
+    RelativeLayout ln_vessel, ln_progress,progress,notfound;
+    TextView header1,header2,item_vesel1,item_vesel2, title2, title_topship,title_botship;
     TextView item_progres_code,item_info1,item_info2,item_info3,item_info4,item_info5,item_info6;
-    List<Model_Monitoring> model_monitorings;
-    Adapter_Monitoring_Detail adapter_truck,adapter_contact,adapter_operational,adapter_summary;
-    LinearLayoutManager manager_contact, manager_truck,manager_operational,manager_summary;
+    List<Model_Project> model_monitorings;
+    Adapter_Monitoring_Detail adapter_actual_truck_monitoring,adapter_contact_agent, adapter_topship,adapter_botship,
+            adapter_contact_pbm,adapter_vessel_in_progress,adapter_summary;
+    LinearLayoutManager manager_contact_agent,manager_contact_pbm, manager_actual_truck_monitoring,manager_summary,
+            manager_vessel_in_progress, manager_topship,manager_botship;
 
+    WebView content_cctv;
+    SimpleExoPlayer exoPlayer;
+    LinearLayout ln_ship_all,ln_ship_all_no;
     //Progress
     ImageView icon_cctv, icon_contact,icon_truck,icon_operational,icon_vesel,icon_stowage,icon_sumary, icon_back;
     ExpandableLayout expand_cctv,expand_contact,expand_truck,expand_operational,expand_vesel,expand_stowage,expand_sumary;
-    RecyclerView list_contact, list_truck, list_opertional,list_stowage,list_sumary;
-
+    RecyclerView list_contact_agent,list_contact_pbm, list_actual_truck_monitoring, list_vessel_in_progress,list_sumary,
+            list_topship,list_botship;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,9 +83,20 @@ public class Detail_Dasar extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
+        ln_ship_all = findViewById(R.id.ln_ship_all);
+        ln_ship_all_no = findViewById(R.id.ln_ship_all_no);
+        list_topship =findViewById(R.id.list_top_view);
+        title_topship = findViewById(R.id.title_name_top);
+        title_botship = findViewById(R.id.title_name_bot);
+        list_botship = findViewById(R.id.list_side_view);
+
+        progress = findViewById(R.id.progress);
+        notfound = findViewById(R.id.detail_kosong);
         icon_back = findViewById(R.id.btn_back);
         icon_back.setOnClickListener(v-> onBackPressed());
         item_progres_code = findViewById(R.id.item_p1);
+        content_cctv = findViewById(R.id.content_cctv);
+
         item_info1 = findViewById(R.id.item_info1);
         item_info2 = findViewById(R.id.item_info2);
         item_info3 = findViewById(R.id.item_info3);
@@ -83,10 +123,12 @@ public class Detail_Dasar extends AppCompatActivity {
         icon_stowage = findViewById(R.id.icon_stowage);
         icon_sumary = findViewById(R.id.icon_sumary);
 
-        list_contact = findViewById(R.id.list_contact);
-        list_truck = findViewById(R.id.list_actual);
-        list_opertional = findViewById(R.id.list_operational);
-        list_stowage = findViewById(R.id.list_stowage);
+        list_contact_agent = findViewById(R.id.list_contact_agent);
+        list_contact_pbm = findViewById(R.id.list_contact_pbm);
+        list_actual_truck_monitoring = findViewById(R.id.list_actual);
+//        list_opertional = findViewById(R.id.list_operational);
+        list_vessel_in_progress = findViewById(R.id.list_actual_vessel);
+//        list_stowage = findViewById(R.id.list_stowage);
         list_sumary = findViewById(R.id.list_sumary);
 
         // forr Vessel
@@ -98,81 +140,220 @@ public class Detail_Dasar extends AppCompatActivity {
         item_vesel1 = findViewById(R.id.item_top1);
         item_vesel2 = findViewById(R.id.item_top2);
         ln_vessel = findViewById(R.id.ln_vesel);
-        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
 
-        if (Model_Monitoring.isExist()){
-            Model_Monitoring data = Model_Monitoring.mn;
-            switch (Model_Monitoring.Code){
-                case 0:
-                    ln_progress.setVisibility(View.VISIBLE);
-                    header1.setText(R.string.header1_progress);
-                    header2.setText(R.string.header2_progress);
-                    item_vesel1.setText(data.vessel_name);
-                    title2.setText(R.string.project_status);
-                    item_vesel2.setText(data.plan_status);
-                    item_progres_code.setText(data.schedule_code);
-                    item_info1.setText(data.voyage_no);
-                    item_info2.setText(data.jetty_name);
-                    item_info3.setText(data.est_berthing);
-                    item_info4.setText(data.act_berthing);
-                    item_info5.setText(data.est_departure);
-                    item_info6.setText(data.act_departure);
-                    statusColor();
-                    ListExpand();
-                    listStowage();
-                    break;
-                case 1: // detail for vessel schedule
-                    ln_vessel.setVisibility(View.VISIBLE);
-                    header1.setText(R.string.header1_vessel);
-                    header2.setText(R.string.header2_vessel);
-                    item_vesel1.setText(data.name);
-                    item_vesel2.setText(data.status);
+        check();
+
+    }
+
+    public void check(){
+        Model_Project data = Model_Project.mp;
+        switch (Model_Project.Code){
+            case 5: // detail loading/unloading
+                ln_progress.setVisibility(View.VISIBLE);
+                header1.setText(R.string.header1_progress);
+                header2.setText(R.string.header2_progress);
+                item_vesel1.setText(data.vessel_name);
+                title2.setText(R.string.project_status);
+                item_vesel2.setText(data.plan_status);
+                item_progres_code.setText(data.schedule_code);
+                item_info1.setText(data.voyage_no);
+                item_info2.setText(data.jetty_name);
+                item_info3.setText(data.est_berthing);
+                item_info4.setText(data.act_berthing);
+                item_info5.setText(data.est_departure);
+                item_info6.setText(data.act_departure);
+                clickExpand();
+                getDetailUnloading();
+                statusColor();
+                break;
+            case 6: // detail for vessel schedule
+                progress.setVisibility(View.VISIBLE);
+                getDetailVesselSchedule();
+                ln_vessel.setVisibility(View.VISIBLE);
+                header1.setText(R.string.header1_vessel);
+                header2.setText(R.string.header2_vessel);
+                item_vesel1.setText(data.vessel_name);
+                break;
+        }
+
+    }
+
+    //Calling API
+    public void getDetailVesselSchedule(){
+        Model_Project data = Model_Project.mp;
+        Call<CallingDetail> call = UserData.i.getService().detailsVessel(UserData.i.getToken(), data.t_vessel_schedule_id, data.voyage_no);
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(Detail_Dasar.this,"detail_monitor", data)){
+                    assert data!=null;
+                    item_vesel2.setText(data.data.Header.get(0).no_booking);
+                    Model_Project.Header = data.data.Header;
+                    Model_Project.mp = data.data.AllTabsData.data;
+                    Log.i("detail_monitor", "onResponse: " + data.data.Header);
+                    progress.setVisibility(View.GONE);
+                    ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
                     viewpagerDefault.Addfragment(new List_Detail_Vessel(0),"Jetty");
                     viewpagerDefault.Addfragment(new List_Detail_Vessel(1),"Vessel");
                     viewpagerDefault.Addfragment(new List_Detail_Vessel(2),"Berth");
                     viewpagerDefault.Addfragment(new List_Detail_Vessel(3),"Time Schedule");
                     viewPager.setAdapter(viewpagerDefault);
                     tabLayout.setupWithViewPager(viewPager);
-                    break;
+                } else {
+                    progress.setVisibility(View.GONE);
+                    notfound.setVisibility(View.VISIBLE);
+                }
             }
-        }
-        clickExpand();
 
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("detail_monitor", "onFailure: ", t);
+            }
+        });
     }
 
-    private void ListExpand(){
+    public void getDetailUnloading(){
+        Model_Project data = Model_Project.mp;
+        Call<CallingDetail> call = UserData.i.getService().detailUnloading(UserData.i.getToken(), data.t_vessel_schedule_id, data.voyage_no);
+        call.enqueue(new Callback<CallingDetail>() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(Detail_Dasar.this,"detail_monitor", data)){
+                    assert data!=null;
+                    Model_Project.ContactAgent = data.data.ContactAgent;
+                    Model_Project.ContactPbm = data.data.ContactPbm;
+                    Model_Project.ActualTruckMonitoring = data.data.ActualTruckMonitoring;
+                    Model_Project.ItemSummary = data.data.ItemSummary;
+                    Model_Project.ActualVesselInProgress = data.data.ActualVesselInProgress;
+                    Model_Project.HatchTotal = data.data.ActualStowageMonitoring.HatchTotal;
+                    Model_Project.HatchDetails = data.data.ActualStowageMonitoring.HatchDetails;
+                    Model_Project.HeaderAndCCTV = data.data.HeaderAndCCTV;
+
+                    //for CCTV Logic
+                    if (Model_Project.HeaderAndCCTV.get(0).link_cctv != null){
+                        Log.i("detail_monitor", "onResponse: " + Model_Project.HeaderAndCCTV.get(0).link_cctv);
+//                        showCCTV(Model_Project.HeaderAndCCTV.get(0).link_cctv);
+                        showCCTV(Model_Project.HeaderAndCCTV.get(0).link_cctv);
+                    } else {
+                        content_cctv.setVisibility(View.GONE);
+                    }
+
+                    listContactPbm();
+                    listContactAgent();
+                    listActualTruckMonitoring();
+                    listVesselInProgress();
+
+                    //for Ship Logic
+                    if (Model_Project.HatchDetails.size() > 0){
+                        Log.i("detail_monitor", "onResponse: " + Model_Project.HatchDetails.size());
+                        title_botship.setText(Model_Project.HatchDetails.get(0).description);
+                        listStowageMonitoringTop();
+                        listStowageMonitoringBot();
+                    } else {
+                        ln_ship_all.setVisibility(View.GONE);
+                        ln_ship_all_no.setVisibility(View.VISIBLE);
+                    }
+                    if (Model_Project.HatchTotal.size() > 0){
+                        title_topship.setText(Model_Project.HatchTotal.get(0).hatch_side);
+                    }
+                    listItemSummary();
+                    progress.setVisibility(View.GONE);
+                } else {
+                    progress.setVisibility(View.GONE);
+                    notfound.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("detail_monitor", "onFailure: ", t);
+            }
+        });
+    }
+
+
+
+    //Setting List With Expanded Animation
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void showCCTV(String link){
+        if (Build.VERSION.SDK_INT >= 19){
+            content_cctv.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            content_cctv.setWebViewClient(new WebViewClient());
+            content_cctv.getSettings().setJavaScriptEnabled(true);
+            content_cctv.getSettings().setLoadWithOverviewMode(true);
+            content_cctv.getSettings().setUseWideViewPort(true);
+            content_cctv.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.117 Safari/537.36");
+            content_cctv.loadUrl(link);
+        }
+    }
+
+
+    private void listContactAgent(){
         model_monitorings = new ArrayList<>();
-        model_monitorings.add(new Model_Monitoring("HUDRENI","rendysyah75@gmail.com","087774442056","PELAYARAN SAMUDERA KARANA LINE PT.","AGENT","B9773YU","1","21 Dec 2020 05:30","POS 5 IN","36","18","939.83"));
-        model_monitorings.add(new Model_Monitoring("HUMEDI","msb.stev@gmail.com","081380993773","MULTI SENTANA BAJA PT","PBM","B9570YU","2","29 Dec 2020 05:28","POS 5 OUT","125","18","3,220.95"));
-        model_monitorings.add(new Model_Monitoring("HUDRENI","rendysyah75@gmail.com","081380993773","PELAYARAN SAMUDERA KARANA LINE PT.","PBM","B9352YU","3","21 Dec 2020 05:23","POS 5 IN","78","18","3,220.95"));
+        model_monitorings.addAll(Model_Project.ContactAgent);
+        adapter_contact_agent = new Adapter_Monitoring_Detail(model_monitorings,this,0);
+        manager_contact_agent = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        list_contact_agent.setLayoutManager(manager_contact_agent);
+        list_contact_agent.setAdapter(adapter_contact_agent);
+    }
 
-        adapter_contact = new Adapter_Monitoring_Detail(model_monitorings,this,0);
-        adapter_operational = new Adapter_Monitoring_Detail(model_monitorings,this,2);
-        adapter_summary = new Adapter_Monitoring_Detail(model_monitorings,this,4);
-        adapter_truck = new Adapter_Monitoring_Detail(model_monitorings,this,1);
-        manager_contact = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        manager_truck = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        manager_operational = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+    private void listContactPbm(){
+        model_monitorings = new ArrayList<>();
+        model_monitorings.addAll(Model_Project.ContactPbm);
+        adapter_contact_pbm = new Adapter_Monitoring_Detail(model_monitorings,this,1);
+        manager_contact_pbm = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        list_contact_pbm.setLayoutManager(manager_contact_pbm);
+        list_contact_pbm.setAdapter(adapter_contact_pbm);
+    }
+
+    private void listActualTruckMonitoring(){
+        model_monitorings = new ArrayList<>();
+        model_monitorings.addAll(Model_Project.ActualTruckMonitoring);
+        adapter_actual_truck_monitoring = new Adapter_Monitoring_Detail(model_monitorings,this,3);
+        manager_actual_truck_monitoring = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        list_actual_truck_monitoring.setLayoutManager(manager_actual_truck_monitoring);
+        list_actual_truck_monitoring.setAdapter(adapter_actual_truck_monitoring);
+    }
+
+    private void listItemSummary(){
+        model_monitorings = new ArrayList<>();
+        model_monitorings.addAll(Model_Project.ItemSummary);
+        adapter_summary = new Adapter_Monitoring_Detail(model_monitorings,this,5);
         manager_summary = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-
-        list_contact.setLayoutManager(manager_contact);
-        list_contact.setAdapter(adapter_contact);
-        list_truck.setLayoutManager(manager_truck);
-        list_truck.setAdapter(adapter_truck);
-        list_opertional.setLayoutManager(manager_operational);
-        list_opertional.setAdapter(adapter_operational);
         list_sumary.setLayoutManager(manager_summary);
         list_sumary.setAdapter(adapter_summary);
     }
 
-
-    private void listStowage(){
+    private void listVesselInProgress(){
         model_monitorings = new ArrayList<>();
-        model_monitorings.add(new Model_Monitoring("HUDRENI","rendysyah75@gmail.com","087774442056","PELAYARAN SAMUDERA KARANA LINE PT.","AGENT","B9773YU","1","21 Dec 2020 05:30","POS 5 IN","36","18","939.83"));
-        Adapter_Monitoring_Detail adapter_project_list = new Adapter_Monitoring_Detail(model_monitorings,this,3);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        list_stowage.setLayoutManager(layoutManager);
-        list_stowage.setAdapter(adapter_project_list);
+        model_monitorings.addAll(Model_Project.ActualVesselInProgress);
+        adapter_vessel_in_progress = new Adapter_Monitoring_Detail(model_monitorings,this,4);
+        manager_vessel_in_progress = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        list_vessel_in_progress.setLayoutManager(manager_vessel_in_progress);
+        list_vessel_in_progress.setAdapter(adapter_vessel_in_progress);
+    }
+
+    private void listStowageMonitoringTop(){
+        model_monitorings = new ArrayList<>();
+        model_monitorings.addAll(Model_Project.HatchDetails);
+        Log.i("detail_monitor", "listStowageMonitoringTop: " + Model_Project.HatchDetails);
+        adapter_topship = new Adapter_Monitoring_Detail(model_monitorings,this,6);
+        manager_topship = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        list_topship.setLayoutManager(manager_topship);
+        list_topship.setAdapter(adapter_topship);
+    }
+
+    private void listStowageMonitoringBot(){
+        model_monitorings = new ArrayList<>();
+        model_monitorings.addAll(Model_Project.HatchDetails);
+        Log.i("detail_monitor", "listStowageMonitoringTop: " + Model_Project.HatchDetails);
+        adapter_botship = new Adapter_Monitoring_Detail(model_monitorings,this,6);
+        manager_botship = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        list_botship.setLayoutManager(manager_botship);
+        list_botship.setAdapter(adapter_botship);
     }
 
     private void statusColor(){

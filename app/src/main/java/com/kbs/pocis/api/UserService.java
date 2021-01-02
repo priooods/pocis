@@ -243,8 +243,35 @@ public interface UserService {
     //operational-monitoring/loadUnloadProgress
     @FormUrlEncoded
     @POST("operational-monitoring/loadUnloadProgress")
-    Call<Loading_Unloading> getUnloading(
+    Call<PublicList> getUnloading(
             @Field("token") String token,
-            @Field("progress_tab") String progress_tab
+            @Field("progress_tab") String progress_tab,
+            @Field("page") String page
+    );
+
+    //operational-monitoring/vesselSchedule
+    @FormUrlEncoded
+    @POST("operational-monitoring/vesselSchedule")
+    Call<PublicList> getVesselSchedule(
+            @Field("token") String token,
+            @Field("page") String page
+    );
+
+    //operational-monitoring/vesselSchedule
+    @FormUrlEncoded
+    @POST("operational-monitoring/vesselScheduleDetail")
+    Call<CallingDetail> detailsVessel(
+            @Field("token") String token,
+            @Field("t_vessel_schedule_id") String t_vessel_schedule_id,
+            @Field("voyage_no") String voyage_no
+    );
+
+    //operational-monitoring/vesselSchedule
+    @FormUrlEncoded
+    @POST("operational-monitoring/loadUnloadProgressDetail")
+    Call<CallingDetail> detailUnloading(
+            @Field("token") String token,
+            @Field("t_vessel_schedule_id") String t_vessel_schedule_id,
+            @Field("voyage_no") String voyage_no
     );
 }

@@ -26,7 +26,7 @@ public class SessionManager {
 
     public SessionManager(Context context) {
         this.context = context;
-        pref = context.getSharedPreferences(pref_name, mode);
+        pref = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 
@@ -60,7 +60,7 @@ public class SessionManager {
     }
 
     public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
+        HashMap<String, String> user = new HashMap<>();
         user.put(pref_name, pref.getString(pref_name, null));
         user.put(token, pref.getString(token, null));
         return user;

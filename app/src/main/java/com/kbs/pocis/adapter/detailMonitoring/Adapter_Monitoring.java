@@ -1,4 +1,4 @@
-package com.kbs.pocis.adapter;
+package com.kbs.pocis.adapter.detailMonitoring;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,22 +16,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.Model_Monitoring;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.monitoring.Detail_Dasar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
 public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.vHolder> implements Filterable {
 
     Context context;
-    List<Model_Monitoring> model_monitorings;
-    List<Model_Monitoring> search;
+    List<Model_Project> model_monitorings;
+    List<Model_Project> search;
     int type;
 
-    public Adapter_Monitoring(Context context, List<Model_Monitoring> model_monitorings, int type) {
+    public Adapter_Monitoring(Context context, List<Model_Project> model_monitorings, int type) {
         this.context = context;
         this.model_monitorings = model_monitorings;
         this.type = type;
@@ -74,12 +72,12 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 holder.status.setText(model_monitorings.get(position).plan_status);
                 holder.gotoo.setOnClickListener(v->{
                     Intent intent = new Intent(context, Detail_Dasar.class);
-                    Model_Monitoring.Code = 0;
-                    Model_Monitoring.mn = model_monitorings.get(position);
+                    Model_Project.Code = 5;
+                    Model_Project.mp = model_monitorings.get(position);
                     context.startActivity(intent);
                 });
                 break;
-            case 3:
+            case 1:
                 holder.number_bot.setVisibility(View.GONE);
                 holder.title_1.setText(R.string.est_arival);
                 holder.title_2.setText(R.string.jetty);
@@ -89,18 +87,18 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 holder.title_6.setText(R.string.ship_line);
 
 
-                holder.number.setText(model_monitorings.get(position).name);
+                holder.number.setText(model_monitorings.get(position).vessel_name);
                 holder.item3.setText(model_monitorings.get(position).est_berthing);
-                holder.item1.setText(model_monitorings.get(position).est_arival);
-                holder.item2.setText(model_monitorings.get(position).jetty);
-                holder.item4.setText(model_monitorings.get(position).voyage);
+                holder.item1.setText(model_monitorings.get(position).est_arrival);
+                holder.item2.setText(model_monitorings.get(position).jetty_name);
+                holder.item4.setText(model_monitorings.get(position).voyage_no);
                 holder.item5.setText(model_monitorings.get(position).est_departure);
-                holder.item6.setText(model_monitorings.get(position).ship_line);
-                holder.status.setText(model_monitorings.get(position).status);
+                holder.item6.setText(model_monitorings.get(position).shipping_line_type);
+                holder.status.setText(model_monitorings.get(position).plan_status);
                 holder.gotoo.setOnClickListener(v->{
                     Intent intent = new Intent(context, Detail_Dasar.class);
-                    Model_Monitoring.Code = 1;
-                    Model_Monitoring.mn = model_monitorings.get(position);
+                    Model_Project.Code = 6;
+                    Model_Project.mp = model_monitorings.get(position);
                     context.startActivity(intent);
                 });
                 break;
@@ -131,8 +129,8 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
                 if (value.isEmpty()){
                     model_monitorings = search;
                 } else {
-                    List<Model_Monitoring> projects = new ArrayList<>();
-                    for (Model_Monitoring model_project : projects){
+                    List<Model_Project> projects = new ArrayList<>();
+                    for (Model_Project model_project : projects){
                         if (model_project.vessel_name.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.voyage_no.toLowerCase().contains(value.toLowerCase()) ||
                                 model_project.jetty_name.toLowerCase().contains(value.toLowerCase())){
@@ -150,19 +148,8 @@ public class Adapter_Monitoring extends RecyclerView.Adapter<Adapter_Monitoring.
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-//                model_monitorings = (List<Model_Monitoring>)results.values;
-//                notifyDataSetChanged();
-                if (results.count > 0){
-                    List<?> res = (List<?>)results.values;
-                    for (Object object : res){
-                        if (object instanceof Model_Monitoring){
-                            model_monitorings.add((Model_Monitoring) object);
-                        }
-                    }
-                    notifyDataSetChanged();
-                } else {
-                    Toasty.info(context, "Item Not Found !", Toasty.LENGTH_SHORT, true).show();
-                }
+                model_monitorings = (List<Model_Project>)results.values;
+                notifyDataSetChanged();
             }
         };
     }

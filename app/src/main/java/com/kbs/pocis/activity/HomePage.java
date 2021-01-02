@@ -1,6 +1,9 @@
 package com.kbs.pocis.activity;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,14 +23,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
 import com.kbs.pocis.HomeMenu;
 import com.kbs.pocis.R;
+import com.kbs.pocis.service.UserData;
+
+import java.io.IOException;
 
 public class HomePage extends AppCompatActivity {
 
     FragmentContainerView framehomepage;
-
+    AppUpdateManager appUpdateManager;
+    public static int REQUEST = 10;
     public static int PRIVATE_CODE = 1;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +56,11 @@ public class HomePage extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
+//        sharedPreferences = this.getSharedPreferences("sesi", Context.MODE_PRIVATE);
+//        UserData.i.setToken(sharedPreferences.getString("token", null));
+//        UserData.i.setCustId(sharedPreferences.getString("cust", null));
+
+        AutomatisUpdateApp();
         framehomepage = findViewById(R.id.framehomepage);
         Permision();
         FragmentList(new HomeMenu());
@@ -60,6 +80,26 @@ public class HomePage extends AppCompatActivity {
 //            doubleBackTime = System.currentTimeMillis();
 //        }
 //    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AutomatisUpdateApp();
+    }
+
+    public void AutomatisUpdateApp(){
+        appUpdateManager = AppUpdateManagerFactory.create(HomePage.this);
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(result -> {
+            if ((result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) && result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                try {
+                    appUpdateManager.startUpdateFlowForResult(result, AppUpdateType.IMMEDIATE, HomePage.this, REQUEST);
+                }catch (IntentSender.SendIntentException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     public void FragmentList(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();

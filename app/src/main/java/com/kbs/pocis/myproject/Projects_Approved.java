@@ -100,7 +100,7 @@ public class Projects_Approved extends FilterFragment {
             GenerateLists();
             Ready = false;
         } else {
-            Log.w("all_booking", "Aggresive Touch/Command!");
+            Log.w("approved", "Aggresive Touch/Command!");
         }
     }
 
@@ -117,9 +117,16 @@ public class Projects_Approved extends FilterFragment {
         }
     }
 
+    void scrollNested(){
+        nested.fullScroll(View.FOCUS_UP);
+        nested.smoothScrollTo(0,0);
+    }
+
+
     @Override
     protected void ShowAdapter() {
         if (model_project_s != null && model_project_s.size() > 0) {
+            scrollNested();
             SetVisibility(kiri, page_current > 1);
             SetVisibility(kiri_banget, page_current > 2);
             SetVisibility(kanan, page_current < page_last);
@@ -174,7 +181,7 @@ public class Projects_Approved extends FilterFragment {
                                     if (filter.checkFilter(data.get(i))) {
                                         if (model_project_s.size() < pmanager.page_capacity) {
                                             model_project_s.add(data.get(i));
-                                            Log.i("booking_load", data.get(i).vessel_name);
+                                            Log.i("approved", data.get(i).vessel_name);
                                         } else {
                                             page_last = pmanager.page_last;
                                             total_item = pmanager.total;
@@ -200,7 +207,7 @@ public class Projects_Approved extends FilterFragment {
                                     if (filter.checkFilter(data)) {
                                         if (pmanager.addPack(page, i) && load) {
                                             model_project_s.add(data);
-                                            Log.i("booking_load", data.vessel_name);
+                                            Log.i("approved", data.vessel_name);
                                         } else {
                                             load = false;
                                         }

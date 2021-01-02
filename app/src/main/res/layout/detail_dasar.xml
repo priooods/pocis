@@ -88,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/montserrat_bold"
-                android:textSize="12dp"
-                android:text="P0019-2020-00027"
+                android:textSize="12sp"
                 android:textAllCaps="true"
                 android:layout_marginTop="4dp"
                 android:id="@+id/item_top1"/>
@@ -120,9 +119,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorGrey"
                 android:fontFamily="@font/montserrat_bold"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:text="PREPARED"
                 android:layout_marginTop="4dp"
                 android:id="@+id/item_top2"/>
 
@@ -471,7 +469,7 @@
                             android:layout_height="wrap_content"
                             android:text="CCTV"
                             android:layout_centerVertical="true"
-                            android:textSize="12dp"
+                            android:textSize="12sp"
                             android:fontFamily="@font/montserrat_bold"
                             android:textColor="@color/colorPrimaryDark"/>
 
@@ -481,22 +479,22 @@
                             android:layout_height="wrap_content"
                             android:src="@drawable/icon_botom"
                             android:layout_alignParentEnd="true"
-                            android:id="@+id/icon_cctv"/>
+                            android:id="@+id/icon_cctv"
+                            android:contentDescription="@string/icon_back" />
 
                     </RelativeLayout>
 
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         app:el_duration="300"
                         app:el_parallax="1"
                         android:id="@+id/expand_cctv">
 
-                        <ImageView
+                        <WebView
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="190dp"
-                            android:background="@color/colorGrey"
+                            android:layout_height="170dp"
                             android:id="@+id/content_cctv"/>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
@@ -545,12 +543,27 @@
                         app:el_parallax="0.8"
                         android:id="@+id/expand_contact">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_marginTop="10dp"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:nestedScrollingEnabled="true"
                             android:layout_height="wrap_content"
-                            android:id="@+id/list_contact"/>
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:nestedScrollingEnabled="true"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/list_contact_agent"/>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:nestedScrollingEnabled="true"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/list_contact_pbm"/>
+
+                        </LinearLayout>
+
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -704,164 +717,12 @@
                         app:el_parallax="0.8"
                         android:id="@+id/expand_actual_vesel">
 
-                        <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:ellipsize="end"
-                                android:textSize="12sp"
-                                android:fontFamily="@font/montserrat_bold"
-                                android:textColor="@color/colorAccent"
-                                android:layout_marginTop="15dp"
-                                android:text="INDOCEMENT TUNGGAL PRAKARSA TBK PT."/>
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="wrap_content">
-
-                                <LinearLayout
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_width="140dp"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    android:id="@+id/ln1">
-
-                                    <TextView
-                                        android:id="@+id/title1"
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorGrey"
-                                        android:text="BL"
-                                        android:textSize="10dp"
-                                        android:textStyle="italic"
-                                        android:layout_height="wrap_content"/>
-
-                                    <TextView
-                                        android:maxLines="1"
-                                        android:ellipsize="end"
-                                        android:layout_width="140dp"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/item1_truck"
-                                        android:textColor="@color/colorTextbooking"
-                                        android:textAllCaps="true"
-                                        android:textSize="11dp"
-                                        android:text="7,608.30"
-                                        android:fontFamily="@font/montserrat_bold"/>
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="130dp"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    android:id="@+id/ln2"
-                                    app:layout_constraintStart_toEndOf="@id/ln1"
-                                    android:layout_marginTop="8dp">
-
-                                    <TextView
-                                        android:id="@+id/title_act1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="10dp"
-                                        android:textColor="@color/colorGrey"
-                                        android:textStyle="italic"
-                                        android:text="Actual in Qty (pcs)"/>
-
-                                    <TextView
-                                        android:maxLines="1"
-                                        android:ellipsize="end"
-                                        android:layout_width="140dp"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorTextbooking"
-                                        android:text="145"
-                                        android:textSize="11dp"
-                                        android:textAllCaps="true"
-                                        android:fontFamily="@font/montserrat_bold"
-                                        android:id="@+id/item2_truck"/>
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_marginTop="8dp"
-                                    android:layout_width="140dp"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    app:layout_constraintTop_toBottomOf="@id/ln1"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    android:id="@+id/ln3">
-
-                                    <TextView
-                                        android:id="@+id/title3"
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorGrey"
-                                        android:text="Actual In Progress (ton)"
-                                        android:textSize="10dp"
-                                        android:textStyle="italic"
-                                        android:layout_height="wrap_content"/>
-
-                                    <TextView
-                                        android:maxLines="1"
-                                        android:ellipsize="end"
-                                        android:layout_width="140dp"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/item3_truck"
-                                        android:textColor="@color/colorTextbooking"
-                                        android:textAllCaps="true"
-                                        android:textSize="11dp"
-                                        android:text="0.00"
-                                        android:fontFamily="@font/montserrat_bold"/>
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    app:layout_constraintTop_toBottomOf="@id/ln1"
-                                    android:id="@+id/ln4"
-                                    app:layout_constraintStart_toStartOf="@id/ln2"
-                                    android:layout_marginTop="8dp">
-
-                                    <TextView
-                                        android:id="@+id/title4"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="10dp"
-                                        android:textColor="@color/colorGrey"
-                                        android:textStyle="italic"
-                                        android:text="Actual In Percentage (%)"/>
-
-                                    <TextView
-                                        android:ellipsize="end"
-                                        android:layout_width="130dp"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorTextbooking"
-                                        android:text="0.00"
-                                        android:maxLines="1"
-                                        android:textSize="11dp"
-                                        android:textAllCaps="true"
-                                        android:fontFamily="@font/montserrat_bold"
-                                        android:id="@+id/item4_truck"/>
-
-
-                                </LinearLayout>
-
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </LinearLayout>
+                            android:id="@+id/list_actual_vessel"
+                            android:nestedScrollingEnabled="true"/>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -909,12 +770,136 @@
                         app:el_parallax="0.8"
                         android:id="@+id/expand_stowage">
 
-                        <androidx.recyclerview.widget.RecyclerView
+                        <LinearLayout
+                            android:id="@+id/ln_ship_all"
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="true"
-                            android:id="@+id/list_stowage"/>
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Top View"
+                                    android:fontFamily="@font/montserrat_bold"
+                                    android:textColor="@color/colorTextbooking"/>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_height="wrap_content">
+
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/top_side"
+                                        android:scaleType="fitXY"
+                                        app:layout_constraintTop_toTopOf="parent"/>
+
+                                    <LinearLayout
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_width="200dp"
+                                        android:layout_height="100dp"
+                                        android:orientation="vertical"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:textColor="@color/colorWhite"
+                                            android:background="@color/colorRed"
+                                            android:id="@+id/title_name_top"/>
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:layout_width="match_parent"
+                                            android:nestedScrollingEnabled="true"
+                                            android:layout_height="match_parent"
+                                            android:id="@+id/list_top_view"/>
+
+                                    </LinearLayout>
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <TextView
+                                    android:layout_marginTop="15dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Side View"
+                                    android:fontFamily="@font/montserrat_bold"
+                                    android:textColor="@color/colorTextbooking"/>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/bot_side"
+                                        android:scaleType="fitXY"
+                                        app:layout_constraintTop_toTopOf="parent"/>
+
+                                    <LinearLayout
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_width="230dp"
+                                        android:layout_height="120dp"
+                                        android:orientation="vertical"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:textColor="@color/colorWhite"
+                                            android:background="@color/colorRed"
+                                            android:id="@+id/title_name_bot"/>
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:id="@+id/list_side_view"/>
+
+                                    </LinearLayout>
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_ship_all_no"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="Nothing Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -980,6 +965,63 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/a">
 
+        <ProgressBar
+            android:id="@+id/p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/load"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_below="@id/p"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/a"
+        android:visibility="gone"
+        android:background="@color/colorWhite"
+        android:id="@+id/detail_kosong"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/ww"
+            android:src="@drawable/notfound"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_below="@id/ww"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="15sp"
+            android:layout_marginTop="20dp"
+            android:text="@string/error"
+            android:gravity="center"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

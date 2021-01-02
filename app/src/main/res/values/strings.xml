@@ -17,6 +17,8 @@
     <string name="icon_back">icon-back</string>
     <string name="error">Oops… There is something happened in our server</string>
 
+    <string name="agent">AGENT</string>
+    <string name="pbm">PBM</string>
     <!-- Vessel Information -->
     <string name="Loading">Loading</string>
     <string name="Discharge">Discharge</string>

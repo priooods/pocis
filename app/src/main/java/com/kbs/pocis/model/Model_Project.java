@@ -1,28 +1,39 @@
 package com.kbs.pocis.model;
 
-import com.google.gson.annotations.SerializedName;
-import com.kbs.pocis.model.createboking.Model_UploadDocument;
-import com.kbs.pocis.service.Calling;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Model_Project {
 
     public static Model_Project mp;
     public static int Code;
+
+    //For Menu My Project & Invoice/Proforma
     public static List<Model_Project> Service;
     public static List<Model_Project> VesselReport;
     public static List<List<Model_Project>> Piloting;
     public static List<Model_Project> Documents;
     public static List<Model_Project> InformationAndDocument;
 
+
+    //for Vessel Schedule Details
+    public static List<Model_Project> Header;
+
+    //for Unloading Details
+    public static List<Model_Project> ActualVesselInProgress;
+    public static List<Model_Project> ItemSummary;
+    public static List<Model_Project> HeaderAndCCTV;
+    public static List<Model_Project> HatchDetails; //HatchTotal
+    public static List<Model_Project> HatchTotal;
+    public static List<Model_Project> ContactAgent;
+    public static List<Model_Project> ContactPbm;
+    public static List<Model_Project> ActualTruckMonitoring;
+
+
     public static boolean isExist(){
         return Model_Project.mp != null;
     }
 
-
-    public String m_customer_id;
+    public String last_port_name;
     public String t_billing_invoice_id;
     public String invoice_no;
     public String booking_no;
@@ -93,9 +104,7 @@ public class Model_Project {
     public String file_link;
 
 
-    public String status_booking_code;
     public String schedule_code;
-    public String status_project_code;
     public String exchange_rate;
     public String bi_date;
     public String bill_paymemt_number;
@@ -103,17 +112,84 @@ public class Model_Project {
     public String date_project_issued;
 
     public String t_project_report_header_id;
-    public String status_bapj_code;
     public String status_bapj;
     public String department_group_name;
-    public String total_net_amount;
     public String date_issued;
     public int id;
 
+    public String plan_status;
+    public String dest_port_name;
+    public String jetty_name;
+    public String est_anchorage;
+    public String est_arrival;
+    public String est_end_work;
+    public String est_berthing;
+    public String est_start_work;
+    public String est_departure;
 
+    public String link_cctv;
+    public String description;
+    public String tonnage_actual;
+    public String shipping_line_type;
 
     public String customer_type;
     public String booking_date;
+
+    public String vessel_registered_no;
+    public String vessel_year;
+    public String vessel_mmsi_code;
+    public String vessel_type;
+    public String jetty_code;
+    public String jetty_code_inaport;
+
+    public String lowes_water_spring;
+    public String vessel_dwt;
+    public String vessel_gt;
+
+    public String vessel_call_sign;
+    public String jetty_length;
+    public String jetty_dwt;
+
+    public String vessel_length_overall;
+    public String vessel_draft;
+    public String agent_name;
+    public String rute;
+    public String discharge_loading;
+    public String next_port_name;
+    public String origin_port_name;
+
+    public String commodity_name;
+    public String cargo_type;
+    public String hatch_no;
+    public String hatch_side;
+    public String hatch_position;
+    public String ritase;
+    public String actual_progress;
+    public String contact;
+    public String contact_hp;
+    public String equipment_name;
+    public String status_equipment;
+    public String contact_email;
+
+    public String consignee_name;
+    public String bl;
+    public String unit_qty;
+    public String actual;
+    public String prosentase;
+
+    public String nopol;
+    public String created;
+    public String before_pos;
+    public String pos;
+
+//    "B9773YU" : ActualTruckMonitoring['nopol']
+//            "21 Dec 2020 05:30" : ActualTruckMonitoring['created']
+//            "PPJ-2020/09778" : ActualTruckMonitoring['project_no']
+//    Vessel Name : ActualTruckMonitoring['vessel_name']
+//    Before POS : ActualTruckMonitoring['before_pos']
+//    Voyage No. : ActualTruckMonitoring['voyage_no']
+//    POS : ActualTruckMonitoring['pos']
+
 
     public Model_Project(String status,String no,String cust_name,String type, String date){
         this.status_project = status;
@@ -126,13 +202,6 @@ public class Model_Project {
     public Model_Project(String filename){
         this.dokumen_faktur_pajak = filename;
     }
-
-
-//    "service_name": "F024 - JASA TUNDA NON CGD",
-////            "tariff": "USD 8813.740",
-////            "parameter_1": "1.000 LS",
-////            "parameter_2": "- ",
-////            "amount_in_idr": "138068118"
 
 }
 

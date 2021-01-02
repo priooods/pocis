@@ -1,6 +1,8 @@
 package com.kbs.pocis.welcome;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +42,7 @@ import java.util.Objects;
 public class Login extends Fragment {
 
     TextInputEditText username, password;
+    SharedPreferences sharedPreferences;
     UserService callInterface;
     UserData user;
     SessionManager sessionManager;
@@ -57,6 +60,8 @@ public class Login extends Fragment {
         username = view.findViewById(R.id.input_username_login);
         password = view.findViewById(R.id.input_password_login);
         forgot_password = view.findViewById(R.id.forgot_password);
+        sharedPreferences = requireActivity().getSharedPreferences("sesi", Context.MODE_PRIVATE);
+
 
         //Lupa password di click ke Page Forgot Password
         forgot_password.setOnClickListener(v -> {
@@ -109,6 +114,10 @@ public class Login extends Fragment {
                 if (CallingData.TreatResponse(requireContext(), "login", respone)) {
                     pesanSuccess("Welcome " + user.username);
                     assert respone != null;
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putString("token", respone.data.token);
+//                    editor.putString("cust", respone.data.token);
+//                    editor.apply();
                     user.setToken(respone.data.token);
                     user.setCustId(respone.data.cust_id);
                     UserData.i = user;

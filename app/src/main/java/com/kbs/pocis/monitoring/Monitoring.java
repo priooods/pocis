@@ -1,5 +1,6 @@
 package com.kbs.pocis.monitoring;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,34 +11,41 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
 
-public class Monitoring extends Fragment {
+public class Monitoring extends AppCompatActivity {
 
     ImageView icon_back;
     BottomNavigationView bottombar_monitoring;
     TextView title;
-    View view;
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.monitoring_dasar, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.monitoring_dasar);
 
-        icon_back = view.findViewById(R.id.btn_back_monitoring);
-        icon_back.setOnClickListener(v -> {
-            requireActivity().onBackPressed();
-        });
-        bottombar_monitoring = view.findViewById(R.id.bottombar_monitoring);
-        title = view.findViewById(R.id.title);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite, this.getTheme()));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        }
+
+        icon_back = findViewById(R.id.btn_back_monitoring);
+        icon_back.setOnClickListener(v -> this.onBackPressed());
+        bottombar_monitoring = findViewById(R.id.bottombar_monitoring);
+        title = findViewById(R.id.title);
 
         bottombar_monitoring.setOnNavigationItemSelectedListener(listener);
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framemonitoring, new Unloading()).commit();
-
-        return view;
+        FragmentList(new Unloading());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener =
@@ -55,9 +63,15 @@ public class Monitoring extends Fragment {
                             title.setText(R.string.vessel_schedule);
                             break;
                     }
-                    assert selectFragment != null;
-                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framemonitoring, selectFragment).commit();
+                    FragmentList(selectFragment);
                     return true;
                 }
             };
+
+    public void FragmentList(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framemonitoring, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+    }
 }

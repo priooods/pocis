@@ -1,6 +1,8 @@
 package com.kbs.pocis.profile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +40,7 @@ public class Profile_Menu extends Fragment {
     TextView version;
     ImageView icon_back;
     String versionApp = BuildConfig.VERSION_NAME;
+    SharedPreferences sharedPreferences;
     String getVersionApp = "App Version " + versionApp;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -52,7 +55,7 @@ public class Profile_Menu extends Fragment {
         version = view.findViewById(R.id.appversion);
         change_password = view.findViewById(R.id.go_password);
         version.setText(getVersionApp);
-
+        sharedPreferences = requireActivity().getSharedPreferences("sesi", Context.MODE_PRIVATE);
         icon_back.setOnClickListener(v -> requireActivity().onBackPressed());
         logout.setOnClickListener(v -> LogoutClick());
 
@@ -88,6 +91,9 @@ public class Profile_Menu extends Fragment {
             public void onResponse(@NotNull Call<CallingData> call, @NotNull Response<CallingData> response) {
 
                 CallingData.TreatResponse(getContext(), "logout", (CallingData) response.body());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
                 UserData.i.setToken("");
                 pesan("Anda telah keluar");
                 startActivity(new Intent(getActivity(), Welcome_Screen.class));

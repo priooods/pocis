@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -17,12 +18,12 @@ import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.filter.Dialog_Filter;
 import com.kbs.pocis.filter.FilterFragment;
 
-public class Unloading extends FilterFragment {
+public class Unloading extends Fragment {
 
     ImageView search_icon;
     ViewPager viewPager;
     TabLayout tabLayout;
-    View view;
+    ViewpagerDefault adapter;
     DialogFragment fragment;
     Unloading_List[] alllist;
     Unloading_List select_list;
@@ -30,7 +31,7 @@ public class Unloading extends FilterFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.unloading,container,false);
+        View view = inflater.inflate(R.layout.unloading,container,false);
 
         search_icon = view.findViewById(R.id.btn_search_unload);
         search_icon.setOnClickListener(v -> {
@@ -58,12 +59,12 @@ public class Unloading extends FilterFragment {
             }
         });
         alllist = new Unloading_List[3];
-        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getChildFragmentManager());
-        viewpagerDefault.Addfragment(select_list = alllist[0] = new Unloading_List(0),"Berthing");
-        viewpagerDefault.Addfragment(alllist[1] = new Unloading_List(1),"Planned");
-        viewpagerDefault.Addfragment(alllist[2] = new Unloading_List(2),"Departure");
+        adapter = new ViewpagerDefault(getChildFragmentManager());
+        adapter.Addfragment(select_list = alllist[0] = new Unloading_List(0),"Berthing");
+        adapter.Addfragment(alllist[1] = new Unloading_List(1),"Planned");
+        adapter.Addfragment(alllist[2] = new Unloading_List(2),"Departure");
 
-        viewPager.setAdapter(viewpagerDefault);
+        viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
         return view;

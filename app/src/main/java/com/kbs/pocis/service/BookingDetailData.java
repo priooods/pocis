@@ -106,13 +106,40 @@ public class BookingDetailData {
             this.cigading_port = cigading_port;
         }
     }
-//InformationAndDocument
+    //for myproject & Inovice/Proforma
     public Model_Project Information;
     public List<Model_Project> InformationAndDocument;
     public List<Model_Project> Service;
     public List<Model_Project> VesselReport;
     public List<List<Model_Project>> Piloting;
     public List<Model_Project> Documents;
+
+
+    //for Menu Vessel Schedule
+
+    public Datass AllTabsData;
+    public static class Datass{
+        @SerializedName("0")
+        public Model_Project data;
+    }
+
+    //for Menu Unloading Vessel Schedule
+    public List<Model_Project> Header;
+
+    //for Menu Unloading Details
+    public List<Model_Project> ActualVesselInProgress;
+    public Ship ActualStowageMonitoring;
+    public static class Ship{
+        @SerializedName("HatchTotal")
+        public List<Model_Project> HatchTotal;
+        @SerializedName("HatchDetails")
+        public List<Model_Project> HatchDetails;
+    }
+    public List<Model_Project> ItemSummary;
+    public List<Model_Project> HeaderAndCCTV;
+    public List<Model_Project> ContactAgent;
+    public List<Model_Project> ContactPbm;
+    public List<Model_Project> ActualTruckMonitoring;
 
     //Ini untuk User Profile
     public String name;

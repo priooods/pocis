@@ -70,15 +70,7 @@ public class HomeMenu extends Fragment {
         });
 
         menu_monitoring = view.findViewById(R.id.menu_operation_monitor);
-        menu_monitoring.setOnClickListener(v -> {
-            Fragment fragment;
-            fragment = new Monitoring();
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-            fragmentTransaction.commit();
-        });
+        menu_monitoring.setOnClickListener(v -> startActivity(new Intent(getActivity(), Monitoring.class)));
 
         menu_create_booking = view.findViewById(R.id.menu_create_booking);
         menu_create_booking.setOnClickListener(v -> {
@@ -149,15 +141,7 @@ public class HomeMenu extends Fragment {
         });
 
         menu_Onload_Progres = view.findViewById(R.id.menu_Onload_Progres);
-        menu_Onload_Progres.setOnClickListener(v -> {
-            Fragment fragment;
-            fragment = new Monitoring();
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-            fragmentTransaction.commit();
-        });
+        menu_Onload_Progres.setOnClickListener(v -> startActivity(new Intent(getActivity(), Monitoring.class)));
 
         if (UserData.isExists()){
             UserData userData = UserData.i;

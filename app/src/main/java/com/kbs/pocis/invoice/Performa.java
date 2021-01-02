@@ -112,9 +112,15 @@ public class Performa extends FilterFragment {
         }
     }
 
+    void scrollNested(){
+        nested.fullScroll(View.FOCUS_UP);
+        nested.smoothScrollTo(0,0);
+    }
+
     @Override
     protected void ShowAdapter() {
         if (model_project_s != null && model_project_s.size() > 0) {
+            scrollNested();
             SetVisibility(kiri, page_current > 1);
             SetVisibility(kiri_banget, page_current > 2);
             SetVisibility(kanan, page_current < page_last);

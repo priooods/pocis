@@ -76,7 +76,6 @@ public class OnlineBooking extends Fragment {
         //Icon Search Pada Online Booking CLick
         icon_search.setOnClickListener(v -> {
             fragment = new Dialog_Filter(false,select_booking);
-//                fragment.setTargetFragment(getTargetFragment(),REQUEST_CODE);
             fragment.show(getChildFragmentManager(), "filter_online");
         });
 

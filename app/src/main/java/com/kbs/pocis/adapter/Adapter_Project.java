@@ -267,18 +267,8 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results.count > 0){
-                    List<?> res = (List<?>)results.values;
-                    for (Object object : res){
-                        if (object instanceof Model_Project){
-                            model_project.add((Model_Project)object);
-                        }
-                    }
-//                    model_project = (List<Model_Project>)results.values;
-                    notifyDataSetChanged();
-                } else {
-                    Toasty.info(context, "Item Not Found !", Toasty.LENGTH_SHORT, true).show();
-                }
+                model_project = (List<Model_Project>)results.values;
+                notifyDataSetChanged();
             }
         };
     }

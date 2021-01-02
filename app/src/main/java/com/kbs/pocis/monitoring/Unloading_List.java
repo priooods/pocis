@@ -17,11 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.adapter.Adapter_Monitoring;
+import com.kbs.pocis.adapter.detailMonitoring.Adapter_Monitoring;
 import com.kbs.pocis.filter.FilterFragment;
-import com.kbs.pocis.model.Model_Monitoring;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.service.Calling;
-import com.kbs.pocis.service.PublicList.Loading_Unloading;
+import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.UserData;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,14 +39,14 @@ public class Unloading_List extends FilterFragment {
     String plain = "Showing all Plained list. Tap to see details.";
     String depart = "Showing all Departure list. Tap to see details.";
     String nodata = "Oops.. Nothing Data";
+
     int status;
-    View view;
     public Unloading_List(int stat){
         status = stat;
     }
     RecyclerView recyclerView;
     TextView title,title_nodata;
-    List<Model_Monitoring> model_monitorings;
+    List<Model_Project> model_monitorings;
     RelativeLayout  layout_kosong;
     TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
             index_list_invoice, all_index_invoice;
@@ -58,12 +58,13 @@ public class Unloading_List extends FilterFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_invoice,container,false);
+        View view = inflater.inflate(R.layout.fragment_invoice,container,false);
         title = view.findViewById(R.id.q);
         title_nodata = view.findViewById(R.id.title_nodata);
         ln_top = view.findViewById(R.id.a);
         ln_top.setVisibility(View.GONE);
-        recyclerView = view.findViewById(R.id.listing_monitoring);
+        model_monitorings = new ArrayList<>();
+
         layout_ada = view.findViewById(R.id.nested);
         title_progress = view.findViewById(R.id.title_progress);
         progressBar = view.findViewById(R.id.progress);
@@ -86,21 +87,21 @@ public class Unloading_List extends FilterFragment {
         return view;
     }
 
+    public void Ganti() {
+        kanan.setOnClickListener(view -> ChangePage(page_current + 1));
+        kanan_banget.setOnClickListener(view -> ChangePage(page_last));
+        kiri_banget.setOnClickListener(view -> ChangePage(1));
+        kiri.setOnClickListener(view -> ChangePage(page_current - 1));
+    }
+
     void ChangePage(int target_page) {
         if (Ready) {
             page_current = target_page;
             GenerateLists();
             Ready = false;
         } else {
-            Log.w("all_booking", "Aggresive Touch/Command!");
+            Log.w("unloading", "Aggresive Touch/Command!");
         }
-    }
-
-    public void Ganti() {
-        kanan.setOnClickListener(view -> ChangePage(page_current + 1));
-        kanan_banget.setOnClickListener(view -> ChangePage(page_last));
-        kiri_banget.setOnClickListener(view -> ChangePage(1));
-        kiri.setOnClickListener(view -> ChangePage(page_current - 1));
     }
 
     @Override
@@ -122,9 +123,15 @@ public class Unloading_List extends FilterFragment {
             model_monitorings.clear();
     }
 
+    void scrollNested(){
+        layout_ada.fullScroll(View.FOCUS_UP);
+        layout_ada.smoothScrollTo(0,0);
+    }
+
     @Override
     protected void ShowAdapter() {
         if (model_monitorings != null && model_monitorings.size() > 0) {
+            scrollNested();
             SetVisibility(kiri, page_current > 1);
             SetVisibility(kiri_banget, page_current > 2);
             SetVisibility(kanan, page_current < page_last);
@@ -135,7 +142,7 @@ public class Unloading_List extends FilterFragment {
             index_list_invoice.setText(of);
             all_index_invoice.setText(show);
 
-            Adapter_Monitoring adapter_monitoring = new Adapter_Monitoring(getContext(), model_monitorings,0);
+            Adapter_Monitoring adapter_monitoring = new Adapter_Monitoring(requireContext(), model_monitorings,0);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_monitoring);
@@ -147,109 +154,111 @@ public class Unloading_List extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list) {
-        Call<Loading_Unloading> call;
-        if (status == 0){
-            call = UserData.i.getService().getUnloading(UserData.i.getToken(),"Berthing");
-            title.setText(bert);
-        } else if (status == 1){
-            call = UserData.i.getService().getUnloading(UserData.i.getToken(),"Planned");
-            title.setText(plain);
-        } else {
-            call = UserData.i.getService().getUnloading(UserData.i.getToken(),"Departure");
-            title.setText(depart);
-        }
-        call.enqueue(new Callback<Loading_Unloading>() {
-            @Override
-            public void onResponse(@NotNull Call<Loading_Unloading> call, @NotNull Response<Loading_Unloading> response) {
-                Loading_Unloading respone = response.body();
-                if (Calling.TreatResponse(getContext(),"unloading", respone)){
-                    if (!filtering){
-                        assert respone != null;
-                        model_monitorings.addAll(respone.data.model);
-                        page_current = respone.data.current_page;
-                        page_last = respone.data.last_page;
-                        total_item = respone.data.total;
-                        FinishFilter();
-                    } else {
-                        if (pmanager.loaded) {
-                            Log.i("unloading"," page = " + page);
+        Call<PublicList> call;
+        if (UserData.isExists()) {
+            if (status == 0) {
+                call = UserData.i.getService().getUnloading(UserData.i.getToken(), "Berthing", String.valueOf(page));
+                title.setText(bert);
+            } else if (status == 1) {
+                call = UserData.i.getService().getUnloading(UserData.i.getToken(), "Planned", String.valueOf(page));
+                title.setText(plain);
+            } else {
+                call = UserData.i.getService().getUnloading(UserData.i.getToken(), "Departure", String.valueOf(page));
+                title.setText(depart);
+            }
+
+            call.enqueue(new Callback<PublicList>() {
+                @Override
+                public void onResponse(@NotNull Call<PublicList> call, @NotNull Response<PublicList> response) {
+                    PublicList respone = response.body();
+                    if (Calling.TreatResponse(getContext(), "unloading", respone)) {
+                        if (!filtering) {
                             assert respone != null;
-                            List<Model_Monitoring> data = respone.data.model;
-                            for (int i = list; i < data.size(); i++) {
-                                if (filter.checkFilter(data.get(i))) {
-                                    if (model_monitorings.size() < pmanager.page_capacity) {
-                                        model_monitorings.add(data.get(i));
-                                        Log.i("unloading", data.get(i).act_anchorage);
-                                    } else {
-                                        page_last = pmanager.page_last;
-                                        total_item = pmanager.total;
-                                        load = false;
-                                        FinishFilter();
-                                        return;
-                                    }
-                                }
-                            }
-                            if (page < respone.data.last_page) {
-                                GenerateFilter(page + 1, 0);
-                            } else {
-                                page_last = pmanager.page_last;
-                                total_item = pmanager.total;
-                                load = false;
-                                FinishFilter();
-                            }
+                            model_monitorings.addAll(respone.data.model);
+                            page_current = respone.data.current_page;
+                            page_last = respone.data.last_page;
+                            total_item = respone.data.total;
+                            FinishFilter();
                         } else {
-                            Log.i("unloading",  " page = " + page + " load = " + load);
-                            int i = 0;
-                            assert respone != null;
-                            for (Model_Monitoring data : respone.data.model) {
-                                if (filter.checkFilter(data)) {
-                                    if (pmanager.addPack(page, i) && load) {
-                                        model_monitorings.add(data);
-//                                        Log.i("booking_load", data.readString());
-                                    } else {
-                                        load = false;
+                            if (pmanager.loaded) {
+                                Log.i("unloading", " page = " + page);
+                                assert respone != null;
+                                List<Model_Project> data = respone.data.model;
+                                for (int i = list; i < data.size(); i++) {
+                                    if (filter.checkFilter(data.get(i))) {
+                                        if (model_monitorings.size() < pmanager.page_capacity) {
+                                            model_monitorings.add(data.get(i));
+                                            Log.i("unloading", data.get(i).act_anchorage);
+                                        } else {
+                                            page_last = pmanager.page_last;
+                                            total_item = pmanager.total;
+                                            load = false;
+                                            FinishFilter();
+                                            return;
+                                        }
                                     }
                                 }
-                                i++;
-                            }
-                            if (page == respone.data.last_page) {
-                                if (pmanager.pack > 0) {
-                                    pmanager.finalPack(page, i - 1);
+                                if (page < respone.data.last_page) {
+                                    GenerateFilter(page + 1, 0);
+                                } else {
+                                    page_last = pmanager.page_last;
+                                    total_item = pmanager.total;
+                                    load = false;
+                                    FinishFilter();
                                 }
-                                pmanager.finishLoad();
-                                page_last = pmanager.page_last;
-                                total_item = pmanager.total;
-                                load = false;
-                                layout_ada.setVisibility(View.VISIBLE);
-                                progressBar.setVisibility(View.GONE);
-                                FinishFilter();
                             } else {
-                                GenerateFilter(page + 1, 0);
+                                Log.i("unloading", " page = " + page + " load = " + load);
+                                int i = 0;
+                                assert respone != null;
+                                for (Model_Project data : respone.data.model) {
+                                    if (filter.checkFilter(data)) {
+                                        if (pmanager.addPack(page, i) && load) {
+                                            model_monitorings.add(data);
+//                                        Log.i("booking_load", data.readString());
+                                        } else {
+                                            load = false;
+                                        }
+                                    }
+                                    i++;
+                                }
+                                if (page == respone.data.last_page) {
+                                    if (pmanager.pack > 0) {
+                                        pmanager.finalPack(page, i - 1);
+                                    }
+                                    pmanager.finishLoad();
+                                    page_last = pmanager.page_last;
+                                    total_item = pmanager.total;
+                                    load = false;
+                                    layout_ada.setVisibility(View.VISIBLE);
+                                    progressBar.setVisibility(View.GONE);
+                                    FinishFilter();
+                                } else {
+                                    GenerateFilter(page + 1, 0);
+                                }
                             }
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(4500, 0);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } finally {
+                            GenerateFilter(page, 0);
                         }
                     }
                 }
-                else {
-                    try {
-                        Thread.sleep(4500, 0);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        GenerateFilter(page, 0);
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(@NotNull Call<Loading_Unloading> call, @NotNull Throwable t) {
-                Ready = true;
-                Log.e("unloading", "on Failure called!" + t);
+                @Override
+                public void onFailure(@NotNull Call<PublicList> call, @NotNull Throwable t) {
+                    Ready = true;
+                    Log.e("unloading", "on Failure called!" + t);
+                }
+            });
+            try {
+                Thread.sleep(100, 0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
-        try {
-            Thread.sleep(100, 0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 

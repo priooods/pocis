@@ -58,7 +58,6 @@ public class Detail_MyProject extends AppCompatActivity {
         }
         progress = findViewById(R.id.progress);
         notfound = findViewById(R.id.detail_kosong);
-        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
         tabLayout = findViewById(R.id.project_details_tablayout);
         viewPager = findViewById(R.id.project_details_viewpager);
         btn_back = findViewById(R.id.project_details_btn_back);
@@ -98,8 +97,6 @@ public class Detail_MyProject extends AppCompatActivity {
                     status.setText(data.status_project);
                     item_sub1.setText(data.temp_project_no);
                     Log.i("detail", "onCreate: approval => " + data.temp_project_no);
-                    viewpagerDefault.Addfragment(new Informations(),"Information");
-                    viewpagerDefault.Addfragment(new Services(0),"Service");
                     break;
                 case 1:
                     progress.setVisibility(View.VISIBLE);
@@ -113,8 +110,7 @@ public class Detail_MyProject extends AppCompatActivity {
                     title_sub2.setText(R.string.ppjno);
                     item_sub1.setText(data.date_project_issued);
                     item_sub2.setText(data.ppj_no);
-                    viewpagerDefault.Addfragment(new Informations(),"Information");
-                    viewpagerDefault.Addfragment(new Services(0),"Service");
+
                     viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -162,10 +158,6 @@ public class Detail_MyProject extends AppCompatActivity {
 
                     tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                     tabLayout.setTabGravity(TabLayout.GRAVITY_START);
-                    viewpagerDefault.Addfragment(new Informations(),"Information");
-                    viewpagerDefault.Addfragment(new Services(0),"Service");
-                    viewpagerDefault.Addfragment(new Services(1),"Vessel Report");
-                    viewpagerDefault.Addfragment(new Documents(),"Document");
                     break;
                 case 3:
                     progress.setVisibility(View.VISIBLE);
@@ -191,10 +183,6 @@ public class Detail_MyProject extends AppCompatActivity {
                     item_sub3.setText(data.va_reff_no);
                     item_sub5.setText(data.bill_payment_reff_no);
 
-
-                    viewpagerDefault.Addfragment(new Informations(),"Information");
-                    viewpagerDefault.Addfragment(new Services(0),"Service");
-                    viewpagerDefault.Addfragment(new Documents(),"Document");
                     break;
                 case 4:
                     progress.setVisibility(View.VISIBLE);
@@ -215,10 +203,6 @@ public class Detail_MyProject extends AppCompatActivity {
                     item_sub2.setText(data.tipe_pembayaran);
                     item_sub3.setText(data.bill_payment_reff_no);
                     item_sub4.setText(data.status_booking);
-
-                    viewpagerDefault.Addfragment(new Informations(),"Information");
-                    viewpagerDefault.Addfragment(new Services(0),"Service");
-                    viewpagerDefault.Addfragment(new Documents(),"Document");
                     break;
             }
         }
@@ -241,8 +225,6 @@ public class Detail_MyProject extends AppCompatActivity {
                 break;
         }
 
-        viewPager.setAdapter(viewpagerDefault);
-        tabLayout.setupWithViewPager(viewPager);
 
 
         btn_back.setOnClickListener(v -> onBackPressed());
@@ -267,6 +249,13 @@ public class Detail_MyProject extends AppCompatActivity {
                     Log.i("service", "onResponse: => " + Model_Project.Service);
                     Log.i("service", "onResponse: piloting => " + Model_Project.Piloting.get(0).size());
                      progress.setVisibility(View.GONE);
+                    ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    viewpagerDefault.Addfragment(new Services(1),"Vessel Report");
+                    viewpagerDefault.Addfragment(new Documents(),"Document");
+                    viewPager.setAdapter(viewpagerDefault);
+                    tabLayout.setupWithViewPager(viewPager);
                 } else {
                     progress.setVisibility(View.GONE);
                     notfound.setVisibility(View.VISIBLE);
@@ -294,6 +283,11 @@ public class Detail_MyProject extends AppCompatActivity {
                         Model_Project.mp = callingDetail.data.Information;
                         Log.i("service", "onResponse: => " + Model_Project.Service);
                         progress.setVisibility(View.GONE);
+                        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                        viewpagerDefault.Addfragment(new Informations(),"Information");
+                        viewpagerDefault.Addfragment(new Services(0),"Service");
+                        viewPager.setAdapter(viewpagerDefault);
+                        tabLayout.setupWithViewPager(viewPager);
                     } else {
                         progress.setVisibility(View.GONE);
                         notfound.setVisibility(View.VISIBLE);
@@ -322,6 +316,12 @@ public class Detail_MyProject extends AppCompatActivity {
                     Model_Project.Service = detail.data.Service;
                     Log.i("service", "onResponse: => " + Model_Project.Service);
                     progress.setVisibility(View.GONE);
+                    ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    viewpagerDefault.Addfragment(new Documents(),"Document");
+                    viewPager.setAdapter(viewpagerDefault);
+                    tabLayout.setupWithViewPager(viewPager);
                 } else {
                     progress.setVisibility(View.GONE);
                     notfound.setVisibility(View.VISIBLE);
@@ -350,6 +350,11 @@ public class Detail_MyProject extends AppCompatActivity {
                         Log.i("service", "onResponse: => " + Model_Project.Service);
                         item_sub2.setText(callingDetail.data.Information.schedule_code);
                         progress.setVisibility(View.GONE);
+                        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                        viewpagerDefault.Addfragment(new Informations(),"Information");
+                        viewpagerDefault.Addfragment(new Services(0),"Service");
+                        viewPager.setAdapter(viewpagerDefault);
+                        tabLayout.setupWithViewPager(viewPager);
                     } else {
                         progress.setVisibility(View.GONE);
                         notfound.setVisibility(View.VISIBLE);
@@ -377,6 +382,12 @@ public class Detail_MyProject extends AppCompatActivity {
                     Model_Project.InformationAndDocument = detail.data.InformationAndDocument;
                     Model_Project.Service = detail.data.Service;
                     progress.setVisibility(View.GONE);
+                    ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
+                    viewpagerDefault.Addfragment(new Informations(),"Information");
+                    viewpagerDefault.Addfragment(new Services(0),"Service");
+                    viewpagerDefault.Addfragment(new Documents(),"Document");
+                    viewPager.setAdapter(viewpagerDefault);
+                    tabLayout.setupWithViewPager(viewPager);
                 } else {
                     progress.setVisibility(View.GONE);
                     notfound.setVisibility(View.VISIBLE);

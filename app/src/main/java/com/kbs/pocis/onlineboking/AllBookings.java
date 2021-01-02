@@ -115,6 +115,11 @@ public class AllBookings extends FilterFragment {
         }
     }
 
+    void scrollNested(){
+        layout_ada.fullScroll(View.FOCUS_UP);
+        layout_ada.smoothScrollTo(0,0);
+    }
+
     @Override
     protected void Model_CheckorClear() {
         if (model_bookingsList == null)
@@ -126,6 +131,7 @@ public class AllBookings extends FilterFragment {
     @Override
     protected void ShowAdapter() {
         if (model_bookingsList != null && model_bookingsList.size() > 0) {
+            scrollNested();
             SetVisibility(kiri, page_current > 1);
             SetVisibility(kiri_banget, page_current > 2);
             SetVisibility(kanan, page_current < page_last);

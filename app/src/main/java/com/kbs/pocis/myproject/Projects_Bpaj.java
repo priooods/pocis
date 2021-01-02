@@ -60,7 +60,6 @@ public class Projects_Bpaj extends FilterFragment {
         search_icon = view.findViewById(R.id.btn_search_invoice);
         layout_kosong = view.findViewById(R.id.lay_invoice_kosong);
         kanan = view.findViewById(R.id.kanan);
-        progressBar = view.findViewById(R.id.progress);
         kiri = view.findViewById(R.id.kiri);
         kanan_banget = view.findViewById(R.id.kanan_banget);
         kiri_banget = view.findViewById(R.id.kiri_banget);
@@ -95,7 +94,7 @@ public class Projects_Bpaj extends FilterFragment {
             GenerateLists();
             Ready = false;
         } else {
-            Log.w("all_booking", "Aggresive Touch/Command!");
+            Log.w("Bapj", "Aggresive Touch/Command!");
         }
     }
 
@@ -112,9 +111,15 @@ public class Projects_Bpaj extends FilterFragment {
         }
     }
 
+    void scrollNested(){
+        nested.fullScroll(View.FOCUS_UP);
+        nested.smoothScrollTo(0,0);
+    }
+
     @Override
     protected void ShowAdapter() {
         if (model_project_s != null && model_project_s.size() > 0) {
+            scrollNested();
             SetVisibility(kiri, page_current > 1);
             SetVisibility(kiri_banget, page_current > 2);
             SetVisibility(kanan, page_current < page_last);
