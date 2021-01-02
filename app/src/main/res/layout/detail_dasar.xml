@@ -814,14 +814,16 @@
 
                                         <TextView
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="18sp"
                                             android:gravity="center"
+                                            android:textSize="10sp"
                                             android:textColor="@color/colorWhite"
-                                            android:background="@color/colorRed"
+                                            android:background="#6f0206"
                                             android:id="@+id/title_name_top"/>
 
                                         <androidx.recyclerview.widget.RecyclerView
                                             android:layout_width="match_parent"
+                                            android:background="@color/colorPrimary"
                                             android:nestedScrollingEnabled="true"
                                             android:layout_height="match_parent"
                                             android:id="@+id/list_top_view"/>
@@ -860,15 +862,17 @@
 
                                         <TextView
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="18dp"
                                             android:gravity="center"
+                                            android:textSize="10sp"
                                             android:textColor="@color/colorWhite"
-                                            android:background="@color/colorRed"
+                                            android:background="#6f0206"
                                             android:id="@+id/title_name_bot"/>
 
                                         <androidx.recyclerview.widget.RecyclerView
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
+                                            android:background="@color/colorPrimary"
                                             android:id="@+id/list_side_view"/>
 
                                     </LinearLayout>

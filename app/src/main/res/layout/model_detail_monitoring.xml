@@ -983,7 +983,7 @@
     <LinearLayout
         android:id="@+id/ln_kapal"
         android:visibility="gone"
-        android:layout_width="65dp"
+        android:layout_width="67dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
@@ -1007,7 +1007,7 @@
             android:layout_height="match_parent"
             android:id="@+id/value_kapal"
             android:gravity="center"
-            android:background="@color/colorShimer"
+            android:background="#444444"
             android:textSize="10dp"
             android:textColor="@color/colorGreen"/>
 

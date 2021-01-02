@@ -34,6 +34,11 @@ public class UserData {
         i = this;
     }
 
+    public UserData(String token, String cust, String username){
+        this.token = token;
+        this.m_customer_id = cust;
+        this.username = username;
+    }
 
     public void updateFilter(String project, String no, String vessel) {
         if (!project.isEmpty() && !no.isEmpty() && !vessel.isEmpty()) {

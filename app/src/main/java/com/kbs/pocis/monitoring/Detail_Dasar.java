@@ -231,35 +231,67 @@ public class Detail_Dasar extends AppCompatActivity {
                     Model_Project.HatchTotal = data.data.ActualStowageMonitoring.HatchTotal;
                     Model_Project.HatchDetails = data.data.ActualStowageMonitoring.HatchDetails;
                     Model_Project.HeaderAndCCTV = data.data.HeaderAndCCTV;
+                    Log.i("detail_monitor", "cctv: " + Model_Project.HeaderAndCCTV.get(0).link_cctv);
+                    Log.i("detail_monitor", "contact Agent: " + Model_Project.ContactAgent.size());
+                    Log.i("detail_monitor", "contact Pbm: " + Model_Project.ContactPbm.size());
+                    Log.i("detail_monitor", "Summary: " + Model_Project.ItemSummary.size());
+                    Log.i("detail_monitor", "ActualVesselInProgress: " + Model_Project.ActualVesselInProgress.size());
+                    Log.i("detail_monitor", "HatchTotal: " + Model_Project.HatchTotal.size());
+                    Log.i("detail_monitor", "HatchDetails: " + Model_Project.HatchDetails.size());
+                    Log.i("detail_monitor", "ActualTruckMonitoring: " + Model_Project.ActualTruckMonitoring.size());
 
-                    //for CCTV Logic
+//                    //for CCTV Logic
                     if (Model_Project.HeaderAndCCTV.get(0).link_cctv != null){
-                        Log.i("detail_monitor", "onResponse: " + Model_Project.HeaderAndCCTV.get(0).link_cctv);
-//                        showCCTV(Model_Project.HeaderAndCCTV.get(0).link_cctv);
                         showCCTV(Model_Project.HeaderAndCCTV.get(0).link_cctv);
                     } else {
                         content_cctv.setVisibility(View.GONE);
                     }
 
-                    listContactPbm();
-                    listContactAgent();
-                    listActualTruckMonitoring();
-                    listVesselInProgress();
+                    // For Contact
+                    if (Model_Project.ContactAgent.size() > 0){
+                        listContactAgent();
+                    } else {
+                        list_contact_agent.setVisibility(View.GONE);
+                    }
+                    if (Model_Project.ContactPbm.size() > 0){
+                        listContactPbm();
+                    } else {
+                        list_contact_pbm.setVisibility(View.GONE);
+                    }
 
-                    //for Ship Logic
+                    //For Truck
+                    if (Model_Project.ActualTruckMonitoring.size() > 0){
+                        listActualTruckMonitoring();
+                    } else {
+                        list_actual_truck_monitoring.setVisibility(View.GONE);
+                    }
+
+                    if (Model_Project.ActualVesselInProgress.size() > 0){
+                        listVesselInProgress();
+                    } else {
+                        list_vessel_in_progress.setVisibility(View.GONE);
+                    }
+
+
+//                    //for Ship Logic
                     if (Model_Project.HatchDetails.size() > 0){
-                        Log.i("detail_monitor", "onResponse: " + Model_Project.HatchDetails.size());
+                        Log.i("detail_monitor", "desc: " + Model_Project.HatchDetails.get(0).description);
                         title_botship.setText(Model_Project.HatchDetails.get(0).description);
-                        listStowageMonitoringTop();
-                        listStowageMonitoringBot();
+                        listStowageMonitoring();
+                        if (Model_Project.HatchTotal.size() > 0){
+                            Log.i("detail_monitor", "hatch_total side: " + Model_Project.HatchTotal.get(0).hatch_side);
+                            title_topship.setText(Model_Project.HatchTotal.get(0).hatch_side);
+                        }
                     } else {
                         ln_ship_all.setVisibility(View.GONE);
                         ln_ship_all_no.setVisibility(View.VISIBLE);
                     }
-                    if (Model_Project.HatchTotal.size() > 0){
-                        title_topship.setText(Model_Project.HatchTotal.get(0).hatch_side);
+
+                    if (Model_Project.ItemSummary.size() > 0) {
+                        listItemSummary();
+                    } else {
+                        list_sumary.setVisibility(View.GONE);
                     }
-                    listItemSummary();
                     progress.setVisibility(View.GONE);
                 } else {
                     progress.setVisibility(View.GONE);
@@ -336,20 +368,16 @@ public class Detail_Dasar extends AppCompatActivity {
         list_vessel_in_progress.setAdapter(adapter_vessel_in_progress);
     }
 
-    private void listStowageMonitoringTop(){
+    private void listStowageMonitoring(){
         model_monitorings = new ArrayList<>();
         model_monitorings.addAll(Model_Project.HatchDetails);
-        Log.i("detail_monitor", "listStowageMonitoringTop: " + Model_Project.HatchDetails);
+
+        //for top
         adapter_topship = new Adapter_Monitoring_Detail(model_monitorings,this,6);
         manager_topship = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         list_topship.setLayoutManager(manager_topship);
         list_topship.setAdapter(adapter_topship);
-    }
-
-    private void listStowageMonitoringBot(){
-        model_monitorings = new ArrayList<>();
-        model_monitorings.addAll(Model_Project.HatchDetails);
-        Log.i("detail_monitor", "listStowageMonitoringTop: " + Model_Project.HatchDetails);
+        //for bot
         adapter_botship = new Adapter_Monitoring_Detail(model_monitorings,this,6);
         manager_botship = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         list_botship.setLayoutManager(manager_botship);

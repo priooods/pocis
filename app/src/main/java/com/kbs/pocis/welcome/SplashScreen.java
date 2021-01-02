@@ -31,12 +31,12 @@ public class SplashScreen extends AppCompatActivity {
     public void Handlerr(){
         int TIMING = 2000;
         new Handler().postDelayed(() -> {
-//            if (sharedPreferences.getString("token", null) == null) {
-//                startActivity(new Intent(SplashScreen.this, Welcome_Screen.class));
-//            } else {
-//                startActivity(new Intent(SplashScreen.this, HomePage.class));
-//            }
-            startActivity(new Intent(SplashScreen.this, Welcome_Screen.class));
+            if (sharedPreferences.getString("token", null) == null) {
+                startActivity(new Intent(SplashScreen.this, Welcome_Screen.class));
+            } else {
+                startActivity(new Intent(SplashScreen.this, HomePage.class));
+            }
+//            startActivity(new Intent(SplashScreen.this, Welcome_Screen.class));
             SplashScreen.this.finish();
         }, TIMING);
     }

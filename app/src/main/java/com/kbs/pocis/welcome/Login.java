@@ -74,16 +74,16 @@ public class Login extends Fragment {
             fragmentTransaction.commit();
         });
         Button btn_login = view.findViewById(R.id.btn_login);
-        {
-            user = new UserData("BIG", "BIG");
-            callInterface = user.getService();
-            if (callInterface == null) {
-                pesan("Failed to Connect! Please Enable Internet");
-            } else {
-                Log.i("login", "Success to Connect!");
-            }
-            loginRetrofit2Api();
-        }
+//        {
+//            user = new UserData("BIG", "BIG");
+//            callInterface = user.getService();
+//            if (callInterface == null) {
+//                pesan("Failed to Connect! Please Enable Internet");
+//            } else {
+//                Log.i("login", "Success to Connect!");
+//            }
+//            loginRetrofit2Api();
+//        }
         //onClick Button Login
         btn_login.setOnClickListener(v -> {
             user = new UserData(Objects.requireNonNull(username.getText()).toString(), Objects.requireNonNull(password.getText()).toString());
@@ -114,13 +114,14 @@ public class Login extends Fragment {
                 if (CallingData.TreatResponse(requireContext(), "login", respone)) {
                     pesanSuccess("Welcome " + user.username);
                     assert respone != null;
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.putString("token", respone.data.token);
-//                    editor.putString("cust", respone.data.token);
-//                    editor.apply();
-                    user.setToken(respone.data.token);
-                    user.setCustId(respone.data.cust_id);
+//                    user.setToken(respone.data.token);
+//                    user.setCustId(respone.data.cust_id);
                     UserData.i = user;
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("token", respone.data.token);
+                    editor.putString("name", user.username);
+                    editor.putString("cust", respone.data.cust_id);
+                    editor.apply();
                     startActivity(new Intent(requireActivity(), HomePage.class));
                     requireActivity().overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
                     requireActivity().finish();

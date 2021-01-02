@@ -56,10 +56,19 @@ public class HomePage extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
 
-//        sharedPreferences = this.getSharedPreferences("sesi", Context.MODE_PRIVATE);
-//        UserData.i.setToken(sharedPreferences.getString("token", null));
-//        UserData.i.setCustId(sharedPreferences.getString("cust", null));
-
+        sharedPreferences = getSharedPreferences("sesi", Context.MODE_PRIVATE);
+        if (UserData.isExists()) {
+            Log.i("home", "onCreate: " + "Ada");
+            UserData.i.setToken(sharedPreferences.getString("token", null));
+            UserData.i.setCustId(sharedPreferences.getString("cust", null));
+        } else {
+            UserData data = new UserData(sharedPreferences.getString("token", null),sharedPreferences.getString("cust", null)
+                ,sharedPreferences.getString("name", null));
+            UserData.i = data;
+            Log.i("home", "token: " + data.getToken());
+            Log.i("home", "cust_id: " + data.getCustID());
+            Log.i("home", "name: " + data.username);
+        }
         AutomatisUpdateApp();
         framehomepage = findViewById(R.id.framehomepage);
         Permision();

@@ -1,5 +1,6 @@
 package com.kbs.pocis.monitoring;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -46,6 +47,14 @@ public class Monitoring extends AppCompatActivity {
 
         bottombar_monitoring.setOnNavigationItemSelectedListener(listener);
         FragmentList(new Unloading());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.framemonitoring);
+        assert fragment != null;
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener =

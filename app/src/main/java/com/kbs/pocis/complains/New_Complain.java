@@ -65,6 +65,12 @@ public class New_Complain extends Fragment {
     ArrayList<Model_UploadDocument> model_uploadDocuments;
     int idComplaintType;
 
+    //support file
+    String[] mimetypes = {
+            "application/pdf",
+            "image/*",
+    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -150,7 +156,8 @@ public class New_Complain extends Fragment {
 
     void OpenManager(){
         openFileManager = new Intent(Intent.ACTION_GET_CONTENT);
-        openFileManager.setType("image/jpg,image/png,application/pdf");
+        openFileManager.setType("*/*");
+        openFileManager.putExtra(Intent.EXTRA_MIME_TYPES,mimetypes);
         startActivityForResult(openFileManager, 10);
     }
 
@@ -400,6 +407,16 @@ public class New_Complain extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
+            String name = model_uploadDocuments.get(position).getUsername().substring(model_uploadDocuments.get(position).username.length() -3);
+            Log.i(TAG, "onBindViewHolder: " + name);
+            if (name.equals("jpg")){
+                holder.folderimage.setImageResource(R.drawable.jpg_image);
+                holder.folderimage.setScaleType(ImageView.ScaleType.CENTER);
+            } else if(name.equals("png")){
+                holder.folderimage.setImageResource(R.drawable.png_image);
+                holder.folderimage.setScaleType(ImageView.ScaleType.CENTER);
+            }
+
             holder.nama.setText(modelUploadDocuments.get(position).getUsername());
             holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()) + " Kb");
             holder.deletefile.setOnClickListener(new View.OnClickListener() {
@@ -424,10 +441,12 @@ public class New_Complain extends Fragment {
         public class vHolder extends RecyclerView.ViewHolder{
 
             TextView nama, deletefile, sizefile;
+            ImageView folderimage;
 
             public vHolder(@NonNull View itemView) {
-                super(itemView);
+                super(itemView);//pdfimg
 
+                folderimage = itemView.findViewById(R.id.pdfimg);
                 nama = itemView.findViewById(R.id.model_uploadpdf_name);
                 deletefile = itemView.findViewById(R.id.delete_files);
                 sizefile = itemView.findViewById(R.id.model_uploadpdf_size);

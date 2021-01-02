@@ -1,5 +1,6 @@
 package com.kbs.pocis.monitoring;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +45,10 @@ public class Unloading_List extends FilterFragment {
     public Unloading_List(int stat){
         status = stat;
     }
+
+    @SuppressLint("ValidFragment")
+    public Unloading_List(){}
+
     RecyclerView recyclerView;
     TextView title,title_nodata;
     List<Model_Project> model_monitorings;
@@ -142,7 +147,7 @@ public class Unloading_List extends FilterFragment {
             index_list_invoice.setText(of);
             all_index_invoice.setText(show);
 
-            Adapter_Monitoring adapter_monitoring = new Adapter_Monitoring(requireContext(), model_monitorings,0);
+            Adapter_Monitoring adapter_monitoring = new Adapter_Monitoring(getContext(), model_monitorings,0);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_monitoring);
