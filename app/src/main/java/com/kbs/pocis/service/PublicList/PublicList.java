@@ -29,8 +29,7 @@ public class PublicList extends Calling {
                         output.add(data);
                 }
             }
-            model.model.clear();
-            model.model = output;
+            this.model = output;
             return this;
         }
     }

@@ -18,14 +18,17 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.filter.Dialog_Filter;
 import com.kbs.pocis.filter.FilterFragment;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.CallProjectList;
 import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +47,9 @@ public class Project_List_Dasar extends FilterFragment {
         PublicList.Datas data;
     }
 //    Projects_List[] projects_lists;
+    ArrayList<Model_Project> filtered_list = new ArrayList<>();
     ViewpagerDefault viewpagerDefault;
+    boolean freeGenerate = true;
 
     @Nullable
     @Override
@@ -53,7 +58,7 @@ public class Project_List_Dasar extends FilterFragment {
 
         search_icon = view.findViewById(R.id.btn_search_project_list);
         search_icon.setOnClickListener(v -> {
-            fragment = new Dialog_Filter(true, this);
+            fragment = new Dialog_Filter(true, selectProj.list);
             fragment.show(getChildFragmentManager(), "filter_online");
         });
 
@@ -80,7 +85,7 @@ public class Project_List_Dasar extends FilterFragment {
                 ShowAdapter();
             }
         });
-
+        max_list = 10;
 //        projects_lists = new Projects_List[3];
         all = new Project_Pack();
         close = new Project_Pack();
@@ -101,11 +106,19 @@ public class Project_List_Dasar extends FilterFragment {
 
     @Override
     public void GenerateLists() {
-        if (selectProj!=null && selectProj.list!=null){
-            page_current = selectProj.list.page_current;
-            selectProj.list.LoadingBar(true);
+        if (freeGenerate) {
+            if (selectProj != null && selectProj.list != null) {
+                //pmanager = selectProj.list.pmanager;
+                filter = selectProj.list.filter;
+                page_current = selectProj.list.page_current;
+                selectProj.list.LoadingBar(true);
+                filtered_list.clear();
+            }
+            super.GenerateLists();
+            freeGenerate = false;
+        }else{
+            Log.e("project_list","can't do action, one Fragment on progress!");
         }
-        super.GenerateLists();
     }
 
     @Override
@@ -117,6 +130,7 @@ public class Project_List_Dasar extends FilterFragment {
             Log.i("project_list", "CallProjectList Post Method is Bad!");
         }
         assert call != null;
+        final Project_Pack on_list = selectProj;
         call.enqueue(new Callback<CallProjectList>() {
             @Override
             public void onResponse(@NotNull Call<CallProjectList> call, @NotNull Response<CallProjectList> response) {
@@ -138,71 +152,69 @@ public class Project_List_Dasar extends FilterFragment {
                             ShowAdapter();
                             return;
                         }
-                        Log.i("project_list","finish call all.size = "+all.data.model.size()+"."+all.data.current_page);
-                        Log.i("project_list","finish call open.size = "+open.data.model.size()+"."+all.data.current_page);
-                        Log.i("project_list","finish call close.size = "+close.data.model.size()+"."+all.data.current_page);
+                        Log.i("project_list","finish call all.size = "+(all.data.model!=null?all.data.model.size():"null")+"."+all.data.current_page);
+                        Log.i("project_list","finish call open.size = "+(open.data.model!=null?open.data.model.size():"null")+"."+open.data.current_page);
+                        Log.i("project_list","finish call close.size = "+(close.data.model!=null?close.data.model.size():"null")+"."+close.data.current_page);
                         FinishFilter();
+                        freeGenerate = true;
                     } else {
-                        Log.e("project_list", "Project List API doesn't support page request! just filter in the page 1");
+                        Log.e("project_list", "Project List unique Filter with 4 page limits");
+
                         //This for Filter. Do not Editing Function. Edit Only model;
-//                        if (pmanager.loaded) {
-//                            Log.i("project_list_load"," page = " + page);
-//                            assert respone != null;
-//                            PublicList.Datas data = respone.data.All.data.;
-//                            for (int i = list; i < data.length; i++) {
-//                                if (filter.checkFilter(data[i])) {
-//                                    if (respone.data.All.data.size() < pmanager.page_capacity) {
-//                                        all.add(data[i].getModel());
-//                                        Log.i("project_list_load", data[i].readString());
-//                                    } else {
-//                                        page_last = pmanager.page_last;
-//                                        total_item = pmanager.total;
-//                                        load = false;
-//                                        FinishFilter();
-//                                        return;
-//                                    }
-//                                }
-//                            }
-//                            if (page < respone.data.last_page) {
-//                                GenerateFilter(page + 1, 0);
-//                            } else {
-//                                page_last = pmanager.page_last;
-//                                total_item = pmanager.total;
-//                                load = false;
-//                                FinishFilter();
-//                            }
-//                        }
-//                        else {
-//                        Log.i("project_list_load", " page = " + page + " load = " + load);
-                        int i = 0;
-                        assert respone != null;
-                        if (selectProj == all) {
-                            all.data = new PublicList.Datas().setUpFilter(filter, respone.data.All);
-                        }else
-                        if (selectProj == open) {
-                            open.data = new PublicList.Datas().setUpFilter(filter, respone.data.Open);
-                        }else
-                        if (selectProj == close) {
-                            close.data = new PublicList.Datas().setUpFilter(filter, respone.data.Close);
+                            Log.i("booking_load",  " page = " + page + " load = " + load);
+                            int i = 0;
+                            assert respone != null;
+                        PublicList.Datas take;
+                        if (all == on_list) {
+                            take = respone.data.All;
+                        } else if (open == on_list) {
+                            take = respone.data.Open;
+                        } else {
+                            take = respone.data.Close;
                         }
-//                            if (page == respone.data.last_page) {
-//                                if (pmanager.pack > 0) {
-//                                    pmanager.finalPack(page, i - 1);
-//                                }
-//                                pmanager.finishLoad();
-//                                page_last = pmanager.page_last;
-//                                total_item = pmanager.total;
-//                                layout_ada.setVisibility(View.VISIBLE);
-//                                progressBar.setVisibility(View.GONE);
-                        load = false;
-                        FinishFilter();
-//                            }
-//                            else {
-//                                GenerateFilter(page + 1, 0);
-//                            }
+                            for (Model_Project data : take.model) {
+                                if (filter.checkFilter(data)) {
+                                    if (pmanager.addPack(page, i) && load) {
+                                        filtered_list.add(data);
+                                    } else {
+                                        load = false;
+                                    }
+                                }
+                                i++;
+                            }
+                            if (page == take.last_page || page > 4 || !load) {
+                                Log.i("finish_filter",(page == take.last_page)+" "+(page > 4)+" "+!load);
+                                pmanager = null;
+                                page_last = 1;
+                                load = false;
+                                take.last_page = 1;
+                                take.current_page = 1;
+                                take.total = take.per_page = filtered_list.size();
+                                take.model = filtered_list;
+                                if (all == on_list) {
+                                    all.data = take;
+                                } else if (open == on_list) {
+                                    open.data = take;
+                                } else {
+                                    close.data = take;
+                                }
+                                freeGenerate = true;
+                                FinishFilter();
+                            } else {
+                                GenerateFilter(page + 1, 0);
+                            }
+                        }
+//                        int i = 0;
+//                        assert respone != null;
+//                        if (on_list == all) {
+//                            all.data = new PublicList.Datas().setUpFilter(filter, respone.data.All);
+//                        }else
+//                        if (on_list == open) {
+//                            open.data = new PublicList.Datas().setUpFilter(filter, respone.data.Open);
+//                        }else
+//                        if (on_list == close) {
+//                            close.data = new PublicList.Datas().setUpFilter(filter, respone.data.Close);
 //                        }
-                        pmanager = null;
-                    }
                 } else {
                     try {
                         Thread.sleep(4500, 0);
@@ -217,6 +229,7 @@ public class Project_List_Dasar extends FilterFragment {
             @Override
             public void onFailure(@NotNull Call<CallProjectList> call, @NotNull Throwable t) {
                 Ready = true;
+                freeGenerate = true;
                 Log.e("all_boking", "on Failure called!" + t);
             }
         });
@@ -233,7 +246,5 @@ public class Project_List_Dasar extends FilterFragment {
             selectProj.list.ShowAdapter(selectProj.data);
         }else
             Log.e("project_list","Data was lost in Switch Page Action!");
-//        close_list.ShowAdapter(close.model);
-//        open_list.ShowAdapter(open.model);
     }
 }

@@ -92,7 +92,7 @@ public class Projects_List extends FilterFragment {
             Log.w("project_list", "Change Page "+list_status+" to "+target_page);
             model_project_s.clear();
             parent.page_current = page_current = target_page;
-            parent.GenerateLists();
+            GenerateLists();
             Ready = false;
         } else {
             Log.w("project_list", "Aggresive Touch/Command!");
@@ -127,14 +127,14 @@ public class Projects_List extends FilterFragment {
 
     protected void ShowAdapter(PublicList.Datas data) {
         LoadingBar(false);
-        if (data.current_page != page_current) {
-            Log.e("project_list", list_status+" load adapter!"+data.current_page+"|"+page_current);
+        if (data.current_page != page_current && filter == null) {
+            Log.e("project_list", list_status + " load adapter!" + data.current_page + "|" + page_current);
             parent.GenerateLists();
             LoadingBar(true);
             return;
         } else if (model_project_s != data.model) {
             model_project_s = data.model;
-        }else {
+        } else {
             if (recyclerView.getAdapter() == null) {
                 Log.e("project_list", "refresh adapter!");
             } else {
@@ -164,6 +164,11 @@ public class Projects_List extends FilterFragment {
             nested.setVisibility(View.GONE);
             layout_kosong.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void GenerateLists() {
+        parent.GenerateLists();
     }
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){

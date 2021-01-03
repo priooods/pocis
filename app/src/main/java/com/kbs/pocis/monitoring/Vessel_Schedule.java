@@ -186,8 +186,8 @@ public class Vessel_Schedule extends FilterFragment {
                                         }
                                     }
                                 }
-                                if (page < respone.data.last_page) {
-                                    GenerateFilter(page + 1, 0);
+                                if (page < respone.data.last_page && pmanager.getLastPage()) {
+                                    GenerateFilter(pmanager.getNextPage(), 0);
                                 } else {
                                     page_last = pmanager.page_last;
                                     total_item = pmanager.total;
@@ -210,9 +210,6 @@ public class Vessel_Schedule extends FilterFragment {
                                     i++;
                                 }
                                 if (page == respone.data.last_page) {
-                                    if (pmanager.pack > 0) {
-                                        pmanager.finalPack(page, i - 1);
-                                    }
                                     pmanager.finishLoad();
                                     page_last = pmanager.page_last;
                                     total_item = pmanager.total;
@@ -220,7 +217,7 @@ public class Vessel_Schedule extends FilterFragment {
                                     nested.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);
                                     title_progress.setVisibility(View.GONE);
-                                    ShowAdapter();
+                                    FinishFilter();
                                 } else {
                                     GenerateFilter(page + 1, 0);
                                 }

@@ -40,11 +40,13 @@ public class FilterFragment extends Fragment {
                 page_current = 1;
                 GenerateFilter(1, 0);
             } else {
-                GenerateFilter(pmanager.getPage(page_current), pmanager.getList(page_current));
+                pmanager.getCallPage(page_current);
+                GenerateFilter(pmanager.getPage(), pmanager.getList());
             }
             return;
         }
         filtering = false;
+        pmanager = null;
         GenerateFilter(page_current, 0);
     }
 

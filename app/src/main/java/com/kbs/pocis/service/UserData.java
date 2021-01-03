@@ -60,7 +60,6 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return  data.project_no!=null && data.project_no.contains(project) && data.booking_no!=null && data.booking_no.contains(no);
                 }
-
                 @Override
                 public boolean checkFilter(Model_Monitoring data) {
                     return  data.voyage_no!=null && data.voyage_no.contains(project) && data.schedule_code!=null && data.schedule_code.contains(no);
@@ -90,7 +89,6 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return data.booking_no!=null && data.vessel_name != null && data.booking_no.contains(no) && data.vessel_name.contains(vessel);
                 }
-
                 @Override
                 public boolean checkFilter(Model_Monitoring data) {
                     return data.schedule_code!=null && data.vessel_name != null && data.schedule_code.contains(no) && data.vessel_name.contains(vessel);
@@ -106,7 +104,6 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return data.booking_no!=null && data.booking_no.contains(no);
                 }
-
                 @Override
                 public boolean checkFilter(Model_Monitoring data) {
                     return data.schedule_code!=null && data.schedule_code.contains(no);
@@ -122,7 +119,6 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return data.vessel_name != null && data.vessel_name.contains(vessel);
                 }
-
                 @Override
                 public boolean checkFilter(Model_Monitoring data) {
                     return data.vessel_name != null && data.vessel_name.contains(vessel);
@@ -135,7 +131,6 @@ public class UserData {
                 public boolean checkFilter(Model_Project data) {
                     return  data.project_no!=null && data.project_no.contains(project);
                 }
-
                 @Override
                 public boolean checkFilter(Model_Monitoring data) {
                     return  data.voyage_no!=null && data.voyage_no.contains(project);

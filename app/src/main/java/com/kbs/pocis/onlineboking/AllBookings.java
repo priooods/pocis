@@ -187,10 +187,9 @@ public class AllBookings extends FilterFragment {
                             CallingData.Booking[] data = respone.data.book;
                             for (int i = list; i < data.length; i++) {
                                 if (filter.checkFilter(data[i])) {
-                                    if (model_bookingsList.size() < pmanager.page_capacity) {
-                                        model_bookingsList.add(data[i].getModel());
-                                        Log.i("booking_load", data[i].readString());
-                                    } else {
+                                    model_bookingsList.add(data[i].getModel());
+                                    Log.i("booking_load", data[i].readString());
+                                    if (model_bookingsList.size() >= pmanager.page_capacity) {
                                         page_last = pmanager.page_last;
                                         total_item = pmanager.total;
                                         load = false;
@@ -199,8 +198,8 @@ public class AllBookings extends FilterFragment {
                                     }
                                 }
                             }
-                            if (page < respone.data.last_page) {
-                                GenerateFilter(page + 1, 0);
+                            if (page < respone.data.last_page && pmanager.getLastPage()) {
+                                GenerateFilter(pmanager.getNextPage(), 0);
                             } else {
                                 page_last = pmanager.page_last;
                                 total_item = pmanager.total;
@@ -223,9 +222,6 @@ public class AllBookings extends FilterFragment {
                                 i++;
                             }
                             if (page == respone.data.last_page) {
-                                if (pmanager.pack > 0) {
-                                    pmanager.finalPack(page, i - 1);
-                                }
                                 pmanager.finishLoad();
                                 page_last = pmanager.page_last;
                                 total_item = pmanager.total;
