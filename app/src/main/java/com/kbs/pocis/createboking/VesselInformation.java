@@ -86,13 +86,11 @@ public class VesselInformation extends Fragment {
         CheckBoxesDisLoad();
 
         BookingData data = BookingData.i;
-        if (data.customerType.equals("GENERAL")){
+        if (data.customerType.equals("GENERAL")) {
             line_voyageNumber.setVisibility(View.GONE);
-            idvoyage = 0;
-            voyage_number.setText(null);
         }
 
-         if (BookingData.isExist() && BookingData.i.vessel!=null){
+        if (BookingData.isExist() && BookingData.i.vessel!=null) {
             BookingData.VesselData bd = BookingData.i.vessel;
             vesel_name.setText(bd.vessel_name);
             port_discharge.setText(bd.port_discharge);
@@ -105,7 +103,7 @@ public class VesselInformation extends Fragment {
             idvoyage = bd.id_voyage;
             idvessel = bd.id_vessel;
             Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
-        }else{
+        } else{
             BookingData.i.vessel = new BookingData.VesselData();
             discharge_id = -1;
             origin_id = -1;
@@ -385,15 +383,14 @@ public class VesselInformation extends Fragment {
     }
 
     private void StatusInputMessage(){
-        BookingData data = BookingData.i;
-        if (data.customerType.equals("AGENT")){
-            if ( Objects.requireNonNull(estimate_arival.getText()).toString().isEmpty() ||
+        if (voyage_number.getVisibility() == View.VISIBLE){
+            if (voyage_number.getText().toString().isEmpty() && idvoyage <= 0){
+                pesanError("please check Voyage Number correctly!");
+            } else if ( Objects.requireNonNull(estimate_arival.getText()).toString().isEmpty() ||
                     Objects.requireNonNull(estimate_departure.getText()).toString().isEmpty()) {
                 Toasty.error(requireContext(), "Form Input Harus di isi Lengkap", Toasty.LENGTH_SHORT, true).show();
             } else if (idvessel <= 0) {
                 pesanError("please check Vessel Name correctly!");
-            } else if (idvoyage <= 0) {
-                pesanError("please check Voyage Number correctly!");
             } else if (origin_id <= 0 || discharge_id <= 0) {
                 pesanError("please check Port Discharge or Port Origin correctly!");
             } else {
@@ -422,6 +419,7 @@ public class VesselInformation extends Fragment {
                 fragmentTransaction.commit();
             }
         }
+
     }
 
     public void ButtonFunction(){

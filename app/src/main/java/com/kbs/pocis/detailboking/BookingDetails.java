@@ -21,12 +21,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.BookingList;
+import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
 
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -204,18 +207,14 @@ public class BookingDetails extends AppCompatActivity {
         dialogFragment.setContentView(v);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        TextInputEditText input_alasan = v.findViewById(R.id.canceled_formInput);
+        TextInputEditText input_alasan = v.findViewById(R.id.canceled_formInput);
 
         Button btn_close = v.findViewById(R.id.btn_cancelclose);
         Button btn_cancelBoking = v.findViewById(R.id.btn_cancelbookinggo);
 
         btn_close.setOnClickListener(v1 -> dialogFragment.cancel());
         btn_cancelBoking.setOnClickListener(v12 -> {
-            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                    .setTitleText("Cancell Booking Success")
-                    .setCustomImage(R.drawable.success_img)
-                    .show();
-            dialogFragment.cancel();
+            CallingApiCancelBooking(input_alasan, context, dialogFragment);
         });
         dialogFragment.show();
     }
@@ -228,18 +227,14 @@ public class BookingDetails extends AppCompatActivity {
         dialogFragment.setContentView(view);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
+        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
 
         Button btn_close = view.findViewById(R.id.btn_approveclose);
         Button btn_approve = view.findViewById(R.id.btn_approvetarif);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
         btn_approve.setOnClickListener(v -> {
-            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                    .setTitleText("Approve Tariff Success")
-                    .setCustomImage(R.drawable.success_img)
-                    .show();
-            dialogFragment.cancel();
+            CallingApiApproveTariff(input_alasan, context, dialogFragment);
         });
         dialogFragment.show();
     }
@@ -252,20 +247,107 @@ public class BookingDetails extends AppCompatActivity {
         dialogFragment.setContentView(view);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
+        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
 
         Button btn_close = view.findViewById(R.id.btn_rejectclose);
         Button btn_rejectTerif = view.findViewById(R.id.btn_rejecttarif);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
         btn_rejectTerif.setOnClickListener(v -> {
-            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                    .setTitleText("Reject Tariff Success")
-                    .setCustomImage(R.drawable.success_img)
-                    .showCancelButton(false)
-                    .show();
-            dialogFragment.cancel();
+            CallingApiRejectTariff(input_alasan, context, dialogFragment);
         });
         dialogFragment.show();
+    }
+
+
+    private void CallingApiCancelBooking(TextInputEditText remark, Context context, Dialog dialog){
+        Intent intent = getIntent();
+        String BookingId = intent.getStringExtra("id");
+        Call<CallingDetail> call = UserData.i.getService().cancelBooking(UserData.i.getToken(), BookingId, Objects.requireNonNull(remark.getText()).toString());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(context, "cancel_booking", data)){
+                    assert data != null;
+                    Log.i("cancel_booking", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
+                    new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                            .setTitleText("Cancell Booking Success")
+                            .setCustomImage(R.drawable.success_img)
+                            .show();
+                    dialog.cancel();
+                } else {
+                    Log.i("cancel_booking", "onResponse: " + "Cancel Booking Failure");
+                    Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("cancel_booking", "onFailure: ", t);
+            }
+        });
+    }
+
+
+    private void CallingApiRejectTariff(TextInputEditText remark, Context context, Dialog dialog){
+        Intent intent = getIntent();
+        String BookingId = intent.getStringExtra("id");
+        Call<CallingDetail> call = UserData.i.getService().rejectTariff(UserData.i.getToken(), BookingId, Objects.requireNonNull(remark.getText()).toString());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(context, "reject_tariff", data)){
+                    assert data != null;
+                    Log.i("reject_tariff", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
+                    new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                            .setTitleText("Reject Tariff Success")
+                            .setCustomImage(R.drawable.success_img)
+                            .showCancelButton(false)
+                            .show();
+                    dialog.cancel();
+                } else {
+                    Log.i("reject_tariff", "onResponse: " + "Reject Tariff Failure");
+                    Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("reject_tariff", "onFailure: ", t);
+            }
+        });
+    }
+
+
+    private void CallingApiApproveTariff(TextInputEditText remark, Context context, Dialog dialog){
+        Intent intent = getIntent();
+        String BookingId = intent.getStringExtra("id");
+        Call<CallingDetail> call = UserData.i.getService().approveTariff(UserData.i.getToken(), BookingId, Objects.requireNonNull(remark.getText()).toString());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(context, "approve_tariff", data)){
+                    assert data != null;
+                    Log.i("approve_tariff", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
+                    new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                            .setTitleText("Approve Tariff Success")
+                            .setCustomImage(R.drawable.success_img)
+                            .showCancelButton(false)
+                            .show();
+                    dialog.cancel();
+                } else {
+                    Log.i("approve_tariff", "onResponse: " + "Approve Tariff Failure");
+                    Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("approve_tariff", "onFailure: ", t);
+            }
+        });
     }
 }

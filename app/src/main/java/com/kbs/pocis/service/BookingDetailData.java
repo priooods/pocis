@@ -29,6 +29,7 @@ public class BookingDetailData {
     @SerializedName("id")
     public int id;
     public String voyage_no;
+    public String voyage_number;
     public String act_departure;
 
     @SerializedName("customer_type_code")

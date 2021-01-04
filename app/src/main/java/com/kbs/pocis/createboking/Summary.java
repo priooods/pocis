@@ -1,26 +1,15 @@
 package com.kbs.pocis.createboking;
 
 import android.app.Dialog;
-import android.content.ContentUris;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Environment;
-import android.os.FileUtils;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -112,6 +101,10 @@ public class Summary extends Fragment {
         departure.setText(data.vessel.estimate_departure);
         loading.setText(data.vessel.port_origin);
 
+        if (data.customerType.equals("GENERAL")){
+            data.vessel.voyage_number = null;
+        }
+
         ListingComodityList();
         ListingList();
 
@@ -194,16 +187,13 @@ public class Summary extends Fragment {
         Booking.put("Booking[flag_related_vessel]", data.relatedVesel);
         Booking.put("Booking[flag_contract]", data.contract);
 
-        if (data.customerType.equals("GENERAL")){
-            Booking.put("BookingVessel[voyage_no]", String.valueOf(data.vessel.voyage_number));
-        }
-
         Booking.put("BookingVessel[m_vessel_id]", String.valueOf(data.vessel.id_vessel));
         Booking.put("BookingVessel[discharge_or_loading]", String.valueOf(data.vessel.discharge_loading));
         Booking.put("BookingVessel[estimate_arrival_date]", data.vessel.estimate_arival);
         Booking.put("BookingVessel[estimate_departure_date]", data.vessel.estimate_departure);
         Booking.put("BookingVessel[port_of_loading_id]", String.valueOf(data.vessel.port_discharge_id));
         Booking.put("BookingVessel[m_port_cigading_id]", String.valueOf(data.vessel.port_origin_id));
+        Booking.put("BookingVessel[voyage_no]", String.valueOf(data.vessel.voyage_number));
 
         Booking.put("VesselSchedule[id]", String.valueOf(data.vessel.id_voyage));
 
@@ -244,7 +234,7 @@ public class Summary extends Fragment {
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
 
-                    Toasty.success(requireContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date + "\n voyageno : " + detailData.voyage_no, Toasty.LENGTH_LONG, true).show();
+                    Toasty.success(requireContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date, Toasty.LENGTH_LONG, true).show();
                     Fragment fragment = new Finish();
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

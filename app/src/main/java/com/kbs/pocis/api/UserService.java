@@ -86,6 +86,32 @@ public interface UserService {
             @Field("token") String token,
             @Field("page") String page
     );
+
+    //tbooking/cancel
+    @FormUrlEncoded
+    @POST("tbooking/cancel")
+    Call<CallingDetail> cancelBooking(
+            @Field("token") String token,
+            @Field("tbooking_id") String tbooking_id,
+            @Field("remark") String remark
+    );
+    //tarif-approve/reject
+    @FormUrlEncoded
+    @POST("tarif-approve/reject")
+    Call<CallingDetail> rejectTariff(
+            @Field("token") String token,
+            @Field("tbooking_id") String tbooking_id,
+            @Field("remark") String remark
+    );
+    //tarif-approve/approve
+    @FormUrlEncoded
+    @POST("tarif-approve/approve")
+    Call<CallingDetail> approveTariff(
+            @Field("token") String token,
+            @Field("tbooking_id") String tbooking_id,
+            @Field("remark") String remark
+    );
+
     @FormUrlEncoded
     @POST("tarif-approve/all")
     Call<CallingData> getTariffAprove(
