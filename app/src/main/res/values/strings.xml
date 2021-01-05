@@ -5,8 +5,10 @@
     <string name="verified">verified</string>
     <string name="booking">booking</string>
     <string name="cancelled">cancelled</string>
+    <string name="approve_tariff">Approve Tariff</string>
     <string name="approved">approved</string>
     <string name="size"> Kb</string>
+    <string name="size_file_mb">2Mb</string>
     <string name="index_of">\u0020Of\u0020</string>
     <string name="index_showing">Showing\u0020</string>
     <string name="index_result">\u0020Result</string>

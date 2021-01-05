@@ -1,5 +1,6 @@
 package com.kbs.pocis.complains;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,22 +30,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.createboking.Finish;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.createbooking.CallingSaveBok;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,7 +93,6 @@ public class New_Complain extends Fragment {
         title = view.findViewById(R.id.input_complain_title);
         type = view.findViewById(R.id.input_complain_type);
         comment = view.findViewById(R.id.input_complain_comment);
-
         model_uploadDocuments = new ArrayList<>();
         btn_file = view.findViewById(R.id.btn_file_complain);
         btn_file.setOnClickListener(v -> OpenManager());
@@ -86,26 +100,7 @@ public class New_Complain extends Fragment {
         linehide = view.findViewById(R.id.ln_file);
         list_file = view.findViewById(R.id.list_file_complain);
 
-        type.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 2){
-                    getMyComplaintType();
-                } else {
-                    idComplaintType = 0;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
+        getMyComplaintType();
         icon_back = view.findViewById(R.id.btn_back_newcomplain);
         icon_back.setOnClickListener(v -> requireActivity().onBackPressed());
 
@@ -113,7 +108,7 @@ public class New_Complain extends Fragment {
             if (idComplaintType == 0){
                 Toasty.error(requireContext(),"Complaint Type Not Valid !", Toasty.LENGTH_SHORT, true).show();
             } else {
-                Toasty.success(requireContext(),"Oke", Toasty.LENGTH_SHORT,true).show();
+                saveNewComplaint();
             }
         });
 
@@ -135,11 +130,25 @@ public class New_Complain extends Fragment {
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                     type.setAdapter(adapter);
-                    type.setThreshold(2);
+                    type.setThreshold(1);
+
                     type.setOnItemClickListener((parent, view, position, id) -> {
                         // Get Customer Type ID
                         Log.i(ContentValues.TAG, "onItemClick in complaint: => " + data.get(position).id);
                         idComplaintType = data.get(position).id;
+                    });
+
+                    //click box input_type, show suggestions
+                    type.setOnTouchListener(new View.OnTouchListener() {
+                        @SuppressLint("ClickableViewAccessibility")
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (data.size() > 0){
+                                if (!type.getText().toString().equals("")) adapter.getFilter().filter(null);
+                                type.showDropDown();
+                            }
+                            return false;
+                        }
                     });
                     adapter.notifyDataSetChanged();
                 }
@@ -153,6 +162,54 @@ public class New_Complain extends Fragment {
 
     }
 
+    public RequestBody data_form(File req) {
+        return RequestBody.create(req, MediaType.parse("multipart/form-data"));
+    }
+
+    public RequestBody input_form(String req) {
+        return RequestBody.create(req, MediaType.parse("multipart/form-data"));
+    }
+
+    public void saveNewComplaint(){
+
+        HashMap<String, Integer> ComplaintReason = new HashMap<>();
+        ComplaintReason.put("m_complain_reason_id", idComplaintType);
+
+        HashMap<String, RequestBody> Complain = new HashMap<>();
+        Complain.put("complain_desc", input_form(Objects.requireNonNull(comment.getText()).toString()));
+        Complain.put("complain_title", input_form(Objects.requireNonNull(title.getText()).toString()));
+
+        int i = 0;
+        MultipartBody.Part[] fileToUpload = new MultipartBody.Part[model_uploadDocuments.size()];
+        for (Model_UploadDocument document : model_uploadDocuments){
+            fileToUpload[i] = MultipartBody.Part.createFormData("ComplaintDocument[file_name]["+i+"]", document.uri.getPath(), data_form(document.uri));
+            Log.i(ContentValues.TAG, "send_Complain => " + document.uri);
+            i++;
+        }
+
+        retrofit2.Call<CallingSaveBok> call = UserData.i.getService().saveComplaint(
+                UserData.i.getToken(),ComplaintReason,Complain,fileToUpload
+        );
+        call.enqueue(new Callback<CallingSaveBok>() {
+            @Override
+            public void onResponse(@NotNull retrofit2.Call<CallingSaveBok> call, @NotNull Response<CallingSaveBok> response) {
+                CallingSaveBok data = response.body();
+                if (Calling.TreatResponse(getContext(),"create_complain",data)) {
+                    assert data != null;
+                    BookingDetailData detailData = data.data;
+                    Log.i(ContentValues.TAG, "onResponse: => " + detailData.id);
+                    Toasty.success(requireContext(),"Success Created New Complaint"+ " \n status : " + detailData.status, Toasty.LENGTH_LONG, true).show();
+                } else {
+                    Toasty.error(requireContext(), "Booking Failure, Maximum size file 2 Mb", Toasty.LENGTH_LONG, true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingSaveBok> call, @NotNull Throwable t) {
+                Log.e(ContentValues.TAG, "onFailure: " + t);
+            }
+        });
+    }
 
     void OpenManager(){
         openFileManager = new Intent(Intent.ACTION_GET_CONTENT);
@@ -173,11 +230,10 @@ public class New_Complain extends Fragment {
                 String name = files.getName();
                 int size = (int) files.length() / 1024;
                 Log.i("tag", "check_file: " + files);
-
+                model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
                 if (size >= 2000) {
                     Toasty.error(requireContext(), "Maximum File Size 2Mb", Toasty.LENGTH_LONG, true).show();
                 } else {
-                    model_uploadDocuments.add(new Model_UploadDocument(null, name, size));
                     statusList(model_uploadDocuments);
                 }
             }
@@ -191,6 +247,7 @@ public class New_Complain extends Fragment {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             list_file.setLayoutManager(layoutManager);
             list_file.setAdapter(recyclerPDF);
+            recyclerPDF.notifyDataSetChanged();
         }
     }
 
@@ -419,15 +476,12 @@ public class New_Complain extends Fragment {
 
             holder.nama.setText(modelUploadDocuments.get(position).getUsername());
             holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()) + " Kb");
-            holder.deletefile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    modelUploadDocuments.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemChanged(position, modelUploadDocuments.size());
-                    if (modelUploadDocuments.size() == 0){
-                        linehide.setVisibility(View.GONE);
-                    }
+            holder.deletefile.setOnClickListener(v -> {
+                modelUploadDocuments.remove(position);
+                notifyItemRemoved(position);
+                notifyItemChanged(position, modelUploadDocuments.size());
+                if (modelUploadDocuments.size() == 0){
+                    linehide.setVisibility(View.GONE);
                 }
             });
 

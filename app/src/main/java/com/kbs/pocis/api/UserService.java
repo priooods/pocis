@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -299,5 +300,36 @@ public interface UserService {
             @Field("token") String token,
             @Field("t_vessel_schedule_id") String t_vessel_schedule_id,
             @Field("voyage_no") String voyage_no
+    );
+
+    @FormUrlEncoded
+    @POST("complain/list")
+    Call<PublicList> getComplainList(
+            @Field("token") String token,
+            @Field("page") String page
+    );
+
+    @Multipart
+    @POST("complain/add")
+    Call<CallingSaveBok> saveComplaint(
+            @Query("token") String token
+            ,@PartMap Map<String, Integer> ComplainReason
+            ,@PartMap Map<String, RequestBody> Complain
+            ,@Part MultipartBody.Part... document
+    );
+
+    @FormUrlEncoded
+    @POST("complain/view")
+    Call<CallingDetail> detailComplaint(
+            @Field("token") String token,
+            @Field("complain_id") int id
+    );
+
+    @FormUrlEncoded
+    @POST("complain/comment")
+    Call<CallingDetail> newCommentComplain(
+            @Field("token") String token,
+            @Field("m_complain_id") int id,
+            @Field("description") String description
     );
 }

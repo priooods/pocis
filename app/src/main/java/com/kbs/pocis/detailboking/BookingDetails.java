@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -125,7 +124,7 @@ public class BookingDetails extends AppCompatActivity {
         call.enqueue(new Callback<CallingDetail>() {
             @Override
             public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
-                CallingDetail respone = (CallingDetail) response.body();
+                CallingDetail respone =  response.body();
                 assert respone != null;
                 if (CallingDetail.TreatResponse(activity, "detail_booking", respone)) {
                     Log.i("detail_booking",respone.readString());
@@ -201,64 +200,55 @@ public class BookingDetails extends AppCompatActivity {
 
     //Dialog form ketika cancelbutton click
     private void ShowDialogCancell (final Context context){
-        View v  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(v);
+        dialogFragment.setContentView(R.layout.dialog_cancelled);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = v.findViewById(R.id.canceled_formInput);
+        TextInputEditText input_alasan = dialogFragment.findViewById(R.id.canceled_formInput);
 
-        Button btn_close = v.findViewById(R.id.btn_cancelclose);
-        Button btn_cancelBoking = v.findViewById(R.id.btn_cancelbookinggo);
+        Button btn_close = dialogFragment.findViewById(R.id.btn_cancelclose);
+        Button btn_cancelBoking = dialogFragment.findViewById(R.id.btn_cancelbookinggo);
 
         btn_close.setOnClickListener(v1 -> dialogFragment.cancel());
-        btn_cancelBoking.setOnClickListener(v12 -> {
-            CallingApiCancelBooking(input_alasan, context, dialogFragment);
-        });
+        btn_cancelBoking.setOnClickListener(v12 -> CallingApiCancelBooking(input_alasan, context, dialogFragment));
         dialogFragment.show();
     }
 
     //Dialog form ketika approve tarif click
     private void ShowDialogApprove (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_approve_tarif, null);
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
+        dialogFragment.setContentView(R.layout.dialog_approve_tarif);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
+        TextInputEditText input_alasan = dialogFragment.findViewById(R.id.approve_formInput);
+        input_alasan.setVisibility(View.GONE);
 
-        Button btn_close = view.findViewById(R.id.btn_approveclose);
-        Button btn_approve = view.findViewById(R.id.btn_approvetarif);
+        Button btn_close = dialogFragment.findViewById(R.id.btn_approveclose);
+        Button btn_approve = dialogFragment.findViewById(R.id.btn_approvetarif);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
-        btn_approve.setOnClickListener(v -> {
-            CallingApiApproveTariff(input_alasan, context, dialogFragment);
-        });
+        btn_approve.setOnClickListener(v -> CallingApiApproveTariff(input_alasan, context, dialogFragment));
         dialogFragment.show();
     }
 
     //Dialog form ketika reject tariff click
     private void ShowDialogReject (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_reject_tarif, null);
-        final Dialog dialogFragment = new Dialog(context);
+        Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
+        dialogFragment.setContentView(R.layout.dialog_reject_tarif);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
+        TextInputEditText input_alasan = dialogFragment.findViewById(R.id.reject_formInput);
 
-        Button btn_close = view.findViewById(R.id.btn_rejectclose);
-        Button btn_rejectTerif = view.findViewById(R.id.btn_rejecttarif);
+        Button btn_close = dialogFragment.findViewById(R.id.btn_rejectclose);
+        Button btn_rejectTerif = dialogFragment.findViewById(R.id.btn_rejecttarif);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
-        btn_rejectTerif.setOnClickListener(v -> {
-            CallingApiRejectTariff(input_alasan, context, dialogFragment);
-        });
+        btn_rejectTerif.setOnClickListener(v -> CallingApiRejectTariff(input_alasan, context, dialogFragment));
         dialogFragment.show();
     }
-
 
     private void CallingApiCancelBooking(TextInputEditText remark, Context context, Dialog dialog){
         Intent intent = getIntent();
@@ -271,11 +261,17 @@ public class BookingDetails extends AppCompatActivity {
                 if (Calling.TreatResponse(context, "cancel_booking", data)){
                     assert data != null;
                     Log.i("cancel_booking", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
-                    new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                            .setTitleText("Cancell Booking Success")
-                            .setCustomImage(R.drawable.success_img)
-                            .show();
-                    dialog.cancel();
+                    SweetAlertDialog d = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+                    d.setTitleText("Cancel Booking Success");
+                    d.setCancelable(false);
+                    d.setCustomImage(R.drawable.success_img);
+                    d.setConfirmButton("Back", sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        dialog.dismiss();
+                        ((AppCompatActivity)context).onBackPressed();
+                    });
+                    d.showCancelButton(false);
+                    d.show();
                 } else {
                     Log.i("cancel_booking", "onResponse: " + "Cancel Booking Failure");
                     Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
@@ -301,12 +297,17 @@ public class BookingDetails extends AppCompatActivity {
                 if (Calling.TreatResponse(context, "reject_tariff", data)){
                     assert data != null;
                     Log.i("reject_tariff", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
-                    new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                            .setTitleText("Reject Tariff Success")
-                            .setCustomImage(R.drawable.success_img)
-                            .showCancelButton(false)
-                            .show();
-                    dialog.cancel();
+                    SweetAlertDialog d = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+                    d.setTitleText("Reject Tariff Success");
+                    d.setCancelable(false);
+                    d.setCustomImage(R.drawable.success_img);
+                    d.setConfirmButton("Back", sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        dialog.dismiss();
+                        ((AppCompatActivity)context).onBackPressed();
+                    });
+                    d.showCancelButton(false);
+                    d.show();
                 } else {
                     Log.i("reject_tariff", "onResponse: " + "Reject Tariff Failure");
                     Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
@@ -332,12 +333,17 @@ public class BookingDetails extends AppCompatActivity {
                 if (Calling.TreatResponse(context, "approve_tariff", data)){
                     assert data != null;
                     Log.i("approve_tariff", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
-                    new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                            .setTitleText("Approve Tariff Success")
-                            .setCustomImage(R.drawable.success_img)
-                            .showCancelButton(false)
-                            .show();
-                    dialog.cancel();
+                    SweetAlertDialog d = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+                    d.setTitleText("Approve Tariff Success");
+                    d.setCancelable(false);
+                    d.setCustomImage(R.drawable.success_img);
+                    d.setConfirmButton("Back", sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        dialog.dismiss();
+                        ((AppCompatActivity)context).onBackPressed();
+                    });
+                    d.showCancelButton(false);
+                    d.show();
                 } else {
                     Log.i("approve_tariff", "onResponse: " + "Approve Tariff Failure");
                     Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();

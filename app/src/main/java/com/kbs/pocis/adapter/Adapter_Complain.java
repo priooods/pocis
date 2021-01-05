@@ -6,22 +6,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.HomePage;
+import com.kbs.pocis.complains.Complain_Dasar;
+import com.kbs.pocis.complains.Detail_Complain;
 import com.kbs.pocis.model.Model_Complain;
+import com.kbs.pocis.model.Model_Project;
+import com.kbs.pocis.progressbook.Progress_Booking;
 
 import java.util.List;
 
 public class Adapter_Complain extends RecyclerView.Adapter<Adapter_Complain.vHolder> {
 
     Context context;
-    List<Model_Complain> model_complains;
+    List<Model_Project> model_complains;
 
-    public Adapter_Complain(Context context, List<Model_Complain> model_complains) {
+    public Adapter_Complain(Context context, List<Model_Project> model_complains) {
         this.context = context;
         this.model_complains = model_complains;
     }
@@ -45,15 +54,22 @@ public class Adapter_Complain extends RecyclerView.Adapter<Adapter_Complain.vHol
         holder.ln8.setVisibility(View.GONE);
         holder.title1.setText(R.string.complaint_Date);
         holder.title2.setText(R.string.person_In_Charge);
-        holder.item1.setText(model_complains.get(position).dates);
-        holder.item2.setText(model_complains.get(position).person);
-        holder.number.setText(model_complains.get(position).title);
+        holder.item1.setText(model_complains.get(position).created);
+        holder.item2.setText(model_complains.get(position).reason_name);
+        holder.number.setText(model_complains.get(position).complain_title);
         holder.status.setText(model_complains.get(position).status);
-
+        holder.godetail.setOnClickListener(v->{
+            Complain_Dasar page = (Complain_Dasar)context;
+            Model_Project.mp = model_complains.get(position);
+            Fragment fragment = new Detail_Complain();
+            FragmentManager fragmentManager = page.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.framecomplain, fragment).addToBackStack(null);
+            fragmentTransaction.commit();
+        });
         if ("CLOSED".equals(holder.status.getText().toString())) {
             holder.status.setTextColor(Color.parseColor("#7d7d7d"));
         }
-
     }
 
     @Override
@@ -64,9 +80,10 @@ public class Adapter_Complain extends RecyclerView.Adapter<Adapter_Complain.vHol
     public static class vHolder extends RecyclerView.ViewHolder{
         LinearLayout ln3,ln4,ln5,ln6,ln7,ln8;
         TextView title1,title2,item1,item2,number,status;
+        RelativeLayout godetail;
         public vHolder(@NonNull View itemView) {
             super(itemView);
-            ln3 = itemView.findViewById(R.id.ln3);
+            ln3 = itemView.findViewById(R.id.ln3);//layout_project
             ln4 = itemView.findViewById(R.id.ln4);
             ln5 = itemView.findViewById(R.id.ln5);
             ln6 = itemView.findViewById(R.id.ln6);
@@ -78,6 +95,7 @@ public class Adapter_Complain extends RecyclerView.Adapter<Adapter_Complain.vHol
             item2 = itemView.findViewById(R.id.item2);
             number = itemView.findViewById(R.id.model_number);
             status = itemView.findViewById(R.id.model_status);
+            godetail = itemView.findViewById(R.id.layout_project);
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,25 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.VHolder> implements Filterable {
 
@@ -110,7 +122,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.cancel:
-                        ShowDialogCancell(context);
+                        ShowDialogCancell(context, model_bookings.get(position).getBookingId());
                         break;
                     case  R.id.detail:
                         GoDetails(position);
@@ -208,26 +220,52 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
     }
 
     //Dialog form ketika cancelbutton click
-    private static void ShowDialogCancell (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_cancelled, (ViewGroup)null);
+    private static void ShowDialogCancell (final Context context, String bookingId){
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
+        dialogFragment.setContentView(R.layout.dialog_cancelled);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        TextInputEditText input_alasan = view.findViewById(R.id.canceled_formInput);
+        TextInputEditText input_alasan = dialogFragment.findViewById(R.id.canceled_formInput);
 
-        Button btn_close = view.findViewById(R.id.btn_cancelclose);
-        Button btn_cancelBoking = view.findViewById(R.id.btn_cancelbookinggo);
+        Button btn_close = dialogFragment.findViewById(R.id.btn_cancelclose);
+        Button btn_cancelBoking = dialogFragment.findViewById(R.id.btn_cancelbookinggo);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
-        btn_cancelBoking.setOnClickListener(v -> {
-            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                    .setTitleText("Cancell Booking Success")
-                    .setCustomImage(R.drawable.success_img)
-                    .show();
-            dialogFragment.cancel();
-        });
+        btn_cancelBoking.setOnClickListener(v -> CallingApiCancelBooking(input_alasan, context, dialogFragment,bookingId));
         dialogFragment.show();
+    }
+
+
+    private static void CallingApiCancelBooking(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
+        Call<CallingDetail> call = UserData.i.getService().cancelBooking(UserData.i.getToken(), bookingId, Objects.requireNonNull(remark.getText()).toString());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(context, "cancel_booking", data)){
+                    assert data != null;
+                    Log.i("cancel_booking", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
+                    SweetAlertDialog d = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+                    d.setTitleText("Cancel Booking Success");
+                    d.setCancelable(false);
+                    d.setCustomImage(R.drawable.success_img);
+                    d.setConfirmButton("Back", sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        dialog.dismiss();
+                    });
+                    d.showCancelButton(false);
+                    d.show();
+                } else {
+                    Log.i("cancel_booking", "onResponse: " + "Cancel Booking Failure");
+                    Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("cancel_booking", "onFailure: ", t);
+            }
+        });
     }
 }

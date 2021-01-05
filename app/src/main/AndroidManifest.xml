@@ -40,6 +40,7 @@
         <activity android:name=".myproject.Detail_MyProject" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
         <activity android:name=".monitoring.Detail_Dasar" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
         <activity android:name=".monitoring.Monitoring" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".complains.Complain_Dasar" android:screenOrientation="portrait" tools:ignore="LockedOrientationActivity"/>
     </application>
 
 </manifest>

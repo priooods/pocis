@@ -12,13 +12,46 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentLeft="true"
+            android:layout_width="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_back"
+            android:id="@+id/btn_back_complain"/>
+
+        <LinearLayout
+            android:layout_centerHorizontal="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Complains"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerHorizontal="true"
+                android:textSize="17dp"
+                android:fontFamily="@font/montserrat_bold"/>
+
+        </LinearLayout>
+
+        <ImageView
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/icon_search"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:id="@+id/btn_search_complain"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -41,6 +74,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/complain_tablayout"
+        android:layout_above="@+id/bg_bot"
         android:id="@+id/complain_viewpager"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:id="@+id/bg_bot"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:id="@+id/bot"
+        android:background="@color/float_transparent"
+        android:layout_height="wrap_content">
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="15dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/circle_bg_blue"
+            android:src="@drawable/icon_add"
+            android:padding="5dp"
+            android:id="@+id/new_complain"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

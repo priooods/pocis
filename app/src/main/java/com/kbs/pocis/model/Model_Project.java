@@ -1,5 +1,8 @@
 package com.kbs.pocis.model;
 
+import com.google.gson.annotations.SerializedName;
+import com.kbs.pocis.service.BookingDetailData;
+
 import java.util.List;
 
 public class Model_Project {
@@ -28,6 +31,10 @@ public class Model_Project {
     public static List<Model_Project> ContactPbm;
     public static List<Model_Project> ActualTruckMonitoring;
 
+    //for complain type
+    public static List<Model_Project> attachments;
+    public static List<Model_Project> details;
+    public static List<Model_Project> newComments;
 
     public static boolean isExist(){
         return Model_Project.mp != null;
@@ -182,14 +189,16 @@ public class Model_Project {
     public String before_pos;
     public String pos;
 
-//    "B9773YU" : ActualTruckMonitoring['nopol']
-//            "21 Dec 2020 05:30" : ActualTruckMonitoring['created']
-//            "PPJ-2020/09778" : ActualTruckMonitoring['project_no']
-//    Vessel Name : ActualTruckMonitoring['vessel_name']
-//    Before POS : ActualTruckMonitoring['before_pos']
-//    Voyage No. : ActualTruckMonitoring['voyage_no']
-//    POS : ActualTruckMonitoring['pos']
+    public String complain_title;
+    public String complain_desc;
 
+    public String reason_name;
+    public String t_customer_complaint_id;
+    public String user_name;
+    public String path;
+    public String name;
+    public String filename;
+    public String status;
 
     public Model_Project(String status,String no,String cust_name,String type, String date){
         this.status_project = status;
@@ -197,6 +206,14 @@ public class Model_Project {
         this.customer_name = cust_name;
         this.customer_type = type;
         this.booking_date = date;
+    }
+
+
+    //when get new Comment in Menu My Complaint. do not change
+    public Model_Project(String created, String description, String name){
+        this.name = name;
+        this.created = created;
+        this.description =description;
     }
 
     public Model_Project(String filename){

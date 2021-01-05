@@ -160,7 +160,15 @@ public class BookingDetailData {
         public String name;
     }
 
-
+    public String complain_title;
+    public String complain_desc;
+    public String t_customer_complaint_id;
+    public String reason_name;
+    public String user_name;
+    public String description;
+    public String created;
+    public List<Model_Project> attachments;
+    public List<Model_Project> details;
     public String reason_code;
     public String reason_desc;
 

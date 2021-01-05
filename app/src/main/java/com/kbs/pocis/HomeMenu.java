@@ -119,15 +119,9 @@ public class HomeMenu extends Fragment {
         });
 
         menu_complain = view.findViewById(R.id.menu_my_complaint);
-        menu_complain.setOnClickListener(v -> {
-            Fragment fragment;
-            fragment = new Complain_Dasar();
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-            fragmentTransaction.commit();
-        });
+        menu_complain.setOnClickListener(v ->
+            startActivity(new Intent(getActivity(), Complain_Dasar.class))
+        );
 
         menu_tarif_calculate = view.findViewById(R.id.menu_tarif_calculate);
         menu_tarif_calculate.setOnClickListener(v -> {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,25 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
+import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApproved.VHolder> implements Filterable {
 
@@ -94,10 +106,10 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.reject:
-                        ShowDialogReject(context);
+                        ShowDialogReject(context, model_tariffAproves.get(position).getBookingId());
                         break;
                     case  R.id.approve:
-                        ShowDialogApprove(context);
+                        ShowDialogApprove(context, model_tariffAproves.get(position).getBookingId());
                         break;
                 }
                 return false;
@@ -172,51 +184,101 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
     }
 
     //Dialog form ketika approve tarif click
-    private static void ShowDialogApprove (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_approve_tarif, (ViewGroup)null);
+    private static void ShowDialogApprove (final Context context, String bookingId){
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
+        dialogFragment.setContentView(R.layout.dialog_approve_tarif);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        TextInputEditText input_alasan = view.findViewById(R.id.approve_formInput);
-
-        Button btn_close = view.findViewById(R.id.btn_approveclose);
-        Button btn_approve = view.findViewById(R.id.btn_approvetarif);
+        TextInputEditText input_alasan = dialogFragment.findViewById(R.id.approve_formInput);
+        input_alasan.setVisibility(View.GONE);
+        Button btn_close = dialogFragment.findViewById(R.id.btn_approveclose);
+        Button btn_approve = dialogFragment.findViewById(R.id.btn_approvetarif);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
-        btn_approve.setOnClickListener(v -> {
-            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                    .setTitleText("Approve Tariff Success")
-                    .setCustomImage(R.drawable.success_img)
-                    .show();
-            dialogFragment.cancel();
-        });
+        btn_approve.setOnClickListener(v -> CallingApiApproveTariff(input_alasan, context, dialogFragment, bookingId));
         dialogFragment.show();
     }
 
     //Dialog form ketika reject tariff click
-    private static void ShowDialogReject (final Context context){
-        View view  = LayoutInflater.from(context).inflate(R.layout.dialog_reject_tarif, (ViewGroup)null);
+    private static void ShowDialogReject (final Context context, String bookingId){
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
-        dialogFragment.setContentView(view);
+        dialogFragment.setContentView(R.layout.dialog_reject_tarif);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        TextInputEditText input_alasan = view.findViewById(R.id.reject_formInput);
+        TextInputEditText input_alasan = dialogFragment.findViewById(R.id.reject_formInput);
 
-        Button btn_close = view.findViewById(R.id.btn_rejectclose);
-        Button btn_rejectTerif = view.findViewById(R.id.btn_rejecttarif);
+        Button btn_close = dialogFragment.findViewById(R.id.btn_rejectclose);
+        Button btn_rejectTerif = dialogFragment.findViewById(R.id.btn_rejecttarif);
 
         btn_close.setOnClickListener(v -> dialogFragment.cancel());
-        btn_rejectTerif.setOnClickListener(v -> {
-            new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                    .setTitleText("Reject Tariff Success")
-                    .setCustomImage(R.drawable.success_img)
-                    .showCancelButton(false)
-                    .show();
-            dialogFragment.cancel();
-        });
+        btn_rejectTerif.setOnClickListener(v -> CallingApiRejectTariff(input_alasan, context, dialogFragment, bookingId));
         dialogFragment.show();
+    }
+
+    private static void CallingApiRejectTariff(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
+        Call<CallingDetail> call = UserData.i.getService().rejectTariff(UserData.i.getToken(), bookingId, Objects.requireNonNull(remark.getText()).toString());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(context, "reject_tariff", data)){
+                    assert data != null;
+                    Log.i("reject_tariff", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
+                    SweetAlertDialog d = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+                    d.setTitleText("Reject Tariff Success");
+                    d.setCancelable(false);
+                    d.setCustomImage(R.drawable.success_img);
+                    d.setConfirmButton("Back", sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        dialog.dismiss();
+                    });
+                    d.showCancelButton(false);
+                    d.show();
+                } else {
+                    Log.i("reject_tariff", "onResponse: " + "Reject Tariff Failure");
+                    Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("reject_tariff", "onFailure: ", t);
+            }
+        });
+    }
+
+
+    private static void CallingApiApproveTariff(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
+        Call<CallingDetail> call = UserData.i.getService().approveTariff(UserData.i.getToken(), bookingId, Objects.requireNonNull(remark.getText()).toString());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(context, "approve_tariff", data)){
+                    assert data != null;
+                    Log.i("approve_tariff", "onResponse: " + data.data.no_booking + " status : " + "berhasil");
+                    SweetAlertDialog d = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+                    d.setTitleText("Approve Tariff Success");
+                    d.setCancelable(false);
+                    d.setCustomImage(R.drawable.success_img);
+                    d.setConfirmButton("Back", sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        dialog.dismiss();
+                    });
+                    d.showCancelButton(false);
+                    d.show();
+                } else {
+                    Log.i("approve_tariff", "onResponse: " + "Approve Tariff Failure");
+                    Toasty.error(context, "Oops... Server Error", Toasty.LENGTH_LONG,true).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.e("approve_tariff", "onFailure: ", t);
+            }
+        });
     }
 }

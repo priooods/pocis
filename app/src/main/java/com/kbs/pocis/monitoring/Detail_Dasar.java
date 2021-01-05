@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -44,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,7 +64,6 @@ public class Detail_Dasar extends AppCompatActivity {
             manager_vessel_in_progress, manager_topship,manager_botship;
 
     WebView content_cctv;
-    SimpleExoPlayer exoPlayer;
     LinearLayout ln_ship_all,ln_ship_all_no;
     //Progress
     ImageView icon_cctv, icon_contact,icon_truck,icon_operational,icon_vesel,icon_stowage,icon_sumary, icon_back;
@@ -311,9 +312,34 @@ public class Detail_Dasar extends AppCompatActivity {
     //Setting List With Expanded Animation
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void showCCTV(String link){
-        if (Build.VERSION.SDK_INT >= 19){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             content_cctv.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-            content_cctv.setWebViewClient(new WebViewClient());
+            content_cctv.setWebViewClient(new WebViewClient(){
+                @Override
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+//                    super.onReceivedError(view, errorCode, description, failingUrl);
+                    Log.e("error_view", "onReceivedError: " + "error_desc = " + description + "failure url = " + failingUrl);
+                    Toasty.error(Detail_Dasar.this, "Your Connection Failure or " + description, Toasty.LENGTH_SHORT, true).show();
+                }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
+
+                @Override
+                public void onLoadResource(WebView view, String url) {
+//                    content_cctv.setVisibility(View.GONE);
+                    content_cctv.setEnabled(false);
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+//                    content_cctv.setVisibility(View.VISIBLE);
+                    content_cctv.setEnabled(true);
+                }
+            });
             content_cctv.getSettings().setJavaScriptEnabled(true);
             content_cctv.getSettings().setLoadWithOverviewMode(true);
             content_cctv.getSettings().setUseWideViewPort(true);
