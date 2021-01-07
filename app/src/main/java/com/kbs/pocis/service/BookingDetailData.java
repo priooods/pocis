@@ -160,6 +160,9 @@ public class BookingDetailData {
         public String name;
     }
 
+    public String picture, title, content;
+//    public String id;
+
     public String complain_title;
     public String complain_desc;
     public String t_customer_complaint_id;
@@ -171,6 +174,10 @@ public class BookingDetailData {
     public List<Model_Project> details;
     public String reason_code;
     public String reason_desc;
+
+
+    //for progress booking
+    public List<Model_Project> List;
 
 
     public String readString() {

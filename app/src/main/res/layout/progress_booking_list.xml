@@ -48,6 +48,7 @@
         </LinearLayout>
 
         <ImageView
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/t"
             app:layout_constraintBottom_toBottomOf="@id/t"
@@ -77,6 +78,38 @@
         android:layout_height="match_parent"
         android:layout_below="@id/q"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="15dp"
         android:id="@+id/list_progress"/>
+
+    <RelativeLayout
+        android:layout_below="@id/z"
+        android:visibility="gone"
+        android:background="@color/colorWhite"
+        android:id="@+id/lay_kosong"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/rr"
+            android:layout_centerInParent="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/nodata"/>
+
+        <TextView
+            android:layout_below="@id/rr"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="200dp"
+            android:id="@+id/title_nodata"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14dp"
+            android:text="Oops.. Nothing Data Progress"/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

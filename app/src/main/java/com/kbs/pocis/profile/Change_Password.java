@@ -1,6 +1,8 @@
 package com.kbs.pocis.profile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,6 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.welcome.Auth;
-import com.kbs.pocis.welcome.Welcome_Screen;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,6 +38,7 @@ public class Change_Password extends Fragment {
     ImageView icon_back;
     TextInputEditText password,confirm_password;
     Button cancel, save;
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -46,16 +48,12 @@ public class Change_Password extends Fragment {
         password = view.findViewById(R.id.password);
         icon_back = view.findViewById(R.id.icon_back);
         confirm_password = view.findViewById(R.id.confirm_password);
-
+        sharedPreferences = requireActivity().getSharedPreferences("sesi", Context.MODE_PRIVATE);
         cancel = view.findViewById(R.id.btn_cancel);
         save = view.findViewById(R.id.btn_save);
-        cancel.setOnClickListener(v->{
-            requireActivity().onBackPressed();
-        });
+        cancel.setOnClickListener(v->requireActivity().onBackPressed());
 
-        icon_back.setOnClickListener(v->{
-            requireActivity().onBackPressed();
-        });
+        icon_back.setOnClickListener(v->requireActivity().onBackPressed());
         save.setOnClickListener(v->{
             if (Objects.requireNonNull(password.getText()).toString().isEmpty() || Objects.requireNonNull(confirm_password.getText()).toString().isEmpty()) {
                 Toasty.error(requireContext(), "Please Add Password & Confirm password", Toasty.LENGTH_SHORT, true).show();
@@ -77,10 +75,14 @@ public class Change_Password extends Fragment {
                 Calling data = response.body();
                 assert data != null;
                 if (data.error.equals("0")){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
                     Toasty.success(requireContext(),data.desc, Toasty.LENGTH_SHORT, true).show();
                     Intent intent = new Intent(requireActivity(), Auth.class);
                     startActivity(intent);
                     requireActivity().finish();
+
                 } else {
                     Toasty.error(requireContext(),data.desc, Toasty.LENGTH_SHORT, true).show();
                 }

@@ -100,18 +100,6 @@ public class Profile extends Fragment {
                     models = data.data.types;
                     BookingDetailData.i = data.data;
 
-//                    BookingDetailData.i.setAllUserData(
-//                            username.getText().toString(),
-//                            address.getText().toString(),
-//                            fax.getText().toString(),
-//                            email.getText().toString(),
-//                            phone.getText().toString(),
-//                            npwp.getText().toString(),
-//                            contact_email.getText().toString(),
-//                            contact_name.getText().toString(),
-//                            contact_phone.getText().toString()
-//                    );
-
                     ListType adapter_project_service = new ListType(requireContext(), models);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     list_type.setLayoutManager(layoutManager);

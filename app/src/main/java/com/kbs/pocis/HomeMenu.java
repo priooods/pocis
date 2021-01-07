@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +18,34 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kbs.pocis.activity.CreateBooking;
 import com.kbs.pocis.activity.Invoice;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.monitoring.Monitoring;
 import com.kbs.pocis.activity.MyProject_Dasar;
 import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.adapter.AdapterNews;
 import com.kbs.pocis.calculator.Tarif_Calculate;
 import com.kbs.pocis.complains.Complain_Dasar;
-import com.kbs.pocis.model.Model_News;
 import com.kbs.pocis.news.News_List;
 import com.kbs.pocis.profile.Profile_Menu;
 import com.kbs.pocis.progressbook.Progress_List;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.welcome.Contact_Us;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class HomeMenu extends Fragment {
 
@@ -41,6 +54,7 @@ public class HomeMenu extends Fragment {
     FloatingActionButton floatingActionButton;
     RecyclerView news1,news2;
     TextView showall1,showall2,text_ucapan;
+    List<Model_Project> model_news;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,8 +153,7 @@ public class HomeMenu extends Fragment {
 
         if (UserData.isExists()){
             UserData userData = UserData.i;
-            String getUca = "Good Morning "+ userData.username +"! Here's the quick menu";
-            text_ucapan.setText(getUca);
+            getTimeZone(text_ucapan, userData);
         }
 
         listNewt();
@@ -150,6 +163,29 @@ public class HomeMenu extends Fragment {
     }
 
     public void listNewt(){
+        Call<PublicList> call = UserData.i.getService().customerNews(UserData.i.getToken());
+        call.enqueue(new Callback<PublicList>() {
+            @Override
+            public void onResponse(@NotNull Call<PublicList> call, @NotNull Response<PublicList> response) {
+                PublicList data = response.body();
+                if (Calling.TreatResponse(getContext(), "news", data)){
+                    assert data != null;
+                    model_news = new ArrayList<>();
+                    model_news.addAll(data.data.model);
+                    AdapterNews adapterNews = new AdapterNews(getContext(), model_news,0,0);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+                    news1.setLayoutManager(layoutManager);
+                    news1.setAdapter(adapterNews);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PublicList> call, @NotNull Throwable t) {
+                Log.i(TAG, "onFailure: " + t);
+            }
+        });
+
+
         showall1.setOnClickListener(v -> {
             Fragment fragment;
             fragment = new News_List(0);
@@ -159,19 +195,31 @@ public class HomeMenu extends Fragment {
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
-
-
-        List<Model_News> model_news = new ArrayList<>();
-        model_news.add(new Model_News(null,"Lorem Ipsum dua tiga","01/12/2020","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",1));
-        model_news.add(new Model_News(null,"Lorem Ipsum tiga empat lima enam tujuh delapan","02/04/2020","Ini desc",2));
-        model_news.add(new Model_News(null,"Lorem Ipsum ini berita misalnya","06/02/2019","",3));
-        AdapterNews adapterNews = new AdapterNews(getContext(), model_news,0,0);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        news1.setLayoutManager(layoutManager);
-        news1.setAdapter(adapterNews);
     }
 
     public void listReward(){
+        model_news = new ArrayList<>();
+        Call<PublicList> call = UserData.i.getService().customerRewards(UserData.i.getToken());
+        call.enqueue(new Callback<PublicList>() {
+            @Override
+            public void onResponse(@NotNull Call<PublicList> call, @NotNull Response<PublicList> response) {
+                PublicList data = response.body();
+                if (Calling.TreatResponse(getContext(), "news", data)){
+                    assert data != null;
+                    model_news = new ArrayList<>();
+                    model_news.addAll(data.data.model);
+                    AdapterNews adapterNews = new AdapterNews(getContext(), model_news,0,1);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+                    news2.setLayoutManager(layoutManager);
+                    news2.setAdapter(adapterNews);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PublicList> call, @NotNull Throwable t) {
+                Log.i(TAG, "onFailure: " + t);
+            }
+        });
         showall2.setOnClickListener(v -> {
             Fragment fragment;
             fragment = new News_List(1);
@@ -181,15 +229,26 @@ public class HomeMenu extends Fragment {
             fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         });
+    }
 
+    private void getTimeZone(TextView text_ucapan, UserData userData){
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        int hours = c.get(Calendar.HOUR_OF_DAY);
 
-        List<Model_News> model_news = new ArrayList<>();
-        model_news.add(new Model_News(null,"Yeey anonim nomer4 dapet hadiah mobil baru lohh","01/12/2020","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",1));
-        model_news.add(new Model_News(null,"Yeey anonim nomer5 dapet hadiah pesawat baru lohh","02/04/2020","Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",2));
-        model_news.add(new Model_News(null,"Yeey anonim nomer6 dapet hadiah motor baru lohh","06/02/2019","",3));
-        AdapterNews adapterNews = new AdapterNews(getContext(), model_news,0,1);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        news2.setLayoutManager(layoutManager);
-        news2.setAdapter(adapterNews);
+        if(hours>=4 && hours<=12){
+            String ucapan = "Good Morning "+ userData.username +"! Here's the quick menu";
+            text_ucapan.setText(ucapan);
+        }else if(hours>=12 && hours<=16){
+            String ucapan = "Good Afternoon "+ userData.username +"! Here's the quick menu";
+            text_ucapan.setText(ucapan);
+        }else if(hours>=16 && hours<=21){
+            String ucapan = "Good Evening "+ userData.username +"! Here's the quick menu";
+            text_ucapan.setText(ucapan);
+        }else if(hours>=21){
+            String ucapan = "Good Night "+ userData.username +"! Here's the quick menu";
+            text_ucapan.setText(ucapan);
+        }
     }
 }

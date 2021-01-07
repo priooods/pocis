@@ -154,6 +154,7 @@ public class AllBookings extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list) {
+        layout_kosong.setVisibility(View.GONE);
         Log.i("all_booking", "Call AllBooking page = " + page);
         Call<CallingData> call;
         if (booking_type == 0) {

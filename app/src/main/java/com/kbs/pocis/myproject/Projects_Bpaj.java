@@ -151,6 +151,7 @@ public class Projects_Bpaj extends FilterFragment {
     @Override
     protected void GenerateFilter(int page, int list){
         Log.i("frag_Bpaj", "Call Bpaj page = " + page);
+        layout_kosong.setVisibility(View.GONE);
         if (UserData.isExists()) {
             Call<PublicList> call = UserData.i.getService().getListBAPJ(UserData.i.getToken(), String.valueOf(page));
             call.enqueue(new Callback<PublicList>() {
@@ -200,7 +201,6 @@ public class Projects_Bpaj extends FilterFragment {
                                     if (filter.checkFilter(data)) {
                                         if (pmanager.addPack(page, i) && load) {
                                             model_project_s.add(data);
-                                            Log.i("booking_load", data.status_payment);
                                         } else {
                                             load = false;
                                         }

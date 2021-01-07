@@ -152,6 +152,7 @@ public class Vessel_Schedule extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list){
+        layout_kosong.setVisibility(View.GONE);
         Log.i("vesel_schedule", "Call vesel_schedule page = " + page);
         if (UserData.isExists()) {
             Call<PublicList> call = UserData.i.getService().getVesselSchedule(UserData.i.getToken(), String.valueOf(page));

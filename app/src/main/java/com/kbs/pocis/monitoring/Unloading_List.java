@@ -159,6 +159,7 @@ public class Unloading_List extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list) {
+        layout_kosong.setVisibility(View.GONE);
         Call<PublicList> call;
         if (UserData.isExists()) {
             if (status == 0) {

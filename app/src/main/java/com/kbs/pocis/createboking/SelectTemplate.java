@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
@@ -258,6 +259,13 @@ public class SelectTemplate extends Fragment {
         public void onBindViewHolder(@NonNull final vHolder holder, final int position) {
             holder.idtitle.setText(model.get(position).code);
             holder.nametitle.setText(model.get(position).display_desc_header);
+//            Glide.with(context)
+//                    .load("http://cigading.ptkbs.co.id/pocis/img/template/"+ model.get(position).image_file)
+//                    .placeholder(R.color.colorGrey)
+//                    .error(R.drawable.icon_silang)
+//                    .override(200, 200)
+//                    .centerCrop()
+//                    .into(holder.img);
 
             //Untuk mempermudah pengembangan selanjutnya dari setiap pilihan sub Template.
             // maka disini dibuat kan list didalam list

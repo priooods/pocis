@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
@@ -163,6 +164,13 @@ public class ShowTemplate extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final Vholder holder, final int position) {
+            Glide.with(context)
+                    .load("http://cigading.ptkbs.co.id/pocis/img/template/"+ model.get(position).image_file)
+                    .placeholder(R.color.colorGrey)
+                    .error(R.drawable.icon_silang)
+                    .override(200, 200)
+                    .centerCrop()
+                    .into(holder.img);
             holder.id.setText(model.get(position).code);
             holder.name.setText(model.get(position).display_desc_header);
             holder.status.setChecked(model.get(position).checked);

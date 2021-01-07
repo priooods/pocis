@@ -16,14 +16,20 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
+import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
@@ -220,7 +226,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
     }
 
     //Dialog form ketika cancelbutton click
-    private static void ShowDialogCancell (final Context context, String bookingId){
+    public void ShowDialogCancell (final Context context, String bookingId){
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(R.layout.dialog_cancelled);
@@ -237,7 +243,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
     }
 
 
-    private static void CallingApiCancelBooking(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
+    public void CallingApiCancelBooking(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
         Call<CallingDetail> call = UserData.i.getService().cancelBooking(UserData.i.getToken(), bookingId, Objects.requireNonNull(remark.getText()).toString());
         call.enqueue(new Callback<CallingDetail>() {
             @Override
@@ -253,6 +259,11 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
                     d.setConfirmButton("Back", sweetAlertDialog -> {
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
+                        Fragment fragment = new OnlineBooking();
+                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameOnline, fragment);
+                        fragmentTransaction.commit();
                     });
                     d.showCancelButton(false);
                     d.show();

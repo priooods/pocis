@@ -125,6 +125,10 @@ public class Services extends Fragment {
         Model_Project data = Model_Project.mp;
         switch (Model_Project.Code){
             case 0: //for aprove
+                item1.setText(data.exchange_rate);
+                item2.setText(data.start_date);
+                item3.setText(data.bi_date);
+                item4.setText(data.end_date);
                 CallingServiceApproval();
                 customMargin(ln_list_area, 0,20,0,20);
                 break;

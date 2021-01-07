@@ -148,6 +148,7 @@ public class Frag_Invoice extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list){
+        layout_kosong.setVisibility(View.GONE);
         Log.i("frag_invoice", "Call Invoice page = " + page);
         if (UserData.isExists()) {
             Call<PublicList> call = UserData.i.getService().getListInvoice(UserData.i.getToken(), String.valueOf(page));
@@ -164,6 +165,7 @@ public class Frag_Invoice extends FilterFragment {
                             total_item = respone.data.total;
                             FinishFilter();
                         } else {
+                            layout_kosong.setVisibility(View.GONE);
                             if (pmanager.loaded) {
 //                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
                                 assert respone != null;

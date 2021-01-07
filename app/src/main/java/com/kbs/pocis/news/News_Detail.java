@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.Model_News;
+import com.kbs.pocis.model.Model_Project;
 
 public class News_Detail extends Fragment {
 
@@ -49,10 +51,17 @@ public class News_Detail extends Fragment {
                 break;
         }
 
-        Model_News data = Model_News.mn;
+        Model_Project data = Model_Project.mp;
         title_news.setText(data.title);
-        news_date.setText(data.dates);
-        news_desc.setText(data.desc);
+        news_date.setText(data.created);
+        news_desc.setText(HtmlCompat.fromHtml(data.content,0));
+        Glide.with(requireContext())
+                .load("http://cigading.ptkbs.co.id/pocis/"+ data.picture)
+                .placeholder(R.color.colorGrey)
+                .error(R.drawable.icon_silang)
+                .override(200, 200)
+                .centerCrop()
+                .into(image_news);
 
 
         return view;

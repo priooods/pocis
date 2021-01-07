@@ -188,31 +188,6 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                         context.startActivity(intent);
                     });
                     break;
-                case 5: // for Progress Booking
-                    holder.ln4.setVisibility(View.GONE);
-                    holder.ln5.setVisibility(View.GONE);
-                    holder.ln6.setVisibility(View.GONE);
-                    holder.ln7.setVisibility(View.GONE);
-                    holder.ln8.setVisibility(View.GONE);
-                    holder.title_1.setText(R.string.customername);
-                    holder.title_2.setText(R.string.customer_Type_Big);
-                    holder.title_3.setText(R.string.booking_date);
-
-                    holder.number.setText(model_project.get(position).no_booking);
-                    holder.item3.setText(model_project.get(position).customer_name);
-                    holder.item1.setText(model_project.get(position).customer_type);
-                    holder.item2.setText(model_project.get(position).booking_date);
-
-                    holder.status.setText(model_project.get(position).status_project);
-                    holder.gotoo.setOnClickListener(v -> {
-                        HomePage page = (HomePage)context;
-                        Fragment fragment = new Progress_Booking();
-                        FragmentManager fragmentManager = page.getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.framehomepage, fragment).addToBackStack(null);
-                        fragmentTransaction.commit();
-                    });
-                    break;
             }
 
             switch (holder.status.getText().toString()){

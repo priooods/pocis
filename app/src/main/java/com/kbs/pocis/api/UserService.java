@@ -332,4 +332,30 @@ public interface UserService {
             @Field("m_complain_id") int id,
             @Field("description") String description
     );
+
+    //cust-news-rewards/news
+    @FormUrlEncoded
+    @POST("cust-news-rewards/news")
+    Call<PublicList> customerNews(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("operational-monitoring/progressBooking")
+    Call<CallingDetail> progressBooking(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("cust-news-rewards/rewards")
+    Call<PublicList> customerRewards(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("operational-monitoring/progressBookingDetail")
+    Call<CallingDetail> progressDetail(
+            @Field("token") String token
+            ,@Field("booking_no ") String booking_no
+    );
 }

@@ -168,6 +168,7 @@ public class Projects_List extends FilterFragment {
 
     @Override
     public void GenerateLists() {
+        layout_kosong.setVisibility(View.GONE);
         parent.GenerateLists();
     }
 

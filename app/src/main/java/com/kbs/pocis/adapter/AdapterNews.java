@@ -16,8 +16,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.Model_News;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.news.News_Detail;
 
 import java.util.List;
@@ -25,10 +26,10 @@ import java.util.List;
 public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
 
     Context context;
-    List<Model_News> model_news;
+    List<Model_Project> model_news;
     int mode, type;
 
-    public AdapterNews(Context context, List<Model_News> model_news, int mode,int type) {
+    public AdapterNews(Context context, List<Model_Project> model_news, int mode,int type) {
         this.context = context;
         this.model_news = model_news;
         this.mode = mode;
@@ -51,18 +52,30 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
         if (mode == 0) {
-            holder.imagefront.setBackgroundResource(R.color.colorGrey);
+            Glide.with(context)
+                    .load("http://cigading.ptkbs.co.id/pocis/" + model_news.get(position).picture)
+                    .placeholder(R.color.colorGrey)
+                    .error(R.drawable.icon_silang)
+                    .override(200, 200)
+                    .centerCrop()
+                    .into(holder.imagefront);
             holder.titlefront.setText(model_news.get(position).title);
         } else {
-            holder.imageback.setBackgroundResource(R.color.colorGrey);
-            holder.date.setText(model_news.get(position).dates);
+            Glide.with(context)
+                    .load("http://cigading.ptkbs.co.id/pocis/"+ model_news.get(position).picture)
+                    .placeholder(R.color.colorGrey)
+                    .error(R.drawable.icon_silang)
+                    .override(200, 200)
+                    .centerCrop()
+                    .into(holder.imageback);
             holder.titleback.setText(model_news.get(position).title);
+            holder.date.setText(model_news.get(position).created);
         }
 
         switch (type){
-            case 0:
+            case 0: //depan news
                 holder.frontgpdetail.setOnClickListener(v -> {
-                    Model_News.mn = model_news.get(position);
+                    Model_Project.mp = model_news.get(position);
                     Fragment fragment;
                     fragment = new News_Detail(0);
                     FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
@@ -71,9 +84,9 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
                     fragmentTransaction.commit();
                 });
                 break;
-            case 1:
+            case 1: // depan rewards
                 holder.frontgpdetail.setOnClickListener(v -> {
-                    Model_News.mn = model_news.get(position);
+                    Model_Project.mp = model_news.get(position);
                     Fragment fragment;
                     fragment = new News_Detail(1);
                     FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
@@ -82,9 +95,9 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
                     fragmentTransaction.commit();
                 });
                 break;
-            case 2:
+            case 2: // belakang news
                 holder.backgodetail.setOnClickListener(v -> {
-                    Model_News.mn = model_news.get(position);
+                    Model_Project.mp = model_news.get(position);
                     Fragment fragment;
                     fragment = new News_Detail(2);
                     FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
@@ -93,9 +106,9 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
                     fragmentTransaction.commit();
                 });
                 break;
-            case 3:
+            case 3: //belakang rewards
                 holder.backgodetail.setOnClickListener(v -> {
-                    Model_News.mn = model_news.get(position);
+                    Model_Project.mp = model_news.get(position);
                     Fragment fragment;
                     fragment = new News_Detail(3);
                     FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
@@ -109,7 +122,11 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.vHolder> {
 
     @Override
     public int getItemCount() {
-        return model_news.size();
+        if (mode == 0){
+            return 3;
+        } else {
+            return model_news.size();
+        }
     }
 
     public static class vHolder extends RecyclerView.ViewHolder{

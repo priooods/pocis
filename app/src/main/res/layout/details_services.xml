@@ -84,7 +84,6 @@
                             android:id="@+id/item3"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="10dp"
-                            android:text="Yes"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -114,7 +113,6 @@
                             android:layout_width="145dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="2020-04-01 13:02:43"
                             android:textSize="10dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item5"/>
@@ -148,7 +146,6 @@
                             android:id="@+id/item2"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="10dp"
-                            android:text="1234567890"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -178,7 +175,6 @@
                             android:layout_width="145dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="0986543212345678"
                             android:textSize="10dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item4"/>

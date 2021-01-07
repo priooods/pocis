@@ -151,6 +151,7 @@ public class Performa extends FilterFragment {
 
     @Override
     protected void GenerateFilter(int page, int list){
+        layout_kosong.setVisibility(View.GONE);
         Log.i("frag_performa", "Call Performa page = " + page);
         if (UserData.isExists()) {
             Call<PublicList> call = UserData.i.getService().getListProforma(UserData.i.getToken(), String.valueOf(page));
@@ -167,6 +168,7 @@ public class Performa extends FilterFragment {
                             total_item = respone.data.total;
                             FinishFilter();
                         } else {
+                            layout_kosong.setVisibility(View.GONE);
                             if (pmanager.loaded) {
 //                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
                                 assert respone != null;

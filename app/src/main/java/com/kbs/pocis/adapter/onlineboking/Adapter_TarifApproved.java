@@ -16,7 +16,11 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
@@ -24,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
 import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
+import com.kbs.pocis.onlineboking.TarifApprove;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
@@ -184,7 +189,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
     }
 
     //Dialog form ketika approve tarif click
-    private static void ShowDialogApprove (final Context context, String bookingId){
+    public void ShowDialogApprove (final Context context, String bookingId){
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(R.layout.dialog_approve_tarif);
@@ -201,7 +206,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
     }
 
     //Dialog form ketika reject tariff click
-    private static void ShowDialogReject (final Context context, String bookingId){
+    public void ShowDialogReject (final Context context, String bookingId){
         final Dialog dialogFragment = new Dialog(context);
         dialogFragment.setCancelable(true);
         dialogFragment.setContentView(R.layout.dialog_reject_tarif);
@@ -217,7 +222,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
         dialogFragment.show();
     }
 
-    private static void CallingApiRejectTariff(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
+    public void CallingApiRejectTariff(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
         Call<CallingDetail> call = UserData.i.getService().rejectTariff(UserData.i.getToken(), bookingId, Objects.requireNonNull(remark.getText()).toString());
         call.enqueue(new Callback<CallingDetail>() {
             @Override
@@ -233,6 +238,11 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
                     d.setConfirmButton("Back", sweetAlertDialog -> {
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
+                        Fragment fragment = new TarifApprove();
+                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameOnline, fragment);
+                        fragmentTransaction.commit();
                     });
                     d.showCancelButton(false);
                     d.show();
@@ -250,7 +260,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
     }
 
 
-    private static void CallingApiApproveTariff(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
+    public void CallingApiApproveTariff(TextInputEditText remark, Context context, Dialog dialog, String bookingId){
         Call<CallingDetail> call = UserData.i.getService().approveTariff(UserData.i.getToken(), bookingId, Objects.requireNonNull(remark.getText()).toString());
         call.enqueue(new Callback<CallingDetail>() {
             @Override
@@ -266,6 +276,11 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
                     d.setConfirmButton("Back", sweetAlertDialog -> {
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
+                        Fragment fragment = new TarifApprove();
+                        FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameOnline, fragment);
+                        fragmentTransaction.commit();
                     });
                     d.showCancelButton(false);
                     d.show();

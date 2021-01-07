@@ -34,7 +34,10 @@ public class Model_Project {
     //for complain type
     public static List<Model_Project> attachments;
     public static List<Model_Project> details;
-    public static List<Model_Project> newComments;
+
+
+    public static List<Model_Project> allNews;
+    public static List<Model_Project> allRewards;
 
     public static boolean isExist(){
         return Model_Project.mp != null;
@@ -200,13 +203,11 @@ public class Model_Project {
     public String filename;
     public String status;
 
-    public Model_Project(String status,String no,String cust_name,String type, String date){
-        this.status_project = status;
-        this.no_booking = no;
-        this.customer_name = cust_name;
-        this.customer_type = type;
-        this.booking_date = date;
-    }
+    public String picture, title, content;
+    public String is_booking;
+    public String is_ppj;
+    public String is_bapj;
+    public String is_invoice;
 
 
     //when get new Comment in Menu My Complaint. do not change

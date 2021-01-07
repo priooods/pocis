@@ -106,6 +106,7 @@ public class Project_List_Dasar extends FilterFragment {
 
     @Override
     public void GenerateLists() {
+
         if (freeGenerate) {
             if (selectProj != null && selectProj.list != null) {
                 //pmanager = selectProj.list.pmanager;
