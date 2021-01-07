@@ -571,7 +571,7 @@
         android:layout_margin="20dp"
         android:elevation="0dp"
         android:scaleType="fitXY"
-        android:src="@drawable/headset"
+        android:src="@drawable/contact_float"
         app:borderWidth="0dp"
         android:backgroundTint="@color/colorPrimary"
         android:id="@+id/floating_action"/>

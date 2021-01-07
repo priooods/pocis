@@ -56,9 +56,10 @@
                     android:scaleType="fitXY"/>
 
                 <TextView
+                    android:fontFamily="@font/montserrat_bold"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
-                    android:layout_width="180dp"
+                    android:layout_width="210dp"
                     android:layout_height="wrap_content"
                     android:text="Jl. May. Jend. S. Parman Km 13 Cigading, Tegalratu, Kec. Ciwandan Kota Cilegon Banten 42445"
                     android:textColor="@color/colorGrey"
@@ -82,6 +83,7 @@
                     android:scaleType="fitXY"/>
 
                 <TextView
+                    android:fontFamily="@font/montserrat_bold"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_width="180dp"
@@ -108,6 +110,7 @@
                     android:scaleType="fitXY"/>
 
                 <TextView
+                    android:fontFamily="@font/montserrat_bold"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_width="180dp"
@@ -133,14 +136,31 @@
                     android:src="@drawable/mail"
                     android:scaleType="fitXY"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="mail@ptkbs.co.id"
-                    android:textColor="@color/colorGrey"
-                    android:textSize="10dp"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:fontFamily="@font/montserrat_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="komersial@ptkbs.co.id"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="10dp"/>
+
+                    <TextView
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="komersialptkbs@gmail.com"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="10dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -163,6 +183,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="10dp"
                     android:layout_width="180dp"
+                    android:fontFamily="@font/montserrat_bold"
                     android:layout_height="wrap_content"
                     android:text="View on Google Maps"
                     android:textColor="@color/colorGrey"
