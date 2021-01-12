@@ -30,7 +30,7 @@ public class Projects_List extends FilterFragment {
     RelativeLayout layout_kosong;
     NestedScrollView nested;
     TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
-            index_list_invoice, all_index_invoice;
+            index_list_invoice, all_index_invoice,title_nodata;
     ImageView search_icon;
     int total_item = 0;
     Adapter_Project adapter_project_list;
@@ -55,6 +55,7 @@ public class Projects_List extends FilterFragment {
         tp = view.findViewById(R.id.a);
         tp.setVisibility(View.GONE);
         title_text = view.findViewById(R.id.q);
+        title_nodata = view.findViewById(R.id.title_nodata);
 
         switch (list_status){
             case 0:
@@ -92,6 +93,7 @@ public class Projects_List extends FilterFragment {
             Log.w("project_list", "Change Page "+list_status+" to "+target_page);
             model_project_s.clear();
             parent.page_current = page_current = target_page;
+            parent.pmanager = pmanager;
             GenerateLists();
             Ready = false;
         } else {
@@ -126,6 +128,7 @@ public class Projects_List extends FilterFragment {
 
 
     protected void ShowAdapter(PublicList.Datas data) {
+        Ready = true;
         LoadingBar(false);
         if (data.current_page != page_current && filter == null) {
             Log.e("project_list", list_status + " load adapter!" + data.current_page + "|" + page_current);
@@ -162,6 +165,7 @@ public class Projects_List extends FilterFragment {
             recyclerView.setAdapter(adapter_project_list);
         } else {
             nested.setVisibility(View.GONE);
+            title_nodata.setText(R.string.not_found);
             layout_kosong.setVisibility(View.VISIBLE);
         }
     }

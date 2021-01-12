@@ -3,7 +3,6 @@ package com.kbs.pocis.welcome;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,7 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Call;
 
-import com.kbs.pocis.service.SessionManager;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.api.UserService;
 import com.kbs.pocis.service.onlinebooking.CallingData;
@@ -45,18 +42,16 @@ public class Login extends Fragment {
     SharedPreferences sharedPreferences;
     UserService callInterface;
     UserData user;
-    SessionManager sessionManager;
     TextView forgot_password;
 
     View view;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_screen, container, false);
 
-        sessionManager = new SessionManager(requireContext());
         username = view.findViewById(R.id.input_username_login);
         password = view.findViewById(R.id.input_password_login);
         forgot_password = view.findViewById(R.id.forgot_password);
@@ -143,7 +138,6 @@ public class Login extends Fragment {
     private void pesan(String pesan) {
         Toasty.error(requireContext(), pesan, Toast.LENGTH_SHORT, true).show();
     }
-
 
     private void pesanSuccess(String pesan) {
         Toast.makeText(requireContext(), pesan, Toast.LENGTH_SHORT).show();

@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -34,6 +35,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class Vessel_Schedule extends FilterFragment {
 
@@ -249,6 +252,25 @@ public class Vessel_Schedule extends FilterFragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        filtering = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+        filtering = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
+        filtering = false;
+    }
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);

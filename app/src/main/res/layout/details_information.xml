@@ -73,7 +73,6 @@
                             android:id="@+id/item1"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="P0019-063"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -104,7 +103,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="16 September 2020 13:02"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item2"/>
@@ -138,7 +136,6 @@
                             android:id="@+id/item3"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="SEAMS001"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -168,7 +165,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="20 September 2020 13:02"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item4"/>
@@ -202,7 +198,6 @@
                             android:id="@+id/item5"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="39,977.600"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -232,7 +227,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="PT Krakatau Steel"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item6"/>
@@ -266,7 +260,6 @@
                             android:id="@+id/item7"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="No"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -296,7 +289,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="MV. Sea Master"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item8"/>
@@ -330,7 +322,6 @@
                             android:id="@+id/item9"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="No"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -360,7 +351,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="1145D"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/item10"/>
@@ -413,7 +403,6 @@
                             android:id="@+id/detail_project_bilpayment"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="0216055983811"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -433,9 +422,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10dp"
+                            android:id="@+id/va_number_title"
                             android:textColor="@color/colorGrey"
                             android:textStyle="italic"
-                            android:text="Number"/>
+                            android:text="VA Number"/>
 
                         <TextView
                             android:ellipsize="end"
@@ -443,7 +433,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="8923716055987308"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/detail_project_number"/>
@@ -476,7 +465,6 @@
                             android:id="@+id/detail_project_paymenttype"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="Full Payment"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -516,7 +504,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorPrimaryDark"
-                        android:text="Subdit Operasi Kepelabuhanan (Operasi Internal)"
                         android:fontFamily="@font/montserrat_bold"
                         android:textSize="11dp"/>
 

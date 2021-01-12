@@ -53,10 +53,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/colorPrimaryDark"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Service is empty"/>
+                android:text="@string/no_data"/>
 
 
         </RelativeLayout>

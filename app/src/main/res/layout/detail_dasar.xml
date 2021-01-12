@@ -497,6 +497,26 @@
                             android:layout_height="170dp"
                             android:id="@+id/content_cctv"/>
 
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_cctv_no"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="No Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
+
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
                 </LinearLayout>
@@ -544,6 +564,7 @@
                         android:id="@+id/expand_contact">
 
                         <LinearLayout
+                            android:id="@+id/l_contact"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
@@ -564,6 +585,25 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_contact_no"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="No Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -618,6 +658,26 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/list_actual"/>
 
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_truck_monitor_no"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="No Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
+
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
                 </LinearLayout>
@@ -671,6 +731,25 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/list_operational"/>
 
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_operational_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="No Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
+
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
                 </LinearLayout>
@@ -723,6 +802,26 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/list_actual_vessel"
                             android:nestedScrollingEnabled="true"/>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_actual_vesel_no"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="No Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -899,7 +998,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="Nothing Data"
+                                android:text="No Data"
                                 android:textColor="@color/colorPrimaryDark"/>
 
 
@@ -957,6 +1056,26 @@
                             android:nestedScrollingEnabled="true"
                             android:layout_height="wrap_content"
                             android:id="@+id/list_sumary"/>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/ln_summary_no"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:text="No Data"
+                                android:textColor="@color/colorPrimaryDark"/>
+
+
+                        </LinearLayout>
 
                     </net.cachapa.expandablelayout.ExpandableLayout>
 

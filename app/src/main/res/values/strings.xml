@@ -19,6 +19,8 @@
     <string name="icon_back">icon-back</string>
     <string name="error">Oops… There is something happened in our server</string>
 
+    <string name="not_found">Oops… Data Not Found !</string>
+
     <string name="agent">AGENT</string>
     <string name="pbm">PBM</string>
     <!-- Vessel Information -->
@@ -28,6 +30,7 @@
     <string name="dialogcreate">Are you sure want to quit create booking?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="no_data">No Data</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
 
@@ -105,6 +108,7 @@
     <string name="booking_date">Booking Date</string>
     <string name="Project_Report_No">Project Report No.</string>
     <string name="BAPJ_Status">BAPJ Status</string>
+    <string name="amount_dp_in_idr">Amount DP in IDR</string>
     <!-- Title untuk total harga mata uang -->
     <string name="dp_in_idr">Total Amount DP in IDR</string>
     <string name="in_idr">Total Amount in IDR</string>

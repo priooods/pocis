@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
+import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.invoice.Frag_Invoice;
 import com.kbs.pocis.invoice.Performa;
 
@@ -21,6 +22,7 @@ public class Invoice extends AppCompatActivity {
 
     ImageView icon_back;
     BottomNavigationView bottombar_myprojects;
+    FilterFragment filterFragment;
     TextView title;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class Invoice extends AppCompatActivity {
 
         icon_back = findViewById(R.id.btn_back_invoice);
         icon_back.setOnClickListener(v -> {
+//            filterFragment.Stop = true;
             onBackPressed();
             finish();
         });
@@ -45,6 +48,14 @@ public class Invoice extends AppCompatActivity {
         bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameInvoice, new Frag_Invoice()).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        filterFragment.Stop = true;
+//        getSupportFragmentManager().isDestroyed();
+        finish();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener =

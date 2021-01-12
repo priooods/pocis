@@ -78,7 +78,7 @@ public class PageManager {
         }
         loaded = true;
         page_last = (int)Math.ceil((float)total/page_capacity);
-        Log.i("booking_load","Total = "+total+"/"+page_capacity+" Return "+((float)total/page_capacity)+" Ceil 0.4= "+Math.ceil((float)total/page_capacity)+" Round 0.4= "+Math.round((float)total/page_capacity)+" Floor 0.4= "+Math.floor((float)total/page_capacity));
+        Log.i("booking_load","Total = "+total+"/"+page_capacity+" Return "+page_last+" Total Pages = "+pages.size());
     }
     //endregion
     //region Gunakan Function ini ketika menggunakan PageManager

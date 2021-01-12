@@ -34,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class Project_List_Dasar extends FilterFragment {
 
     ImageView search_icon;
@@ -58,7 +60,7 @@ public class Project_List_Dasar extends FilterFragment {
 
         search_icon = view.findViewById(R.id.btn_search_project_list);
         search_icon.setOnClickListener(v -> {
-            fragment = new Dialog_Filter(true, selectProj.list);
+            fragment = new Dialog_Filter(true, selectProj.list);//selectProj.list
             fragment.show(getChildFragmentManager(), "filter_online");
         });
 
@@ -85,7 +87,7 @@ public class Project_List_Dasar extends FilterFragment {
                 ShowAdapter();
             }
         });
-        max_list = 10;
+        max_list = 5;
 //        projects_lists = new Projects_List[3];
         all = new Project_Pack();
         close = new Project_Pack();
@@ -106,12 +108,12 @@ public class Project_List_Dasar extends FilterFragment {
 
     @Override
     public void GenerateLists() {
-
         if (freeGenerate) {
             if (selectProj != null && selectProj.list != null) {
-                //pmanager = selectProj.list.pmanager;
+//                pmanager = selectProj.list.pmanager;
                 filter = selectProj.list.filter;
                 page_current = selectProj.list.page_current;
+                pmanager = selectProj.list.pmanager;
                 selectProj.list.LoadingBar(true);
                 filtered_list.clear();
             }
@@ -159,12 +161,8 @@ public class Project_List_Dasar extends FilterFragment {
                         FinishFilter();
                         freeGenerate = true;
                     } else {
-                        Log.e("project_list", "Project List unique Filter with 4 page limits");
-
-                        //This for Filter. Do not Editing Function. Edit Only model;
-                            Log.i("booking_load",  " page = " + page + " load = " + load);
-                            int i = 0;
-                            assert respone != null;
+                        Log.i("booking_load", " page = " + page + " load = " + load);
+                        assert respone != null;
                         PublicList.Datas take;
                         if (all == on_list) {
                             take = respone.data.All;
@@ -173,6 +171,33 @@ public class Project_List_Dasar extends FilterFragment {
                         } else {
                             take = respone.data.Close;
                         }
+                        if (pmanager.loaded) {
+                            for (int i = list; i < take.model.size(); i++) {
+                                if (filter.checkFilter(take.model.get(i))) {
+                                    if (filtered_list.size() < pmanager.page_capacity) {
+                                        filtered_list.add(take.model.get(i));
+                                    } else {
+                                        take.last_page = pmanager.page_last;
+                                        take.total = pmanager.total;
+                                        take.model = filtered_list;
+                                        load = false;
+                                        FinishFilter();
+                                        return;
+                                    }
+                                }
+                            }
+                            if (page < take.last_page && pmanager.getLastPage()) {
+                                GenerateFilter(pmanager.getNextPage(), 0);
+                            } else {
+                                take.current_page = page_current;
+                                take.last_page = pmanager.page_last;
+                                take.total = pmanager.total;
+                                take.model = filtered_list;
+                                load = false;
+                                FinishFilter();
+                            }
+                        } else {
+                            int i = 0;
                             for (Model_Project data : take.model) {
                                 if (filter.checkFilter(data)) {
                                     if (pmanager.addPack(page, i) && load) {
@@ -183,15 +208,14 @@ public class Project_List_Dasar extends FilterFragment {
                                 }
                                 i++;
                             }
-                            if (page == take.last_page || page > 4 || !load) {
-                                Log.i("finish_filter",(page == take.last_page)+" "+(page > 4)+" "+!load);
-                                pmanager = null;
-                                page_last = 1;
+                            if (page == take.last_page) {
+                                pmanager.finishLoad();
                                 load = false;
-                                take.last_page = 1;
-                                take.current_page = 1;
-                                take.total = take.per_page = filtered_list.size();
+                                take.last_page = pmanager.page_last;
+                                take.total = pmanager.total;
                                 take.model = filtered_list;
+                                take.per_page = filtered_list.size();
+                                take.current_page = 1;
                                 if (all == on_list) {
                                     all.data = take;
                                 } else if (open == on_list) {
@@ -199,12 +223,14 @@ public class Project_List_Dasar extends FilterFragment {
                                 } else {
                                     close.data = take;
                                 }
+                                selectProj.list.pmanager = pmanager;
                                 freeGenerate = true;
                                 FinishFilter();
                             } else {
                                 GenerateFilter(page + 1, 0);
                             }
                         }
+                    }
 //                        int i = 0;
 //                        assert respone != null;
 //                        if (on_list == all) {
@@ -247,5 +273,20 @@ public class Project_List_Dasar extends FilterFragment {
             selectProj.list.ShowAdapter(selectProj.data);
         }else
             Log.e("project_list","Data was lost in Switch Page Action!");
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+        filtering = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
+        filtering = false;
     }
 }

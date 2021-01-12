@@ -19,7 +19,6 @@ import com.kbs.pocis.service.UserData;
 
 public class BookingDetails_Information extends Fragment {
 
-    String nocontract, fgvesel, fgcontract, cName, vslName, ctype, bokDate, bokTime;
     //Box Booking Information
     TextView  nomerContract, flagVessel, customerName,
             vesselName, customerType, bookingDate, bookingTime, flagContract;

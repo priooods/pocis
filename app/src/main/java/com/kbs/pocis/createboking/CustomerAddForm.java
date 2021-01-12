@@ -55,6 +55,8 @@ public class CustomerAddForm extends Fragment {
     RecyclerView list_costumertype;
     public CallingList data;
     String CustomerType;
+    String related_vessel = "Y";
+    String contract = "N";
 
 
     @Override
@@ -108,8 +110,16 @@ public class CustomerAddForm extends Fragment {
             BookingData bdata = BookingData.i;
             CustomerType = bdata.customerType;
             value_customerType.setText(CustomerType);
-            value_contract.setText(bdata.contract);
-            value_relatedVesel.setText(bdata.relatedVesel);
+            if (bdata.contract.equals("Y")){
+                value_contract.setText(R.string.yes);
+            } else {
+                value_contract.setText(R.string.no);
+            }
+            if (bdata.relatedVesel.equals("Y")){
+                value_relatedVesel.setText(R.string.yes);
+            } else {
+                value_relatedVesel.setText(R.string.no);
+            }
             Log.i("li","BookingData Exists at the First! "+(CustomerType!=null?CustomerType:"NULL"));
         }else{
             BookingData.i = new BookingData();
@@ -165,20 +175,24 @@ public class CustomerAddForm extends Fragment {
     public void CheckBoxesRelatedVessel(){
         no_vesel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
-                value_relatedVesel.setText("N");
+                value_relatedVesel.setText(R.string.no);
+                related_vessel = "N";
                 yes_vesel.setChecked(false);
             } else {
-                value_relatedVesel.setText("Y");
+                value_relatedVesel.setText(R.string.yes);
+                related_vessel = "Y";
                 yes_vesel.setChecked(true);
             }
         });
 
         yes_vesel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
-                value_relatedVesel.setText("Y");
+                value_relatedVesel.setText(R.string.yes);
+                related_vessel = "Y";
                 no_vesel.setChecked(false);
             } else {
-                value_relatedVesel.setText("N");
+                value_relatedVesel.setText(R.string.no);
+                related_vessel = "N";
                 no_vesel.setChecked(true);
             }
         });
@@ -187,20 +201,24 @@ public class CustomerAddForm extends Fragment {
     public void CheckBoxesContract(){
         no_contract.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
-                value_contract.setText("N");
+                value_contract.setText(R.string.no);
+                contract = "N";
                 yes_contract.setChecked(false);
             } else {
-                value_contract.setText("Y");
+                value_contract.setText(R.string.yes);
+                contract = "Y";
                 yes_contract.setChecked(true);
             }
         });
 
         yes_contract.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked){
-                value_contract.setText("Y");
+                value_contract.setText(R.string.yes);
+                contract = "Y";
                 no_contract.setChecked(false);
             } else {
-                value_contract.setText("N");
+                value_contract.setText(R.string.no);
+                contract = "N";
                 no_contract.setChecked(true);
             }
         });
@@ -261,10 +279,13 @@ public class CustomerAddForm extends Fragment {
                 BookingData.i.setCustumer(
                         String.valueOf(data.id),
                         data.name,
-                        value_relatedVesel.getText().toString(),
-                        value_contract.getText().toString()
+                        related_vessel,
+                        contract
                 );
+
                 Log.i(TAG, "onClick: " + BookingData.i.customerType);
+                Log.i(TAG, "related: " + related_vessel);
+                Log.i(TAG, "contract: " + contract);
                 Fragment fragment = new ShowTemplate();
                 Log.i(TAG, "onClick: => " + BookingData.i.customerId);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();

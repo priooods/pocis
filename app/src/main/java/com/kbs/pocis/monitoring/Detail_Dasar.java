@@ -1,12 +1,9 @@
 package com.kbs.pocis.monitoring;
 
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,13 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.material.tabs.TabLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
@@ -63,6 +53,9 @@ public class Detail_Dasar extends AppCompatActivity {
     LinearLayoutManager manager_contact_agent,manager_contact_pbm, manager_actual_truck_monitoring,manager_summary,
             manager_vessel_in_progress, manager_topship,manager_botship;
 
+    //for layout null data UI
+    LinearLayout ln_cctv_no,ln_contact_no,ln_truck_no,ln_vessel_no,ln_summary_no;
+
     WebView content_cctv;
     LinearLayout ln_ship_all,ln_ship_all_no;
     //Progress
@@ -83,6 +76,20 @@ public class Detail_Dasar extends AppCompatActivity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
+
+        //for UI No DATA
+        //region
+        ln_cctv_no = findViewById(R.id.ln_cctv_no);
+        ln_contact_no = findViewById(R.id.ln_contact_no);
+        ln_truck_no =findViewById(R.id.ln_truck_monitor_no);
+        ln_vessel_no = findViewById(R.id.ln_actual_vesel_no);
+        ln_summary_no = findViewById(R.id.ln_summary_no);
+        //endregion
+
+
+
+
+
 
         ln_ship_all = findViewById(R.id.ln_ship_all);
         ln_ship_all_no = findViewById(R.id.ln_ship_all_no);
@@ -246,6 +253,7 @@ public class Detail_Dasar extends AppCompatActivity {
                         showCCTV(Model_Project.HeaderAndCCTV.get(0).link_cctv);
                     } else {
                         content_cctv.setVisibility(View.GONE);
+                        ln_cctv_no.setVisibility(View.VISIBLE);
                     }
 
                     // For Contact
@@ -265,12 +273,14 @@ public class Detail_Dasar extends AppCompatActivity {
                         listActualTruckMonitoring();
                     } else {
                         list_actual_truck_monitoring.setVisibility(View.GONE);
+                        ln_truck_no.setVisibility(View.VISIBLE);
                     }
 
                     if (Model_Project.ActualVesselInProgress.size() > 0){
                         listVesselInProgress();
                     } else {
                         list_vessel_in_progress.setVisibility(View.GONE);
+                        ln_vessel_no.setVisibility(View.VISIBLE);
                     }
 
 
@@ -292,6 +302,7 @@ public class Detail_Dasar extends AppCompatActivity {
                         listItemSummary();
                     } else {
                         list_sumary.setVisibility(View.GONE);
+                        ln_summary_no.setVisibility(View.VISIBLE);
                     }
                     progress.setVisibility(View.GONE);
                 } else {
@@ -317,7 +328,6 @@ public class Detail_Dasar extends AppCompatActivity {
             content_cctv.setWebViewClient(new WebViewClient(){
                 @Override
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//                    super.onReceivedError(view, errorCode, description, failingUrl);
                     Log.e("error_view", "onReceivedError: " + "error_desc = " + description + "failure url = " + failingUrl);
                     Toasty.error(Detail_Dasar.this, "Your Connection Failure or " + description, Toasty.LENGTH_SHORT, true).show();
                 }

@@ -1,5 +1,6 @@
 package com.kbs.pocis.api;
 
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.CallProjectList;
@@ -150,7 +151,6 @@ public interface UserService {
             @Field("m_booking_template_header_id[]") ArrayList<String> m_booking_template_header_id
     );
 
-
     @GET("master/consignee/{name}")
     Call<List<CallingList>> getConsignee(
             @Path("name") String name
@@ -164,7 +164,8 @@ public interface UserService {
     @FormUrlEncoded
     @POST("master/voyage")
     Call<List<BookingDetailData>> getVoyageNumber(
-            @Field("voyage_no") String voyage_no
+            @Field("discharge_or_loading") String discharge_or_loading,
+            @Field("m_vessel_id") int m_vessel_id
     );
 
     @GET("master/vessel/{name}")

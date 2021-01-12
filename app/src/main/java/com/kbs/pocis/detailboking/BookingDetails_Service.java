@@ -58,7 +58,6 @@ public class BookingDetails_Service extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(detailsService);
         } else {
-            //TODO LIST KOOSNG
             lay_ada.setVisibility(View.GONE);
             lay_kosong.setVisibility(View.VISIBLE);
             Log.i("Tag", "list kosong: " + "List anda kosong");

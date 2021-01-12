@@ -105,39 +105,17 @@ public class Detail_MyProject extends AppCompatActivity {
                     subtile.setText(R.string.project_list);
                     title_top1.setText(R.string.temp_proj);
                     booking_No.setText(data.temp_project_no);
+                    title_top2.setText(R.string.project_status);
                     status.setText(data.status_project);
                     title_sub1.setText(R.string.date_isue);
                     title_sub2.setText(R.string.ppjno);
                     item_sub1.setText(data.date_project_issued);
                     item_sub2.setText(data.ppj_no);
+                    if (status.getText().toString().equals("OPEN")){
+                        status.setTextColor(getResources().getColor(R.color.colorGreen));
+                    }
+                    ln_2.setVisibility(View.VISIBLE);
 
-                    viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                        @Override
-                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                        }
-
-                        @Override
-                        public void onPageSelected(int position) {
-                            if (position == 0){
-                                status.setText(data.status_project);
-                                if (status.getText().toString().equals("OPEN")){
-                                    status.setTextColor(getResources().getColor(R.color.colorGreen));
-                                }
-                                ln_2.setVisibility(View.VISIBLE);
-                            } else if (position == 1){
-                                title_top2.setText(R.string.date_isue);
-                                status.setText(data.date_project_issued);
-                                status.setTextColor(getResources().getColor(R.color.colorGrey));
-                                ln_2.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onPageScrollStateChanged(int state) {
-
-                        }
-                    });
                     break;
                 case 2:
                     progress.setVisibility(View.VISIBLE);
@@ -147,14 +125,9 @@ public class Detail_MyProject extends AppCompatActivity {
                     subtile.setText(R.string.project_bpaj);
                     title_top1.setText(R.string.Project_Report_No);
                     title_top2.setText(R.string.BAPJ_Status);
-                    booking_No.setText(data.booking_no);
+                    booking_No.setText(data.project_report_no);
                     status.setText(data.status_bapj);
-
                     title_sub3.setText(R.string.date_isue);
-
-                    item_sub1.setText(data.temp_project_no);
-                    item_sub2.setText(data.schedule_code);
-                    item_sub3.setText(data.date_issued);
 
                     tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                     tabLayout.setTabGravity(TabLayout.GRAVITY_START);
@@ -177,12 +150,6 @@ public class Detail_MyProject extends AppCompatActivity {
                     title_sub4.setText(R.string.payment_type);
                     title_sub5.setText(R.string.bilpay_reff);
 
-                    item_sub2.setText(data.invoice_type);
-                    item_sub1.setText(data.due_date);
-                    item_sub4.setText(data.payment_type);
-                    item_sub3.setText(data.va_reff_no);
-                    item_sub5.setText(data.bill_payment_reff_no);
-
                     break;
                 case 4:
                     progress.setVisibility(View.VISIBLE);
@@ -199,9 +166,7 @@ public class Detail_MyProject extends AppCompatActivity {
                     title_sub3.setText(R.string.bilpay_reff);
                     title_sub4.setText(R.string.book_stat);
 
-                    item_sub1.setText(data.va_reff_no);
                     item_sub2.setText(data.tipe_pembayaran);
-                    item_sub3.setText(data.bill_payment_reff_no);
                     item_sub4.setText(data.status_booking);
                     break;
             }
@@ -241,11 +206,14 @@ public class Detail_MyProject extends AppCompatActivity {
                 CallingDetail callingDetail = response.body();
                 if (Calling.TreatResponse(Detail_MyProject.this,"tag", callingDetail)){
                     assert callingDetail != null;
-                    Model_Project.mp = callingDetail.data.Information;
+                    Model_Project.Information = callingDetail.data.Information;
                     Model_Project.Service = callingDetail.data.Service;
                     Model_Project.VesselReport = callingDetail.data.VesselReport;
                     Model_Project.Piloting = callingDetail.data.Piloting;
                     Model_Project.Documents = callingDetail.data.Documents;
+                    item_sub1.setText(callingDetail.data.Information.get(0).temp_project_no);
+                    item_sub2.setText(callingDetail.data.Information.get(0).schedule_code);
+                    item_sub3.setText(callingDetail.data.Information.get(0).date_issued);
                     Log.i("service", "onResponse: => " + Model_Project.Service);
                     Log.i("service", "onResponse: piloting => " + Model_Project.Piloting.get(0).size());
                      progress.setVisibility(View.GONE);
@@ -279,8 +247,8 @@ public class Detail_MyProject extends AppCompatActivity {
                     CallingDetail callingDetail = response.body();
                     if (Calling.TreatResponse(Detail_MyProject.this,"tag", callingDetail)) {
                         assert callingDetail != null;
+                        Model_Project.Information = callingDetail.data.Information;
                         Model_Project.Service = callingDetail.data.Service;
-                        Model_Project.mp = callingDetail.data.Information;
                         Log.i("service", "onResponse: => " + Model_Project.Service);
                         progress.setVisibility(View.GONE);
                         ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
@@ -315,6 +283,11 @@ public class Detail_MyProject extends AppCompatActivity {
                     Model_Project.InformationAndDocument = detail.data.InformationAndDocument;
                     Model_Project.Service = detail.data.Service;
                     Log.i("service", "onResponse: => " + Model_Project.Service);
+                    item_sub2.setText(detail.data.InformationAndDocument.get(0).invoice_type);
+                    item_sub1.setText(detail.data.InformationAndDocument.get(0).due_date);
+                    item_sub4.setText(detail.data.InformationAndDocument.get(0).payment_type);
+                    item_sub3.setText(detail.data.InformationAndDocument.get(0).va_reff_no);
+                    item_sub5.setText(detail.data.InformationAndDocument.get(0).bill_payment_reff_no);
                     progress.setVisibility(View.GONE);
                     ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
                     viewpagerDefault.Addfragment(new Informations(),"Information");
@@ -345,10 +318,10 @@ public class Detail_MyProject extends AppCompatActivity {
                     CallingDetail callingDetail = response.body();
                     if (Calling.TreatResponse(Detail_MyProject.this,"tag", callingDetail)) {
                         assert callingDetail != null;
-                        Model_Project.mp = callingDetail.data.Information;
+                        Model_Project.Information = callingDetail.data.Information;
                         Model_Project.Service = callingDetail.data.Service;
                         Log.i("service", "onResponse: => " + Model_Project.Service);
-                        item_sub2.setText(callingDetail.data.Information.schedule_code);
+                        item_sub2.setText(callingDetail.data.Information.get(0).schedule_code);
                         progress.setVisibility(View.GONE);
                         ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
                         viewpagerDefault.Addfragment(new Informations(),"Information");
@@ -379,6 +352,8 @@ public class Detail_MyProject extends AppCompatActivity {
                 if (Calling.TreatResponse(Detail_MyProject.this, "service", detail)) {
                     assert detail != null;
                     Log.i("service", "onResponse: => " + detail.data.Service);
+                    item_sub1.setText(detail.data.InformationAndDocument.get(0).va_reff_no);
+                    item_sub3.setText(detail.data.InformationAndDocument.get(0).bill_payment_reff_no);
                     Model_Project.InformationAndDocument = detail.data.InformationAndDocument;
                     Model_Project.Service = detail.data.Service;
                     progress.setVisibility(View.GONE);

@@ -36,7 +36,7 @@ public class Change_Password extends Fragment {
 
     View view;
     ImageView icon_back;
-    TextInputEditText password,confirm_password;
+    TextInputEditText password,confirm_password, old_password;
     Button cancel, save;
     SharedPreferences sharedPreferences;
 
@@ -46,10 +46,12 @@ public class Change_Password extends Fragment {
         view = inflater.inflate(R.layout.password_change, container, false);
 
         password = view.findViewById(R.id.password);
+        old_password = view.findViewById(R.id.old_password);
         icon_back = view.findViewById(R.id.icon_back);
         confirm_password = view.findViewById(R.id.confirm_password);
         sharedPreferences = requireActivity().getSharedPreferences("sesi", Context.MODE_PRIVATE);
         cancel = view.findViewById(R.id.btn_cancel);
+        old_password.setText(UserData.i.password);
         save = view.findViewById(R.id.btn_save);
         cancel.setOnClickListener(v->requireActivity().onBackPressed());
 

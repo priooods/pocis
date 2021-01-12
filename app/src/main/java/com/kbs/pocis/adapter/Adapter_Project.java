@@ -89,7 +89,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_1.setText(R.string.booking_no);
                     holder.title_2.setText(R.string.start_date);
                     holder.title_3.setText(R.string.schedule);
-                    holder.title_4.setText(R.string.consigne);
+                    holder.title_4.setText(R.string.customername);
                     holder.title_5.setText(R.string.tonage);
                     holder.title_6.setText(R.string.vesselname);
                     holder.title_7.setText(R.string.bilpay_no);
@@ -125,7 +125,7 @@ public class Adapter_Project extends RecyclerView.Adapter<Adapter_Project.vHolde
                     holder.title_4.setText(R.string.vesselname);
                     holder.title_5.setText(R.string.voyage);
 
-                    holder.number.setText(model_project.get(position).temp_project_no);
+                    holder.number.setText(model_project.get(position).project_report_no);
                     holder.item4.setText(model_project.get(position).vessel_name);
                     holder.item1.setText(model_project.get(position).booking_no);
                     holder.item2.setText(model_project.get(position).customer_name);

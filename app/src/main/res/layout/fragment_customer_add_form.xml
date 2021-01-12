@@ -330,7 +330,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
                             android:textColor="@color/colorPrimaryDark"
-                            android:text="N"
+                            android:text="Yes"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/cutomerAdd_relatedvesel_value"/>
 
@@ -369,9 +369,10 @@
                                 android:fontFamily="@font/montserrat_bold"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="11dp"
-                                android:text="Y"/>
+                                android:text="Yes"/>
 
                             <CheckBox
+                                android:checked="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -390,10 +391,9 @@
                                 android:fontFamily="@font/montserrat_bold"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="11dp"
-                                android:text="N"/>
+                                android:text="No"/>
 
                             <CheckBox
-                                android:checked="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -441,7 +441,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="12dp"
                             android:textColor="@color/colorPrimaryDark"
-                            android:text="N"
+                            android:text="@string/no"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/customerAdd_contract_value"/>
 
@@ -479,8 +479,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="11dp"
-                                android:text="Y"/>
+                                android:textSize="11sp"
+                                android:text="@string/yes"/>
 
                             <CheckBox
                                 android:layout_width="wrap_content"
@@ -501,7 +501,7 @@
                                 android:fontFamily="@font/montserrat_bold"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="11dp"
-                                android:text="N"/>
+                                android:text="@string/no"/>
 
                             <CheckBox
                                 android:checked="true"

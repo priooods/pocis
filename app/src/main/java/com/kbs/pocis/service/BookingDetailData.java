@@ -108,9 +108,10 @@ public class BookingDetailData {
         }
     }
     //for myproject & Inovice/Proforma
-    public Model_Project Information;
+    public List<Model_Project> Information;
     public List<Model_Project> InformationAndDocument;
     public List<Model_Project> Service;
+    public static ArrayList<Model_UploadDocument> temp_document;
     public List<Model_Project> VesselReport;
     public List<List<Model_Project>> Piloting;
     public List<Model_Project> Documents;

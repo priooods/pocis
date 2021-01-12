@@ -17,7 +17,7 @@
         android:maxLines="1"
         android:textColor="@color/colorPrimaryDark"
         android:ellipsize="end"
-        android:text="Opps... Document Not Found !"/>
+        android:text="Opps... No Data !"/>
 
     <RelativeLayout
         android:id="@+id/line"

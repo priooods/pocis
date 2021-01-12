@@ -19,21 +19,18 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.OnSuccessListener;
 import com.kbs.pocis.HomeMenu;
 import com.kbs.pocis.R;
 import com.kbs.pocis.service.UserData;
-
-import java.io.IOException;
 
 public class HomePage extends AppCompatActivity {
 
@@ -90,12 +87,6 @@ public class HomePage extends AppCompatActivity {
 //        }
 //    }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AutomatisUpdateApp();
-    }
 
     public void AutomatisUpdateApp(){
         appUpdateManager = AppUpdateManagerFactory.create(HomePage.this);
@@ -155,4 +146,12 @@ public class HomePage extends AppCompatActivity {
             }
         }
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AutomatisUpdateApp();
+    }
+
 }

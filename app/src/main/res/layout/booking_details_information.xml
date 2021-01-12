@@ -70,8 +70,7 @@
                             android:id="@+id/detail_info_booking_contractNo"
                             android:textColor="@color/colorTextbooking"
                             android:textAllCaps="true"
-                            android:textSize="11dp"
-                            android:text="PS.00/172.01/PMS/XI/2014"
+                            android:textSize="11sp"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -101,7 +100,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="PT. KRAKATAU POSCO"
                             android:textSize="11dp"
                             android:textAllCaps="true"
                             android:fontFamily="@font/montserrat_bold"
@@ -136,7 +134,6 @@
                             android:textColor="@color/colorTextbooking"
                             android:textAllCaps="true"
                             android:textSize="11dp"
-                            android:text="BG. LKH 3883"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -163,7 +160,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="CNEE"
                             android:textSize="11dp"
                             android:textAllCaps="true"
                             android:fontFamily="@font/montserrat_bold"
@@ -195,7 +191,6 @@
                             android:id="@+id/detail_info_booking_flagvessel"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="Yes"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -224,7 +219,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="2020-04-01 13:02:43"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/detail_info_booking_bookingDate"/>
@@ -255,7 +249,6 @@
                             android:id="@+id/detail_info_booking_flagContract"
                             android:textColor="@color/colorTextbooking"
                             android:textSize="11dp"
-                            android:text="Yes"
                             android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -284,7 +277,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorTextbooking"
-                            android:text="2020-03-27 08:00:00"
                             android:textSize="11dp"
                             android:fontFamily="@font/montserrat_bold"
                             android:id="@+id/detail_info_booking_bookingTime"/>
@@ -338,8 +330,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="13dp"
-                    android:text="Schedule is empty"/>
+                    android:textSize="13sp"
+                    android:text="@string/no_data"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/go_detail_booking"

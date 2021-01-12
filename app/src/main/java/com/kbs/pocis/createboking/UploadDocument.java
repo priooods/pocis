@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,9 +46,8 @@ import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
 
 public class UploadDocument extends Fragment {
 
-    Button next, prev,addfile_one, addfile_two;
+    Button next, prev;
 
-    LinearLayout line_one;
     RelativeLayout line_two;
 
     RecyclerView listPdf;
@@ -55,6 +56,7 @@ public class UploadDocument extends Fragment {
 
     Intent openFileManager;
     File files;
+    int LoadPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,11 +66,8 @@ public class UploadDocument extends Fragment {
 
         next = view.findViewById(R.id.upload_document_nextBtn);
         prev = view.findViewById(R.id.upload_document_prevBtn);
-        line_one = view.findViewById(R.id.document_upload_layoutone);
         line_two = view.findViewById(R.id.document_upload_layouttwo);
         listPdf = view.findViewById(R.id.document_upload_recyclerpdf);
-        addfile_one = view.findViewById(R.id.document_upload_btnUpload);
-        addfile_two = view.findViewById(R.id.document_upload_btnUploadtwo);
 
         if (BookingData.isExist()){
             if (BookingData.i.file != null){
@@ -78,18 +77,16 @@ public class UploadDocument extends Fragment {
                 model_uploadDocuments = new ArrayList<>();
             }
         }
-        statusList(model_uploadDocuments);
-        ButtonAddFile();
+        if (model_uploadDocuments != null) {
+            for(Model_UploadDocument mod : model_uploadDocuments) {
+                mod.getString();
+            }
+        }
+        statusList();
         ButtonFunction();
-//        OpenManager();
         return view;
     }
 
-    public void ButtonAddFile(){
-        addfile_one.setOnClickListener(v -> OpenManager());
-
-        addfile_two.setOnClickListener(v -> OpenManager());
-    }
 
     public void ButtonFunction(){
         prev.setOnClickListener(v -> {
@@ -98,7 +95,7 @@ public class UploadDocument extends Fragment {
         });
 
         next.setOnClickListener(v -> {
-            if (line_two.getVisibility() != View.GONE){
+            if (CheckUriIsLoaded()){
                 BookingData.i.file = model_uploadDocuments;
                 Fragment fragment = new AddComodity();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -110,6 +107,15 @@ public class UploadDocument extends Fragment {
                 Toasty.error(requireContext(), "Please Add Your File", Toasty.LENGTH_SHORT, true).show();
             }
         });
+    }
+    boolean CheckUriIsLoaded() {
+        if (model_uploadDocuments == null)
+            return false;
+        for (Model_UploadDocument mod : model_uploadDocuments) {
+            if (mod.uri == null)
+                return false;
+        }
+        return true;
     }
 
     void OpenManager(){
@@ -133,23 +139,20 @@ public class UploadDocument extends Fragment {
                 String name = files.getName();
                 int size = (int) files.length() / 1024;
                 Log.i(TAG, "onActivityResult: " + files);
-                model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
+//                Model_UploadDocument.model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
+                model_uploadDocuments.get(LoadPosition).Update(files,name,size);
 
                 //Setting Visibility Layout Upload
-                statusList(model_uploadDocuments);
+                statusList();
             }
         }
     }
 
-    void statusList(ArrayList<Model_UploadDocument> document){
-        if (document != null && document.size() > 0){
-            line_two.setVisibility(View.VISIBLE);
-            line_one.setVisibility(View.GONE);
-            recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-            listPdf.setLayoutManager(layoutManager);
-            listPdf.setAdapter(recyclerPDF);
-        }
+    void statusList(){
+        recyclerPDF = new RecyclerPDF(getContext(), model_uploadDocuments);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        listPdf.setLayoutManager(layoutManager);
+        listPdf.setAdapter(recyclerPDF);
     }
 
     //Function untuk Convert semua URI dan Jenis file untuk mendapatkan Nama
@@ -366,21 +369,28 @@ public class UploadDocument extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.nama.setText(modelUploadDocuments.get(position).getUsername());
-            holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()) + " Kb");
-            holder.deletefile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    model_uploadDocuments.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemChanged(position, model_uploadDocuments.size());
-                    if (model_uploadDocuments.size() == 0){
-                        line_one.setVisibility(View.VISIBLE);
-                        line_two.setVisibility(View.GONE);
-                    }
-                }
+//            modelUploadDocuments = BookingDetailData.temp_document;
+            holder.titles_documents_temp.setText(modelUploadDocuments.get(position).description);
+            if (modelUploadDocuments.get(position).uri == null) {
+                holder.titles_documents_temp.setVisibility(View.VISIBLE);
+                holder.btnUpload.setVisibility(View.VISIBLE);
+                holder.cs_ln.setVisibility(View.GONE);
+            } else {
+                holder.titles_documents_temp.setVisibility(View.VISIBLE);
+                holder.btnUpload.setVisibility(View.GONE);
+                holder.cs_ln.setVisibility(View.VISIBLE);
+                holder.nama.setText(modelUploadDocuments.get(position).getUsername());
+                holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()) + " Kb");
+            }
+            holder.deletefile.setOnClickListener(v -> {
+                model_uploadDocuments.get(position).uri = null;
+                notifyDataSetChanged();
             });
 
+            holder.btnUpload.setOnClickListener(v->{
+                OpenManager();
+                LoadPosition = position;
+            });
         }
 
         @Override
@@ -390,13 +400,18 @@ public class UploadDocument extends Fragment {
 
         public class vHolder extends RecyclerView.ViewHolder{
 
-            TextView nama, deletefile, sizefile;
+            TextView nama, deletefile, sizefile, titles_documents_temp;
+            Button btnUpload;
+            ConstraintLayout cs_ln;
 
             public vHolder(@NonNull View itemView) {
                 super(itemView);
 
                 nama = itemView.findViewById(R.id.model_uploadpdf_name);
+                cs_ln = itemView.findViewById(R.id.cs_ln);
                 deletefile = itemView.findViewById(R.id.delete_files);
+                titles_documents_temp = itemView.findViewById(R.id.titles_documents_temp);
+                btnUpload = itemView.findViewById(R.id.btnUpload);
                 sizefile = itemView.findViewById(R.id.model_uploadpdf_size);
             }
         }

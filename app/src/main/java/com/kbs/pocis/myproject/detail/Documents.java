@@ -43,7 +43,6 @@ public class Documents extends Fragment {
         line = view.findViewById(R.id.line);
 
         if (Model_Project.isExist()) {
-            Model_Project data = Model_Project.mp;
             switch (Model_Project.Code) {
                 case 2:
                     if (Model_Project.Documents.size() > 0) {
@@ -59,24 +58,28 @@ public class Documents extends Fragment {
                     }
                     break;
                 case 3:
-                    if (data.dokumen_faktur_pajak == null && data.dokumen_kwitans == null && data.dokumen_tanda_tangan_invoice == null &&
-                            data.dokumen_tanda_terima == null) {
+                    if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null
+                            && Model_Project.InformationAndDocument.get(0).dokumen_kwitans == null
+                            && Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice == null &&
+                            Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima == null) {
                         title.setVisibility(View.VISIBLE);
                         line.setVisibility(View.GONE);
-                    } else if (data.dokumen_faktur_pajak == null && data.dokumen_kwitans == null && data.dokumen_tanda_tangan_invoice == null) {
-                        documents.add(new Model_Project(data.dokumen_tanda_terima));
-                    } else if (data.dokumen_faktur_pajak == null && data.dokumen_kwitans == null) {
-                        documents.add(new Model_Project(data.dokumen_tanda_tangan_invoice));
-                        documents.add(new Model_Project(data.dokumen_tanda_terima));
-                    } else if (data.dokumen_faktur_pajak == null) {
-                        documents.add(new Model_Project(data.dokumen_kwitans));
-                        documents.add(new Model_Project(data.dokumen_tanda_tangan_invoice));
-                        documents.add(new Model_Project(data.dokumen_tanda_terima));
+                    } else if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null
+                            && Model_Project.InformationAndDocument.get(0).dokumen_kwitans == null
+                            && Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice == null) {
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
+                    } else if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null && Model_Project.InformationAndDocument.get(0).dokumen_kwitans == null) {
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
+                    } else if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null) {
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_kwitans));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
                     } else {
-                        documents.add(new Model_Project(data.dokumen_faktur_pajak));
-                        documents.add(new Model_Project(data.dokumen_kwitans));
-                        documents.add(new Model_Project(data.dokumen_tanda_tangan_invoice));
-                        documents.add(new Model_Project(data.dokumen_tanda_terima));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_kwitans));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
                     }
                     RecyclerPDF listinvoice = new RecyclerPDF(getContext(), documents, 0);
                     LinearLayoutManager managerinvoice = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -84,14 +87,14 @@ public class Documents extends Fragment {
                     recyclerView.setAdapter(listinvoice);
                     break;
                 case 4:
-                    if (data.document_ppj == null && data.document_proforma_invoice == null) {
+                    if (Model_Project.InformationAndDocument.get(0).document_ppj == null && Model_Project.InformationAndDocument.get(0).document_proforma_invoice == null) {
                         title.setVisibility(View.VISIBLE);
                         line.setVisibility(View.GONE);
-                    } else if (data.document_ppj == null) {
-                        documents.add(new Model_Project(data.document_proforma_invoice));
+                    } else if (Model_Project.InformationAndDocument.get(0).document_ppj == null) {
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).document_proforma_invoice));
                     } else {
-                        documents.add(new Model_Project(data.document_ppj));
-                        documents.add(new Model_Project(data.document_proforma_invoice));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).document_ppj));
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).document_proforma_invoice));
                     }
                     RecyclerPDF listproforma = new RecyclerPDF(getContext(), documents, 2);
                     LinearLayoutManager mangerproforma = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

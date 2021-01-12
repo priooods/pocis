@@ -122,58 +122,65 @@ public class Services extends Fragment {
     }
 
     public void GlobalByCode(){
-        Model_Project data = Model_Project.mp;
         switch (Model_Project.Code){
             case 0: //for aprove
-                item1.setText(data.exchange_rate);
-                item2.setText(data.start_date);
-                item3.setText(data.bi_date);
-                item4.setText(data.end_date);
+                item1.setText(Model_Project.Information.get(0).exchange_rate);
+                item2.setText(Model_Project.Information.get(0).start_date);
+                item3.setText(Model_Project.Information.get(0).bi_date);
+                item4.setText(Model_Project.Information.get(0).end_date);
                 CallingServiceApproval();
                 customMargin(ln_list_area, 0,20,0,20);
                 break;
             case 1: //for list
                 ln_list.setVisibility(View.VISIBLE);
-                item_list1.setText(data.total);
-                item_list2.setText(data.total_dp);
-                item2.setText(data.start_date);
-                item3.setText(data.exchange_rate);
-                item4.setText(data.end_date);
-                item5.setText(data.bi_date);
+                item2.setText(Model_Project.Information.get(0).start_date);
+                item3.setText(Model_Project.Information.get(0).exchange_rate);
+                item4.setText(Model_Project.Information.get(0).end_date);
+                item5.setText(Model_Project.Information.get(0).bi_date);
                 customMargin(ln_list_area, 0,20,0,20);
-                setFormatIDR(data.total, item_list1);
-                setFormatIDR(data.total_dp, item_list2);
+                Log.i(TAG, "GlobalByCode: " + Model_Project.Information.get(0).total);
+                if (Model_Project.Information.get(0).total != null){
+                    setFormatIDR(Model_Project.Information.get(0).total_dp, item_list1);
+                }
+                if (Model_Project.Information.get(0).total_dp != null){
+                    setFormatIDR(Model_Project.Information.get(0).total, item_list2);
+                }
                 CallingServiceList();
                 break;
             case 2: //for bapj
-                item2.setText(data.start_date);
-                item3.setText(data.exchange_rate);
-                item4.setText(data.end_date);
-                item5.setText(data.bi_date);
+                item2.setText(Model_Project.Information.get(0).start_date);
+                item3.setText(Model_Project.Information.get(0).exchange_rate);
+                item4.setText(Model_Project.Information.get(0).end_date);
+                item5.setText(Model_Project.Information.get(0).bi_date);
                 customMargin(ln_list_area, 0,20,0,10);
                 CallServiceBAPJ();
                 break;
             case 3: // for invoice
                 ln_top.setVisibility(View.GONE);
                 bottom.setVisibility(View.VISIBLE);
-                invoice1.setText(data.total_net_amount_in_idr);
-                setFormatIDR(data.total_net_amount_in_idr, invoice1);
-                invoice2.setText(data.free_ppn);
-                invoice3.setText(data.pph_in_idr);
-                setFormatIDR(data.pph_in_idr, invoice3);
-                invoice4.setText(data.ppn_in_idr);
-                setFormatIDR(data.ppn_in_idr, invoice4);
-                invoice5.setText(data.amount_paid_by_dp);
-                invoice6.setText(data.amount_paid_by_invoice);
+                if (Model_Project.InformationAndDocument.get(0).total_net_amount_in_idr != null) {
+                    setFormatIDR(Model_Project.InformationAndDocument.get(0).total_net_amount_in_idr, invoice1);
+                }
+                if (Model_Project.InformationAndDocument.get(0).pph_in_idr != null) {
+                    setFormatIDR(Model_Project.InformationAndDocument.get(0).pph_in_idr, invoice3);
+                }
+                if (Model_Project.InformationAndDocument.get(0).ppn_in_idr != null) {
+                    setFormatIDR(Model_Project.InformationAndDocument.get(0).ppn_in_idr, invoice4);
+                }
+                invoice2.setText(Model_Project.InformationAndDocument.get(0).free_ppn);
+                invoice5.setText(Model_Project.InformationAndDocument.get(0).amount_paid_by_dp);
+                invoice6.setText(Model_Project.InformationAndDocument.get(0).amount_paid_by_invoice);
                 CallingServiceInvoice();
                 break;
             case 4: //for performa
                 ln_performa.setVisibility(View.VISIBLE);
                 ln_top.setVisibility(View.GONE);
-                performa1.setText(data.total);
-                performa2.setText(data.total_dp);
-                setFormatIDR(data.total, performa1);
-                setFormatIDR(data.total_dp, performa2);
+                if (Model_Project.InformationAndDocument.get(0).total != null) {
+                    setFormatIDR(Model_Project.InformationAndDocument.get(0).total, performa1);
+                }
+                if (Model_Project.InformationAndDocument.get(0).total_dp != null) {
+                    setFormatIDR(Model_Project.InformationAndDocument.get(0).total_dp, performa2);
+                }
                 CallingServiceProforma();
                 customMargin(ln_list_area, 0,20,0,20);
                 break;
@@ -254,7 +261,7 @@ public class Services extends Fragment {
 
     public void CallingServiceProforma(){
         Log.i(TAG, "CallingServiceProforma: => " + Model_Project.Service);
-        if (Model_Project.Service != null) {
+        if (Model_Project.Service != null && Model_Project.Service.size() != 0) {
             model_project_services.addAll(Model_Project.Service);
             Adapter_Project_Service adapter_project_service = new Adapter_Project_Service(getContext(), model_project_services, 4);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);

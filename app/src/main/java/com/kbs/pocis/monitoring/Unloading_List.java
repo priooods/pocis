@@ -34,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class Unloading_List extends FilterFragment {
 
     String bert = "Showing all berthing list. Tap to see details.";
@@ -276,5 +278,26 @@ public class Unloading_List extends FilterFragment {
             p.setMargins(left,top,right,bottom);
             view.requestLayout();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: ");
+        filtering = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+        filtering = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
+        filtering = false;
     }
 }

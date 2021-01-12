@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
+import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.myproject.Project_List_Dasar;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
@@ -22,6 +23,7 @@ public class MyProject_Dasar extends AppCompatActivity {
 
     ImageView icon_back;
     BottomNavigationView bottombar_myprojects;
+    FilterFragment filterFragment;
     TextView title;
 
     int type;
@@ -42,6 +44,9 @@ public class MyProject_Dasar extends AppCompatActivity {
         type = getIntent().getIntExtra("id",0);
         icon_back = findViewById(R.id.btn_back_myproject);
         icon_back.setOnClickListener(v -> {
+            if (filterFragment != null){
+                filterFragment.filtering = false;
+            }
             MyProject_Dasar.this.onBackPressed();
             finish();
         });
@@ -56,6 +61,15 @@ public class MyProject_Dasar extends AppCompatActivity {
             bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Projects_Approved()).commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (filterFragment != null){
+            filterFragment.filtering = false;
+        }
+        finish();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener listener =

@@ -91,19 +91,23 @@ public class Summary extends Fragment {
         list_Document = view.findViewById(R.id.veselinfo_documentList);
 
         BookingData data = BookingData.i;
+        if (!data.customerType.equals("AGENT") && !data.relatedVesel.equals("Y")) {
+            discharge.setText(data.vessel.voyage_number);
+        } else if (data.customerType.equals("GENERAL")){
+            discharge.setText(data.vessel.voyage_number);
+        } else {
+            discharge.setText(null);
+            data.vessel.id_voyage = 0;
+        }
+
         customer_type.setText(data.customerType);
         related.setText(data.relatedVesel);
         contract.setText(data.contract);
-        discharge.setText(data.vessel.voyage_number);
         veselname.setText(data.vessel.vessel_name);
         port.setText(data.vessel.port_discharge);
         arival.setText(data.vessel.estimate_arival);
         departure.setText(data.vessel.estimate_departure);
         loading.setText(data.vessel.port_origin);
-
-        if (data.customerType.equals("GENERAL")){
-            data.vessel.voyage_number = null;
-        }
 
         ListingComodityList();
         ListingList();
@@ -120,10 +124,12 @@ public class Summary extends Fragment {
         list_serviceInfo.setLayoutManager(layoutManager);
         list_serviceInfo.setAdapter(adapterServices);
 
-        uploadDocuments = BookingData.i.file;
-        adapterFile = new AdapterFile(getContext(), uploadDocuments);
-        list_Document.setLayoutManager(manager);
-        list_Document.setAdapter(adapterFile);
+        if (BookingData.i.file != null) {
+            uploadDocuments = BookingData.i.file;
+            adapterFile = new AdapterFile(getContext(), uploadDocuments);
+            list_Document.setLayoutManager(manager);
+            list_Document.setAdapter(adapterFile);
+        }
     }
 
     private void ListingComodityList() {
@@ -212,13 +218,18 @@ public class Summary extends Fragment {
         }
         Log.i(TAG, "SendDataBooking: "+ Booking);
 
+
         i = 0;
-        MultipartBody.Part[] fileToUpload = new MultipartBody.Part[BookingData.i.file.size()];
-        for (Model_UploadDocument document : BookingData.i.file){
-            fileToUpload[i] = MultipartBody.Part.createFormData("BookingDocument[file_name]["+i+"]", document.uri.getPath(), data_form(document.uri));
-            Log.i(TAG, "SendDataBooking: => " + document.uri);
-            i++;
+        MultipartBody.Part[] fileToUpload = null;
+        if (BookingData.i.file != null) {
+            fileToUpload = new MultipartBody.Part[BookingData.i.file.size()];
+            for (Model_UploadDocument document : BookingData.i.file) {
+                fileToUpload[i] = MultipartBody.Part.createFormData("BookingDocument[file_name][" + i + "]", document.uri.getPath(), data_form(document.uri));
+                Log.i(TAG, "SendDataBooking: => " + document.uri);
+                i++;
+            }
         }
+
 
         Log.i(TAG, "SendDataBooking: => " + Arrays.toString(fileToUpload));
         retrofit2.Call<CallingSaveBok> call = UserData.i.getService().saveBooking(
@@ -242,7 +253,8 @@ public class Summary extends Fragment {
                     fragmentTransaction.replace(R.id.frameCreate, fragment);
                     fragmentTransaction.commit();
                 }else{
-                    Toasty.error(requireContext(), "Booking Failure, Maximum size file 1 Mb", Toasty.LENGTH_LONG, true).show();
+                    Toasty.error(requireContext(), "Booking Failure", Toasty.LENGTH_LONG, true).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 

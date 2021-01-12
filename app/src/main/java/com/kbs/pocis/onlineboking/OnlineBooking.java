@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.filter.Dialog_Filter;
+import com.kbs.pocis.filter.FilterFragment;
 
 public class OnlineBooking extends Fragment {
 
@@ -25,6 +26,7 @@ public class OnlineBooking extends Fragment {
     ViewPager viewPager;
 //    private static int REQUEST_CODE = 123;
     ImageView icon_back, icon_search;
+    FilterFragment filterFragment;
     ViewpagerDefault adapter;
     DialogFragment fragment;
     AllBookings[] allbooking;
@@ -69,6 +71,9 @@ public class OnlineBooking extends Fragment {
 
         //Icon Arrow Back Click
         icon_back.setOnClickListener(v -> {
+            if (filterFragment != null){
+                filterFragment.filtering = false;
+            }
             requireActivity().onBackPressed();
             requireActivity().finish();
         });

@@ -50,8 +50,9 @@ public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Projec
                 holder.item1.setText(model_project_services.get(position).tariff);
                 holder.item2.setText(model_project_services.get(position).parameter_1);
                 holder.item3.setText(model_project_services.get(position).parameter_2);
-                holder.item4.setText(model_project_services.get(position).total);
-                holder.item5.setText(model_project_services.get(position).total_dp);
+//                holder.item4.setText(model_project_services.get(position).total);
+                holder.title5.setText(R.string.amount_dp_in_idr);
+//                holder.item5.setText(model_project_services.get(position).total_dp);
                 if (model_project_services.get(position).total != null ||
                         model_project_services.get(position).total_dp != null){
                     Log.i(TAG, "onBindViewHolder: => " + position);

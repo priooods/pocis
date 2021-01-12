@@ -85,7 +85,6 @@ public class ShowTemplate extends Fragment {
                     if (model == null){
                          Toasty.error(requireContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
                     } else {
-                        //TODO SELESAI SHOW_TEMPLATE
                         int i = 0;
                         if (BookingData.isExist()){
                             Log.i("call","id = "+BookingData.i.customerId);

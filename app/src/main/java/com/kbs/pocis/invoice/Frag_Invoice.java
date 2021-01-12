@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -35,6 +36,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class Frag_Invoice extends FilterFragment {
 
     RecyclerView recyclerView;
@@ -44,7 +47,7 @@ public class Frag_Invoice extends FilterFragment {
     RelativeLayout layout_kosong;
     NestedScrollView nested;
     TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
-            index_list_invoice, all_index_invoice;
+            index_list_invoice, all_index_invoice,title_nodata;
     ImageView search_icon;
     int total_item = 0;
 
@@ -54,6 +57,7 @@ public class Frag_Invoice extends FilterFragment {
         View view = inflater.inflate(R.layout.fragment_invoice, container, false);
         model_project_s = new ArrayList<>();
         nested = view.findViewById(R.id.nested);
+        title_nodata = view.findViewById(R.id.title_nodata);
         title_progress = view.findViewById(R.id.title_progress);
         progressBar = view.findViewById(R.id.progress);
         search_icon = view.findViewById(R.id.btn_search_invoice);
@@ -134,6 +138,7 @@ public class Frag_Invoice extends FilterFragment {
             recyclerView.setAdapter(adapter_project_list);
         } else {
             nested.setVisibility(View.GONE);
+            title_nodata.setText(R.string.not_found);
             layout_kosong.setVisibility(View.VISIBLE);
         }
     }
@@ -157,67 +162,69 @@ public class Frag_Invoice extends FilterFragment {
                 public void onResponse(@NotNull Call<PublicList> call, @NotNull Response<PublicList> response) {
                     PublicList respone = response.body();
                     if (Calling.TreatResponse(getContext(), "invoice", respone)) {
-                        if (!filtering) {
-                            assert respone != null;
-                            model_project_s = respone.data.model;
-                            page_current = respone.data.current_page;
-                            page_last = respone.data.last_page;
-                            total_item = respone.data.total;
-                            FinishFilter();
-                        } else {
-                            layout_kosong.setVisibility(View.GONE);
-                            if (pmanager.loaded) {
-//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
+                        if (!Stop) {
+                            if (!filtering) {
                                 assert respone != null;
-                                List<Model_Project> data = respone.data.model;
-                                for (int i = list; i < data.size(); i++) {
-                                    if (filter.checkFilter(data.get(i))) {
-                                        if (model_project_s.size() < pmanager.page_capacity) {
-                                            model_project_s.add(data.get(i));
-                                            Log.i("frag_invoice", data.get(i).status_payment);
-                                        } else {
-                                            page_last = pmanager.page_last;
-                                            total_item = pmanager.total;
-                                            load = false;
-                                            FinishFilter();
-                                            return;
-                                        }
-                                    }
-                                }
-                                if (page < respone.data.last_page && pmanager.getLastPage()) {
-                                    GenerateFilter(pmanager.getNextPage(), 0);
-                                } else {
-                                    page_last = pmanager.page_last;
-                                    total_item = pmanager.total;
-                                    load = false;
-                                    FinishFilter();
-                                }
+                                model_project_s = respone.data.model;
+                                page_current = respone.data.current_page;
+                                page_last = respone.data.last_page;
+                                total_item = respone.data.total;
+                                FinishFilter();
                             } else {
-//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page+" load = "+load);
-                                int i = 0;
-                                assert respone != null;
-                                for (Model_Project data : respone.data.model) {
-                                    if (filter.checkFilter(data)) {
-                                        if (pmanager.addPack(page, i) && load) {
-                                            model_project_s.add(data);
-                                            Log.i("booking_load", data.status_payment);
-                                        } else {
-                                            load = false;
+                                layout_kosong.setVisibility(View.GONE);
+                                if (pmanager.loaded) {
+//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
+                                    assert respone != null;
+                                    List<Model_Project> data = respone.data.model;
+                                    for (int i = list; i < data.size(); i++) {
+                                        if (filter.checkFilter(data.get(i))) {
+                                            if (model_project_s.size() < pmanager.page_capacity) {
+                                                model_project_s.add(data.get(i));
+                                                Log.i("frag_invoice", data.get(i).status_payment);
+                                            } else {
+                                                page_last = pmanager.page_last;
+                                                total_item = pmanager.total;
+                                                load = false;
+                                                FinishFilter();
+                                                return;
+                                            }
                                         }
                                     }
-                                    i++;
-                                }
-                                if (page == respone.data.last_page) {
-                                    pmanager.finishLoad();
-                                    page_last = pmanager.page_last;
-                                    total_item = pmanager.total;
-                                    load = false;
-                                    nested.setVisibility(View.VISIBLE);
-                                    progressBar.setVisibility(View.GONE);
-                                    title_progress.setVisibility(View.GONE);
-                                    FinishFilter();
+                                    if (page < respone.data.last_page && pmanager.getLastPage()) {
+                                        GenerateFilter(pmanager.getNextPage(), 0);
+                                    } else {
+                                        page_last = pmanager.page_last;
+                                        total_item = pmanager.total;
+                                        load = false;
+                                        FinishFilter();
+                                    }
                                 } else {
-                                    GenerateFilter(page + 1, 0);
+//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page+" load = "+load);
+                                    int i = 0;
+                                    assert respone != null;
+                                    for (Model_Project data : respone.data.model) {
+                                        if (filter.checkFilter(data)) {
+                                            if (pmanager.addPack(page, i) && load) {
+                                                model_project_s.add(data);
+                                                Log.i("booking_load", data.status_payment);
+                                            } else {
+                                                load = false;
+                                            }
+                                        }
+                                        i++;
+                                    }
+                                    if (page == respone.data.last_page) {
+                                        pmanager.finishLoad();
+                                        page_last = pmanager.page_last;
+                                        total_item = pmanager.total;
+                                        load = false;
+                                        nested.setVisibility(View.VISIBLE);
+                                        progressBar.setVisibility(View.GONE);
+                                        title_progress.setVisibility(View.GONE);
+                                        FinishFilter();
+                                    } else {
+                                        GenerateFilter(page + 1, 0);
+                                    }
                                 }
                             }
                         }
@@ -246,6 +253,20 @@ public class Frag_Invoice extends FilterFragment {
         }
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+        Stop = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
+        Stop = true;
+    }
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);

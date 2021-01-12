@@ -24,7 +24,9 @@ import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
+import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
@@ -39,6 +41,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class SelectTemplate extends Fragment {
 
     CardView boxesCheckAll;
@@ -46,7 +50,6 @@ public class SelectTemplate extends Fragment {
     Button prev, next;
     RecyclerView recyclerView_FeePas;
     ListingFeePas listingFeePas;
-//    ArrayList<Model_SelectTemplate> templatesAnak;
     ArrayList<Model_ShowTemplate> model;
     ArrayList<SelectTemplate.AdapterTemplateAnak.VHolder> button = new ArrayList<>();
 
@@ -127,7 +130,14 @@ public class SelectTemplate extends Fragment {
                         if (data == null || data.list == null) {
                             Toasty.error(requireContext(), "List Kosong", Toasty.LENGTH_SHORT, true).show();
                         } else {
-                            //Log.i("model_select", "length request = " + data.list.size());
+                            if (data.temp_document != null) {
+                                Log.i("model_select", "length request = " + data.temp_document.size());
+                                BookingData.i.file = data.temp_document;
+//                                Model_UploadDocument.model_uploadDocuments = data.temp_document;
+                            }else {
+                                if (BookingData.i.file != null)
+                                    BookingData.i.file.clear();
+                            }
                             List<BookingData.BookTemplate.BookTempList> listcheck = null;
                             BookingData.BookTemplate temp = null;
                             Model_ShowTemplate stemp = null;
@@ -197,26 +207,45 @@ public class SelectTemplate extends Fragment {
         prev.setOnClickListener(v -> {
             BookingData.i.SelectBookUpdate(model);
             requireActivity().onBackPressed();
+//            Fragment fragment = new ShowTemplate();
+            Log.i(UploadDocument.FileUtils.TAG, "onClick: => " + BookingData.i.customerId);
+//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//            fragmentTransaction.replace(R.id.frameCreate, fragment);
+//            fragmentTransaction.commit();
         });
-        next.setOnClickListener(v -> GoToUpload());
+        next.setOnClickListener(v -> GoToNext());
     }
 
-    public void GoToUpload(){
+    public void GoToNext(){
         if (isOneChecked()) {
             for (Model_ShowTemplate mod : model) {
                 for (Model_SelectTemplate sel : mod.list) {
                     Log.i("out", sel.header_id + " | " + sel.id + " " + sel.desc + " - " + sel.checked);
                 }
             }
-            BookingData.i.SelectBookUpdate(model);
-            Fragment fragment = new UploadDocument();
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-            fragmentTransaction.commit();
-        }else{
-            Toasty.error(requireContext(), "Please Add Template !", Toasty.LENGTH_SHORT,true).show();
+
+            if (BookingData.i.file != null && BookingData.i.file.size() > 0) {
+                BookingData.i.SelectBookUpdate(model);
+                Fragment fragment = new UploadDocument();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }else{
+                // Goto Commodity
+                BookingData.i.SelectBookUpdate(model);
+                Fragment fragment = new AddComodity();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        } else {
+            Toasty.error(requireContext(), "Please Add Template !", Toasty.LENGTH_SHORT, true).show();
         }
     }
 
@@ -255,17 +284,19 @@ public class SelectTemplate extends Fragment {
             return new vHolder(view);
         }
 
+
         @Override
         public void onBindViewHolder(@NonNull final vHolder holder, final int position) {
             holder.idtitle.setText(model.get(position).code);
             holder.nametitle.setText(model.get(position).display_desc_header);
-//            Glide.with(context)
-//                    .load("http://cigading.ptkbs.co.id/pocis/img/template/"+ model.get(position).image_file)
-//                    .placeholder(R.color.colorGrey)
-//                    .error(R.drawable.icon_silang)
-//                    .override(200, 200)
-//                    .centerCrop()
-//                    .into(holder.img);
+            Log.i(TAG, "onBindViewHolder: " + model.get(position).image_file);
+            Glide.with(context)
+                    .load("http://cigading.ptkbs.co.id/pocis/img/template/"+ model.get(position).image_file)
+                    .placeholder(R.color.colorGrey)
+                    .error(R.drawable.icon_silang)
+                    .override(200, 200)
+                    .centerCrop()
+                    .into(holder.img);
 
             //Untuk mempermudah pengembangan selanjutnya dari setiap pilihan sub Template.
             // maka disini dibuat kan list didalam list

@@ -11,7 +11,7 @@ public class FilterFragment extends Fragment {
     public Filters filter;
     public int page_last = 0 , page_current = 1;
     public PageManager pmanager;
-    protected boolean Ready,load,filtering;
+    public boolean Ready,load,filtering, Stop;
     public int max_list;
 
     protected void GenerateFilter(int page, int list){

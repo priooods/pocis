@@ -2,21 +2,22 @@ package com.kbs.pocis.model;
 
 import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.service.Calling;
 
 import java.util.List;
 
-public class Model_Project {
+public class Model_Project extends Calling {
 
     public static Model_Project mp;
     public static int Code;
 
     //For Menu My Project & Invoice/Proforma
     public static List<Model_Project> Service;
+    public static List<Model_Project> Information;
     public static List<Model_Project> VesselReport;
     public static List<List<Model_Project>> Piloting;
     public static List<Model_Project> Documents;
     public static List<Model_Project> InformationAndDocument;
-
 
     //for Vessel Schedule Details
     public static List<Model_Project> Header;
@@ -143,7 +144,7 @@ public class Model_Project {
     public String shipping_line_type;
 
     public String customer_type;
-    public String booking_date;
+    public String project_report_no;
 
     public String vessel_registered_no;
     public String vessel_year;

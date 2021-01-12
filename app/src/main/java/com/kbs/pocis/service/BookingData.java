@@ -68,30 +68,20 @@ public class BookingData {
     public String bookingDate;
     @SerializedName("formatted_booking_time")
     public String bookingTime;
-    public String id_booking;
     public String no_booking;
-    public String flag_compound;
     public String status;
     public String voyage_no;
-    public String customer_code;
-    public String customer_name;
-    public String contract_no;
-    public String book_status;
-    public String project_status;
-    public String project_no;
     public String vessel_name;
-    public String no_dp;
-    public String no_reff;
-    public String no_invoice;
-    public String est_arrival;
-    public String est_berthing;
-    public String compoundbooking;
-    public String voyage_number;
+    public String m_document_id;
+    public String description;
+    public String path;
+    public String related_manual;
+    public String contract_manual;
 
     public void setCustumer(String id, String customer, String related, String contract){
         this.customerId = id;
         customerType = customer;
-        relatedVesel = related;
+        this.relatedVesel = related;
         this.contract = contract;
     }
     //data booking kedua ShowTemplate - SelectTemplate
@@ -100,14 +90,16 @@ public class BookingData {
         public int id;
         public String code;
         public String name;
+        public String image_file;
         public ArrayList<BookTempList> listCheck;
         public Model_ShowTemplate getModel(){
-            return new Model_ShowTemplate(id,code,name,null);
+            return new Model_ShowTemplate(id,code,name,image_file);
         }
-        public BookTemplate(int id, String code,String name,@Nullable ArrayList<Model_SelectTemplate> list){
+        public BookTemplate(int id, String code,String name,String img,@Nullable ArrayList<Model_SelectTemplate> list){
             this.id = id;
             this.code = code;
             this.name = name;
+            this.image_file = img;
             if (list != null) {
                 int size = 0;
                 for(Model_SelectTemplate t:list){
@@ -150,7 +142,7 @@ public class BookingData {
             Log.e("add_show","new!");
             for (Model_ShowTemplate t : temp) {
                 if (t.checked) {
-                    template.add(new BookTemplate(t.id, t.code, t.display_desc_header, t.list));
+                    template.add(new BookTemplate(t.id, t.code, t.display_desc_header,t.image_file, t.list));
                 }
             }
         }
@@ -172,7 +164,7 @@ public class BookingData {
                     }
                     if (add) {
                         Log.e("add_show","update! new add "+t.id+" "+t.code+" "+t.display_desc_header);
-                        template.add(new BookTemplate(t.id, t.code, t.display_desc_header, t.list));
+                        template.add(new BookTemplate(t.id, t.code, t.display_desc_header,t.image_file, t.list));
                     }
                 }
             }
@@ -187,7 +179,7 @@ public class BookingData {
             if (t.id != template.get(i).id)
                 return false;
 
-            template.set(i, new BookTemplate(t.id, t.code, t.display_desc_header, t.list));
+            template.set(i, new BookTemplate(t.id, t.code, t.display_desc_header,t.image_file, t.list));
         }
         Log.i("finish","success update select!");
         return true;

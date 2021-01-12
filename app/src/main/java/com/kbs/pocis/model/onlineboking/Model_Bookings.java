@@ -5,7 +5,7 @@ import java.util.Date;
 public class Model_Bookings {
 
     String  BookingId, nomerBook, statusBook, contractNo, customerName,
-            vesselName, customerType, flagVessel, bookingDate, flagContract, bookingTime;
+            vessel_name, customerType, flagVessel, bookingDate, flagContract, bookingTime;
 
     public Model_Bookings(String BookingId, String contractNo, String nomerBook, String statusBook, String vesselName, String customerType,
                           String customerName, String flagVessel, String flagContract, String bookingDate, String bookingTime) {
@@ -13,7 +13,7 @@ public class Model_Bookings {
         this.contractNo = contractNo;
         this.nomerBook = nomerBook;
         this.statusBook = statusBook;
-        this.vesselName = vesselName;
+        this.vessel_name = vesselName;
         this.customerType = customerType;
         this.customerName = customerName;
         this.flagVessel = flagVessel;
@@ -33,7 +33,7 @@ public class Model_Bookings {
         return statusBook;
     }
     public String getVesselName() {
-        return vesselName;
+        return vessel_name;
     }
     public String getCustomerType() {
         return customerType;

@@ -1,68 +1,56 @@
 package com.kbs.pocis.service;
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.CountDownTimer;
+import android.os.IBinder;
+import android.util.Log;
 
-import com.kbs.pocis.activity.HomePage;
-import com.kbs.pocis.welcome.Login;
-import com.kbs.pocis.welcome.Welcome_Screen;
+import androidx.annotation.Nullable;
 
-import java.util.HashMap;
+import static android.content.ContentValues.TAG;
 
-public class SessionManager {
+public class SessionManager extends Service {
 
+    CountDownTimer countDownTimer;
+    public static boolean check;
 
-    //TODO Class Session Update By Token
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
-    Context context;
-    int mode = 0;
-
-    private static final String pref_name = "crudpref";
-    private static final String is_login = "islogin";
-    public static final String token = "keytoken";
-
-    public SessionManager(Context context) {
-        this.context = context;
-        pref = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE);
-        editor = pref.edit();
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
-    public void createSession(String token){
-        editor.putBoolean(is_login, true);
-        editor.putString(token, token);
-        editor.commit();
-    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (check) {
+            countDownTimer = new CountDownTimer(10000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Log.i(TAG, "onTick: " + millisUntilFinished / 1000);
+                }
 
-    public void checkLogin(){
-        if (!this.is_login()){
-            Intent i = new Intent(context, Login.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-        }else {
-            Intent i = new Intent(context, HomePage.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+                @Override
+                public void onFinish() {
+                    Log.i(TAG, "onFinish: " + "Selesai");
+                    stopSelf();
+                }
+            };
+            countDownTimer.start();
         }
+        return START_STICKY;
     }
 
-    private boolean is_login() {
-        return pref.getBoolean(is_login, false);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "Session Manager: " + "Service Destroy");
     }
 
-    public void logout(){
-        editor.clear();
-        editor.commit();
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
     }
 
-    public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<>();
-        user.put(pref_name, pref.getString(pref_name, null));
-        user.put(token, pref.getString(token, null));
-        return user;
-    }
 }
+

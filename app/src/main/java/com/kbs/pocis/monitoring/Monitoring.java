@@ -19,12 +19,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
+import com.kbs.pocis.filter.FilterFragment;
 
 public class Monitoring extends AppCompatActivity {
 
     ImageView icon_back;
     BottomNavigationView bottombar_monitoring;
     TextView title;
+    FilterFragment filterFragment;
 
 
     @Override
@@ -48,6 +50,17 @@ public class Monitoring extends AppCompatActivity {
         bottombar_monitoring.setOnNavigationItemSelectedListener(listener);
         FragmentList(new Unloading());
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (filterFragment != null){
+            filterFragment.filtering = false;
+        }
+        finish();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

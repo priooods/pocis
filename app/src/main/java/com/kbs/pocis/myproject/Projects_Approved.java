@@ -37,6 +37,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class Projects_Approved extends FilterFragment {
 
     RecyclerView recyclerView;
@@ -46,7 +48,7 @@ public class Projects_Approved extends FilterFragment {
     RelativeLayout layout_kosong;
     NestedScrollView nested;
     TextView kanan, kiri, kanan_banget, kiri_banget,title_progress,
-            index_list_invoice, all_index_invoice, titles;
+            index_list_invoice, all_index_invoice, titles, title_nodata;
     ImageView search_icon;
     int total_item = 0;
     String title = "Showing all Approval list. Tap to see details.";
@@ -59,6 +61,7 @@ public class Projects_Approved extends FilterFragment {
         model_project_s = new ArrayList<>();
         nested = view.findViewById(R.id.nested);
         titles = view.findViewById(R.id.q);
+        title_nodata = view.findViewById(R.id.title_nodata);
         titles.setText(title);
         title_progress = view.findViewById(R.id.title_progress);
         progressBar = view.findViewById(R.id.progress);
@@ -143,6 +146,7 @@ public class Projects_Approved extends FilterFragment {
             recyclerView.setAdapter(adapter_project_list);
         } else {
             nested.setVisibility(View.GONE);
+            title_nodata.setText(R.string.not_found);
             layout_kosong.setVisibility(View.VISIBLE);
         }
     }
@@ -158,7 +162,7 @@ public class Projects_Approved extends FilterFragment {
     @Override
     protected void GenerateFilter(int page, int list){
         layout_kosong.setVisibility(View.GONE);
-        Log.i("frag_aproved", "Call Invoice page = " + page);
+        Log.i("frag_aproved", "Call Approved page = " + page);
         if (UserData.isExists()) {
             Call<PublicList> call = UserData.i.getService().getListApproved(UserData.i.getToken(), String.valueOf(page));
             call.enqueue(new Callback<PublicList>() {
@@ -176,7 +180,6 @@ public class Projects_Approved extends FilterFragment {
                         } else {
                             layout_kosong.setVisibility(View.GONE);
                             if (pmanager.loaded) {
-//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page);
                                 assert respone != null;
                                 List<Model_Project> data = respone.data.model;
                                 for (int i = list; i < data.size(); i++) {
@@ -202,7 +205,6 @@ public class Projects_Approved extends FilterFragment {
                                     FinishFilter();
                                 }
                             } else {
-//                            Log.i("booking_load", "pmanager.load"+pmanager.loaded+" page = "+page+" load = "+load);
                                 int i = 0;
                                 assert respone != null;
                                 for (Model_Project data : respone.data.model) {
@@ -259,6 +261,26 @@ public class Projects_Approved extends FilterFragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: ");
+        filtering = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
+        filtering = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
+        filtering = false;
+    }
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);

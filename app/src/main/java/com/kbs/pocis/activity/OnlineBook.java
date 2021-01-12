@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.kbs.pocis.R;
+import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.onlineboking.TarifApprove;
 import com.kbs.pocis.service.BookingData;
@@ -25,7 +26,7 @@ public class OnlineBook extends AppCompatActivity {
     LinearLayout tarif_approve, online_booking_onlinebooking;
     TextView id_booking, id_tarif;
     ImageView icon_booking, icon_tarif,create_booking;
-
+    FilterFragment filterFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +83,26 @@ public class OnlineBook extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0,0);
+        startActivity(getIntent());
+        overridePendingTransition(0,0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (filterFragment != null){
+            filterFragment.filtering = false;
+        }
+        finish();
+    }
+
+
 
     public void FragmentList(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();

@@ -94,16 +94,16 @@ public class Informations extends Fragment {
                 title9.setText(R.string.voyage);
                 ln10.setVisibility(View.GONE);
 
-                item1.setText(data.customer_name);
-                item2.setText(data.start_date);
-                item3.setText(data.vessel_name);
-                item4.setText(data.vessel_name);
-                item5.setText(data.related_vessel);
-                item6.setText(data.payment_type);
-                item7.setText(data.flag_compound);
-                item8.setText(data.tonnage);
-                item9.setText(data.voyage_no);
-                depart_group.setText(data.department_group);
+                item1.setText(Model_Project.Information.get(0).customer_name);
+                item2.setText(Model_Project.Information.get(0).start_date);
+                item3.setText(Model_Project.Information.get(0).vessel_name);
+                item4.setText(Model_Project.Information.get(0).vessel_name);
+                item5.setText(Model_Project.Information.get(0).related_vessel);
+                item6.setText(Model_Project.Information.get(0).payment_type);
+                item7.setText(Model_Project.Information.get(0).flag_compound);
+                item8.setText(Model_Project.Information.get(0).tonnage);
+                item9.setText(Model_Project.Information.get(0).voyage_no);
+                depart_group.setText(Model_Project.Information.get(0).department_group);
                 break;
             case 2: //for bpaj
                 title1.setText(R.string.customername);
@@ -115,37 +115,38 @@ public class Informations extends Fragment {
                 title9.setText(R.string.voyage);
                 ln10.setVisibility(View.GONE);
 
-                item1.setText(data.customer_name);
-                item2.setText(data.start_date);
-                item3.setText(data.vessel_name);
-                item4.setText(data.end_date);
-                item5.setText(data.related_vessel);
-                item6.setText(data.payment_type);
-                item7.setText(data.flag_compound);
-                item8.setText(data.tonnage);
-                item9.setText(data.voyage_no);
-                depart_group.setText(data.department_group_name);
+                item1.setText(Model_Project.Information.get(0).customer_name);
+                item2.setText(Model_Project.Information.get(0).start_date);
+                item3.setText(Model_Project.Information.get(0).vessel_name);
+                item4.setText(Model_Project.Information.get(0).end_date);
+                item5.setText(Model_Project.Information.get(0).related_vessel);
+                item6.setText(Model_Project.Information.get(0).payment_type);
+                item7.setText(Model_Project.Information.get(0).flag_compound);
+                item8.setText(Model_Project.Information.get(0).tonnage);
+                item9.setText(Model_Project.Information.get(0).voyage_no);
+                depart_group.setText(Model_Project.Information.get(0).department_group_name);
                 break;
             case 1: //for list
                 title1.setText(R.string.booking_no);
                 title3.setText(R.string.schedule);
+                title6.setText(R.string.customername);
                 item1.setText(data.no_booking);
                 item2.setText(data.start_date);
                 item3.setText(data.schedule_code);
                 item4.setText(data.end_date);
-                item5.setText(data.tonnage);
+                item5.setText(Model_Project.Information.get(0).tonnage);
                 item6.setText(data.customer_name);
-                item7.setText(data.related_vessel);
+                item7.setText(Model_Project.Information.get(0).related_vessel);
                 item8.setText(data.vessel_name);
-                item9.setText(data.flag_compound);
-                item10.setText(data.voyage_no);
+                item9.setText(Model_Project.Information.get(0).flag_compound);
+                item10.setText(Model_Project.Information.get(0).voyage_no);
 
-                billpayment.setText(data.bill_paymemt_number);
+                billpayment.setText(Model_Project.Information.get(0).bill_paymemt_number);
                 ln_middle.setVisibility(View.VISIBLE);
                 line_1.setVisibility(View.VISIBLE);
-                payment_type.setText(data.payment_type);
-                va_number.setText(data.va_number);
-                depart_group.setText(data.department_group);
+                payment_type.setText(Model_Project.Information.get(0).payment_type);
+                va_number.setText(Model_Project.Information.get(0).va_number);
+                depart_group.setText(Model_Project.Information.get(0).department_group_name);
                 break;
             case 3: //for invoice
                 title1.setText(R.string.project_no);
@@ -163,7 +164,7 @@ public class Informations extends Fragment {
                 item2.setText(data.customer_name);
                 item3.setText(data.booking_no);
                 item4.setText(data.vessel_name);
-                item5.setText(data.voyage_no);
+                item5.setText(Model_Project.InformationAndDocument.get(0).voyage_no);
 
                 ln_middle.setVisibility(View.GONE);
                 line_1.setVisibility(View.GONE);
@@ -184,15 +185,15 @@ public class Informations extends Fragment {
 
                 item1.setText(data.temp_project_no);
                 item2.setText(data.customer_name);
-                item3.setText(data.tonnage);
-                item4.setText(data.vessel_name);
-                item5.setText(data.voyage_no);
-                item6.setText(data.related_vessel);
-                item7.setText(data.start_date);
-                item8.setText(data.flag_compound);
-                item9.setText(data.end_date);
+                item3.setText(Model_Project.InformationAndDocument.get(0).tonnage);
+                item4.setText(Model_Project.InformationAndDocument.get(0).vessel_name);
+                item5.setText(Model_Project.InformationAndDocument.get(0).voyage_no);
+                item6.setText(Model_Project.InformationAndDocument.get(0).related_vessel);
+                item7.setText(Model_Project.InformationAndDocument.get(0).start_date);
+                item8.setText(Model_Project.InformationAndDocument.get(0).flag_compound);
+                item9.setText(Model_Project.InformationAndDocument.get(0).end_date);
                 item10.setText(data.status_cancel);
-                depart_group.setText(data.department_group);
+                depart_group.setText(Model_Project.InformationAndDocument.get(0).department_group);
                 break;
         }
     }

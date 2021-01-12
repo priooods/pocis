@@ -196,8 +196,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="14dp"
-            android:text="Oops.. Nothing Data Proforma"/>
+            android:textSize="14sp"
+            android:text="Oops.. Data Not FOund !"/>
 
 
     </RelativeLayout>
