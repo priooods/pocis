@@ -92,8 +92,7 @@ public class Projects_List extends FilterFragment {
         if (Ready) {
             Log.w("project_list", "Change Page "+list_status+" to "+target_page);
             model_project_s.clear();
-            parent.page_current = page_current = target_page;
-            parent.pmanager = pmanager;
+            page_current = target_page;
             GenerateLists();
             Ready = false;
         } else {
@@ -135,8 +134,9 @@ public class Projects_List extends FilterFragment {
             parent.GenerateLists();
             LoadingBar(true);
             return;
-        } else if (model_project_s != data.model) {
+        } else if (model_project_s != data.model || pmanager != parent.pmanager) {
             model_project_s = data.model;
+            pmanager = parent.pmanager;
         } else {
             if (recyclerView.getAdapter() == null) {
                 Log.e("project_list", "refresh adapter!");

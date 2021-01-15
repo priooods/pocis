@@ -114,6 +114,7 @@ public class Project_List_Dasar extends FilterFragment {
                 filter = selectProj.list.filter;
                 page_current = selectProj.list.page_current;
                 pmanager = selectProj.list.pmanager;
+                selectProj.list.pmanager = null;
                 selectProj.list.LoadingBar(true);
                 filtered_list.clear();
             }
@@ -141,13 +142,13 @@ public class Project_List_Dasar extends FilterFragment {
                 if (Calling.TreatResponse(getContext(), "project_list", respone)) {
                     if (!filtering) {
                         assert respone != null;
-                        if (all.list.page_current==respone.data.All.current_page) {
+                        if (all.list.page_current==respone.data.All.current_page && all.list.pmanager == null) {
                             all.data = respone.data.All;
                         }
-                        if (open.list.page_current==respone.data.Open.current_page) {
+                        if (open.list.page_current==respone.data.Open.current_page && open.list.pmanager == null) {
                             open.data = respone.data.Open;
                         }
-                        if (close.list.page_current==respone.data.Close.current_page) {
+                        if (close.list.page_current==respone.data.Close.current_page && close.list.pmanager == null) {
                             close.data = respone.data.Close;
                         }
                         if (all.data==null || open.data==null || close.data == null){
@@ -177,23 +178,28 @@ public class Project_List_Dasar extends FilterFragment {
                                     if (filtered_list.size() < pmanager.page_capacity) {
                                         filtered_list.add(take.model.get(i));
                                     } else {
-                                        take.last_page = pmanager.page_last;
-                                        take.total = pmanager.total;
-                                        take.model = filtered_list;
                                         load = false;
-                                        FinishFilter();
-                                        return;
+                                        break;
                                     }
                                 }
                             }
-                            if (page < take.last_page && pmanager.getLastPage()) {
+                            if (page < take.last_page && pmanager.getLastPage() && load) {
                                 GenerateFilter(pmanager.getNextPage(), 0);
                             } else {
                                 take.current_page = page_current;
+                                Log.e("filtering","Use PageManager with page_current = "+page_current);
                                 take.last_page = pmanager.page_last;
                                 take.total = pmanager.total;
                                 take.model = filtered_list;
+                                if (all == on_list) {
+                                    all.data = take;
+                                } else if (open == on_list) {
+                                    open.data = take;
+                                } else {
+                                    close.data = take;
+                                }
                                 load = false;
+                                freeGenerate = true;
                                 FinishFilter();
                             }
                         } else {
@@ -223,7 +229,6 @@ public class Project_List_Dasar extends FilterFragment {
                                 } else {
                                     close.data = take;
                                 }
-                                selectProj.list.pmanager = pmanager;
                                 freeGenerate = true;
                                 FinishFilter();
                             } else {
