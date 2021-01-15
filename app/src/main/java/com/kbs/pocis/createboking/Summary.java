@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -66,12 +68,17 @@ public class Summary extends Fragment {
     AdapterServices adapterServices;
     AdapterFile adapterFile;
 
+    LinearLayout ln_sch_info, ln_doc, ln_com;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summary, container, false);
         progressBar = view.findViewById(R.id.progress);
+        ln_sch_info = view.findViewById(R.id.b);
+        ln_doc = view.findViewById(R.id.e);
+        ln_com = view.findViewById(R.id.d);
         next = view.findViewById(R.id.summary_nextBtn);
         prev = view.findViewById(R.id.summary_prevBtn);
 
@@ -91,6 +98,26 @@ public class Summary extends Fragment {
         list_Document = view.findViewById(R.id.veselinfo_documentList);
 
         BookingData data = BookingData.i;
+        if (BookingData.i.checkVesselInfoSkip()){
+            ln_sch_info.setVisibility(View.GONE);
+        } else {
+            Log.i(TAG, "vessel ada: ");
+        }
+
+        if (BookingData.i.commodity == null || BookingData.i.commodity.size() == 0) {
+            Log.i(TAG, "commodity null: ");
+            ln_com.setVisibility(View.GONE);
+        } else {
+            Log.i(TAG, "commodity ada: ");
+        }
+
+        if (BookingData.i.file == null){
+            ln_doc.setVisibility(View.GONE);
+            Log.i(TAG, "doc null: ");
+        } else {
+            Log.i(TAG, "doc ada: ");
+        }
+
         if (!data.customerType.equals("AGENT") && !data.relatedVesel.equals("Y")) {
             discharge.setText(data.vessel.voyage_number);
         } else if (data.customerType.equals("GENERAL")){
@@ -142,8 +169,6 @@ public class Summary extends Fragment {
 
     public void ButtonFunction(){
         prev.setOnClickListener(v -> requireActivity().onBackPressed());
-
-
         next.setOnClickListener(v -> ShowDialogCancell(getContext()));
     }
 
@@ -183,30 +208,41 @@ public class Summary extends Fragment {
         return RequestBody.create(req, MediaType.parse("multipart/form-data"));
     }
 
+    public RequestBody input_form(String req) {
+        return RequestBody.create(req, MediaType.parse("multipart/form-data"));
+    }
+
     public void SendDataBooking(){
         BookingData data = BookingData.i;
 
-        Map<String, String> Booking = new HashMap<>();
-        Booking.put("Booking[m_customer_id]", UserData.i.getCustID());
-        Booking.put("Booking[t_map_customer_type_id]", String.valueOf(data.customerId));
-        Booking.put("Booking[customer_type_code]", data.customerType);
-        Booking.put("Booking[flag_related_vessel]", data.relatedVesel);
-        Booking.put("Booking[flag_contract]", data.contract);
+        HashMap<String, RequestBody> Booking = new HashMap<>();
+        Booking.put("Booking[m_customer_id]", input_form(UserData.i.getCustID()));
+        Booking.put("Booking[t_map_customer_type_id]", input_form(String.valueOf(data.customerId)));
+        Booking.put("Booking[customer_type_code]", input_form(data.customerType));
+        Booking.put("Booking[flag_related_vessel]", input_form(data.relatedVesel));
+        Booking.put("Booking[flag_contract]", input_form(data.contract));
 
-        Booking.put("BookingVessel[m_vessel_id]", String.valueOf(data.vessel.id_vessel));
-        Booking.put("BookingVessel[discharge_or_loading]", String.valueOf(data.vessel.discharge_loading));
-        Booking.put("BookingVessel[estimate_arrival_date]", data.vessel.estimate_arival);
-        Booking.put("BookingVessel[estimate_departure_date]", data.vessel.estimate_departure);
-        Booking.put("BookingVessel[port_of_loading_id]", String.valueOf(data.vessel.port_discharge_id));
-        Booking.put("BookingVessel[m_port_cigading_id]", String.valueOf(data.vessel.port_origin_id));
-        Booking.put("BookingVessel[voyage_no]", String.valueOf(data.vessel.voyage_number));
 
-        Booking.put("VesselSchedule[id]", String.valueOf(data.vessel.id_voyage));
+        HashMap<String, RequestBody> BookingVessel = new HashMap<>();
+        BookingVessel.put("BookingVessel[m_vessel_id]", input_form(String.valueOf(data.vessel.id_vessel)));
+        BookingVessel.put("BookingVessel[voyage_no]", input_form(String.valueOf(data.vessel.voyage_number)));
+        BookingVessel.put("BookingVessel[discharge_or_loading]", input_form(String.valueOf(data.vessel.discharge_loading)));
+        BookingVessel.put("BookingVessel[estimate_arrival_date]", input_form(String.valueOf(data.vessel.est_value)));
+        BookingVessel.put("BookingVessel[estimate_departure_date]", input_form(String.valueOf(data.vessel.depar_value)));
+        BookingVessel.put("BookingVessel[port_of_loading_id]", input_form(String.valueOf(data.vessel.port_discharge_id)));
+        BookingVessel.put("BookingVessel[m_port_cigading_id]", input_form(String.valueOf(data.vessel.port_origin_id)));
+
+        Log.i(TAG, "check data: " + "estimate " + data.vessel.est_value + ", departure: " + data.vessel.depar_value);
+
+        Booking.put("VesselSchedule[id]", input_form(String.valueOf(data.vessel.id_voyage)));
 
         int i = 0;
-        for (Model_Commodity com : data.commodity) {
-            com.getMap(Booking,i);
-            i++;
+        if (data.commodity != null) {
+            for (Model_Commodity com : data.commodity) {
+                com.getMap(Booking, i);
+                i++;
+                Log.i(TAG, "commodity list: " + com);
+            }
         }
 
         i = 0;
@@ -216,8 +252,15 @@ public class Summary extends Fragment {
                 i++;
             }
         }
-        Log.i(TAG, "SendDataBooking: "+ Booking);
 
+        i = 0;
+        if (BookingData.i.file != null) {
+            for (Model_UploadDocument doc : BookingData.i.file){
+                doc.getMap(Booking,i);
+                i++;
+                Log.i(TAG, "new data document: " + doc.path);
+            }
+        }
 
         i = 0;
         MultipartBody.Part[] fileToUpload = null;
@@ -230,10 +273,9 @@ public class Summary extends Fragment {
             }
         }
 
-
-        Log.i(TAG, "SendDataBooking: => " + Arrays.toString(fileToUpload));
+        Log.i(TAG, "SendDataBooking: Files => " + Arrays.toString(fileToUpload));
         retrofit2.Call<CallingSaveBok> call = UserData.i.getService().saveBooking(
-                UserData.i.getToken(),
+                UserData.i.getToken(),BookingVessel,
                 Booking, fileToUpload
         );
         call.enqueue(new Callback<CallingSaveBok>() {
@@ -245,7 +287,7 @@ public class Summary extends Fragment {
                     BookingDetailData detailData = data.data;
                     Log.i(TAG, "onResponse: => " + detailData.no_booking);
 
-                    Toasty.success(requireContext(),data.desc + "\n nomer_boking : " + detailData.no_booking + "\n id : " + detailData.id + "\n boking_date : " + detailData.booking_date, Toasty.LENGTH_LONG, true).show();
+                    MDToast.makeText(requireContext(),data.desc + "\nnomer_boking : " + detailData.no_booking + "\nid : " + detailData.id, Toasty.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     Fragment fragment = new Finish();
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -253,7 +295,7 @@ public class Summary extends Fragment {
                     fragmentTransaction.replace(R.id.frameCreate, fragment);
                     fragmentTransaction.commit();
                 }else{
-                    Toasty.error(requireContext(), "Booking Failure", Toasty.LENGTH_LONG, true).show();
+                    MDToast.makeText(requireContext(), "Booking Failure", MDToast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }

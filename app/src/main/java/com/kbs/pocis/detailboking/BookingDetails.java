@@ -2,6 +2,7 @@ package com.kbs.pocis.detailboking;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -16,26 +17,15 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.activity.OnlineBook;
 import com.kbs.pocis.adapter.ViewpagerDefault;
 import com.kbs.pocis.api.UserService;
-import com.kbs.pocis.complains.Complain_Dasar;
-import com.kbs.pocis.complains.Detail_Complain;
 import com.kbs.pocis.model.Model_Project;
-import com.kbs.pocis.onlineboking.OnlineBooking;
-import com.kbs.pocis.onlineboking.TarifApprove;
-import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingDetailData;
-import com.kbs.pocis.service.BookingList;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.detailbooking.CallingDetail;
@@ -96,7 +86,7 @@ public class BookingDetails extends AppCompatActivity {
         layout_ada = findViewById(R.id.detail_ada);
         layout_kosong = findViewById(R.id.detail_kosong);
 
-        DataGet(this);
+        DataGet();
 
         //Ini untuk mengatur setiap layout yang akan di tampilkan
         // pada tab detail booking
@@ -109,18 +99,18 @@ public class BookingDetails extends AppCompatActivity {
         btn_back.setOnClickListener(v -> this.onBackPressed());
 
         //Kondisi untuk mensetting color text pada status yang berbeda
-        KondisiStatus(status, statusBooking,this);
+        KondisiStatus(status, statusBooking);
         KondisiButtonBawah(status, layout_btn_bawah, layout_btn_verified
                 ,cancel_booking, rejectTarif, approveTarif, this);
     }
 
 
-    public void DataGet(Activity activity){
+    public void DataGet(){
         UserData user = UserData.i;
         UserService service = user.getService();
         Intent intent = getIntent();
         String BookingId = intent.getStringExtra("id");
-        Log.d("TAG", "DataGet: " + BookingId);
+        Log.d(ContentValues.TAG, "id booking: " + BookingId);
         if (service == null) {
             Log.e("booking_detail","ERROR SERVICE");
         }
@@ -135,9 +125,12 @@ public class BookingDetails extends AppCompatActivity {
             public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
                 CallingDetail respone =  response.body();
                 assert respone != null;
-                if (CallingDetail.TreatResponse(activity, "detail_booking", respone)) {
-                    Log.i("detail_booking",respone.readString());
-                    BookingDetailData.i = respone.data;
+                if (Calling.TreatResponse(BookingDetails.this, "detail_booking", respone)) {
+                    Log.i("detail_booking",respone.data.Information.get(0).toString());
+                    Model_Project.Information = respone.data.Information;
+                    Model_Project.Service = respone.data.Service;
+                    Model_Project.Commodity = respone.data.Commodity;
+                    Model_Project.Documents = respone.data.Documents;
                     ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
                     viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
                     viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
@@ -145,21 +138,7 @@ public class BookingDetails extends AppCompatActivity {
                     viewPager.setAdapter(viewpagerDefault);
                     tabLayout.setupWithViewPager(viewPager);
                 } else {
-                    assert BookingId != null;
-                    if (Integer.parseInt(BookingId)-1<BookingList.getI().data_list.size()){
-                        Log.e("detail_booking", "Failed on API : \n Error " + respone.error + " : " + respone.desc);
-                        Log.i("detail_booking","Show Detail by offline id="+BookingId);
-                        BookingData.i = BookingList.getI().data_list.get(Integer.parseInt(BookingId)-1);
-                        ViewpagerDefault viewpagerDefault = new ViewpagerDefault(getSupportFragmentManager());
-                        viewpagerDefault.Addfragment(new BookingDetails_Information(),"Information");
-                        viewpagerDefault.Addfragment(new BookingDetails_Service(),"Service");
-                        viewpagerDefault.Addfragment(new BookingDetails_Commodity(),"Commodity");
-                        viewPager.setAdapter(viewpagerDefault);
-                        tabLayout.setupWithViewPager(viewPager);
-                    }
-                    else {
-                        layout_kosong.setVisibility(View.VISIBLE);
-                    }
+                    layout_kosong.setVisibility(View.VISIBLE);
                 }
             }
             @Override
@@ -170,19 +149,19 @@ public class BookingDetails extends AppCompatActivity {
     }
 
     //Status booking dari setiap list nya disini setting nya
-    private void KondisiStatus (String statused, TextView textView, Activity activity){
+    private void KondisiStatus (String statused, TextView textView){
         switch (statused){
             case "APPROVED":
-                textView.setTextColor(activity.getResources().getColor(R.color.colorGreen));
+                textView.setTextColor(getResources().getColor(R.color.colorGreen));
                 break;
             case "CANCELED":
-                textView.setTextColor(activity.getResources().getColor(R.color.colorRed));
+                textView.setTextColor(getResources().getColor(R.color.colorRed));
                 break;
             case "BOOKING":
-                textView.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+                textView.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case "VERIFIED":
-                textView.setTextColor(activity.getResources().getColor(R.color.colorVerified));
+                textView.setTextColor(getResources().getColor(R.color.colorVerified));
                 break;
         }
     }
@@ -275,6 +254,7 @@ public class BookingDetails extends AppCompatActivity {
                     d.setCancelable(false);
                     d.setCustomImage(R.drawable.success_img);
                     d.setConfirmButton("Back", sweetAlertDialog -> {
+                        Model_Project.Code = 0;
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
                         ((AppCompatActivity)context).onBackPressed();
@@ -311,6 +291,7 @@ public class BookingDetails extends AppCompatActivity {
                     d.setCancelable(false);
                     d.setCustomImage(R.drawable.success_img);
                     d.setConfirmButton("Back", sweetAlertDialog -> {
+                        Model_Project.Code = 1;
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
                         ((AppCompatActivity)context).onBackPressed();
@@ -330,7 +311,6 @@ public class BookingDetails extends AppCompatActivity {
         });
     }
 
-
     private void CallingApiApproveTariff(TextInputEditText remark, Context context, Dialog dialog){
         Intent intent = getIntent();
         String BookingId = intent.getStringExtra("id");
@@ -347,6 +327,7 @@ public class BookingDetails extends AppCompatActivity {
                     d.setCancelable(false);
                     d.setCustomImage(R.drawable.success_img);
                     d.setConfirmButton("Back", sweetAlertDialog -> {
+                        Model_Project.Code = 1;
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
                         ((AppCompatActivity)context).onBackPressed();

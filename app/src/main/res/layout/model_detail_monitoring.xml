@@ -989,7 +989,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <TextView
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
@@ -1010,7 +1009,6 @@
             android:background="#444444"
             android:textSize="10dp"
             android:textColor="@color/colorGreen"/>
-
 
     </LinearLayout>
 

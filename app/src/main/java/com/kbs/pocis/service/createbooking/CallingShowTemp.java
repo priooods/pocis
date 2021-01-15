@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class CallingShowTemp {
             Log.i(tag, "Success : " + tag + " : " + desc);
             return true;
         } else {
-            Toasty.error(context, desc, Toast.LENGTH_SHORT, true).show();
+            MDToast.makeText(context, desc, Toast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
             Log.e(tag, "Failed : \n Error " + error + " : " + desc);
             return false;
         }

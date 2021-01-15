@@ -165,7 +165,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Show Template"
-        android:textSize="13dp"
+        android:textSize="13sp"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/montserrat_bold"/>
 
@@ -173,7 +173,7 @@
         android:scrollbarSize="0dp"
         android:layout_below="@id/c"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/rlbtn"
         android:paddingHorizontal="20dp"
         android:layout_marginBottom="8dp"
@@ -191,7 +191,7 @@
         android:id="@+id/rlbtn">
 
         <Button
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:id="@+id/cust_add_form_prevBtn"
             android:layout_width="140dp"
             android:layout_height="40dp"
@@ -200,10 +200,10 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_cancel"
-            android:textSize="13dp"/>
+            android:textSize="13sp"/>
 
         <Button
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:id="@+id/cust_add_form_nextBtn"
             android:layout_width="140dp"
             android:layout_height="40dp"
@@ -212,7 +212,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_primary"
-            android:textSize="13dp"/>
+            android:textSize="13sp"/>
 
     </RelativeLayout>
 

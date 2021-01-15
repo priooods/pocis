@@ -7,6 +7,7 @@ import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,17 +15,9 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static android.content.ContentValues.TAG;
+
 public class Model_UploadDocument {
-
-//    public static Model_UploadDocument i;
-//    public static boolean isExist(){
-//        if (Model_UploadDocument.i == null){
-//            return false;
-//        }
-//        return true;
-//    }
-
-    public static List<Model_UploadDocument> model_uploadDocuments;
 
     public File uri;
     public String username;
@@ -64,6 +57,16 @@ public class Model_UploadDocument {
     }
 
     public void getString(){
-        Log.e("model_upload_document", "Uri ="+(uri == null ? "NULL":uri.getName())+", description="+description);
+        Log.i("model_upload_document", "Uri = "+(uri == null ? "NULL ":uri.getName())+", description = "+description);
+    }
+
+    public RequestBody input_form(String req) {
+        return RequestBody.create(req, MediaType.parse("multipart/form-data"));
+    }
+
+    public void getMap(HashMap<String, RequestBody> map, int i) {
+        map.put("BookingDocument[m_document_id][" + i + "]", input_form(m_document_id));
+        map.put("BookingDocument[path][" + i + "]", input_form(path));
+        Log.i(TAG, "new data document: " + map + " size " + i);
     }
 }

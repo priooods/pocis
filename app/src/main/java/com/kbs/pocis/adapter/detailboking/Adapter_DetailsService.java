@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.Model_DetailsService;
+import com.kbs.pocis.model.Model_Project;
 
 import java.util.List;
 
 public class Adapter_DetailsService extends RecyclerView.Adapter<Adapter_DetailsService.VHolder> {
 
     Context context;
-    List<Model_DetailsService> model_bookings;
+    List<Model_Project> model_bookings;
 
-    public Adapter_DetailsService(Context context, List<Model_DetailsService> model_bookings) {
+    public Adapter_DetailsService(Context context, List<Model_Project> model_bookings) {
         this.context = context;
         this.model_bookings = model_bookings;
     }
@@ -33,9 +33,8 @@ public class Adapter_DetailsService extends RecyclerView.Adapter<Adapter_Details
 
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
-        holder.include.setText(model_bookings.get(position).getName());
-        String pr = "IDR " + model_bookings.get(position).getPrice();
-        holder.price.setText(pr);
+        holder.include.setText(model_bookings.get(position).service_name);
+        holder.price.setText(model_bookings.get(position).tariff);
     }
 
     @Override

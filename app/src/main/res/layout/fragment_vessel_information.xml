@@ -192,20 +192,20 @@
                 android:layout_marginTop="10dp">
 
                 <TextView
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vessel Name"
                     android:fontFamily="@font/montserrat_reguler"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="11dp"/>
+                    android:textSize="11sp"/>
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
                     android:inputType="text"
                     android:imeOptions="actionNext"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:fontFamily="@font/montserrat_bold"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorPrimaryDark"
@@ -539,7 +539,7 @@
         android:id="@+id/rlbtn">
 
         <Button
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:id="@+id/veselinfo_prevBtn"
             android:layout_width="140dp"
             android:layout_height="40dp"
@@ -548,10 +548,10 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_cancel"
-            android:textSize="13dp"/>
+            android:textSize="13sp"/>
 
         <Button
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:id="@+id/veselinfo_nextBtn"
             android:layout_width="140dp"
             android:layout_height="40dp"
@@ -560,7 +560,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_primary"
-            android:textSize="13dp"/>
+            android:textSize="13sp"/>
 
     </RelativeLayout>
 

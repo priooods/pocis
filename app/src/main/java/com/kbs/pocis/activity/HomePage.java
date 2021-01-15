@@ -19,10 +19,8 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -31,6 +29,7 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.kbs.pocis.HomeMenu;
 import com.kbs.pocis.R;
 import com.kbs.pocis.service.UserData;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 public class HomePage extends AppCompatActivity {
 
@@ -66,9 +65,9 @@ public class HomePage extends AppCompatActivity {
             Log.i("home", "cust_id: " + data.getCustID());
             Log.i("home", "name: " + data.username);
         }
-        AutomatisUpdateApp();
+//        AutomatisUpdateApp();
         framehomepage = findViewById(R.id.framehomepage);
-        Permision();
+        Permission();
         FragmentList(new HomeMenu());
     }
 
@@ -110,26 +109,24 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-    //Dibawah Ini Untuk Minta Permmisions Storage di Applikasi. Biar bisa access File Manager
-
-    public void Permision(){
+    //Minta Permission Storage di app access File Manager
+    public void Permission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                Log.i("home", "Permision Storage: " + true);
+                Log.i("home", "Permission Storage: " + true);
             } else {
                 IjinStorage();
             }
         }
-
     }
 
     public void IjinStorage(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-            new AlertDialog.Builder(this).setTitle("Membutuhkan Ijin")
-                    .setMessage("Dibutuhkan ijin untuk menemukan File PDF di storage anda")
-                    .setPositiveButton("ok", (dialog, which) -> ActivityCompat.requestPermissions(HomePage.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE))
-                    .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+            new AlertDialog.Builder(this).setTitle("Permission Required")
+                    .setMessage("You must give document opening permission to upload files")
+                    .setPositiveButton("Yes", (dialog, which) -> ActivityCompat.requestPermissions(HomePage.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE))
+                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                     .create().show();
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
@@ -140,18 +137,18 @@ public class HomePage extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PRIVATE_CODE){
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Ijin Berhasil Diberikan", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Ijin Gagal Diberikan", Toast.LENGTH_LONG).show();
+                MDToast.makeText(this, "Permission Granted", MDToast.LENGTH_SHORT, MDToast.TYPE_SUCCESS).show();
+            }
+            else {
+                MDToast.makeText(this, "Permission Not Given", MDToast.LENGTH_SHORT,MDToast.TYPE_WARNING).show();
             }
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        AutomatisUpdateApp();
+//        AutomatisUpdateApp();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.kbs.pocis.onlineboking;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.onlineboking.Adapter_AllBooking;
 import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.model.onlineboking.Model_Bookings;
+import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.service.UserData;
 
@@ -28,6 +30,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
+
 public class AllBookings extends FilterFragment {
 
     Adapter_AllBooking adapter_allBooking;
@@ -43,8 +48,9 @@ public class AllBookings extends FilterFragment {
     int booking_type;
 
     public AllBookings(int type) {
-        booking_type = type;
+        this.booking_type = type;
     }
+
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -157,108 +163,116 @@ public class AllBookings extends FilterFragment {
         layout_kosong.setVisibility(View.GONE);
         Log.i("all_booking", "Call AllBooking page = " + page);
         Call<CallingData> call;
-        if (booking_type == 0) {
-            call = UserData.i.getService().getAllBooking(UserData.i.getToken(), String.valueOf(page));
-        } else {
-            call = UserData.i.getService().getAllCancel(UserData.i.getToken(), String.valueOf(page));
-        }
-        if (call == null) {
-            Log.i("all_booking", "CallingData Post Method is Bad!");
-        }
-        assert call != null;
-        call.enqueue(new Callback<CallingData>() {
-            @Override
-            public void onResponse(@NotNull Call<CallingData> call, @NotNull Response<CallingData> response) {
-                CallingData respone = response.body();
-                if (CallingData.TreatResponse(getContext(), "all_booking", respone)) {
-                    if (!filtering) {
-                        assert respone != null;
-                        for (CallingData.Booking data : respone.data.book) {
-                            model_bookingsList.add(data.getModel());
-                        }
-                        page_current = respone.data.current_page;
-                        page_last = respone.data.last_page;
-                        total_item = respone.data.total;
-                        FinishFilter();
-                    } else {
-                        //This for Filter. Do not Editing Function. Edit Only model;
-                        if (pmanager.loaded) {
-                            Log.i("booking_load"," page = " + page);
-                            assert respone != null;
-                            CallingData.Booking[] data = respone.data.book;
-                            for (int i = list; i < data.length; i++) {
-                                if (filter.checkFilter(data[i])) {
-                                    model_bookingsList.add(data[i].getModel());
-                                    Log.i("booking_load", data[i].readString());
-                                    if (model_bookingsList.size() >= pmanager.page_capacity) {
-                                        page_last = pmanager.page_last;
-                                        total_item = pmanager.total;
-                                        load = false;
-                                        FinishFilter();
-                                        return;
-                                    }
-                                }
-                            }
-                            if (page < respone.data.last_page && pmanager.getLastPage()) {
-                                GenerateFilter(pmanager.getNextPage(), 0);
-                            } else {
-                                page_last = pmanager.page_last;
-                                total_item = pmanager.total;
-                                load = false;
-                                FinishFilter();
-                            }
-                        } else {
-                            Log.i("booking_load",  " page = " + page + " load = " + load);
-                            int i = 0;
+            if (booking_type == 0) {
+                call = UserData.i.getService().getAllBooking(UserData.i.getToken(), String.valueOf(page));
+            } else {
+                call = UserData.i.getService().getAllCancel(UserData.i.getToken(), String.valueOf(page));
+            }
+            assert call != null;
+            call.enqueue(new Callback<CallingData>() {
+                @Override
+                public void onResponse(@NotNull Call<CallingData> call, @NotNull Response<CallingData> response) {
+                    CallingData respone = response.body();
+                    if (Calling.TreatResponse(getContext(), "all_booking", respone)) {
+                        if (!filtering) {
                             assert respone != null;
                             for (CallingData.Booking data : respone.data.book) {
-                                if (filter.checkFilter(data)) {
-                                    if (pmanager.addPack(page, i) && load) {
-                                        model_bookingsList.add(data.getModel());
-                                        Log.i("booking_load", data.readString());
-                                    } else {
-                                        load = false;
+                                model_bookingsList.add(data.getModel());
+                            }
+                            page_current = respone.data.current_page;
+                            page_last = respone.data.last_page;
+                            total_item = respone.data.total;
+                            FinishFilter();
+                        } else {
+                            //This for Filter. Do not Editing Function. Edit Only model;
+                            if (pmanager.loaded) {
+                                Log.i("booking_load", " page = " + page);
+                                assert respone != null;
+                                CallingData.Booking[] data = respone.data.book;
+                                for (int i = list; i < data.length; i++) {
+                                    if (filter.checkFilter(data[i])) {
+                                        model_bookingsList.add(data[i].getModel());
+                                        Log.i("booking_load", data[i].readString());
+                                        if (model_bookingsList.size() >= pmanager.page_capacity) {
+                                            page_last = pmanager.page_last;
+                                            total_item = pmanager.total;
+                                            load = false;
+                                            FinishFilter();
+                                            return;
+                                        }
                                     }
                                 }
-                                i++;
-                            }
-                            if (page == respone.data.last_page) {
-                                pmanager.finishLoad();
-                                page_last = pmanager.page_last;
-                                total_item = pmanager.total;
-                                load = false;
-                                layout_ada.setVisibility(View.VISIBLE);
-                                progressBar.setVisibility(View.GONE);
-                                FinishFilter();
+                                if (page < respone.data.last_page && pmanager.getLastPage()) {
+                                    GenerateFilter(pmanager.getNextPage(), 0);
+                                } else {
+                                    page_last = pmanager.page_last;
+                                    total_item = pmanager.total;
+                                    load = false;
+                                    FinishFilter();
+                                }
                             } else {
-                                GenerateFilter(page + 1, 0);
+                                Log.i("booking_load", " page = " + page + " load = " + load);
+                                int i = 0;
+                                assert respone != null;
+                                for (CallingData.Booking data : respone.data.book) {
+                                    if (filter.checkFilter(data)) {
+                                        if (pmanager.addPack(page, i) && load) {
+                                            model_bookingsList.add(data.getModel());
+                                            Log.i("booking_load", data.readString());
+                                        } else {
+                                            load = false;
+                                        }
+                                    }
+                                    i++;
+                                }
+                                if (page == respone.data.last_page) {
+                                    pmanager.finishLoad();
+                                    page_last = pmanager.page_last;
+                                    total_item = pmanager.total;
+                                    load = false;
+                                    layout_ada.setVisibility(View.VISIBLE);
+                                    progressBar.setVisibility(View.GONE);
+                                    FinishFilter();
+                                } else {
+                                    GenerateFilter(page + 1, 0);
+                                }
                             }
                         }
-                    }
-                } else {
-                    try {
-                        Thread.sleep(4500, 0);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        GenerateFilter(page, 0);
+                    } else {
+//                    try {
+//                        Thread.sleep(4500, 0);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } finally {
+//                        GenerateFilter(page, 0);
+//                    }
+                        new CountDownTimer(8000, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                Log.i(TAG, "onTick: " + millisUntilFinished);
+                                //here you can have your logic to set text to edittext
+                            }
+
+                            public void onFinish() {
+                                GenerateFilter(page, 0);
+                            }
+
+                        }.start();
                     }
                 }
+
+                @Override
+                public void onFailure(@NotNull Call<CallingData> call, @NotNull Throwable t) {
+                    Ready = true;
+                    Log.e("all_boking", "on Failure called!" + t);
+                }
+            });
+            try {
+                Thread.sleep(100, 0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onFailure(@NotNull Call<CallingData> call, @NotNull Throwable t) {
-                Ready = true;
-                Log.e("all_boking", "on Failure called!" + t);
-            }
-        });
-        try {
-            Thread.sleep(100, 0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
-
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);

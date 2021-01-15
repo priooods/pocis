@@ -24,12 +24,11 @@ import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
-import com.kbs.pocis.model.createboking.Model_UploadDocument;
 import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -60,45 +59,6 @@ public class SelectTemplate extends Fragment {
         boxesCheckAll = view.findViewById(R.id.e);
         checkAll = view.findViewById(R.id.select_template_checkAll);
 
-//region Filtering Checked
-//        int i = 0;
-//        if (BookingData.isExist()){
-//            // Load Data
-//            for(BookingData.BookTemplate temp : BookingData.i.template){
-//                Log.i("showTemplate","on BookTemplate = "+temp.code+" "+temp.name);
-//                for(;i<model.size();i++){
-//                    if (temp.code == model.get(i).getId()){
-//                        int j=0;
-//                        ArrayList<Model_SelectTemplate> sel = model.get(i).list;
-//                        for (Model_SelectTemplate mod : model.get(i).list) {
-//                            for (; j < sel.size(); j++) {
-//                                if (mod.getId() == sel.get(j).getId()) {
-//                                    Log.i("showTemplate","Check True for SubList "+mod.getId()+" "+mod.getName());
-//                                    //sel.get(j).setChecked(true);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                        i++;
-//                        break;
-//                    }else{
-//                        Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());
-//                        model.remove(i);
-//                        i--;
-//                    }
-//                }
-//            }
-//            for(;i<model.size();i++) {
-//                Log.i( "showTemplate" , "Model Remove "+model.get(i).getId()+" "+model.get(i).getName()+" List ="+model.get(i).list.size());
-//                model.remove(i);
-//                i--;
-//            }
-//        }
-//            else{
-//            // Error Back to CustomerAddForm
-//        }
-// endregion
-
         //Button go & backn
         prev = view.findViewById(R.id.select_template_prevBtn);
         next = view.findViewById(R.id.select_template_nextBtn);
@@ -128,12 +88,12 @@ public class SelectTemplate extends Fragment {
                         assert response.body() != null;
                         CallingSelectTemp.SelTemp data = response.body().data;
                         if (data == null || data.list == null) {
-                            Toasty.error(requireContext(), "List Kosong", Toasty.LENGTH_SHORT, true).show();
+                            MDToast.makeText(requireContext(), "No Data", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
                         } else {
                             if (data.temp_document != null) {
                                 Log.i("model_select", "length request = " + data.temp_document.size());
                                 BookingData.i.file = data.temp_document;
-//                                Model_UploadDocument.model_uploadDocuments = data.temp_document;
+                                Log.i(TAG, "document_id: "+ BookingData.i.file.get(0).m_document_id);
                             }else {
                                 if (BookingData.i.file != null)
                                     BookingData.i.file.clear();
@@ -156,12 +116,11 @@ public class SelectTemplate extends Fragment {
                                             listcheck = temp.listCheck;
                                             if (listcheck != null) {
                                                 for(BookingData.BookTemplate.BookTempList l:listcheck){
-                                                    Log.i("checked!",l.code+" "+l.name+" "+l.id);
+                                                    Log.i("checked!",l.code+" "+l.name+" "+l.id+ " " + l.m_service_code_id);
                                                 }
                                             }else{
-                                                Log.e("checked!",temp.id+"is null!");
+                                                Log.i("checked!",temp.id+"is null!");
                                             }
-                                            //Log.i("model_select", "stemp = "+stemp.display_desc_header + " " + stemp.id + " " + stemp.code);
                                             break;
                                         } else
                                             stemp = null;
@@ -179,17 +138,18 @@ public class SelectTemplate extends Fragment {
                                         }
                                     }
                                     stemp.list.add(mod);
-                                    Log.i("model_select", mod.header_id + " " + mod.id + " " + mod.code + " " + mod.desc+" "+mod.checked);
+                                    Log.i("model_select", mod.header_id + " " + mod.m_service_code_id + " " + mod.code + " " + mod.desc+" "+mod.checked);
                                 }
                             }
                             for (Model_ShowTemplate st : model) {
                                 Log.i("model_select",st.id+" = "+st.list.size());
                             }
-                            listingFeePas = new ListingFeePas(getContext(), model);
-//                            adapter = new ShowTemplate.ListTemplate(getContext(), model);
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            listingFeePas = new ListingFeePas(requireContext(), model);
+                            recyclerView_FeePas.setHasFixedSize(true);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
                             recyclerView_FeePas.setLayoutManager(layoutManager);
                             recyclerView_FeePas.setAdapter(listingFeePas);
+                            listingFeePas.notifyDataSetChanged();
                         }
                     }
                 }
@@ -197,7 +157,7 @@ public class SelectTemplate extends Fragment {
 
                 @Override
                 public void onFailure(@NotNull Call<CallingSelectTemp> call, @NotNull Throwable t) {
-                    Log.i(UploadDocument.FileUtils.TAG, "onFailure: => " + t);
+                    Log.i(TAG, "onFailure: => " + t);
                 }
             });
         }
@@ -207,13 +167,7 @@ public class SelectTemplate extends Fragment {
         prev.setOnClickListener(v -> {
             BookingData.i.SelectBookUpdate(model);
             requireActivity().onBackPressed();
-//            Fragment fragment = new ShowTemplate();
-            Log.i(UploadDocument.FileUtils.TAG, "onClick: => " + BookingData.i.customerId);
-//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//            fragmentTransaction.replace(R.id.frameCreate, fragment);
-//            fragmentTransaction.commit();
+            Log.i(TAG, "m_customer_id: => " + BookingData.i.customerId);
         });
         next.setOnClickListener(v -> GoToNext());
     }
@@ -222,7 +176,7 @@ public class SelectTemplate extends Fragment {
         if (isOneChecked()) {
             for (Model_ShowTemplate mod : model) {
                 for (Model_SelectTemplate sel : mod.list) {
-                    Log.i("out", sel.header_id + " | " + sel.id + " " + sel.desc + " - " + sel.checked);
+                    Log.i("out", sel.header_id + " | " + sel.m_service_code_id + " " + sel.desc + " - " + sel.checked);
                 }
             }
 
@@ -235,21 +189,35 @@ public class SelectTemplate extends Fragment {
                 fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
                 fragmentTransaction.commit();
             }else{
-                // Goto Commodity
-                BookingData.i.SelectBookUpdate(model);
-                Fragment fragment = new AddComodity();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
+                if (BookingData.i.checkVesselInfoSkip()){
+                    BookingData.i.SelectBookUpdate(model);
+                    BookingData.i.vessel = new BookingData.VesselData();
+                    BookingData.i.commodity = null;
+                    Fragment fragment = new Summary();
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
+                } else {
+                    // Goto Commodity
+                    BookingData.i.SelectBookUpdate(model);
+                    //reset file if user change template and nothing file upload
+                    BookingData.i.file = null;
+                    Fragment fragment = new AddComodity();
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         } else {
-            Toasty.error(requireContext(), "Please Add Template !", Toasty.LENGTH_SHORT, true).show();
+            MDToast.makeText(requireContext(), "Please Select Template !", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
         }
     }
 
-    //Melihat status dari subType Template apakah tidak ada yg true di Type Template
+    //Show status dari subType Template apakah tidak ada yg true di Type Template
     boolean isOneChecked(){
         boolean checked;
         for (Model_ShowTemplate mod : model) {
@@ -289,7 +257,6 @@ public class SelectTemplate extends Fragment {
         public void onBindViewHolder(@NonNull final vHolder holder, final int position) {
             holder.idtitle.setText(model.get(position).code);
             holder.nametitle.setText(model.get(position).display_desc_header);
-            Log.i(TAG, "onBindViewHolder: " + model.get(position).image_file);
             Glide.with(context)
                     .load("http://cigading.ptkbs.co.id/pocis/img/template/"+ model.get(position).image_file)
                     .placeholder(R.color.colorGrey)
@@ -304,6 +271,7 @@ public class SelectTemplate extends Fragment {
             holder.listRecycle.setHasFixedSize(true);
             holder.listRecycle.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             holder.listRecycle.setAdapter(templateAnak);
+            templateAnak.notifyDataSetChanged();
         }
 
         @Override

@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.detailboking.Adapter_DetailCommodity;
-import com.kbs.pocis.model.Model_Commodity;
-import com.kbs.pocis.model.Model_DetailsCommodity;
-import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.model.Model_Project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,26 +37,14 @@ public class BookingDetails_Commodity extends Fragment {
         recyclerView = view.findViewById(R.id.recycle_commodity);
         lay_ada = view.findViewById(R.id.detail_com_ada);
         lay_kosong = view.findViewById(R.id.detail_com_kosong);
-        List<Model_DetailsCommodity> model_detailsCommodities = new ArrayList<>();
 
-        //Log.i("Tag","DetailCommodity = id = "+ BookingData.i.vessel.vessel_name);
-        if (BookingDetailData.i!=null) {
-            if (BookingDetailData.i.commodity!=null) {
-                model_detailsCommodities.addAll(BookingDetailData.i.commodity);
-            }
-        }else {
-            for (Model_Commodity mod : BookingData.i.commodity) {
-                model_detailsCommodities.add(new Model_DetailsCommodity(mod.commodity.desc, mod.commodity.name,mod.packages,mod.weight));
-            }
-        }
-        //model_detailsCommodities.add(new Model_DetailsCommodity("iron ore","non grain bulk", 2,175000000));
-        if (model_detailsCommodities.size()>0) {
+        if (Model_Project.Commodity.size()>0) {
+            List<Model_Project> model_detailsCommodities = new ArrayList<>(Model_Project.Commodity);
             adapter = new Adapter_DetailCommodity(getContext(), model_detailsCommodities);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
         } else {
-            //TODO LIST KOOSNG
             lay_ada.setVisibility(View.GONE);
             lay_kosong.setVisibility(View.VISIBLE);
             Log.i("Tag", "list kosong: " + "List anda kosong");

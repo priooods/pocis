@@ -1,20 +1,14 @@
 package com.kbs.pocis.complains;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,30 +23,30 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
-import com.kbs.pocis.createboking.Finish;
+import com.kbs.pocis.activity.CreateBooking;
+import com.kbs.pocis.item.RealPathUtil;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
-import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
@@ -64,7 +58,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
-import static com.kbs.pocis.complains.New_Complain.FileUtils.TAG;
+import static android.content.ContentValues.TAG;
 
 public class New_Complain extends Fragment {
 
@@ -75,7 +69,9 @@ public class New_Complain extends Fragment {
     LinearLayout linehide;
     RecyclerView list_file;
     Intent openFileManager;
+    public static int REQUEST_SETTING = 168;
     File files;
+    public static int PRIVATE_CODE = 1;
     RecyclerPDF recyclerPDF;
     ArrayList<Model_UploadDocument> model_uploadDocuments;
     int idComplaintType;
@@ -111,6 +107,7 @@ public class New_Complain extends Fragment {
                 saveNewComplaint();
             }
         });
+        Permission();
 
         return view;
     }
@@ -125,7 +122,7 @@ public class New_Complain extends Fragment {
                 if (data.size() > 0){
                     String[] arr = new String[data.size()];
                     for (int i = 0; i < arr.length; i++) {
-                        Log.i(ContentValues.TAG, "onResponse: complaint =>  " + data.get(i).reason_desc);
+                        Log.i(TAG, "onResponse: complaint =>  " + data.get(i).reason_desc);
                         arr[i] = data.get(i).reason_desc;
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_spiner, R.id.val_spiner, arr);
@@ -134,7 +131,7 @@ public class New_Complain extends Fragment {
 
                     type.setOnItemClickListener((parent, view, position, id) -> {
                         // Get Customer Type ID
-                        Log.i(ContentValues.TAG, "onItemClick in complaint: => " + data.get(position).id);
+                        Log.i(TAG, "onItemClick in complaint: => " + data.get(position).id);
                         idComplaintType = data.get(position).id;
                     });
 
@@ -183,7 +180,7 @@ public class New_Complain extends Fragment {
         MultipartBody.Part[] fileToUpload = new MultipartBody.Part[model_uploadDocuments.size()];
         for (Model_UploadDocument document : model_uploadDocuments){
             fileToUpload[i] = MultipartBody.Part.createFormData("ComplaintDocument[file_name]["+i+"]", document.uri.getPath(), data_form(document.uri));
-            Log.i(ContentValues.TAG, "send_Complain => " + document.uri);
+            Log.i(TAG, "send_Complain => " + document.uri);
             i++;
         }
 
@@ -197,7 +194,7 @@ public class New_Complain extends Fragment {
                 if (Calling.TreatResponse(getContext(),"create_complain",data)) {
                     assert data != null;
                     BookingDetailData detailData = data.data;
-                    Log.i(ContentValues.TAG, "onResponse: => " + detailData.id);
+                    Log.i(TAG, "onResponse: => " + detailData.id);
                     Toasty.success(requireContext(),"Success Created New Complaint"+ " \n status : " + detailData.status, Toasty.LENGTH_LONG, true).show();
                 } else {
                     Toasty.error(requireContext(), "Booking Failure, Maximum size file 2 Mb", Toasty.LENGTH_LONG, true).show();
@@ -206,16 +203,67 @@ public class New_Complain extends Fragment {
 
             @Override
             public void onFailure(@NotNull Call<CallingSaveBok> call, @NotNull Throwable t) {
-                Log.e(ContentValues.TAG, "onFailure: " + t);
+                Log.e(TAG, "onFailure: " + t);
             }
         });
     }
 
-    void OpenManager(){
+    public void Permission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            if (ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                Log.i("home", "Permission Storage: " + true);
+            } else if (ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED &&
+                    !ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
+                MDToast.makeText(requireContext(), "You Must Have Enable Permission", MDToast.LENGTH_SHORT, MDToast.TYPE_WARNING).show();
+                openSetting();
+            } else {
+                Storage();
+            }
+        }
+    }
+
+    public void Storage(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
+            new AlertDialog.Builder(requireContext()).setTitle("Permission Required")
+                    .setMessage("You must give document opening permission to upload files")
+                    .setPositiveButton("Yes", (dialog, which) -> ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE))
+                    .setNegativeButton("No", (dialog, which) ->{
+                        dialog.dismiss();
+                        requireActivity().onBackPressed();
+                    })
+                    .create().show();
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE);
+        }
+    }
+
+    public void OpenManager(){
         openFileManager = new Intent(Intent.ACTION_GET_CONTENT);
         openFileManager.setType("*/*");
         openFileManager.putExtra(Intent.EXTRA_MIME_TYPES,mimetypes);
         startActivityForResult(openFileManager, 10);
+    }
+
+    public void openSetting(){
+        Intent setting = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"+ requireActivity().getPackageName()));
+        setting.addCategory(Intent.CATEGORY_DEFAULT);
+        setting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(setting,REQUEST_SETTING);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PRIVATE_CODE){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Log.i(TAG, "onRequestPermissionsResult: " + true);
+            }
+            else {
+                requireActivity().onBackPressed();
+                requireActivity().finish();
+            }
+        }
     }
 
     @Override
@@ -224,12 +272,12 @@ public class New_Complain extends Fragment {
             if (resultCode == RESULT_OK) {
                 assert data != null;
                 Uri path = data.getData();
-                files = FileUtils.getFile(getContext(), path);
+                String filePath = RealPathUtil.getRealPathFromURI_API19(requireContext(), path);
+                assert filePath != null;
+                files = new File(filePath);
 
-                assert files != null;
                 String name = files.getName();
                 int size = (int) files.length() / 1024;
-                Log.i("tag", "check_file: " + files);
                 model_uploadDocuments.add(new Model_UploadDocument(files, name, size));
                 if (size >= 2000) {
                     Toasty.error(requireContext(), "Maximum File Size 2Mb", Toasty.LENGTH_LONG, true).show();
@@ -249,200 +297,6 @@ public class New_Complain extends Fragment {
             list_file.setAdapter(recyclerPDF);
             recyclerPDF.notifyDataSetChanged();
         }
-    }
-
-    public static class FileUtils {
-
-        //replace this with your authority
-        public static final String AUTHORITY = "com.ianhanniballake.localstorage.documents";
-
-
-        private FileUtils() {
-        } //private constructor to enforce Singleton pattern
-
-        static final String TAG = "FileUtils";
-        private static final boolean DEBUG = false; // Set to true to enable logging
-
-
-        /**
-         * @return Whether the URI is a local one.
-         */
-        public static boolean isLocal(String url) {
-            if (url != null && !url.startsWith("http://") && !url.startsWith("https://")) {
-                return true;
-            }
-            return false;
-        }
-
-
-        public static boolean isLocalStorageDocument(Uri uri) {
-            return AUTHORITY.equals(uri.getAuthority());
-        }
-
-        /**
-         * @param uri The Uri to check.
-         * @return Whether the Uri authority is ExternalStorageProvider.
-         * @author paulburke
-         */
-        public static boolean isExternalStorageDocument(Uri uri) {
-            return "com.android.externalstorage.documents".equals(uri.getAuthority());
-        }
-
-        /**
-         * @param uri The Uri to check.
-         * @return Whether the Uri authority is DownloadsProvider.
-         * @author paulburke
-         */
-        public static boolean isDownloadsDocument(Uri uri) {
-            return "com.android.providers.downloads.documents".equals(uri.getAuthority());
-        }
-
-        /**
-         * @param uri The Uri to check.
-         * @return Whether the Uri authority is MediaProvider.
-         * @author paulburke
-         */
-        public static boolean isMediaDocument(Uri uri) {
-            return "com.android.providers.media.documents".equals(uri.getAuthority());
-        }
-
-        /**
-         * @param uri The Uri to check.
-         * @return Whether the Uri authority is Google Photos.
-         */
-        public static boolean isGooglePhotosUri(Uri uri) {
-            return "com.google.android.apps.photos.content".equals(uri.getAuthority());
-        }
-
-        /**
-         * @param context       The context.
-         * @param uri           The Uri to query.
-         * @param selection     (Optional) Filter used in the query.
-         * @param selectionArgs (Optional) Selection arguments used in the query.
-         * @return The value of the _data column, which is typically a file path.
-         * @author paulburke
-         */
-        public static String getDataColumn(Context context, Uri uri, String selection,
-                                           String[] selectionArgs) {
-
-            Cursor cursor = null;
-            final String column = "_data";
-            final String[] projection = {
-                    column
-            };
-
-            try {
-                cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                        null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    if (DEBUG)
-                        DatabaseUtils.dumpCursor(cursor);
-
-                    final int column_index = cursor.getColumnIndexOrThrow(column);
-                    return cursor.getString(column_index);
-                }
-            } finally {
-                if (cursor != null)
-                    cursor.close();
-            }
-            return null;
-        }
-
-        /**
-         * @param context The context.
-         * @param uri     The Uri to query.
-         * @author paulburke
-         * @see #isLocal(String)
-         * @see #getFile(Context, Uri)
-         */
-        public static String getPath(final Context context, final Uri uri) {
-            final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
-            // DocumentProvider
-            if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-                // LocalStorageProvider
-                if (isLocalStorageDocument(uri)) {
-                    // The path is the id
-                    return DocumentsContract.getDocumentId(uri);
-                }
-                // ExternalStorageProvider
-                else if (isExternalStorageDocument(uri)) {
-                    final String docId = DocumentsContract.getDocumentId(uri);
-                    final String[] split = docId.split(":");
-                    final String type = split[0];
-
-                    if ("primary".equalsIgnoreCase(type)) {
-                        return Environment.getExternalStorageDirectory() + "/" + split[1];
-                    }
-                }
-                // DownloadsProvider
-                else if (isDownloadsDocument(uri)) {
-
-                    final String id = DocumentsContract.getDocumentId(uri);
-                    final Uri contentUri = ContentUris.withAppendedId(
-                            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                    return getDataColumn(context, contentUri, null, null);
-                }
-                // MediaProvider
-                else if (isMediaDocument(uri)) {
-                    final String docId = DocumentsContract.getDocumentId(uri);
-                    final String[] split = docId.split(":");
-                    final String type = split[0];
-
-                    Uri contentUri = null;
-                    if ("image".equals(type)) {
-                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                    } else if ("video".equals(type)) {
-                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                    } else if ("audio".equals(type)) {
-                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                    }
-
-                    final String selection = "_id=?";
-                    final String[] selectionArgs = new String[]{
-                            split[1]
-                    };
-
-                    return getDataColumn(context, contentUri, selection, selectionArgs);
-                }
-            }
-            // MediaStore (and general)
-            else if ("content".equalsIgnoreCase(uri.getScheme())) {
-
-                // Return the remote address
-                if (isGooglePhotosUri(uri))
-                    return uri.getLastPathSegment();
-
-                return getDataColumn(context, uri, null, null);
-            }
-            // File
-            else if ("file".equalsIgnoreCase(uri.getScheme())) {
-                return uri.getPath();
-            }
-
-            return null;
-        }
-
-        /**
-         * Convert Uri into File, if possible.
-         *
-         * @return file A local file that the Uri was pointing to, or null if the
-         * Uri is unsupported or pointed to a remote resource.
-         * @author paulburke
-         * @see #getPath(Context, Uri)
-         */
-        public static File getFile(Context context, Uri uri) {
-            if (uri != null) {
-                String path = getPath(context, uri);
-                if (path != null && isLocal(path)) {
-                    return new File(path);
-                }
-            }
-            return null;
-        }
-
-
     }
 
     public class RecyclerPDF extends RecyclerView.Adapter<RecyclerPDF.vHolder>{
@@ -475,7 +329,7 @@ public class New_Complain extends Fragment {
             }
 
             holder.nama.setText(modelUploadDocuments.get(position).getUsername());
-            holder.sizefile.setText(String.valueOf(modelUploadDocuments.get(position).getSize()) + " Kb");
+            holder.sizefile.setText((modelUploadDocuments.get(position).getSize()) + " Kb");
             holder.deletefile.setOnClickListener(v -> {
                 modelUploadDocuments.remove(position);
                 notifyItemRemoved(position);

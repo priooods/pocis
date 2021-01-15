@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.filter.FilterFragment;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.onlineboking.OnlineBooking;
 import com.kbs.pocis.onlineboking.TarifApprove;
 import com.kbs.pocis.service.BookingData;
@@ -26,7 +27,6 @@ public class OnlineBook extends AppCompatActivity {
     LinearLayout tarif_approve, online_booking_onlinebooking;
     TextView id_booking, id_tarif;
     ImageView icon_booking, icon_tarif,create_booking;
-    FilterFragment filterFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,40 +75,47 @@ public class OnlineBook extends AppCompatActivity {
             fragmentTransaction.commit();
         });
 
-        FragmentList(new OnlineBooking());
+//        FragmentList(new OnlineBooking());
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frameOnline, new OnlineBooking(),"online_booking").commit();
 
         create_booking.setOnClickListener(v -> {
             BookingData.i = null;
-            Intent intent = new Intent(OnlineBook.this, CreateBooking.class);
+            Intent intent = new Intent(this, CreateBooking.class);
             startActivity(intent);
         });
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        finish();
-        overridePendingTransition(0,0);
-        startActivity(getIntent());
-        overridePendingTransition(0,0);
+    protected void onResume() {
+        super.onResume();
+        if (Model_Project.Code == 0) {
+            Fragment fragment = new OnlineBooking();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameOnline, fragment);
+            fragmentTransaction.commit();
+        } else {
+            Fragment fragment = new TarifApprove();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameOnline, fragment);
+            fragmentTransaction.commit();
+        }
     }
+
+    //    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        finish();
+//        overridePendingTransition(0,0);
+//        startActivity(getIntent());
+//        overridePendingTransition(0,0);
+//    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (filterFragment != null){
-            filterFragment.filtering = false;
-        }
         finish();
-    }
-
-
-
-    public void FragmentList(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameOnline, fragment)
-                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
 
 }

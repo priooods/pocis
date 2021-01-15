@@ -1,10 +1,8 @@
 package com.kbs.pocis.api;
 
-import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.CallProjectList;
-import com.kbs.pocis.service.PublicList.Loading_Unloading;
 import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.createbooking.CallingSaveBok;
 import com.kbs.pocis.service.createbooking.CallingSelectTemp;
@@ -185,7 +183,8 @@ public interface UserService {
     @POST("tbooking/new")
     Call<CallingSaveBok> saveBooking(
             @Query("token") String token
-            ,@PartMap Map<String, String> Booking
+            ,@PartMap Map<String, RequestBody> Booking
+            ,@PartMap Map<String, RequestBody> BookingVessel//BookingVessel
             ,@Part MultipartBody.Part... document
     );
 

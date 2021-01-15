@@ -1,6 +1,5 @@
 package com.kbs.pocis.createboking;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,7 +12,6 @@ import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,14 +28,18 @@ import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingList;
+import com.valdesekamdem.library.mdtoast.MDToast;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
@@ -54,11 +56,12 @@ public class VesselInformation extends Fragment {
     AutoCompleteTextView  port_discharge, port_origin, voyage_number,vesel_name;
     TextView dischargeLoading;
     String disload_value = "D";
+    String estimate_value, departure_value;
     ImageView iconArrow;
     LinearLayout expanded, card, line_voyageNumber;
     CheckBox dis_check, load_check;
     Call<List<CallingList>> call;
-    int idvoyage, idvessel, discharge_id, origin_id;
+    int id_voyage, id_vessel, discharge_id, origin_id;
     String ves_name = "";
     boolean load_vessel = false;
 
@@ -77,7 +80,6 @@ public class VesselInformation extends Fragment {
 
         //Line voyage
         line_voyageNumber = view.findViewById(R.id.z);
-        line_voyageNumber.setVisibility(View.GONE);
         //Expanded for Discharge or Loading
         dischargeLoading = view.findViewById(R.id.veselinfo_disload_value);
         iconArrow = view.findViewById(R.id.vesel_relatedvesel_icon);
@@ -85,22 +87,20 @@ public class VesselInformation extends Fragment {
         card = view.findViewById(R.id.a);
         dis_check = view.findViewById(R.id.check_discharge_veselinfo);
         load_check = view.findViewById(R.id.check_loading_veselinfo);
+
         DisorLoad();
         CheckBoxesDisLoad();
 
         BookingData data = BookingData.i;
-        Log.i(TAG, "onCreateView: " + data.relatedVesel);
-        Log.i(TAG, "onCreateView: " + data.customerType);
+        Log.i(TAG, "Related Vessel " + data.relatedVesel);
+        Log.i(TAG, "Customer Type " + data.customerType);
+        Log.i(TAG, "Customer Type " + BookingData.i.status_change);
 
-        if (!data.customerType.equals("AGENT") && !data.relatedVesel.equals("Y")) {
-            line_voyageNumber.setVisibility(View.VISIBLE);
-        } else if (data.customerType.equals("GENERAL") ){
-            line_voyageNumber.setVisibility(View.VISIBLE);
-        } else {
+        if (BookingData.i.hideVoyage()) {
             line_voyageNumber.setVisibility(View.GONE);
         }
 
-        if (BookingData.isExist() && BookingData.i.vessel!=null) {
+        if (BookingData.isExist() && BookingData.i.vessel!=null && !BookingData.i.status_change) {
             BookingData.VesselData bd = BookingData.i.vessel;
             vesel_name.setText(bd.vessel_name);
             port_discharge.setText(bd.port_discharge);
@@ -110,32 +110,25 @@ public class VesselInformation extends Fragment {
             estimate_arival.setText(bd.estimate_arival);
             estimate_departure.setText(bd.estimate_departure);
             voyage_number.setText(bd.voyage_number);
-            idvoyage = bd.id_voyage;
-            idvessel = bd.id_vessel;
+            id_voyage = bd.id_voyage;
+            id_vessel = bd.id_vessel;
             Log.i(TAG, "onCreateView: => " + BookingData.i.customerId);
         } else{
             BookingData.i.vessel = new BookingData.VesselData();
             discharge_id = -1;
             origin_id = -1;
-            idvoyage = -1;
-            idvessel = -1;
+            id_voyage = -1;
+            id_vessel = -1;
         }
 
 
         load_vessel = true;
-        estimate_arival.setOnClickListener(v -> {
-            ShowDateTime(estimate_arival);
-        });
-        estimate_departure.setOnClickListener(v -> {
-            ShowDateTime(estimate_departure);
-        });
+        estimate_arival.setOnClickListener(v -> ShowDateTime(estimate_arival));
+        estimate_departure.setOnClickListener(v -> ShowDateTime(estimate_departure));
 
         vesel_name.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override public void afterTextChanged(Editable s) {
-                voyage_number.setText(null);
-            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void afterTextChanged(Editable s) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() >= 2 && load_vessel){
@@ -143,30 +136,40 @@ public class VesselInformation extends Fragment {
                 }
             }
         });
+        voyage_number.setOnClickListener(v-> GetApiVoyageNumber(voyage_number, id_vessel));
 
         port_discharge.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 2 && load_vessel){
+                if (s.length() >=2 && load_vessel) {
                     GetAPIPortDischarge(s, port_discharge, true);
                 }
             }
         });
-
         port_origin.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()>=2 && load_vessel){
+                if (s.length() >=2 && load_vessel) {
                     GetAPIPortDischarge(s, port_origin, false);
                 }
             }
         });
-
-        voyage_number.setOnClickListener(v-> GetApiVoyageNumber(voyage_number, idvessel));
 
         next = view.findViewById(R.id.veselinfo_nextBtn);
         prev = view.findViewById(R.id.veselinfo_prevBtn);
@@ -175,12 +178,15 @@ public class VesselInformation extends Fragment {
         return view;
     }
 
+    boolean checkVoyageNumber(){
+        return id_vessel == -1 || vesel_name.getText().toString().isEmpty() || ves_name == null;
+    }
+
     private void GetApiVoyageNumber(AutoCompleteTextView textView, int ids){
-        Call<List<BookingDetailData>> callist;
-        if (ids == 0 && ves_name == null){
-            Toasty.error(requireContext(),"Please Correct Again Your Vessel Name ", Toasty.LENGTH_SHORT,true).show();
+        if (checkVoyageNumber()){
+            pesanError("Please Add Vessel Name");
         } else {
-            callist = UserData.i.getService().getVoyageNumber(disload_value, ids);
+            Call<List<BookingDetailData>> callist = UserData.i.getService().getVoyageNumber(disload_value, ids);
             callist.enqueue(new Callback<List<BookingDetailData>>() {
                 @Override
                 public void onResponse(@NotNull Call<List<BookingDetailData>> call, @NotNull Response<List<BookingDetailData>> response) {
@@ -191,15 +197,15 @@ public class VesselInformation extends Fragment {
                         for (int i = 0; i < tr.length; i++) {
                             tr[i] = detailData.get(i).voyage_no;
                         }
+                        textView.setThreshold(1);
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_spiner, R.id.val_spiner, tr);
                         textView.setAdapter(adapter);
-                        textView.setThreshold(1);
                         textView.setOnItemClickListener((parent, view, position, id) -> {
-                            Log.i(TAG, "onItemClick voyageNo: => " + detailData.get(position).voyage_no);
-                            Log.i(TAG, "onItemClick: => " + detailData.get(position).id);
-                            idvoyage = detailData.get(position).id;
+                            Log.i(TAG, "voyage_no: => " + detailData.get(position).voyage_no);
+                            Log.i(TAG, "voyage_id: => " + detailData.get(position).id);
+                            id_voyage = detailData.get(position).id;
                         });
-                        //click box input_type, show suggestions
+//                        click box input_type, show suggestions
                         textView.setOnTouchListener((v, event) -> {
                             if (detailData.size() > 0) {
                                 if (!textView.getText().toString().equals(""))
@@ -210,6 +216,9 @@ public class VesselInformation extends Fragment {
                         });
                         adapter.notifyDataSetChanged();
                     } else {
+                        textView.setThreshold(0);
+                        textView.setAdapter(null);
+                        pesanError("Vessel Name Not Have Voyage Number");
                         Log.i(TAG, "onResponse: => " + " Not Running API");
                     }
                 }
@@ -238,7 +247,7 @@ public class VesselInformation extends Fragment {
                     String[] arr = new String[forms.size()];
                     if (val) {
                         for (int i = 0; i < arr.length; i++) {
-                            Log.i(TAG, "onResponse: list =>  " + forms.get(i).name);
+                            Log.i(TAG, "Port Discharge list =>  " + forms.get(i).name);
                             arr[i] = forms.get(i).name;
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_spiner, R.id.val_spiner, arr);
@@ -246,13 +255,12 @@ public class VesselInformation extends Fragment {
                         textView.setThreshold(2);
                         textView.setOnItemClickListener((parent, view, position, id) -> {
                             discharge_id = forms.get(position).id;
-                            Log.i(TAG, "onItemClick: getportDischarge = " + forms.get(position).id);
-                            //BookingData.i.vessel.port_discharge = String.valueOf(forms.get(position).id);
+                            Log.i(TAG, "port Discharge = " + forms.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     } else {
                         for (int i = 0; i < arr.length; i++) {
-                            Log.i(TAG, "onResponse: list =>  " + forms.get(i).name);
+                            Log.i(TAG, "port Origin list =>  " + forms.get(i).name);
                             arr[i] = forms.get(i).name;
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_spiner, R.id.val_spiner, arr);
@@ -260,8 +268,7 @@ public class VesselInformation extends Fragment {
                         textView.setThreshold(2);
                         textView.setOnItemClickListener((parent, view, position, id) -> {
                             origin_id = forms.get(position).id;
-                            Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
-                            //BookingData.i.vessel.port_origin = String.valueOf(forms.get(position).id);
+                            Log.i(TAG, "onItemClick: port Origin = " + forms.get(position).id);
                         });
                         adapter.notifyDataSetChanged();
                     }
@@ -281,19 +288,19 @@ public class VesselInformation extends Fragment {
             @Override
             public void onResponse(@NotNull Call<List<CallingList>> call, @NotNull Response<List<CallingList>> response) {
                 List<CallingList> forms = response.body();
-//                assert forms != null;
+                assert forms != null;
                 if (forms.size() > 0) {
                     String[] arr = new String[forms.size()];
                     for (int i = 0; i < arr.length; i++) {
-                        Log.i(TAG, "onResponse: list =>  " + forms.get(i).name);
+                        Log.i(TAG, "Vessel Name: list =>  " + forms.get(i).name);
                         arr[i] = forms.get(i).name;
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_spiner, R.id.val_spiner, arr);
                     textView.setAdapter(adapter);
                     textView.setThreshold(2);
                     textView.setOnItemClickListener((parent, view, position, id) -> {
-                        Log.i(TAG, "onItemClick: getportOrigin = " + forms.get(position).id);
-                        idvessel = forms.get(position).id;
+                        Log.i(TAG, "onItemClick: Vessel Name = " + forms.get(position).id);
+                        id_vessel = forms.get(position).id;
                         ves_name = forms.get(position).name;
                     });
                     adapter.notifyDataSetChanged();
@@ -317,15 +324,19 @@ public class VesselInformation extends Fragment {
             TimePickerDialog.OnTimeSetListener setListener = (view1, hourOfDay, minute, second) -> {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
+
+                SimpleDateFormat fr = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH);
+                estimate_value = fr.format(calendar.getTime());
+                departure_value = fr.format(calendar.getTime());
+
                 texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
             };
-            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), true);
             timePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
             timePickerDialog.show(getChildFragmentManager(), "TimePicker");
         };
 
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-//        datePickerDialog.setMinDate(calendar);
         calendar.add(Calendar.MONTH, -2);
         datePickerDialog.setMinDate(calendar);
         datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
@@ -359,6 +370,7 @@ public class VesselInformation extends Fragment {
                 voyage_number.setText(null);
                 load_check.setChecked(true);
             }
+            BookingData.i.checkChange(false);
         });
 
         load_check.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -373,6 +385,7 @@ public class VesselInformation extends Fragment {
                 voyage_number.setText(null);
                 dis_check.setChecked(true);
             }
+            BookingData.i.checkChange(false);
         });
     }
 
@@ -383,28 +396,35 @@ public class VesselInformation extends Fragment {
                 discharge_id,
                 port_origin.getText().toString(),
                 origin_id,
-                Objects.requireNonNull(estimate_arival.getText()).toString(),
-                Objects.requireNonNull(estimate_departure.getText()).toString(),
-                idvoyage,
-                idvessel,
+                estimate_arival.getText().toString(),
+                estimate_departure.getText().toString(),
+                id_voyage,
+                id_vessel,
+                disload_value,
                 voyage_number.getText().toString(),
-                disload_value
+                estimate_value,
+                departure_value
         );
-        Log.i(TAG, "onCreateView: => " + idvoyage);
-        Log.i(TAG, "onCreateView: => " + disload_value);
+        Log.i(TAG, "estimate: => " + estimate_value);
+        Log.i(TAG, "departure: => " + departure_value);
     }
 
     private void StatusInputMessage(){
         if (line_voyageNumber.getVisibility() == View.VISIBLE){
-            if ( Objects.requireNonNull(estimate_arival.getText()).toString().isEmpty() || voyage_number.getText().toString().isEmpty() ||
+            if ( Objects.requireNonNull(port_discharge.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(port_origin.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(vesel_name.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(estimate_arival.getText()).toString().isEmpty() ||
+                    voyage_number.getText().toString().isEmpty() ||
                     Objects.requireNonNull(estimate_departure.getText()).toString().isEmpty()) {
-                Toasty.error(requireContext(), "Please Add Voyage Number, Estimate Arrival & Estimate Departure", Toasty.LENGTH_SHORT, true).show();
-            } else if (idvessel <= 0 || idvoyage <= 0) {
+                pesanError("Please Add All Vessel Information");
+            } else if (id_vessel <= 0 || id_voyage <= 0) {
                 pesanError("please check Vessel or Voyage Name correctly!");
             } else if (origin_id <= 0 || discharge_id <= 0) {
                 pesanError("please check Port Discharge or Port Origin correctly!");
             } else {
                 UpdateData();
+                BookingData.i.checkChange(false);
                 Fragment fragment = new Summary();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -413,15 +433,19 @@ public class VesselInformation extends Fragment {
                 fragmentTransaction.commit();
             }
         } else {
-            if ( Objects.requireNonNull(estimate_arival.getText()).toString().isEmpty() ||
+            if ( Objects.requireNonNull(port_discharge.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(port_origin.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(vesel_name.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(estimate_arival.getText()).toString().isEmpty() ||
                     Objects.requireNonNull(estimate_departure.getText()).toString().isEmpty()) {
-                Toasty.error(requireContext(), "Please Add Estimate Arrival & Estimate Departure", Toasty.LENGTH_SHORT, true).show();
-            } else if (idvessel <= 0) {
+                pesanError("Please Add All Vessel Information");
+            } else if (id_vessel <= 0) {
                 pesanError("please check Vessel Name correctly!");
             } else if (origin_id <= 0 || discharge_id <= 0) {
                 pesanError("please check Port Discharge or Port Origin correctly!");
             } else {
                 UpdateData();
+                BookingData.i.checkChange(false);
                 Fragment fragment = new Summary();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -436,16 +460,17 @@ public class VesselInformation extends Fragment {
     public void ButtonFunction(){
         prev.setOnClickListener(v -> {
             UpdateData();
+            BookingData.i.checkChange(false);
             requireActivity().onBackPressed();
         });
 
         next.setOnClickListener(v -> {
-            Log.i(TAG, "onClick: => " + idvessel);
+            Log.i(TAG, "onClick: => " + id_vessel);
             StatusInputMessage();
         });
     }
 
     private void pesanError(String pesan){
-        Toasty.error(requireContext(), pesan, Toasty.LENGTH_SHORT, true).show();
+        MDToast.makeText(requireContext(), pesan, MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
     }
 }

@@ -20,6 +20,6 @@ public class Model_SelectTemplate {
     public String code;
     @SerializedName("display_desc_detail")
     public String desc;
-    String m_service_code_id,m_service_code_element_id,created,created_by,modified,modified_by;
+    public String m_service_code_id,m_service_code_element_id,created,created_by,modified,modified_by;
     public boolean checked;
 }

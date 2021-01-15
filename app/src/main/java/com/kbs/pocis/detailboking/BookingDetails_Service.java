@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.detailboking.Adapter_DetailsService;
-import com.kbs.pocis.model.Model_DetailsService;
-import com.kbs.pocis.service.BookingData;
-import com.kbs.pocis.service.BookingDetailData;
+import com.kbs.pocis.model.Model_Project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +27,7 @@ public class BookingDetails_Service extends Fragment {
     RecyclerView recyclerView;
     ConstraintLayout lay_ada;
     RelativeLayout lay_kosong;
+    List<Model_Project> model_detailsServices;
 
     @Nullable
     @Override
@@ -38,21 +37,8 @@ public class BookingDetails_Service extends Fragment {
         recyclerView = view.findViewById(R.id.recycle_service);
         lay_ada = view.findViewById(R.id.detail_ser_ada);
         lay_kosong = view.findViewById(R.id.detail_ser_kosong);
-        List<Model_DetailsService> model_detailsServices = new ArrayList<>();
-        Log.i("Tag", "BookingData.i = " + (BookingDetailData.i != null));
-        //Log.i("Tag","DetailService = id = "+ BookingData.i.vessel.vessel_name);
-        if (BookingDetailData.i != null) {
-            if (BookingDetailData.i.template != null) {
-                model_detailsServices.addAll(BookingDetailData.i.template);
-            }
-        } else if (BookingData.i != null) {
-            for (BookingData.BookTemplate mod : BookingData.i.template) {
-                for (BookingData.BookTemplate.BookTempList anak : mod.listCheck) {
-                    model_detailsServices.add(new Model_DetailsService(anak.code, anak.name, "10000"));
-                }
-            }
-        }
-        if (model_detailsServices.size()>0){
+        if (Model_Project.Service.size() > 0) {
+            model_detailsServices = new ArrayList<>(Model_Project.Service);
             detailsService = new Adapter_DetailsService(getContext(), model_detailsServices);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);

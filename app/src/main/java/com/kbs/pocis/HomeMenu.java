@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,14 +54,17 @@ public class HomeMenu extends Fragment {
         menu_monitoring, menu_complain, menu_tarif_calculate, menu_Onload_Progres,menu_open_project;
     FloatingActionButton floatingActionButton;
     RecyclerView news1,news2;
-    TextView showall1,showall2,text_ucapan;
+    TextView showall1,showall2,text_ucapan, time_lineup;
     List<Model_Project> model_news;
+    Button go_downInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_menu, container, false);
         text_ucapan = view.findViewById(R.id.text_ucapan);
+        time_lineup = view.findViewById(R.id.time_lineup);
+        go_downInfo = view.findViewById(R.id.go_downInfo);
         iconprofile = view.findViewById(R.id.iconprofile);
         news1 = view.findViewById(R.id.list_news1);
         news2 = view.findViewById(R.id.list_news2);
@@ -156,10 +160,15 @@ public class HomeMenu extends Fragment {
             getTimeZone(text_ucapan, userData);
         }
 
-        listNewt();
-        listReward();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listNewt();
+        listReward();
     }
 
     public void listNewt(){
@@ -240,14 +249,11 @@ public class HomeMenu extends Fragment {
         if(hours>=4 && hours<=12){
             String ucapan = "Good Morning "+ userData.username +"! Here's the quick menu";
             text_ucapan.setText(ucapan);
-        }else if(hours>=12 && hours<=16){
+        }else if(hours>=12 && hours<=17){
             String ucapan = "Good Afternoon "+ userData.username +"! Here's the quick menu";
             text_ucapan.setText(ucapan);
-        }else if(hours>=16 && hours<=21){
+        }else if(hours>=17){
             String ucapan = "Good Evening "+ userData.username +"! Here's the quick menu";
-            text_ucapan.setText(ucapan);
-        }else if(hours>=21){
-            String ucapan = "Good Night "+ userData.username +"! Here's the quick menu";
             text_ucapan.setText(ucapan);
         }
     }

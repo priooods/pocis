@@ -42,7 +42,6 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:textSize="11dp"
                         android:textAllCaps="true"
-                        android:text="K0001-2020-00097"
                         android:id="@+id/booking_nomerBooking"/>
 
                     <LinearLayout
@@ -62,7 +61,6 @@
                             android:textAllCaps="true"
                             android:textSize="11dp"
                             android:textStyle="bold"
-                            android:text="approved"
                             android:id="@+id/booking_statusBooking"/>
 
                         <TextView
@@ -120,7 +118,6 @@
                                 android:textColor="@color/colorTextbooking"
                                 android:textAllCaps="true"
                                 android:textSize="11dp"
-                                android:text="PS.00/172.01/PMS/XI/2014"
                                 android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -150,7 +147,6 @@
                                 android:layout_width="140dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
-                                android:text="PT. KRAKATAU POSCO"
                                 android:textSize="11dp"
                                 android:textAllCaps="true"
                                 android:fontFamily="@font/montserrat_bold"
@@ -185,7 +181,6 @@
                                 android:textColor="@color/colorTextbooking"
                                 android:textAllCaps="true"
                                 android:textSize="11dp"
-                                android:text="BG. LKH 3883"
                                 android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -213,7 +208,6 @@
                                 android:layout_width="130dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
-                                android:text="CNEE"
                                 android:textSize="11dp"
                                 android:textAllCaps="true"
                                 android:fontFamily="@font/montserrat_bold"
@@ -246,7 +240,6 @@
                                 android:id="@+id/booking_flagvessel"
                                 android:textColor="@color/colorTextbooking"
                                 android:textSize="11dp"
-                                android:text="Yes"
                                 android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -275,7 +268,6 @@
                                 android:layout_width="145dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
-                                android:text="2020-04-01 13:02:43"
                                 android:textSize="11dp"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:id="@+id/booking_bookingDate"/>
@@ -306,7 +298,6 @@
                                 android:id="@+id/booking_flagContract"
                                 android:textColor="@color/colorTextbooking"
                                 android:textSize="11dp"
-                                android:text="Yes"
                                 android:fontFamily="@font/montserrat_bold"/>
 
 
@@ -335,7 +326,6 @@
                                 android:layout_width="145dp"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorTextbooking"
-                                android:text="2020-03-27 08:00:00"
                                 android:textSize="11dp"
                                 android:fontFamily="@font/montserrat_bold"
                                 android:id="@+id/booking_bookingTime"/>

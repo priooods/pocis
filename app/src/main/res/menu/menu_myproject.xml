@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/project_aprove"
         android:icon="@drawable/icon_project_approved"
-        android:title="Projects Approved"/>
+        android:title="@string/approval"/>
     <item android:id="@+id/project_open" android:icon="@drawable/icon_open_myproject"
-        android:title="Projects Lists"/>
+        android:title="@string/list"/>
     <item android:id="@+id/bpaj_aprove"
-        android:icon="@drawable/icon_bpaj_myproject" android:title="BAPJ Approval"/>
+        android:icon="@drawable/icon_bpaj_myproject" android:title="@string/bapj"/>
 
 </menu>

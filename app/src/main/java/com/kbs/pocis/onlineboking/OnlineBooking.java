@@ -24,13 +24,13 @@ public class OnlineBooking extends Fragment {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-//    private static int REQUEST_CODE = 123;
     ImageView icon_back, icon_search;
-    FilterFragment filterFragment;
     ViewpagerDefault adapter;
     DialogFragment fragment;
-    AllBookings[] allbooking;
-    AllBookings select_booking;
+    private AllBookings[] allbooking;
+    private AllBookings select_booking;
+
+    public OnlineBooking(){}
 
     @Nullable
     @Override
@@ -71,9 +71,6 @@ public class OnlineBooking extends Fragment {
 
         //Icon Arrow Back Click
         icon_back.setOnClickListener(v -> {
-            if (filterFragment != null){
-                filterFragment.filtering = false;
-            }
             requireActivity().onBackPressed();
             requireActivity().finish();
         });

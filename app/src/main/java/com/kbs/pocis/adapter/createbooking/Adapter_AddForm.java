@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
 import com.kbs.pocis.createboking.CustomerAddForm;
+import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.createbooking.CallingList;
 
 import java.util.List;
@@ -53,11 +54,12 @@ public class Adapter_AddForm extends RecyclerView.Adapter<Adapter_AddForm.VHolde
                 ChangeChecked(holder.checkBox);
                 data.data = model_addForms.get(position);
                 name.setText(data.data.name);
-                Log.i(TAG, "onBindViewHolder11: = " + data.data.name + " id = " + data.data.id);
+                Log.i(TAG, "customer_type: = " + data.data.name + " id = " + data.data.id);
             }else{
                 data.data = null;
             }
         });
+        holder.checkBox.setOnClickListener(v-> BookingData.i.checkChange(true));
     }
     public void ChangeChecked(CheckBox now_check){
         if (lastchecked!=null) {

@@ -1,7 +1,6 @@
 package com.kbs.pocis.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 
 import java.util.List;
@@ -12,7 +11,8 @@ public class Model_Project extends Calling {
     public static int Code;
 
     //For Menu My Project & Invoice/Proforma
-    public static List<Model_Project> Service;
+    public static List<Model_Project> Service;//
+    public static List<Model_Project> Commodity;
     public static List<Model_Project> Information;
     public static List<Model_Project> VesselReport;
     public static List<List<Model_Project>> Piloting;
@@ -35,10 +35,6 @@ public class Model_Project extends Calling {
     //for complain type
     public static List<Model_Project> attachments;
     public static List<Model_Project> details;
-
-
-    public static List<Model_Project> allNews;
-    public static List<Model_Project> allRewards;
 
     public static boolean isExist(){
         return Model_Project.mp != null;
@@ -142,8 +138,6 @@ public class Model_Project extends Calling {
     public String description;
     public String tonnage_actual;
     public String shipping_line_type;
-
-    public String customer_type;
     public String project_report_no;
 
     public String vessel_registered_no;
@@ -197,18 +191,29 @@ public class Model_Project extends Calling {
     public String complain_desc;
 
     public String reason_name;
-    public String t_customer_complaint_id;
     public String user_name;
     public String path;
     public String name;
     public String filename;
     public String status;
 
+    public String customer_type_code;
+    public String contract_no;
+    public String booking_time;
+    public String booking_date;
+    public String estimate_arrival;
+    public String estimate_departure;
+    public String port_of_loading;
+    public String flag_contract;
+    public String flag_related_vessel;
+    public String port_of_cigading;
+    public String link;
+    public String document_name;
     public String picture, title, content;
-    public String is_booking;
-    public String is_ppj;
-    public String is_bapj;
-    public String is_invoice;
+    public String commodity_type;
+    public String tonage;
+    @SerializedName("package")
+    public String packages;
 
 
     //when get new Comment in Menu My Complaint. do not change

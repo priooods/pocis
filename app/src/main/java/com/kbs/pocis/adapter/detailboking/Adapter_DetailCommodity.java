@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kbs.pocis.R;
-import com.kbs.pocis.model.Model_DetailsCommodity;
+import com.kbs.pocis.model.Model_Project;
 
 import java.util.List;
 
 public class Adapter_DetailCommodity extends RecyclerView.Adapter<Adapter_DetailCommodity.VHolder> {
 
     Context context;
-    List<Model_DetailsCommodity> model_detailsCommodities;
+    List<Model_Project> model_detailsCommodities;
 
-    public Adapter_DetailCommodity(Context context, List<Model_DetailsCommodity> model_detailsCommodities) {
+    public Adapter_DetailCommodity(Context context, List<Model_Project> model_detailsCommodities) {
         this.context = context;
         this.model_detailsCommodities = model_detailsCommodities;
     }
@@ -33,13 +33,10 @@ public class Adapter_DetailCommodity extends RecyclerView.Adapter<Adapter_Detail
 
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
-        holder.name.setText(model_detailsCommodities.get(position).getCommodityName());
-        holder.type.setText(model_detailsCommodities.get(position).getCommodityType());
-
+        holder.name.setText(model_detailsCommodities.get(position).commodity_name);
+        holder.type.setText(model_detailsCommodities.get(position).commodity_type);
         holder.tonage.setText((model_detailsCommodities.get(position).tonage));
-
-
-        holder.packageNo.setText(model_detailsCommodities.get(position).packaging);
+        holder.packageNo.setText(model_detailsCommodities.get(position).packages);
     }
 
     @Override

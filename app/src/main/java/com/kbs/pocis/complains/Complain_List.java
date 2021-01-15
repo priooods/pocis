@@ -33,8 +33,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.kbs.pocis.complains.New_Complain.FileUtils.TAG;
-
 public class Complain_List extends FilterFragment {
 
     int status;

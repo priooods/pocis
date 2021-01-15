@@ -9,51 +9,19 @@ import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.model.createboking.Model_SelectTemplate;
 import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.model.createboking.Model_UploadDocument;
-import com.kbs.pocis.service.createbooking.ModelSave.Model_Save_Services;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class BookingData {
     //region Singleton
     public static BookingData i;
     public static boolean isExist(){
-        if (BookingData.i == null){
-            return false;
-        }
-        return true;
+        return BookingData.i != null;
     }
-    // data booking pertama CustomerAddForm
-    //region DB
-
-    /*
-            v "id": 36538,
-            v "no_booking": "B0001-2020-00010",
-            v "customer_type_code": "AGENT",
-            v "booking_date": "2020-10-21 10:30:45",
-            v "flag_related_vessel": "Yes",
-            v "flag_contract": "No",
-            "flag_compound": null,
-            "status": "RM",
-            "customerbooking": [],
-            "formatted_booking_date": "21 October 2020",
-            "formatted_booking_time": "10:30",
-            "voyage_no": null,
-            "customer_code": "B0001",
-            "customer_name": "BUANA INDAH GEMACA PT.",
-            "contract_no": "-",
-            "book_status": "REJECTED BY MARKETING",
-            "project_status": "-",
-            "project_no": "-",
-            "vessel_name": "MV. NORD PEAK",
-            "no_dp": "-",
-            "no_reff": "-",
-            "no_invoice": "-",
-            "est_arrival": "2020-10-22 00:00:00",
-            "est_berthing": null,
-            "compoundbooking": null,
-    */
 
     //endregion
     @SerializedName("customer_type_code")
@@ -72,11 +40,23 @@ public class BookingData {
     public String status;
     public String voyage_no;
     public String vessel_name;
-    public String m_document_id;
     public String description;
     public String path;
-    public String related_manual;
-    public String contract_manual;
+    public boolean status_change = false;
+
+    //this for set up booking information when change type, related or contract
+    public void checkChange(boolean change){
+        this.status_change = change;
+    }
+
+    //this for set up hide voyage number in vessel information
+    public boolean hideVoyage(){
+        return !relatedVesel.equals("Y") || !customerType.equals("GENERAL");
+    }
+    //this for set up skip vessel information if user check related vessel No
+    public boolean checkVesselInfoSkip(){
+        return relatedVesel.equals("N");
+    }
 
     public void setCustumer(String id, String customer, String related, String contract){
         this.customerId = id;
@@ -109,22 +89,30 @@ public class BookingData {
                 listCheck = new ArrayList<>(size);
                 for (Model_SelectTemplate t : list) {
                     if (t.checked) {
-                        listCheck.add(new BookTempList(t.id, t.code, t.desc));
+                        listCheck.add(new BookTempList(t.id, t.code, t.desc, t.m_service_code_id));
                     }
                 }
             }
         }
         public class BookTempList{
             public int id;
+            public String m_service_code_id;
             public String code;
             public String name;
-            public BookTempList(int Id, String Code, String Name){
+            public BookTempList(int Id, String Code, String Name, String service_code_id){
                 id = Id;
                 code = Code;
                 name = Name;
+                m_service_code_id = service_code_id;
             }
-            public void getMap(Map<String,String> map, int i){
-                map.put("Services["+i+"][m_service_code_id]",String.valueOf(id));
+
+            public RequestBody input_form(String req) {
+                return RequestBody.create(req, MediaType.parse("multipart/form-data"));
+            }
+
+            public void getMap(HashMap<String,RequestBody> map, int i){
+                map.put("Services["+i+"][m_service_code_id]", input_form(String.valueOf(m_service_code_id)));
+                Log.i("template_out", "list: "+ m_service_code_id);
             }
         }
     }
@@ -139,7 +127,7 @@ public class BookingData {
         //endregion
         if (template == null) {
             template = new ArrayList<>(Count);
-            Log.e("add_show","new!");
+            Log.i("add_show","new!");
             for (Model_ShowTemplate t : temp) {
                 if (t.checked) {
                     template.add(new BookTemplate(t.id, t.code, t.display_desc_header,t.image_file, t.list));
@@ -147,7 +135,7 @@ public class BookingData {
             }
         }
         else{
-            Log.e("add_show","update!");
+            Log.i("add_show","update!");
             int i = 0;
             ArrayList<BookTemplate> book = template;
             template = new ArrayList<>(Count);
@@ -156,14 +144,14 @@ public class BookingData {
                     boolean add = true;
                     for(;i<book.size();i++){
                         if (book.get(i).id == t.id){
-                            Log.e("add_show","update! shifting "+t.id+" "+t.code+" "+t.display_desc_header+ " "+book.get(i).listCheck.size());
+//                            Log.i("add_show","update! shifting "+t.id+" "+t.code+" "+t.display_desc_header+ " "+book.get(i).listCheck.size());
                             template.add(book.get(i));
                             add = false;
                             break;
                         }
                     }
                     if (add) {
-                        Log.e("add_show","update! new add "+t.id+" "+t.code+" "+t.display_desc_header);
+                        Log.i("add_show","update! new add "+t.id+" "+t.code+" "+t.display_desc_header);
                         template.add(new BookTemplate(t.id, t.code, t.display_desc_header,t.image_file, t.list));
                     }
                 }
@@ -196,7 +184,7 @@ public class BookingData {
     public VesselData vessel;
     public static class VesselData{
         public int id_voyage, id_vessel,port_origin_id,port_discharge_id;
-        public String vessel_name, port_discharge, port_origin,
+        public String vessel_name, port_discharge, port_origin, est_value, depar_value,
                 estimate_arival, estimate_departure,voyage_number, discharge_loading;
         public VesselData(){
             vessel_name = "";
@@ -206,48 +194,24 @@ public class BookingData {
             estimate_departure = "";
             voyage_number = "";
         }
-        public VesselData(String vessel_name, String dis_port, int dis_port_id, String origin, int origin_id, String est_arival, String est_departure , int id_voy,int id_vess, String voyage_number, String disload){
+        public VesselData(String vessel_name, String dis_port, int dis_port_id, String origin, int origin_id,
+                          String est_arival, String est_departure , int id_voy,int id_vess,String disload,
+                          String voyage_number, String est_val, String dpt_val){
             this.vessel_name = vessel_name;
-            port_discharge = dis_port;
-            port_discharge_id = dis_port_id;
-            port_origin = origin;
-            port_origin_id = origin_id;
-            estimate_arival = est_arival;
-            estimate_departure = est_departure;
-            id_voyage = id_voy;
-            id_vessel = id_vess;
-            discharge_loading = disload;
+            this.port_discharge = dis_port;
+            this.port_discharge_id = dis_port_id;
+            this.port_origin = origin;
+            this.port_origin_id = origin_id;
+            this.estimate_arival = est_arival;
+            this.estimate_departure = est_departure;
+            this.id_voyage = id_voy;
+            this.id_vessel = id_vess;
+            this.discharge_loading = disload;
             this.voyage_number = voyage_number;
+            this.est_value = est_val;
+            this.depar_value = dpt_val;
         }
     }
-
-    public void Upload(){
-        i = null;
-//        bookingDate = "23 November 2020";
-//        bookingTime = "17:00 WIB";
-//        BookingList.getI().AddBookingData(this);
-    }
-
-    public List<Model_Save_Services> code_service;
-    public List<Model_Save_Services> getCode_service(){
-        return this.code_service;
-    }
-    public void SelectServicesId (Model_Save_Services id_service){
-        code_service.add(id_service);
-    }
-
-//    public List<CommodityData> dataComodity;
-//    public static class CommodityData{
-//        public String packages, tonage,commodity_type_id,m_customer_id, id_comodity;
-//        public CommodityData(String type_id, String id, String pack,String tonag,String customer_id ){
-//            this.commodity_type_id = type_id;
-//            id_comodity = id;
-//            packages = pack;
-//            tonage = tonag;
-//            this.m_customer_id = customer_id;
-//
-//        }
-//    }
 
     public Approved approved;
     public static class Approved{

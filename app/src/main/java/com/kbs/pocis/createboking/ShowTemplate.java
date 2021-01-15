@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kbs.pocis.R;
@@ -26,17 +25,17 @@ import com.kbs.pocis.model.createboking.Model_ShowTemplate;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingShowTemp;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.kbs.pocis.createboking.UploadDocument.FileUtils.TAG;
+import static android.content.ContentValues.TAG;
+
 
 public class ShowTemplate extends Fragment {
 
@@ -50,17 +49,17 @@ public class ShowTemplate extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_show_template, container, false);
 
-        listtemplate = view.findViewById(R.id.recycle_showtemplate);
         btnPrev = view.findViewById(R.id.cust_add_form_prevBtn);
         btnNext = view.findViewById(R.id.cust_add_form_nextBtn);
 
-        ShowListTemplate();
+
+        ShowListTemplate(view);
 
         btnNext.setOnClickListener(v -> {
             if (model != null){
                 GoNextPage();
             } else {
-                Toast.makeText(getContext(), " Please back again and choose another information", Toast.LENGTH_SHORT).show();
+                MDToast.makeText(requireContext(), " Please choose another information", MDToast.LENGTH_SHORT, MDToast.TYPE_INFO).show();
             }
         });
         btnPrev.setOnClickListener(v -> {
@@ -73,7 +72,7 @@ public class ShowTemplate extends Fragment {
         return view;
     }
 
-    void ShowListTemplate(){
+    public void ShowListTemplate(View view){
         Call<CallingShowTemp> call = UserData.i.getService().getShowTemplate(UserData.i.getToken(),Integer.parseInt(BookingData.i.customerId), BookingData.i.relatedVesel, BookingData.i.contract);
         call.enqueue(new Callback<CallingShowTemp>() {
             @Override
@@ -83,7 +82,7 @@ public class ShowTemplate extends Fragment {
                     assert data != null;
                     model = data.data;
                     if (model == null){
-                         Toasty.error(requireContext(),"List Kosong", Toasty.LENGTH_SHORT, true).show();
+                         MDToast.makeText(requireContext(),"Template No Data", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
                     } else {
                         int i = 0;
                         if (BookingData.isExist()){
@@ -103,11 +102,13 @@ public class ShowTemplate extends Fragment {
                             // Error Back to CustomerAddForm
                             requireActivity().onBackPressed();
                         }
-
-                        adapter = new ListTemplate(getContext(), model);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        listtemplate = view.findViewById(R.id.recycle_showtemplate);
+                        adapter = new ListTemplate(requireContext(), model);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
+                        listtemplate.setHasFixedSize(true);
                         listtemplate.setLayoutManager(layoutManager);
                         listtemplate.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -122,7 +123,7 @@ public class ShowTemplate extends Fragment {
     void GoNextPage(){
         if (getOneIsChecked()){
             BookingData.i.ShowBookUpdate(model);
-            Log.i("TAG", "lis: " + model);
+            Log.i("TAG", "list_show_template: " + model);
             Fragment fragment = new SelectTemplate();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -130,7 +131,7 @@ public class ShowTemplate extends Fragment {
             fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
             fragmentTransaction.commit();
         } else {
-            Toasty.error(requireContext(), "Please Selecting Template Type", Toast.LENGTH_SHORT, true).show();
+            MDToast.makeText(requireContext(), "Please Select Template Type", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
         }
     }
 

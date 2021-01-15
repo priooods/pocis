@@ -424,7 +424,6 @@
                         android:src="@drawable/ves_line"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-
                     <Button
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_width="wrap_content"
@@ -448,10 +447,22 @@
                         app:layout_constraintBottom_toBottomOf="@id/go_downInfo"
                         android:layout_marginEnd="15dp"
                         android:layout_height="wrap_content"
+                        android:id="@+id/ts"
                         android:text="Looking for Vessel Line-up?"
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/colorWhite"
                         android:textSize="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@id/ts"
+                        app:layout_constraintTop_toBottomOf="@id/go_downInfo"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:id="@+id/time_lineup"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/colorWarning"
+                        android:textSize="8sp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

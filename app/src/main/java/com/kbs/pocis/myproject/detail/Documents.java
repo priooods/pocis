@@ -64,22 +64,18 @@ public class Documents extends Fragment {
                             Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima == null) {
                         title.setVisibility(View.VISIBLE);
                         line.setVisibility(View.GONE);
-                    } else if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null
-                            && Model_Project.InformationAndDocument.get(0).dokumen_kwitans == null
-                            && Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice == null) {
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
-                    } else if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null && Model_Project.InformationAndDocument.get(0).dokumen_kwitans == null) {
+                    }
+                    if (Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice != null) {
                         documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice));
+                    }
+                    if (Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima != null) {
                         documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
-                    } else if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak == null) {
+                    }
+                    if (Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak != null) {
+                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak));//dokumen_kwitans
+                    }
+                    if (Model_Project.InformationAndDocument.get(0).dokumen_kwitans != null) {
                         documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_kwitans));
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice));
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
-                    } else {
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_faktur_pajak));
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_kwitans));
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_tangan_invoice));
-                        documents.add(new Model_Project(Model_Project.InformationAndDocument.get(0).dokumen_tanda_terima));
                     }
                     RecyclerPDF listinvoice = new RecyclerPDF(getContext(), documents, 0);
                     LinearLayoutManager managerinvoice = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
@@ -130,13 +126,27 @@ public class Documents extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RecyclerPDF.vHolder holder, int position) {
             switch (type){
-                case 0://for invoice & proforma
-                case 2:
-                    holder.nama.setText(model_document.get(position).dokumen_faktur_pajak);
-                    String sz = "2 Mb";
-                    holder.sizefile.setText(sz);
+                case 0://for invoice
+                    holder.sizefile.setVisibility(View.GONE);
                     holder.line.setVisibility(View.GONE);
                     holder.deletefile.setVisibility(View.GONE);
+                    String[] srr = model_document.get(position).dokumen_faktur_pajak.split("\\|");
+                    holder.tap.setOnClickListener(v->{
+                        Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse(srr[1]));
+                        this.context.startActivity(web);
+                    });
+                    holder.nama.setText(srr[0]);
+                    break;
+                case 2: //& proforma
+                    holder.nama.setText(model_document.get(position).dokumen_faktur_pajak);
+                    holder.sizefile.setVisibility(View.GONE);
+                    holder.line.setVisibility(View.GONE);
+                    holder.deletefile.setVisibility(View.GONE);
+//                    String[] srr = model_document.get(position).dokumen_faktur_pajak.split("|", 2);
+//                    holder.tap.setOnClickListener(v->{
+//                        Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse(model_document.get(position).file_link));
+//                        this.context.startActivity(web);
+//                    });
                     break;
                 case 1: //for bapj
                     holder.nama.setText(model_document.get(position).file_name);

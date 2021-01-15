@@ -46,6 +46,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.VHolder> implements Filterable {
 
     Context context;
@@ -146,6 +148,7 @@ public class Adapter_AllBooking extends RecyclerView.Adapter<Adapter_AllBooking.
             intent.putExtra("nomer", model_bookings.get(position).getNomerBook());
             intent.putExtra("status", model_bookings.get(position).getStatusBook());
             intent.putExtra("id", model_bookings.get(position).getBookingId());
+            Log.i(TAG, "id booking: " + model_bookings.get(position).getBookingId());
             context.startActivity(intent);
         });
 

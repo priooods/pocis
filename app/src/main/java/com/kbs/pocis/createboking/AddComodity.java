@@ -30,6 +30,7 @@ import com.kbs.pocis.model.Model_Commodity;
 import com.kbs.pocis.service.BookingData;
 import com.kbs.pocis.service.UserData;
 import com.kbs.pocis.service.createbooking.CallingList;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,7 +79,6 @@ public class AddComodity extends Fragment {
         addcommodity_one.setOnClickListener(v -> AddCommodityNya(getContext()));
 
         addcommodity_two.setOnClickListener(v -> AddCommodityNya(getContext()));
-//        model_commodity.add(new Model_Commodity())
         if (BookingData.isExist()){
             if (BookingData.i.commodity != null){
                 // Already Opened
@@ -87,6 +87,13 @@ public class AddComodity extends Fragment {
             if (model_commodity == null){
                 model_commodity = new ArrayList<>();
             }
+        }
+
+        //check file booking when user change again show templates
+        if (BookingData.i.file != null){
+            Log.i(TAG, "check_file_booking: " + BookingData.i.file);
+        } else {
+            Log.i(TAG, "check_file_booking: " + "Nothing File");
         }
 
         ButtonFunction();
@@ -152,7 +159,7 @@ public class AddComodity extends Fragment {
     public void AddCommodityNya (final Context context){
         View view  = LayoutInflater.from(context).inflate(R.layout.dialog_form_commodity, null);
         final Dialog dialogFragment = new Dialog(context);
-        dialogFragment.setCancelable(true);
+        dialogFragment.setCancelable(false);
         dialogFragment.setContentView(view);
         Objects.requireNonNull(dialogFragment.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -210,11 +217,11 @@ public class AddComodity extends Fragment {
         btn_go.setOnClickListener(v -> {
             if (input_comdity.getText().toString().isEmpty() || input_consigne.getText().toString().isEmpty() ||
                     Objects.requireNonNull(input_weigth.getText()).toString().isEmpty() || Objects.requireNonNull(input_package.getText()).toString().isEmpty()){
-                Toasty.error(context, "Harap Lengkapi Semua From !", Toasty.LENGTH_SHORT, true).show();
+                MDToast.makeText(context, "You Must Add all Form !", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
             } else if (idCommodity == 0){
-                Toasty.error(requireContext(),"Commodity Type not Valid !" , Toasty.LENGTH_SHORT, true).show();
+                MDToast.makeText(requireContext(),"Commodity Type not Valid !" , MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
             } else if (idConsigne == 0) {
-                Toasty.error(requireContext(),"Consignee Type not Valid !" , Toasty.LENGTH_SHORT, true).show();
+                MDToast.makeText(requireContext(),"Consignee Type not Valid !" , MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
             } else {
                 String weight = input_weigth.getText().toString();
                 String pack = input_package.getText().toString();
@@ -246,17 +253,23 @@ public class AddComodity extends Fragment {
         });
 
         next.setOnClickListener(v -> {
-            if (line_addcommodity_two.getVisibility() != View.GONE){
-                BookingData.i.commodity = model_commodity;
-                //BookingData.i.saveComodity.add(new Model_Commodity(comodity_type_id,comodity_id,customer_id,))
-                Fragment fragment = new VesselInformation();
+            if (BookingData.i.checkVesselInfoSkip()){
+                BookingData.i.vessel = new BookingData.VesselData();
+                BookingData.i.commodity = null;
+                Fragment fragment = new Summary();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
                 fragmentTransaction.commit();
             } else {
-                Toasty.error(requireContext(), "Please Add Your Commodity", Toasty.LENGTH_SHORT, true).show();
+                BookingData.i.commodity = model_commodity;
+                Fragment fragment = new VesselInformation();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }
