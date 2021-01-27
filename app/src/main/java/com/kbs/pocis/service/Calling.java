@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
+import com.valdesekamdem.library.mdtoast.MDToast;
 
 import es.dmoral.toasty.Toasty;
 
@@ -34,7 +35,7 @@ public class Calling {
             Log.i(tag, "Success : " + tag + " : " + desc);
             return true;
         } else {
-            Toasty.error(context, desc, Toast.LENGTH_SHORT, true).show();
+            MDToast.makeText(context, desc, Toast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
             Log.e(tag, "Failed : \n Error " + error + " : " + desc);
             return false;
         }

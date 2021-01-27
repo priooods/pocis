@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
@@ -27,8 +29,6 @@ public class MyProject_Dasar extends AppCompatActivity {
     FilterFragment filterFragment;
     TextView title;
 
-    int type;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,6 @@ public class MyProject_Dasar extends AppCompatActivity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         }
-        type = getIntent().getIntExtra("id",0);
         icon_back = findViewById(R.id.btn_back_myproject);
         icon_back.setOnClickListener(v -> {
             if (filterFragment != null){
@@ -54,15 +53,15 @@ public class MyProject_Dasar extends AppCompatActivity {
 
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
         title = findViewById(R.id.titile);
-        if (type == 1){
+        if (Model_Project.CheckMenuProject == 1){
+            title.setText(R.string.list);
             bottombar_myprojects.setSelectedItemId(R.id.project_open);
             bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Project_List_Dasar()).commit();
+            FragmentList(new Project_List_Dasar());
         } else {
             bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Projects_Approved()).commit();
+            FragmentList(new Projects_Approved());
         }
-
     }
 
     @Override
@@ -79,13 +78,13 @@ public class MyProject_Dasar extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectFragment = null;
-                    switch (item.getItemId()){
+                    switch (item.getItemId()) {
                         case R.id.project_aprove:
                             selectFragment = new Projects_Approved();
                             title.setText(R.string.approval);
                             break;
                         case R.id.project_open:
-                            selectFragment = new Project_List_Dasar();
+                            selectFragment =  new Project_List_Dasar();
                             title.setText(R.string.list);
                             break;
                         case R.id.bpaj_aprove:
@@ -94,8 +93,14 @@ public class MyProject_Dasar extends AppCompatActivity {
                             break;
                     }
                     assert selectFragment != null;
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, selectFragment).commit();
+                    FragmentList(selectFragment);
                     return true;
                 }
             };
+
+    public void FragmentList(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameMyProject, fragment,"framentTujuan").commit();
+    }
 }

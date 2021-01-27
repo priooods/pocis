@@ -26,6 +26,9 @@ import com.kbs.pocis.filter.FilterFragment;
 import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.service.PublicList.PublicList;
 import java.util.List;
+import java.util.Random;
+
+import static android.content.ContentValues.TAG;
 
 public class Projects_List extends FilterFragment {
     RecyclerView recyclerView;
@@ -37,6 +40,8 @@ public class Projects_List extends FilterFragment {
             index_list_invoice, all_index_invoice,title_nodata;
     ImageView search_icon;
     int total_item = 0;
+    int signature = (int)(Math.random()*1000);
+
     Adapter_Project adapter_project_list;
     Project_List_Dasar parent;
 
@@ -51,9 +56,12 @@ public class Projects_List extends FilterFragment {
         this.parent = parent;
     }
 
+
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_list_project, container, false);
+
         tp = view.findViewById(R.id.a);
         tp.setVisibility(View.GONE);
         title_text = view.findViewById(R.id.q);
@@ -83,24 +91,13 @@ public class Projects_List extends FilterFragment {
         index_list_invoice = view.findViewById(R.id.index_list_proj);
         all_index_invoice = view.findViewById(R.id.all_index_proj);
         recyclerView = view.findViewById(R.id.list_proj);
-//        LoadingBar(true);
-        new CountDownTimer(4000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                LoadingBar(true);
-            }
-            public void onFinish() {
-                LoadingBar(false);
-            }
-        }.start();
+
+        Log.e("test",signature + " i'm fucking ready to show up!");
+        LoadingBar(true);
         Ganti();
+//        GenerateLists();
+        return view;
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_project, container, false);
-    }
-
 
     public void ChangePage(int target_page) {
         if (Ready) {
@@ -122,24 +119,27 @@ public class Projects_List extends FilterFragment {
     }
 
     public void LoadingBar(boolean stat){
+        Log.e("test",signature + " try to Loading Bar = "+stat+"!");
         if (stat){
             progressBar.setVisibility(View.VISIBLE);
             title_progress.setVisibility(View.VISIBLE);
             nested.setVisibility(View.GONE);
         }
         else {
-            progressBar.setVisibility(View.GONE);
-            title_progress.setVisibility(View.GONE);
-            nested.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    title_progress.setVisibility(View.GONE);
+                    nested.setVisibility(View.VISIBLE);
+            Log.i("loadingBar", "loading: " + (progressBar == null));
         }
         Ready = !stat;
     }
 
-    void scrollNested(){
-        nested.fullScroll(View.FOCUS_UP);
-        nested.smoothScrollTo(0,0);
+    public void scrollNested(){
+        if (nested!=null) {
+            nested.fullScroll(View.FOCUS_UP);
+            nested.smoothScrollTo(0, 0);
+        }
     }
-
 
     public void ShowAdapter(PublicList.Datas data) {
         Ready = true;

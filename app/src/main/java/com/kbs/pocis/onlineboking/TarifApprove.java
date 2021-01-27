@@ -110,16 +110,16 @@ public class TarifApprove extends Fragment {
         assert service != null;
         Call<CallingData> call = service.getTariffAprove(user.getToken(),String.valueOf(page_current));
         if (call == null) {
-            Log.i("tarif_aprrove","CallingData Post Method is Bad!");
+            Log.i("tariff_approved","CallingData Post Method is Bad!");
         }
         assert call != null;
         call.enqueue(new Callback<CallingData>() {
             @Override
             public void onResponse(@NotNull Call<CallingData> call, @NotNull Response<CallingData> response) {
                 Ready = true;
-                CallingData respone = (CallingData) response.body();
+                CallingData respone = response.body();
                 assert respone != null;
-                if (CallingData.TreatResponse(getContext(), "tarif_aprrove", respone)) {
+                if (CallingData.TreatResponse(getContext(), "tariff_approved", respone)) {
                     List<Model_TariffAprove> list = new ArrayList<>();
                     for (CallingData.Booking datas : respone.data.book) {
                         list.add(datas.getTariff());

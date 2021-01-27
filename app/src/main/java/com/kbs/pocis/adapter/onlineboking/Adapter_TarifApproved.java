@@ -27,6 +27,7 @@ import com.andreseko.SweetAlert.SweetAlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.detailboking.BookingDetails;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.model.onlineboking.Model_TariffAprove;
 import com.kbs.pocis.onlineboking.TarifApprove;
 import com.kbs.pocis.service.Calling;
@@ -85,6 +86,7 @@ public class Adapter_TarifApproved extends RecyclerView.Adapter<Adapter_TarifApp
         }
 
         holder.tap_toDetails.setOnClickListener(v -> {
+            Model_Project.Check = 1;
             Intent intent = new Intent(context, BookingDetails.class);
             intent.putExtra("from", "Tarif Approve");
             intent.putExtra("id", model_tariffAproves.get(position).getBookingId());

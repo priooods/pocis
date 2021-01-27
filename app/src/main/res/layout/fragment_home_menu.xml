@@ -72,7 +72,6 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:textColor="@color/colorWhite"
                         android:ellipsize="end"
-                        android:text="Good Morning, User! Here's the quick menu..."
                         app:layout_constraintTop_toTopOf="parent"
                         android:id="@+id/text_ucapan"/>
 

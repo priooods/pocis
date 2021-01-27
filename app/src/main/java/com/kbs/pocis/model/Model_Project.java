@@ -10,7 +10,6 @@ public class Model_Project extends Calling {
     public static Model_Project mp;
     public static int Code;
     public static int Check;
-    public static int CCTv;
     public static int CheckMenuProject;
 
     //For Menu My Project & Invoice/Proforma

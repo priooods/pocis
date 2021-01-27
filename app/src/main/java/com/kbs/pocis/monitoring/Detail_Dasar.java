@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,8 +39,6 @@ import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class Detail_Dasar extends AppCompatActivity {
 
@@ -161,30 +158,38 @@ public class Detail_Dasar extends AppCompatActivity {
         Model_Project data = Model_Project.mp;
         switch (Model_Project.Code){
             case 5: // detail loading/unloading
+                progress.setVisibility(View.VISIBLE);
                 new CountDownTimer(4000, 1000) {
                     public void onTick(long millisUntilFinished) {
                         progress.setVisibility(View.VISIBLE);
                     }
                     public void onFinish() {
                         progress.setVisibility(View.GONE);
+                        ln_progress.setVisibility(View.VISIBLE);
+                        header1.setText(R.string.header1_progress);
+                        header2.setText(R.string.header2_progress);
+                        item_vesel1.setText(data.vessel_name);
+                        title2.setText(R.string.project_status);
+                        item_vesel2.setText(data.plan_status);
+                        item_progres_code.setText(data.schedule_code);
+                        item_info1.setText(data.voyage_no);
+                        item_info2.setText(data.jetty_name);
+                        item_info3.setText(data.est_berthing);
+                        item_info4.setText(data.act_berthing);
+                        item_info5.setText(data.est_departure);
+                        item_info6.setText(data.act_departure);
+                        clickExpand();
+                        if (item_info6.getText().toString().equals("0000-00-00 00:00:00")){
+                            ln_cctv.setVisibility(View.VISIBLE);
+                        } else {
+                            ln_cctv.setVisibility(View.GONE);
+                        }
+                        getDetailUnloading(item_info6.getText().toString());
+
+                        statusColor();
                     }
                 }.start();
-                ln_progress.setVisibility(View.VISIBLE);
-                header1.setText(R.string.header1_progress);
-                header2.setText(R.string.header2_progress);
-                item_vesel1.setText(data.vessel_name);
-                title2.setText(R.string.project_status);
-                item_vesel2.setText(data.plan_status);
-                item_progres_code.setText(data.schedule_code);
-                item_info1.setText(data.voyage_no);
-                item_info2.setText(data.jetty_name);
-                item_info3.setText(data.est_berthing);
-                item_info4.setText(data.act_berthing);
-                item_info5.setText(data.est_departure);
-                item_info6.setText(data.act_departure);
-                clickExpand();
-                getDetailUnloading(item_info6.getText().toString());
-                statusColor();
+
                 break;
             case 6: // detail for vessel schedule
                 progress.setVisibility(View.VISIBLE);
@@ -251,28 +256,23 @@ public class Detail_Dasar extends AppCompatActivity {
                     Model_Project.HatchTotal = data.data.ActualStowageMonitoring.HatchTotal;
                     Model_Project.HatchDetails = data.data.ActualStowageMonitoring.HatchDetails;
                     Model_Project.HeaderAndCCTV = data.data.HeaderAndCCTV;
-//                    Log.i("detail_monitor", "cctv: " + Model_Project.HeaderAndCCTV.get(0).link_cctv);
-//                    Log.i("detail_monitor", "contact Agent: " + Model_Project.ContactAgent.size());
-//                    Log.i("detail_monitor", "contact Pbm: " + Model_Project.ContactPbm.size());
-//                    Log.i("detail_monitor", "Summary: " + Model_Project.ItemSummary.size());
-//                    Log.i("detail_monitor", "ActualVesselInProgress: " + Model_Project.ActualVesselInProgress.size());
-//                    Log.i("detail_monitor", "HatchTotal: " + Model_Project.HatchTotal.size());
-//                    Log.i("detail_monitor", "HatchDetails: " + Model_Project.HatchDetails.size());
-//                    Log.i("detail_monitor", "ActualTruckMonitoring: " + Model_Project.ActualTruckMonitoring.size());
+                    Log.i("detail_monitor", "cctv: " + Model_Project.HeaderAndCCTV.get(0).link_cctv);
+                    Log.i("detail_monitor", "contact Agent: " + Model_Project.ContactAgent.size());
+                    Log.i("detail_monitor", "contact Pbm: " + Model_Project.ContactPbm.size());
+                    Log.i("detail_monitor", "Summary: " + Model_Project.ItemSummary.size());
+                    Log.i("detail_monitor", "ActualVesselInProgress: " + Model_Project.ActualVesselInProgress.size());
+                    Log.i("detail_monitor", "HatchTotal: " + Model_Project.HatchTotal.size());
+                    Log.i("detail_monitor", "HatchDetails: " + Model_Project.HatchDetails.size());
+                    Log.i("detail_monitor", "ActualTruckMonitoring: " + Model_Project.ActualTruckMonitoring.size());
 
 //                    //for CCTV Logic
                     if (value.equals("0000-00-00 00:00:00") ) {
-                        Model_Project.CCTv = 0;
-                        progress.setVisibility(View.GONE);
                         if (data.data.HeaderAndCCTV.get(0).link_cctv != null) {
                             showCCTV(data.data.HeaderAndCCTV.get(0).link_cctv);
                         } else {
                             content_cctv.setVisibility(View.GONE);
                             ln_cctv_no.setVisibility(View.VISIBLE);
                         }
-                    }else {
-                        ln_cctv.setVisibility(View.GONE);
-                        progress.setVisibility(View.GONE);
                     }
 
                     // For Contact

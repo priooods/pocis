@@ -268,19 +268,19 @@ public class Projects_Approved extends FilterFragment {
         filtering = false;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i(TAG, "onStop: ");
-        filtering = false;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "onDestroy: ");
-        filtering = false;
-    }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        Log.i(TAG, "onStop: ");
+//        filtering = false;
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Log.i(TAG, "onDestroy: ");
+//        filtering = false;
+//    }
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);

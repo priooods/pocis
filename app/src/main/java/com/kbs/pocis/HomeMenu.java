@@ -2,10 +2,8 @@ package com.kbs.pocis;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -112,18 +110,14 @@ public class HomeMenu extends Fragment {
 
         menu_myproject = view.findViewById(R.id.menu_my_project);
         menu_myproject.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MyProject_Dasar.class);
-            intent.putExtra("id", 0);
             Model_Project.CheckMenuProject = 0;
-            startActivity(intent);
+            startActivity(new Intent(getActivity(), MyProject_Dasar.class));
         });
 
         menu_open_project = view.findViewById(R.id.menu_open_project);
         menu_open_project.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MyProject_Dasar.class);
-            intent.putExtra("id", 1);
             Model_Project.CheckMenuProject = 1;
-            startActivity(intent);
+            startActivity(new Intent(getActivity(), MyProject_Dasar.class));
         });
 
         menu_invoice = view.findViewById(R.id.menu_invoice_perfom);
@@ -171,8 +165,9 @@ public class HomeMenu extends Fragment {
         menu_Onload_Progres.setOnClickListener(v -> startActivity(new Intent(getActivity(), Monitoring.class)));
 
         if (UserData.isExists()){
-            UserData userData = UserData.i;
-            getTimeZone(text_ucapan, userData);
+            text_ucapan.setText(getTimeZoneText(UserData.i));
+        }else{
+            Log.e("home","user data not found!");
         }
 
 
@@ -186,6 +181,7 @@ public class HomeMenu extends Fragment {
         listReward();
         vesselLineUp();
     }
+
     public void vesselLineUp(){
         Call<CallingDetail> call = UserData.i.getService().vesselLineup(UserData.i.getToken());
         call.enqueue(new Callback<CallingDetail>() {
@@ -296,21 +292,19 @@ public class HomeMenu extends Fragment {
         });
     }
 
-    private void getTimeZone(TextView text_ucapan, UserData userData){
+    private String getTimeZoneText(UserData userData){
         Date dt = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(dt);
         int hours = c.get(Calendar.HOUR_OF_DAY);
 
+        Log.e("home","user data exists "+userData.username+"!");
         if(hours>=4 && hours<=12){
-            String ucapan = "Good Morning "+ userData.username +"! Here's the quick menu";
-            text_ucapan.setText(ucapan);
+            return "Good Morning "+ userData.username +"! Here's the quick menu";
         }else if(hours>=12 && hours<=17){
-            String ucapan = "Good Afternoon "+ userData.username +"! Here's the quick menu";
-            text_ucapan.setText(ucapan);
-        }else if(hours>=17){
-            String ucapan = "Good Evening "+ userData.username +"! Here's the quick menu";
-            text_ucapan.setText(ucapan);
+            return "Good Afternoon "+ userData.username +"! Here's the quick menu";
+        }else{
+            return "Good Evening "+ userData.username +"! Here's the quick menu";
         }
     }
 }

@@ -34,7 +34,6 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
-
 public class Project_List_Dasar extends FilterFragment {
 
     ImageView search_icon;
@@ -51,19 +50,6 @@ public class Project_List_Dasar extends FilterFragment {
     ArrayList<Model_Project> filtered_list = new ArrayList<>();
     ViewpagerDefault viewpagerDefault;
     boolean freeGenerate = true;
-
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        selectProj = open;
-//    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        GenerateLists();
-    }
 
     @Nullable
     @Override
@@ -104,17 +90,33 @@ public class Project_List_Dasar extends FilterFragment {
         all = new Project_Pack();
         close = new Project_Pack();
         open = new Project_Pack();
-
-
         selectProj = open;
-        viewpagerDefault.Addfragment(open.list = new Projects_List(0, this), "Open");
-        viewpagerDefault.Addfragment(close.list = new Projects_List(1, this), "Close");
-        viewpagerDefault.Addfragment(all.list = new Projects_List(2, this), "All");
-        viewPager.setAdapter(viewpagerDefault);
-        tabLayout.setupWithViewPager(viewPager);
+        if (Model_Project.CheckMenuProject == 1){
+            new CountDownTimer(2000,1000){
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    viewpagerDefault.Addfragment(open.list = new Projects_List(0, Project_List_Dasar.this), "Open");
+                    viewpagerDefault.Addfragment(close.list = new Projects_List(1, Project_List_Dasar.this), "Close");
+                    viewpagerDefault.Addfragment(all.list = new Projects_List(2, Project_List_Dasar.this), "All");
+                    viewPager.setAdapter(viewpagerDefault);
+                    tabLayout.setupWithViewPager(viewPager);
+                }
+                @Override
+                public void onFinish() {
+                    Log.i(TAG, "onFinish: " + "running");
+                    GenerateLists();
+                }
+            }.start();
+        } else {
+            GenerateLists();
+            viewpagerDefault.Addfragment(open.list = new Projects_List(0, this), "Open");
+            viewpagerDefault.Addfragment(close.list = new Projects_List(1, this), "Close");
+            viewpagerDefault.Addfragment(all.list = new Projects_List(2, this), "All");
+            viewPager.setAdapter(viewpagerDefault);
+            tabLayout.setupWithViewPager(viewPager);
+        }
         return view;
     }
-
 
     @Override
     protected void Model_CheckorClear() {}
@@ -130,13 +132,13 @@ public class Project_List_Dasar extends FilterFragment {
                 selectProj.list.pmanager = null;
                 selectProj.list.LoadingBar(true);
                 filtered_list.clear();
+                Log.e("test",selectProj.list.signature + " on Dasar GenerateLists");
             }
             super.GenerateLists();
             freeGenerate = false;
         }else{
             Log.e("project_list","can't do action, one Fragment on progress!");
         }
-
     }
 
     @Override
@@ -154,8 +156,8 @@ public class Project_List_Dasar extends FilterFragment {
             public void onResponse(@NotNull Call<CallProjectList> call, @NotNull Response<CallProjectList> response) {
                 CallProjectList respone = response.body();
                 if (Calling.TreatResponse(getContext(), "project_list", respone)) {
+                    assert respone != null;
                     if (!filtering) {
-                        assert respone != null;
                         if (all.list.page_current==respone.data.All.current_page && all.list.pmanager == null) {
                             all.data = respone.data.All;
                         }
@@ -176,8 +178,7 @@ public class Project_List_Dasar extends FilterFragment {
                         FinishFilter();
                         freeGenerate = true;
                     } else {
-                        Log.i("booking_load", " page = " + page + " load = " + load);
-                        assert respone != null;
+//                        Log.i("booking_load", " page = " + page + " load = " + load);
                         PublicList.Datas take;
                         if (all == on_list) {
                             take = respone.data.All;
@@ -289,24 +290,10 @@ public class Project_List_Dasar extends FilterFragment {
     protected void ShowAdapter() {
         if (selectProj.data!=null) {
             Log.e("project_list","send to list ShowAdapter page="+selectProj.data.current_page);
+            Log.e("test","try to ShowAdapter = "+selectProj.list.signature);
             selectProj.list.ShowAdapter(selectProj.data);
-            Log.i(TAG, "ShowAdapter: " + (selectProj.list == null));
         }else
             Log.e("project_list","Data was lost in Switch Page Action!");
     }
 
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        Log.i(TAG, "onStop: ");
-//        filtering = false;
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        Log.i(TAG, "onDestroy: ");
-//        filtering = false;
-//    }
 }
