@@ -1,6 +1,9 @@
 package com.kbs.pocis.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.model.Model_Complain;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 public class Adapter_Calculate extends RecyclerView.Adapter<Adapter_Calculate.vHolder> {
 
@@ -38,20 +46,44 @@ public class Adapter_Calculate extends RecyclerView.Adapter<Adapter_Calculate.vH
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
         switch (status){
             case 0:
+                holder.ln_ship.setVisibility(View.GONE);
+                holder.ln_good.setVisibility(View.VISIBLE);
                 holder.good1.setText(model_complains.get(position).service_name);
                 holder.good2.setText(model_complains.get(position).parameter);
-                holder.good3.setText(model_complains.get(position).tariff_idr);
+                if (model_complains.get(position).tariff != null){
+                    try {
+                        String str = new DecimalFormat("#,###,###.##").format(Double.parseDouble(model_complains.get(position).tariff));
+                        holder.good3.setText(str);
+                    } catch (Exception e){
+                        holder.good3.setText(null);
+                    }
+                }
                 break;
             case 1:
                 holder.ln_good.setVisibility(View.GONE);
                 holder.ln_ship.setVisibility(View.VISIBLE);
-                holder.ship_title.setText(model_complains.get(position).ship_title);
+                holder.ship_title.setText(model_complains.get(position).service_name);
                 holder.ship1.setText(model_complains.get(position).parameter);
-                holder.ship2.setText(model_complains.get(position).domestic_tarif);
-                holder.ship3.setText(model_complains.get(position).internasional_tarif);
+                if (model_complains.get(position).tarif_internasional != null){
+                    try {
+                        String str = new DecimalFormat("#,###,###.##").format(Double.parseDouble(model_complains.get(position).tarif_internasional));
+                        holder.ship3.setText(str);
+                    } catch (Exception e){
+                        holder.ship3.setText(null);
+                    }
+                }
+                if (model_complains.get(position).tarif_domestik != null) {
+                    try {
+                        String str = new DecimalFormat("#,###.##").format(Double.parseDouble(model_complains.get(position).tarif_domestik));
+                        holder.ship2.setText(str);
+                    } catch (Exception e){
+                        holder.ship2.setText(null);
+                    }
+                }
                 break;
         }
     }
+
 
     @Override
     public int getItemCount() {

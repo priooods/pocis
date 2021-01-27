@@ -195,12 +195,12 @@
 
                 <TextView
                     android:layout_below="@id/ln_top"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="80dp"
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/title_error"
-                    android:text="@string/not_found"
+                    android:text="@string/no_data"
                     android:fontFamily="@font/montserrat_bold"
                     android:layout_centerInParent="true"
                     android:textSize="14sp"

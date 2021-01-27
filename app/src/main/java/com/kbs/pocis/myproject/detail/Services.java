@@ -175,7 +175,8 @@ public class Services extends Fragment {
             case 4: //for performa
                 ln_performa.setVisibility(View.VISIBLE);
                 ln_top.setVisibility(View.GONE);
-                if (Model_Project.InformationAndDocument.get(0).total != null) {
+                if (Model_Project.InformationAndDocument.get(0).total != null || Model_Project.InformationAndDocument.get(0).total.equals("") || Model_Project.InformationAndDocument.get(0).total.isEmpty()) {
+                    Log.i(TAG, "GlobalByCode: " + Model_Project.InformationAndDocument.get(0).total);
                     setFormatIDR(Model_Project.InformationAndDocument.get(0).total, performa1);
                 }
                 if (Model_Project.InformationAndDocument.get(0).total_dp != null) {
@@ -294,7 +295,12 @@ public class Services extends Fragment {
         formatSymbols.setMonetaryDecimalSeparator(',');
         formatSymbols.setGroupingSeparator('.');
         kursIndo.setDecimalFormatSymbols(formatSymbols);
-        textView.setText(kursIndo.format(Integer.parseInt(value)));
+        try {
+            textView.setText(kursIndo.format(Integer.parseInt(value)));
+        } catch (Exception e){
+            textView.setText(kursIndo.format(0));
+        }
+
     }
 
     public void customMargin(View view, int left, int top, int right, int bottom){

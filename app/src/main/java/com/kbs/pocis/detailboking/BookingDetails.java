@@ -254,7 +254,7 @@ public class BookingDetails extends AppCompatActivity {
                     d.setCancelable(false);
                     d.setCustomImage(R.drawable.success_img);
                     d.setConfirmButton("Back", sweetAlertDialog -> {
-                        Model_Project.Code = 0;
+                        Model_Project.Check = 0;
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
                         ((AppCompatActivity)context).onBackPressed();
@@ -291,7 +291,7 @@ public class BookingDetails extends AppCompatActivity {
                     d.setCancelable(false);
                     d.setCustomImage(R.drawable.success_img);
                     d.setConfirmButton("Back", sweetAlertDialog -> {
-                        Model_Project.Code = 1;
+                        Model_Project.Check = 1;
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
                         ((AppCompatActivity)context).onBackPressed();
@@ -327,7 +327,7 @@ public class BookingDetails extends AppCompatActivity {
                     d.setCancelable(false);
                     d.setCustomImage(R.drawable.success_img);
                     d.setConfirmButton("Back", sweetAlertDialog -> {
-                        Model_Project.Code = 1;
+                        Model_Project.Check = 1;
                         sweetAlertDialog.dismiss();
                         dialog.dismiss();
                         ((AppCompatActivity)context).onBackPressed();

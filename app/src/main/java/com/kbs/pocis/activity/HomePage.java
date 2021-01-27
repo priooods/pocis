@@ -65,7 +65,7 @@ public class HomePage extends AppCompatActivity {
             Log.i("home", "cust_id: " + data.getCustID());
             Log.i("home", "name: " + data.username);
         }
-//        AutomatisUpdateApp();
+        AutomatisUpdateApp();
         framehomepage = findViewById(R.id.framehomepage);
         Permission();
         FragmentList(new HomeMenu());
@@ -148,7 +148,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        AutomatisUpdateApp();
+        AutomatisUpdateApp();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.kbs.pocis.calculator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +22,31 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.kbs.pocis.R;
 import com.kbs.pocis.adapter.Adapter_Calculate;
 import com.kbs.pocis.model.Model_Complain;
+import com.kbs.pocis.service.Calling;
+import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
+import com.valdesekamdem.library.mdtoast.MDToast;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class Calculates extends Fragment {
 
@@ -48,6 +64,7 @@ public class Calculates extends Fragment {
     List<Model_Complain> model_complains;
     LinearLayout show_table,form_ship,form_good;
     TextInputEditText input_total_tonage, input_cross, input_berthing,input_departure;
+    String est_departure, est_berthing;
 
     @Nullable
     @Override
@@ -79,67 +96,100 @@ public class Calculates extends Fragment {
 
         input_berthing.setOnClickListener(v-> ShowDateTime(input_berthing));
 
-        input_departure.setOnClickListener(v-> ShowDateTime(input_departure));
-
+        input_departure.setOnClickListener(v-> ShowDateTime2(input_departure));
 
         kenalanSamaType();
 
         return view;
     }
 
-    void listGoods(){
-        model_complains = new ArrayList<>();
-        model_complains.add(new Model_Complain(null,"Jasa PFS","100,000 T","600,000,000","",""));
-        model_complains.add(new Model_Complain(null,"Jasa Dermaga","100,000 T","107,300,000","",""));
-        model_complains.add(new Model_Complain(null,"Jasa Ship Unloader","100,000 T","2,100,000,000","",""));
-        Adapter_Calculate adapter_calculate = new Adapter_Calculate(getContext(), model_complains,0);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        list.setLayoutManager(layoutManager);
-        list.setAdapter(adapter_calculate);
+    public void getVesselService(String gt_kapal,String est_berthing,String est_departure){
+        Call<CallingDetail> call = UserData.i.getService().vesselService(UserData.i.getToken(),"Jasa Kapal",gt_kapal,est_berthing, est_departure);
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(getContext(),"vessel_service", data)){
+                    assert data != null;
+                    Model_Complain.CalculatorResults = data.data.CalculatorResults;
+                    double total_1 = 0;
+                    double total_2 = 0;
+                    for (int i=0; i < data.data.CalculatorResults.size(); i++){
+                        if (data.data.CalculatorResults.get(2).tarif_domestik == null){
+                            total_1 = Double.parseDouble(data.data.CalculatorResults.get(0).tarif_domestik.trim()) + Double.parseDouble(data.data.CalculatorResults.get(1).tarif_domestik.trim());
+                            total_2 = Double.parseDouble(data.data.CalculatorResults.get(0).tarif_internasional.trim()) + Double.parseDouble(data.data.CalculatorResults.get(1).tarif_internasional.trim());
+                            String str = new DecimalFormat("#,###,###.##").format(total_1);
+                            String str_2 = new DecimalFormat("#,###,###.##").format(total_2);
+                            total1.setText(str);
+                            total2.setText(str_2);
+                        } else {
+                            total_2 += Double.parseDouble(data.data.CalculatorResults.get(i).tarif_internasional);
+                            String str_2 = new DecimalFormat("#,###,###.##").format(total_2);
+                            total2.setText(str_2);
+                            total_1 += Double.parseDouble(data.data.CalculatorResults.get(i).tarif_domestik);
+                            String str = new DecimalFormat("#,###,###.##").format(total_1);
+                            total1.setText(str);
+                        }
+                    }
+                    model_complains = new ArrayList<>();
+                    model_complains = data.data.CalculatorResults;
+                    Adapter_Calculate adapter_calculate = new Adapter_Calculate(getContext(), model_complains,1);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                    list.setLayoutManager(layoutManager);
+                    list.setAdapter(adapter_calculate);
+
+
+                    if (model_complains.size() > 0){
+                        ln_btn.setVisibility(View.VISIBLE);
+                        calculate.setVisibility(View.GONE);
+                        clear.setOnClickListener(v13 -> {
+                            show_table.setVisibility(View.GONE);
+                            input_berthing.setText("");
+                            input_departure.setText("");
+                            input_cross.setText("");
+                        });
+                        cal2.setOnClickListener(v14 -> tableShip());
+                    }
+                } else {
+                    Log.i(TAG, "onResponse: " + "data null");
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+
+            }
+        });
     }
 
-    void listShip(){
-        model_complains = new ArrayList<>();
-        //default sesuai figma, update kalau API udah ada ( sesuai field API )
-        model_complains.add(new Model_Complain("Jasa Pandu","Jasa PFS","1 LS","600,000,000","12,842,280.00","4,500.00"));
-        model_complains.add(new Model_Complain("Jasa Tunda","Jasa Dermaga","1 LS","107,300,000","24,993,500.00","13,300.00"));
-        model_complains.add(new Model_Complain("Jasa Tambat","Jasa Ship Unloader","1 LS","2,100,000,000","12,000,000.00","10,800.00"));
-        Adapter_Calculate adapter_calculate = new Adapter_Calculate(getContext(), model_complains,1);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        list.setLayoutManager(layoutManager);
-        list.setAdapter(adapter_calculate);
-    }
+    public void getGoodService(String total_tonnage){
+        Call<CallingDetail> call = UserData.i.getService().goodsService(UserData.i.getToken(), total_tonnage);
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(getContext(),"good_service", data)){
+                    assert data != null;
+                    double total_1 = 0;
+                    for (int i=0; i < data.data.CalculatorResults.size(); i++) {
+                        if (data.data.CalculatorResults.get(i).tariff != null) {
+                            try {
+                                total_1 += Double.parseDouble(data.data.CalculatorResults.get(i).tariff);
+                                String str_2 = new DecimalFormat("#,###,###.##").format(total_1);
+                                total2.setText(str_2);
+                            } catch (Exception e){
+                                total2.setText(null);
+                            }
+                        }
+                    }
 
-    public void tableGood(){
-        if (Objects.requireNonNull(input_total_tonage.getText()).toString().isEmpty()){
-            Toasty.error(requireContext(),"Please Add Tonage Value", Toasty.LENGTH_LONG,true).show();
-        } else {
-            show_table.setVisibility(View.VISIBLE);
-            listGoods();
-            total1.setVisibility(View.GONE);
-            total2.setText("2,807,300,000"); //default sesuai figma, update kalau API udah ada ( sesuai field API )
-        }
-    }
-
-    public void tableShip(){
-        if (Objects.requireNonNull(input_cross.getText()).toString().isEmpty() || Objects.requireNonNull(input_departure.getText()).toString().isEmpty()
-                || Objects.requireNonNull(input_berthing.getText()).toString().isEmpty()){
-            Toasty.error(requireContext(),"Please Add All Value", Toasty.LENGTH_LONG,true).show();
-        } else {
-            cons.setVisibility(View.GONE);
-            show_table.setVisibility(View.VISIBLE);
-            listShip();
-            total1.setText("49,835,780.00"); //default sesuai figma, update kalau API udah ada ( sesuai field API )
-            total2.setText("28,600.00"); //default sesuai figma, update kalau API udah ada ( sesuai field API )
-        }
-    }
-
-    public void kenalanSamaType(){
-        switch (status){
-            case 0:
-                title.setText(R.string.good_Services);
-                calculate.setOnClickListener(v -> {
-                    tableGood();
+                    model_complains = new ArrayList<>();
+                    model_complains = data.data.CalculatorResults;
+                    Log.i(TAG, "onResponse: " + model_complains.get(0).parameter);
+                    Adapter_Calculate adapter_calculate = new Adapter_Calculate(getContext(), model_complains,0);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                    list.setLayoutManager(layoutManager);
+                    list.setAdapter(adapter_calculate);
                     if (model_complains.size() > 0){
                         ln_btn.setVisibility(View.VISIBLE);
                         calculate.setVisibility(View.GONE);
@@ -150,29 +200,54 @@ public class Calculates extends Fragment {
 
                         cal2.setOnClickListener(v12 -> tableGood());
                     }
-                });
+                } else {
+                    Log.i(TAG, "onResponse: " + "data null");
+                }
+            }
 
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.i(TAG, "onFailure: " + t);
+            }
+        });
+    }
 
+    public void tableGood(){
+        if (Objects.requireNonNull(input_total_tonage.getText()).toString().isEmpty()){
+            MDToast.makeText(requireContext(),"Please Add Tonnage Value", MDToast.LENGTH_SHORT,MDToast.TYPE_ERROR).show();
+        } else {
+            show_table.setVisibility(View.VISIBLE);
+            getGoodService(input_total_tonage.getText().toString());
+            total1.setVisibility(View.GONE);
+        }
+    }
+
+    public void tableShip(){
+        if (Objects.requireNonNull(input_cross.getText()).toString().isEmpty() || Objects.requireNonNull(input_departure.getText()).toString().isEmpty()
+                || Objects.requireNonNull(input_berthing.getText()).toString().isEmpty()){
+            Toasty.error(requireContext(),"Please Add All Value", Toasty.LENGTH_LONG,true).show();
+        } else {
+            cons.setVisibility(View.GONE);
+            show_table.setVisibility(View.VISIBLE);
+            getVesselService(input_cross.getText().toString(), est_berthing, est_departure); //default sesuai figma, update kalau API udah ada ( sesuai field API )
+        }
+    }
+
+    public void kenalanSamaType(){
+        switch (status){
+            case 0:
+                title.setText(R.string.good_Services);
+                calculate.setOnClickListener(v ->
+                    tableGood()
+                );
                 break;
             case 1:
                 form_good.setVisibility(View.GONE);
                 form_ship.setVisibility(View.VISIBLE);
                 title.setText(R.string.ship_Services);
-                calculate.setOnClickListener(v -> {
-                    tableShip();
-                    if (model_complains.size() > 0){
-                        ln_btn.setVisibility(View.VISIBLE);
-                        calculate.setVisibility(View.GONE);
-                        clear.setOnClickListener(v13 -> {
-                            show_table.setVisibility(View.GONE);
-                            input_berthing.setText("");
-                            input_departure.setText("");
-                            input_cross.setText("");
-                        });
-
-                        cal2.setOnClickListener(v14 -> tableShip());
-                    }
-                });
+                calculate.setOnClickListener(v ->
+                    tableShip()
+                );
                 break;
         }
     }
@@ -187,6 +262,10 @@ public class Calculates extends Fragment {
             TimePickerDialog.OnTimeSetListener setListener = (view1, hourOfDay, minute, second) -> {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
+
+                SimpleDateFormat fr = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH);
+                est_berthing = fr.format(calendar.getTime());
+                Log.i(TAG, "ShowDateTime: berthing" + est_berthing);
                 texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
             };
             TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
@@ -195,9 +274,31 @@ public class Calculates extends Fragment {
         };
 
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-////        datePickerDialog.setMinDate(calendar);
-//        calendar.add(Calendar.MONTH, -2);
-//        datePickerDialog.setMinDate(calendar);
+        datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePickerDialog.show(getChildFragmentManager(),"DateDialog");
+    }
+    void ShowDateTime2(TextInputEditText texit){
+        Calendar calendar = Calendar.getInstance();
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            TimePickerDialog.OnTimeSetListener setListener = (view1, hourOfDay, minute, second) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+
+                SimpleDateFormat fr = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH);
+                est_departure = fr.format(calendar.getTime());
+                Log.i(TAG, "ShowDateTime2: departure" + est_departure);
+                texit.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(calendar.getTime()));
+            };
+            TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(setListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+            timePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
+            timePickerDialog.show(getChildFragmentManager(), "TimePicker");
+        };
+
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePickerDialog.show(getChildFragmentManager(),"DateDialog");
     }

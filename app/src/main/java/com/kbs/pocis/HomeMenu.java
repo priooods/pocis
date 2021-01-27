@@ -1,7 +1,11 @@
 package com.kbs.pocis;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,17 +34,26 @@ import com.kbs.pocis.news.News_List;
 import com.kbs.pocis.profile.Profile_Menu;
 import com.kbs.pocis.progressbook.Progress_List;
 import com.kbs.pocis.service.BookingData;
+import com.kbs.pocis.service.BookingDetailData;
 import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.UserData;
+import com.kbs.pocis.service.detailbooking.CallingDetail;
+import com.kbs.pocis.service.onlinebooking.CallingData;
 import com.kbs.pocis.welcome.Contact_Us;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,6 +114,7 @@ public class HomeMenu extends Fragment {
         menu_myproject.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MyProject_Dasar.class);
             intent.putExtra("id", 0);
+            Model_Project.CheckMenuProject = 0;
             startActivity(intent);
         });
 
@@ -108,6 +122,7 @@ public class HomeMenu extends Fragment {
         menu_open_project.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MyProject_Dasar.class);
             intent.putExtra("id", 1);
+            Model_Project.CheckMenuProject = 1;
             startActivity(intent);
         });
 
@@ -169,6 +184,47 @@ public class HomeMenu extends Fragment {
         super.onResume();
         listNewt();
         listReward();
+        vesselLineUp();
+    }
+    public void vesselLineUp(){
+        Call<CallingDetail> call = UserData.i.getService().vesselLineup(UserData.i.getToken());
+        call.enqueue(new Callback<CallingDetail>() {
+            @Override
+            public void onResponse(@NotNull Call<CallingDetail> call, @NotNull Response<CallingDetail> response) {
+                CallingDetail data = response.body();
+                if (Calling.TreatResponse(getContext(), "vessel_info", data)){
+                    assert data != null;
+                    if (data.data.VesselLineUp.size() > 0){
+                        formater(data.data.VesselLineUp.get(0).created, time_lineup);
+                        go_downInfo.setOnClickListener(v->{
+                            Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse(data.data.VesselLineUp.get(0).link));
+                            startActivity(web);
+                        });
+                    } else {
+                        Log.i(TAG, "onResponse: " + data.data.VesselLineUp.size());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CallingDetail> call, @NotNull Throwable t) {
+                Log.i(TAG, "onFailure: " + t);
+            }
+        });
+    }
+
+    public void formater(String str, TextView txt){
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        try {
+            Date date = fmt.parse(str);
+            Calendar cal = Calendar.getInstance();
+            assert date != null;
+            cal.setTime(date);
+            txt.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(cal.getTime()));
+        } catch (ParseException e){
+            txt.setText(str);
+            Log.i(TAG, "formater: " + e);
+        }
     }
 
     public void listNewt(){

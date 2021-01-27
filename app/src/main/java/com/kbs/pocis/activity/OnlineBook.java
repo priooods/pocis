@@ -88,7 +88,7 @@ public class OnlineBook extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (Model_Project.Code == 0) {
+        if (Model_Project.Check == 0) {
             Fragment fragment = new OnlineBooking();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

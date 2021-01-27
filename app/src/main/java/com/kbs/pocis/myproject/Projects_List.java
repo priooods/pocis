@@ -2,11 +2,15 @@ package com.kbs.pocis.myproject;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,10 +52,8 @@ public class Projects_List extends FilterFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_invoice, container, false);
-//        model_project_s = new ArrayList<>();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         tp = view.findViewById(R.id.a);
         tp.setVisibility(View.GONE);
         title_text = view.findViewById(R.id.q);
@@ -69,26 +71,38 @@ public class Projects_List extends FilterFragment {
                 break;
         }
 
-        nested = view.findViewById(R.id.nested);
+        nested = view.findViewById(R.id.nested_proj);
         title_progress = view.findViewById(R.id.title_progress);
-        progressBar = view.findViewById(R.id.progress);
-        search_icon = view.findViewById(R.id.btn_search_invoice);
-        layout_kosong = view.findViewById(R.id.lay_invoice_kosong);
+        progressBar = view.findViewById(R.id.progress_proj);
+        search_icon = view.findViewById(R.id.btn_search_project_list);
+        layout_kosong = view.findViewById(R.id.lay_proj_kosong);
         kanan = view.findViewById(R.id.kanan);
-        progressBar = view.findViewById(R.id.progress);
         kiri = view.findViewById(R.id.kiri);
         kanan_banget = view.findViewById(R.id.kanan_banget);
         kiri_banget = view.findViewById(R.id.kiri_banget);
-        index_list_invoice = view.findViewById(R.id.index_list_invoice);
-        all_index_invoice = view.findViewById(R.id.all_index_invoice);
-        recyclerView = view.findViewById(R.id.list_invoice);
-        LoadingBar(true);
+        index_list_invoice = view.findViewById(R.id.index_list_proj);
+        all_index_invoice = view.findViewById(R.id.all_index_proj);
+        recyclerView = view.findViewById(R.id.list_proj);
+//        LoadingBar(true);
+        new CountDownTimer(4000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                LoadingBar(true);
+            }
+            public void onFinish() {
+                LoadingBar(false);
+            }
+        }.start();
         Ganti();
-        return view;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_list_project, container, false);
     }
 
 
-    void ChangePage(int target_page) {
+    public void ChangePage(int target_page) {
         if (Ready) {
             Log.w("project_list", "Change Page "+list_status+" to "+target_page);
             model_project_s.clear();
@@ -107,12 +121,13 @@ public class Projects_List extends FilterFragment {
         kiri.setOnClickListener(view -> ChangePage(page_current - 1));
     }
 
-    protected void LoadingBar(boolean stat){
+    public void LoadingBar(boolean stat){
         if (stat){
             progressBar.setVisibility(View.VISIBLE);
             title_progress.setVisibility(View.VISIBLE);
             nested.setVisibility(View.GONE);
-        } else {
+        }
+        else {
             progressBar.setVisibility(View.GONE);
             title_progress.setVisibility(View.GONE);
             nested.setVisibility(View.VISIBLE);
@@ -126,7 +141,7 @@ public class Projects_List extends FilterFragment {
     }
 
 
-    protected void ShowAdapter(PublicList.Datas data) {
+    public void ShowAdapter(PublicList.Datas data) {
         Ready = true;
         LoadingBar(false);
         if (data.current_page != page_current && filter == null) {
@@ -176,7 +191,7 @@ public class Projects_List extends FilterFragment {
         parent.GenerateLists();
     }
 
-    private void SetVisibility(android.widget.TextView comp, boolean condition){
+    public void SetVisibility(TextView comp, boolean condition){
         comp.setVisibility(condition?View.VISIBLE:View.INVISIBLE);
         comp.setEnabled(condition);
     }

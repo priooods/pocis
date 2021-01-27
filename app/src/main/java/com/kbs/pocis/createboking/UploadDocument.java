@@ -85,17 +85,18 @@ public class UploadDocument extends Fragment {
         });
 
         next.setOnClickListener(v -> {
-            if (BookingData.i.checkVesselInfoSkip()){
-                BookingData.i.vessel = new BookingData.VesselData();
-                BookingData.i.commodity = null;
-                Fragment fragment = new Summary();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
-                fragmentTransaction.commit();
-            } else {
-                if (CheckUriIsLoaded()) {
+            if(CheckUriIsLoaded()) {
+                if (BookingData.i.checkVesselInfoSkip()) {
+                    BookingData.i.vessel = new BookingData.VesselData();
+                    BookingData.i.commodity = null;
+                    BookingData.i.file = model_uploadDocuments;
+                    Fragment fragment = new Summary();
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
+                    fragmentTransaction.commit();
+                } else {
                     BookingData.i.file = model_uploadDocuments;
                     Fragment fragment = new AddComodity();
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -103,13 +104,14 @@ public class UploadDocument extends Fragment {
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     fragmentTransaction.replace(R.id.frameCreate, fragment).addToBackStack(null);
                     fragmentTransaction.commit();
-                } else {
-                    MDToast.makeText(requireContext(), "Please Add Your File", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
                 }
+            } else {
+                MDToast.makeText(requireContext(), "Please Add Your File", MDToast.LENGTH_SHORT, MDToast.TYPE_ERROR).show();
             }
         });
     }
 
+    //Check Size list Document
     boolean CheckUriIsLoaded() {
         if (model_uploadDocuments == null)
             return false;

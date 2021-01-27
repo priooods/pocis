@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kbs.pocis.R;
 import com.kbs.pocis.filter.FilterFragment;
+import com.kbs.pocis.model.Model_Project;
 import com.kbs.pocis.myproject.Project_List_Dasar;
 import com.kbs.pocis.myproject.Projects_Approved;
 import com.kbs.pocis.myproject.Projects_Bpaj;
@@ -54,13 +55,14 @@ public class MyProject_Dasar extends AppCompatActivity {
         bottombar_myprojects = findViewById(R.id.bottombar_myprojects);
         title = findViewById(R.id.titile);
         if (type == 1){
-            bottombar_myprojects.getMenu().getItem(type).setChecked(true);
+            bottombar_myprojects.setSelectedItemId(R.id.project_open);
             bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Project_List_Dasar()).commit();
         } else {
             bottombar_myprojects.setOnNavigationItemSelectedListener(listener);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameMyProject, new Projects_Approved()).commit();
         }
+
     }
 
     @Override

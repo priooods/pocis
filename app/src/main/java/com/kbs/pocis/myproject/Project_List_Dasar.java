@@ -1,6 +1,7 @@
 package com.kbs.pocis.myproject;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -23,18 +23,17 @@ import com.kbs.pocis.service.Calling;
 import com.kbs.pocis.service.PublicList.CallProjectList;
 import com.kbs.pocis.service.PublicList.PublicList;
 import com.kbs.pocis.service.UserData;
-import com.kbs.pocis.service.onlinebooking.CallingData;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
+
 
 public class Project_List_Dasar extends FilterFragment {
 
@@ -44,7 +43,7 @@ public class Project_List_Dasar extends FilterFragment {
     DialogFragment fragment;
     Project_Pack open,close,all;
     Project_Pack selectProj;
-    class Project_Pack{
+    static class Project_Pack{
         Projects_List list;
         PublicList.Datas data;
     }
@@ -52,6 +51,19 @@ public class Project_List_Dasar extends FilterFragment {
     ArrayList<Model_Project> filtered_list = new ArrayList<>();
     ViewpagerDefault viewpagerDefault;
     boolean freeGenerate = true;
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        selectProj = open;
+//    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        GenerateLists();
+    }
 
     @Nullable
     @Override
@@ -92,11 +104,12 @@ public class Project_List_Dasar extends FilterFragment {
         all = new Project_Pack();
         close = new Project_Pack();
         open = new Project_Pack();
-        GenerateLists();
-        viewpagerDefault.Addfragment(open.list = new Projects_List(0, this),"Open");
-        viewpagerDefault.Addfragment(close.list = new Projects_List(1, this),"Close");
-        viewpagerDefault.Addfragment(all.list = new Projects_List(2,this),"All");
+
+
         selectProj = open;
+        viewpagerDefault.Addfragment(open.list = new Projects_List(0, this), "Open");
+        viewpagerDefault.Addfragment(close.list = new Projects_List(1, this), "Close");
+        viewpagerDefault.Addfragment(all.list = new Projects_List(2, this), "All");
         viewPager.setAdapter(viewpagerDefault);
         tabLayout.setupWithViewPager(viewPager);
         return view;
@@ -123,6 +136,7 @@ public class Project_List_Dasar extends FilterFragment {
         }else{
             Log.e("project_list","can't do action, one Fragment on progress!");
         }
+
     }
 
     @Override
@@ -276,22 +290,23 @@ public class Project_List_Dasar extends FilterFragment {
         if (selectProj.data!=null) {
             Log.e("project_list","send to list ShowAdapter page="+selectProj.data.current_page);
             selectProj.list.ShowAdapter(selectProj.data);
+            Log.i(TAG, "ShowAdapter: " + (selectProj.list == null));
         }else
             Log.e("project_list","Data was lost in Switch Page Action!");
     }
 
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i(TAG, "onStop: ");
-        filtering = false;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "onDestroy: ");
-        filtering = false;
-    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        Log.i(TAG, "onStop: ");
+//        filtering = false;
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Log.i(TAG, "onDestroy: ");
+//        filtering = false;
+//    }
 }

@@ -358,4 +358,27 @@ public interface UserService {
             @Field("token") String token
             ,@Field("booking_no ") String booking_no
     );
+
+    @FormUrlEncoded
+    @POST("operational-monitoring/vesselLineUp")
+    Call<CallingDetail> vesselLineup(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("operational-monitoring/tariffCalculator")
+    Call<CallingDetail> vesselService(
+            @Field("token") String token,
+            @Field("calculator_type") String calculator_type,
+            @Field("gt_kapal") String gt_kapal,
+            @Field("est_berthing") String est_berthing,
+            @Field("est_departure") String est_departure
+    );
+
+    @FormUrlEncoded
+    @POST("operational-monitoring/tariffCalculator")
+    Call<CallingDetail> goodsService(
+            @Field("token") String token,
+            @Field("total_tonnage") String total_tonnage
+    );
 }

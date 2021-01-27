@@ -150,7 +150,11 @@ public class Adapter_Project_Service extends RecyclerView.Adapter<Adapter_Projec
         formatSymbols.setMonetaryDecimalSeparator(',');
         formatSymbols.setGroupingSeparator('.');
         kursIndo.setDecimalFormatSymbols(formatSymbols);
-        textView.setText(kursIndo.format(Integer.parseInt(value)));
+        try {
+            textView.setText(kursIndo.format(Integer.parseInt(value)));
+        } catch (Exception e){
+            textView.setText(kursIndo.format(0));
+        }
     }
 
     @Override

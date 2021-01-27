@@ -3,6 +3,7 @@ package com.kbs.pocis.service;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
+import com.kbs.pocis.model.Model_Complain;
 import com.kbs.pocis.model.Model_Project;
 
 import java.lang.reflect.Field;
@@ -26,29 +27,6 @@ public class BookingDetailData {
     public String status;
     public String vessel_name;
 
-//
-//    @SerializedName("schedule")
-//    public ScheduleData vessel;
-//    public static class ScheduleData{
-//        int id;
-//        public String m_vessel_id, voy_no_in, voy_no_out,origin_port_id, est_arival, est_departure, remark, m_jetty_cigading_id,
-//        vessel_name, origin_port, cigading_port;
-//
-//        public ScheduleData(int id, String m_vessel_id, String voy_no_in, String voy_no_out, String origin_port_id,String est_arival, String est_departure, String remark, String m_jetty_cigading_id, String vessel_name,String cigading_port) {
-//            this.id = id;
-//            this.m_vessel_id = m_vessel_id;
-//            this.voy_no_in = voy_no_in;
-//            this.voy_no_out = voy_no_out;
-//            this.origin_port_id = origin_port_id;
-//            this.est_arival = est_arival;
-//            this.est_departure = est_departure;
-//            this.remark = remark;
-//            this.m_jetty_cigading_id = m_jetty_cigading_id;
-//            this.vessel_name = vessel_name;
-//            this.origin_port = origin_port;
-//            this.cigading_port = cigading_port;
-//        }
-//    }
     //for myproject & Inovice/Proforma
     public List<Model_Project> Information;
     public List<Model_Project> Commodity;
@@ -110,7 +88,8 @@ public class BookingDetailData {
     public List<Model_Project> attachments;
     public List<Model_Project> details;
     public String reason_desc;
-
+    public List<Model_Project> VesselLineUp;
+    public List<Model_Complain> CalculatorResults;
 
     //for progress booking
     public List<Model_Project> List;

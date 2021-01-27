@@ -258,14 +258,14 @@ public class Frag_Invoice extends FilterFragment {
     public void onStop() {
         super.onStop();
         Log.i(TAG, "onStop: ");
-        Stop = true;
+//        Stop = true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy: ");
-        Stop = true;
+//        Stop = true;
     }
 
     private void SetVisibility(android.widget.TextView comp, boolean condition){
