@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
 
-    public static final String BASE_URL = "http://cigading.ptkbs.co.id:9280/v1/";
+    public static final String BASE_URL = "Tambahin base URL anda disini";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
