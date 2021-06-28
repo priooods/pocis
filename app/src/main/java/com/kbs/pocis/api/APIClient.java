@@ -15,7 +15,6 @@ public class APIClient {
 
     public static final String BASE_URL = "Tambahin base URL anda disini";
     private static Retrofit retrofit = null;
-
     public static Retrofit getClient() {
         if (retrofit == null) {
             /* ConnectionSpec.MODERN_TLS is the default value */

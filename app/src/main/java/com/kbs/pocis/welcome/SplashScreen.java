@@ -24,6 +24,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
         sharedPreferences = getSharedPreferences("sesi", Context.MODE_PRIVATE);
         //Splash Screen di set 2 Second
+        //logo masukin sini dulu bi . upload nya mana di fime manager lu
         Handlerr();
 
     }

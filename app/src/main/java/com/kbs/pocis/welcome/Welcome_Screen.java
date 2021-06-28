@@ -30,9 +30,9 @@ public class Welcome_Screen extends AppCompatActivity {
 
         //Ini untuk menambahkan komponen text dan background gambar pada screen welcome
         List<Item_onboard> item = new ArrayList<>();
-        item.add(new Item_onboard("Welcome to", "PoCIS App", "Experience the new way of easier life", R.drawable.bg_one));
-        item.add(new Item_onboard("Easy access with", "PoCIS App", "Hand-on app with 24/7 access", R.drawable.bg_two));
-        item.add(new Item_onboard("Real-time success", "PoCIS App", "Encourage your near future success", R.drawable.bg_tiga));
+        item.add(new Item_onboard("Welcome to", "KIPOS App", "Experience the new way of easier life", R.drawable.bg_one));
+        item.add(new Item_onboard("Easy access with", "KIPOS App", "Hand-on app with 24/7 access", R.drawable.bg_two));
+        item.add(new Item_onboard("Real-time success", "KIPOS App", "Encourage your near future success", R.drawable.bg_tiga));
 
         viewPager = findViewById(R.id.pagerwelcome);
         viewPager.startAutoScroll(4000);
